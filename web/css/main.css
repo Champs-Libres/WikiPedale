@@ -49,25 +49,38 @@ dt {font-weight: bold;}
 /* #form_AjoutPoint { display: none; } */
 
 /* Carte */
+
+#body {
+    height: 100%;
+    width: 100%;
+}
+
+#data_for_init {
+    height: 100%;
+    width: 100%;
+}
+
 #map{
     width: 50%;
-    height: 500px;
-    float: left;
+    width: calc(100% - 42em);
+    min-width: 500px;
+    height: 100%;
     top:27px;
     bottom:36px;
+    display: inline-block;
 }
 
 #MapAndEditorContener {
     width: 100%;
     height: 100%;
-    background-color: red;
 }
 
 #ToolsPanel { 
-    width: 50%;
+    width: 40em;
     margin: 1em 0 0 0; 
-    float:left; 
+    float:right; 
     overflow:auto; 
+    display: inline-block;
 }
 
 label { font-size: 0.9em; color:#2D2D2D; display:block; }
@@ -243,26 +256,21 @@ img#VilleActuelleRSSIcon {
     margin:0 auto;
 }
 
-#PiedDePage {
+#footerWrapper {
     display:block;
-    position: fixed;
-    width: 100%;
-
-    left: 0px;
-    bottom: 0px;
     text-align: center;
     font-weight: normal;
     font-size: 0.8em;
-    clear:both;
-    margin:0 1em 0.5em 1em;
+    margin: 0 1em;
     background-color:#FFFFFF;
 }
 
 #logos {
     float:right;
-    position:fixed;
-    bottom:0.2em;
-    right:1em;
+}
+
+#footer {
+    margin-top: 2em;
 }
 
 #logos img {
