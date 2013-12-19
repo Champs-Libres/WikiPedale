@@ -54,25 +54,8 @@ dt {font-weight: bold;}
 /* #form_AjoutPoint { display: none; } */
 
 /* Carte */
-#map{
-    width: 50%;
+#map {
     height: 500px;
-    float: left;
-    top:27px;
-    bottom:36px;
-}
-
-#MapAndEditorContener {
-    width: 100%;
-    height: 100%;
-    background-color: red;
-}
-
-#ToolsPanel { 
-    width: 50%;
-    margin: 1em 0 0 0; 
-    float:left; 
-    overflow:auto; 
 }
 
 label { font-size: 0.9em; color:#2D2D2D; display:block; }
@@ -179,7 +162,6 @@ div.PointDescription p.creator {
 #ConnectionBar {
     background: #2D2D2D url('../img/logos/logo_uello_blanc.png') no-repeat left;
     text-align: right;
-    margin:0;
     /*border-bottom: 1px solid #AAAAAA;*/
     padding: 0.5em 1em 0 0;
 
@@ -254,16 +236,12 @@ img#VilleActuelleRSSIcon {
     display: block;
     font-size: 0.8em;
     font-weight: normal;
-    margin: 5em;
-    padding: 0.5em;
+    margin-top: 1em;
     text-align: center;
 }
 
 #logos {
-    float:right;
-    position:fixed;
-    bottom:0.2em;
-    right:1em;
+    text-align: right;
 }
 
 #logos img {

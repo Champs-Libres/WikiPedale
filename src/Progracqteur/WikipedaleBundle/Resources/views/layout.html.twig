@@ -25,97 +25,126 @@
         {% block css %}
             <!-- Aucune instruction css ajouté par le template -->
         {% endblock %}
-        
+
+        <link rel="stylesheet" href="{{ asset('js/lib/adapt.js/assets/css/master.css') }}" />
+        <noscript>
+            <link rel="stylesheet" href="{{ asset('js/lib/adapt.js/assets/css/mobile.min.css') }}" />
+        </noscript>
+        <script>
+            var ADAPT_CONFIG = {
+                // Where is your CSS?
+                path: '{{ asset("js/lib/adapt.js/assets/css/") }}',
+                dynamic: true,
+                range: [
+                    '0px    to 760px  = mobile.min.css',
+                    '760px  to 980px  = 720.min.css',
+                    '980px  to 1280px = 960.min.css',
+                    '1280px to 1600px = 1200.min.css',
+                    '1600px to 1940px = 1560.min.css',
+                    '1940px to 2540px = 1920.min.css',
+                    '2540px           = 2520.min.css'
+                ]
+            };
+        </script>
+        <script src="{{ asset('js/lib/adapt.js/assets/js/adapt.min.js') }}"></script>    
     </head>
-    <body>
+    <body>  
+        <div class="container_12">   
 
-        <!-- Écran de connexion -->
-    <div style='display:none'>
-        <div id='login_form_div'>
-            <b><font color="red"><span id='login_message'></span></font></b><br />
-            <form method="post" action="" id="loginForm">
-                <p><label for="login_input_username">{{ 'security.login.username'|trans({}, 'userMessages') }}</label>
-                <input type="text" id="login_input_username" name="username"/></p>
+            <!-- Écran de connexion -->
+            <div style='display:none'>
+                <div id='login_form_div'>
+                    <b><font color="red"><span id='login_message'></span></font></b><br />
+                    <form method="post" action="" id="loginForm">
+                        <p>
+                            <label for="login_input_username">{{ 'security.login.username'|trans({}, 'userMessages') }}</label>
+                            <input type="text" id="login_input_username" name="username"/>
+                        </p>
+                        <p>
+                            <label for="login_input_password">{{ 'security.login.password'|trans({}, 'userMessages') }}</label>
+                            <input type="password" id="login_input_password" name="password"/>
+                        </p>
 
-                <p><label for="login_input_password">{{ 'security.login.password'|trans({}, 'userMessages') }}</label>
-                <input type="password" id="login_input_password" name="password"/></p>
+                        <input class="envoi" type="submit" id="login_input_submit" name="submit" value="{{ 'security.login.submit'|trans({}, 'userMessages') }}" />
+                    </form>
 
-                <input class="envoi" type="submit" id="login_input_submit" name="submit" value="{{ 'security.login.submit'|trans({}, 'userMessages') }}" />
-            </form>
-
-            <div style="clear:both;"></div>
-            <p><a href="{{ path('fos_user_registration_register') }}">{{ 'security.login.go_to_registration'|trans({}, 'userMessages') }}</a><br />
-            <a href="{{path('fos_user_resetting_request') }}">{{ 'security.login.go_to_password_resetting'|trans({}, 'userMessages') }}</a></p>
-        </div>
-    </div>
-
-        <div id="ConnectionBar">
-            <a href="{{path('wikipedale_homepage')}}"><span id="LienAccueil"></span></a>
-            
-            {% if mainCities is defined %}
-                <select id="CitiesSelection" onchange="location = this.options[this.selectedIndex].value;">
-                {% if app.session.get('city') %}
-                    <option><span style="color:red;">{{app.session.get('city').name}}</span></option>
-                {% else %}
-                    <option>Sélectionner une ville</option>
-                {% endif %}
-                    {% for city in mainCities %}
-                    <option value="{{ path('wikipedale_to_city', {'citySlug': city.slug})}}">{{city.name}}</option>
-                    {% endfor %}
-                </select>
-            {% endif %}
-               
-            <span id="menu_user_name" {% if not app.user %} style="display:none" {% endif %}>
-                <img src="{{asset('img/icons/user.png')}}" />
-                <a href="{{ path('fos_user_profile_show') }}" title="{{ 'layout.profile'|trans({'%username%': ''}, 'messages') }}">{{ 'layout.logged_in_as'|trans({'%username%': ''}, 'messages') }} <span class="username" style="font-weight: bold;">{% if app.user %} {{app.user.label}} {% endif %}</span></a>
-            </span>
-
-            <span id="menu_connexion" {% if app.user %} style="display:none" {% endif %}>
-                <img src="{{asset('img/icons/login.png')}}" />
-                <a class ="connexion" href="#login_form_div">{{ 'layout.login'|trans({}, 'messages') }}</a>
-            </span>
-
-            <span id="menu_logout" {% if not app.user %} style="display:none" {% endif %}>
-                <img src="{{asset('img/icons/logout.png')}}" />
-                <a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'messages') }}</a>
-            </span>
-
-            <span id="menu_register" {% if app.user %} style="display:none" {% endif %}>
-                <img src="{{asset('img/icons/user.png')}}" />
-                <a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'messages') }}</a>
-            </span>
-                <img src="{{asset('img/icons/home.png')}}" />
-                <a href="{{path('wikipedale_reset_city')}}">{{ 'layout.home'|trans({}, 'messages') }}</a>
-        </div>
-
-        
-            
-        <div id="body">
-
-            {% if app.session.flashbag.has('notice') %}
-            {% for flashMessage in app.session.flashbag.get('notice') %}
-                <div class="flash-notice">
-                    {{ flashMessage }}
+                    <div style="clear:both;"></div>
+                    <p>
+                        <a href="{{ path('fos_user_registration_register') }}">{{ 'security.login.go_to_registration'|trans({}, 'userMessages') }}</a><br />
+                        <a href="{{path('fos_user_resetting_request') }}">{{ 'security.login.go_to_password_resetting'|trans({}, 'userMessages') }}</a>
+                    </p>
                 </div>
-            {% endfor %}
-            {% endif %}
-            
-            {% block zoneMenu %}{% endblock %}
+            </div>
 
-            {% block body %}Rien dans le body...{% endblock %}
-        </div>
-            
+            <div class="grid_12">
+                <div id="ConnectionBar">
+                    <a href="{{path('wikipedale_homepage')}}"><span id="LienAccueil"></span></a>
+                    
+                    {% if mainCities is defined %}
+                        <select id="CitiesSelection" onchange="location = this.options[this.selectedIndex].value;">
+                        {% if app.session.get('city') %}
+                            <option><span style="color:red;">{{app.session.get('city').name}}</span></option>
+                        {% else %}
+                            <option>Sélectionner une ville</option>
+                        {% endif %}
+                            {% for city in mainCities %}
+                            <option value="{{ path('wikipedale_to_city', {'citySlug': city.slug})}}">{{city.name}}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                       
+                    <span id="menu_user_name" {% if not app.user %} style="display:none" {% endif %}>
+                        <img src="{{asset('img/icons/user.png')}}" />
+                        <a href="{{ path('fos_user_profile_show') }}" title="{{ 'layout.profile'|trans({'%username%': ''}, 'messages') }}">{{ 'layout.logged_in_as'|trans({'%username%': ''}, 'messages') }} <span class="username" style="font-weight: bold;">{% if app.user %} {{app.user.label}} {% endif %}</span></a>
+                    </span>
 
+                    <span id="menu_connexion" {% if app.user %} style="display:none" {% endif %}>
+                        <img src="{{asset('img/icons/login.png')}}" />
+                        <a class ="connexion" href="#login_form_div">{{ 'layout.login'|trans({}, 'messages') }}</a>
+                    </span>
+
+                    <span id="menu_logout" {% if not app.user %} style="display:none" {% endif %}>
+                        <img src="{{asset('img/icons/logout.png')}}" />
+                        <a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'messages') }}</a>
+                    </span>
+
+                    <span id="menu_register" {% if app.user %} style="display:none" {% endif %}>
+                        <img src="{{asset('img/icons/user.png')}}" />
+                        <a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'messages') }}</a>
+                    </span>
+                        <img src="{{asset('img/icons/home.png')}}" />
+                        <a href="{{path('wikipedale_reset_city')}}">{{ 'layout.home'|trans({}, 'messages') }}</a>
+                </div>
+            </div>
+            <div class="clear"></div>
+            
+            <div id="body" class="grid_12">
+
+                {% if app.session.flashbag.has('notice') %}
+                {% for flashMessage in app.session.flashbag.get('notice') %}
+                    <div class="flash-notice">
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+                {% endif %}
+                
+                {% block zoneMenu %}{% endblock %}
+
+                {% block body %}Rien dans le body...{% endblock %}
+            </div>
+            <div class="clear"></div>
  
-            <div id="PiedDePage">
+            <div id="PiedDePage" class="grid_8">
                 <a href="{{path('wikipedale_about')}}">À propos de Uello</a> - 
                 <a href="http://blog.uello.be/manuel_utilisation" target="blank">Aide</a> - 
                 <a href="mailto:uello@gracq.be">Contact</a>
             </div>
-                <div id="logos">
-                    <a href="http://www.gracq.be"><img src="{{ asset('img/logos/logo_gracq.png') }}" /></a>
-                    <a href="http://mobilite.wallonie.be"><img src="{{ asset('img/logos/logo_WallonieCyclable.jpg') }}" /></a>
-                </div>
-
+            
+            <div id="logos" class="grid_4">
+                <a href="http://www.gracq.be"><img src="{{ asset('img/logos/logo_gracq.png') }}" /></a>
+                <a href="http://mobilite.wallonie.be"><img src="{{ asset('img/logos/logo_WallonieCyclable.jpg') }}" /></a>
+            </div>
+            <div class="clear"></div>
+        </div>
     </body>
 </html>
