@@ -1,7 +1,7 @@
 {
     "version": "0.1",
     "name": "Firefox OS Uello App",
-    "launch_path": "app_dev.php/firefoxos",
+    "launch_path": "firefoxos",
     "description": "To signal easily for uello",
     "icons": {
         "16": "/firefox_os/img/logo16.png",
