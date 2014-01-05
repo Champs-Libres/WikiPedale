@@ -1,14 +1,10 @@
 {
     "version": "0.1",
-    "name": "Firefox OS Uello App",
+    "name": "Uello",
     "launch_path": "firefoxos",
     "description": "To signal easily for uello",
     "icons": {
-        "16": "/firefox_os/img/logo16.png",
-        "32": "/firefox_os/img/logo32.png",
-        "48": "/Firefox-OS-Boilerplate-App/images/logo48.png",
-        "64": "/firefox_os/img/logo64.png",
-        "128": "/firefox_os/img/logo128.png"
+        "128": "/img/icon-firefoxos-128.png"
     },
     "developer": {
         "name": "Marc Ducubu",
