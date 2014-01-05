@@ -1,0 +1,18 @@
+{% extends "ProgracqteurWikipedaleBundle:FirefoxOS:layout.html.twig" %}
+
+{% block body %}
+    <section role="region">
+        <header>
+            <h1>Choix de la ville</h1>
+        </header>
+        <section data-type="list">
+            <ul>
+            {% for city in mainCities %}
+                <li>
+                    <a href="{{ path('wikipedale_firefoxos_to_city', {'citySlug': city.slug})}}">{{city.name}}</a>
+                </li>
+            {% endfor %}
+            </ul>
+        </section>
+    </section>
+{% endblock %}

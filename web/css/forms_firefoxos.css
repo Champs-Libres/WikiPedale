@@ -1,0 +1,90 @@
+form {
+    padding: 1em 0.2em 0.5em 1em;
+    margin: 1em auto;
+}
+
+form fieldset {
+    border: none;
+    padding:0;
+    margin:0 0 1em 0;
+}
+
+form legend {
+    color: #384313;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-shadow: 0 1px 1px #c0d576;
+    padding:0 0 0.5em 0;
+}
+
+form legend a {
+    text-decoration: none;
+    color: #1D2207;
+}
+
+form label {
+    float: left;
+    width: 120px;
+}
+
+form input.envoi, form input.CancelButton {
+    background: #3E3E3E;
+    border: none;
+    color: #ffffff;
+    display: block;
+    letter-spacing: 1px;
+    margin: 0.5em 0.5em 0 0.5em;
+    padding: 0.5em;
+    text-shadow: 0 1px 1px #000000;
+    float:right;
+}
+
+form input.envoi:hover, form input.CancelButton:hover {
+    background: #2D2D2D;
+    cursor: pointer;
+}
+
+form input.CancelButton {
+    background: #724648;
+}
+
+form input.CancelButton:hover {
+    background: #A74B50;
+}
+
+/* Boîte Connexion */
+#loginForm {
+    background: none;
+    margin:0;
+    padding:1em 0.2em 0 1em;
+    border:none;
+}
+
+form#loginForm {
+    width: 275px;
+    margin:0;
+}
+
+#loginForm label {
+    width:80%;
+}
+
+/* Formulaire ajout point */
+#add_new_description_div img.verif {
+    float: left;
+    width:16px;
+    height:16px;
+    margin-right:0.2em;
+}
+
+#add_new_description_div label {
+    width: 20%;
+}
+
+#add_new_description_div textarea, #div_signaler fieldset input {
+    width:73%;
+}
+
+li.search-field {
+    width: 100%;
+}

@@ -23,8 +23,6 @@ class DefaultController extends Controller
     {
         $id = $this->getRequest()->get('id', null);
         
-        
-        
         if ($id != null)
         {
             $em = $this->getDoctrine()->getManager();
@@ -100,13 +98,10 @@ class DefaultController extends Controller
                 
         $terms_allowed .= ' ';
         
-        
         $q = sprintf('SELECT c from 
             ProgracqteurWikipedaleBundle:Model\Category c 
             WHERE  c.used = true AND c.parent is null AND c.term IN (%s)
             ORDER BY c.order, c.label', $terms_allowed);
-        
-        
         
         $categories = $this->getDoctrine()->getManager()
                 ->createQuery($q)
@@ -141,7 +136,6 @@ class DefaultController extends Controller
         {
             $paramsToView['goToPlaceId'] = $id;
         }
-        
         
         return $this->render('ProgracqteurWikipedaleBundle:Default:homepage.html.twig', 
                 $paramsToView

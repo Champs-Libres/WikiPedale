@@ -1,0 +1,70 @@
+<div id="add_new_description_div">
+   <form method="post" id="add_new_description_form">
+      <input type="hidden" name="lon" readonly="true" />
+      <input  type="hidden" name="lat" readonly="true" />
+   
+      <fieldset id="div_new_place_form_user_mail">
+         <legend>{{ 'AddPoint.userdata.firefoxos_legend'|trans({}, 'pointMessages') }}</legend>
+
+         <section>
+            <p>
+               <input type="text" id="add_new_description_form__user_label" name="user_label" placeholder="{{ 'AddPoint.userdata.name_placeholder'|trans({}, 'pointMessages') }}" />
+            </p>
+
+            <p>
+               <input type="text" id="add_new_description_form__email" name="email" placeholder="{{ 'AddPoint.userdata.firefoxos_mail_placeholder'|trans({}, 'pointMessages') }}" />
+            </p>
+
+            <p>
+               <input type="text" id="add_new_description_form__user_phonenumber" name="user_phonenumber" placeholder="{{ 'AddPoint.userdata.firefoxos_phone_placeholder'|trans({}, 'pointMessages') }}" />
+            </p>
+         </section>
+      </fieldset>
+
+      <fieldset>
+         <legend>{{ 'AddPoint.PointData.legend'|trans({}, 'pointMessages') }}</legend>
+
+         <section>
+            <p>
+               <input type="text" id="add_new_description_form__lieu" name="lieu" placeholder="{{ 'AddPoint.PointData.location_placeholder'|trans({}, 'pointMessages') }}" /><br />
+            </p>
+
+            <p>
+               <select id="add_new_description_form__categories" name="categories" style="width:70%;" data-placeholder="{{ 'AddPoint.PointData.categories_placeholder'|trans({}, 'pointMessages') }}">
+                  {% for category in categories %}
+                     {% if category.hasChildren %}
+                        <optgroup label="{{ category.label }}" >
+                           {% for childCategory in category.children %}
+                              {% if childCategory.term in terms_allowed %}
+                                 <option value="{{ childCategory.id }}" data-term="{{ childCategory.term }}">{{ childCategory.label }}</option>
+                              {% endif %}
+                           {% endfor %}
+                        </optgroup>
+                     {% else %}
+                        <option value="{{ category.id }}" data-term="{{ category.term }}">{{ category.label }}</option>
+                     {% endif %}
+                  {% endfor %}
+                  </optgroup>
+               </select>
+            </p>
+
+            <p>
+               <textarea id="add_new_description_form__description" name="description" placeholder="{{ 'AddPoint.PointData.description_placeholder'|trans({}, 'pointMessages') }}"></textarea>
+            </p>
+         </section>
+      </fieldset>
+   </form>
+</div>
+
+<section role="status">
+<p id="add_new_description_form__message" class="message">
+</p>
+<section>
+
+<button id="new_place_form_submit_button">
+   {{ 'AddPoint.submit'|trans({}, 'pointMessages') }}
+</button>
+      
+<a id="new_place_form_menu_return_button" href="{{ path('wikipedale_firefoxos_index')}}" class="button" style="display:none">
+   {{ 'AddPoint.menu_return'|trans({}, 'pointMessages') }}
+</a>

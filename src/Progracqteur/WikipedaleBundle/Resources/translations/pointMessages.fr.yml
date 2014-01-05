@@ -2,12 +2,15 @@ AddPoint:
   userdata:
     legend1: Connectez-vous 
     legend2: ou entrez vos coordonnées.
+    firefoxos_legend: Vous
     name: Nom
     name_placeholder: Nom et Prénom
     mail: Courriel
     mail_placeholder: Votre adresse de courrier électronique
+    firefoxos_mail_placeholder: Courriel
     phone: Téléphone
     phone_placeholder: Un numéro où vous joindre
+    firefoxos_phone_placeholder: Téléphone
   map:
     legend: Localisez votre point sur la carte.
   PointData:
@@ -21,6 +24,7 @@ AddPoint:
   medium_warning: Attention, un problème de ce type est complexe à résoudre. Cela peut donc prendre du temps.
   submit: Enregistrer
   cancel: Effacer
+  menu_return: Retour au menu général
 
 Controls:
   edit: Éditer

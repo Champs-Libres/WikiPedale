@@ -88,7 +88,6 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             $('input[name=affichage_tous_ou_filtre_categorie]').click(function() { markers_filtering.change_mode_for('FilterCategories'); } );
             $('input[name=affichage_tous_ou_filtre_pn_categorie]').click(function() { markers_filtering.change_mode_for('AddLongTermCategories'); } );
 
-
             // Add New Description
             $("#add_new_description_form__user_label").blur(function() { informer.update_new_description_form('user_label'); });
             $("#add_new_description_form__email").blur(function() { informer.update_new_description_form('email'); });

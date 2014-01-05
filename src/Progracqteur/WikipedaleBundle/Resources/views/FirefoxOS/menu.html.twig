@@ -1,0 +1,21 @@
+{% extends "ProgracqteurWikipedaleBundle:FirefoxOS:city_layout.html.twig" %}
+
+{% block city_content %}
+<section data-type="list">
+    <ul>
+        <!---
+        <li>
+            <a role="button" href="">Se connecter</a>
+        </li>
+        -->
+        <li>
+            <a href="{{ path('wikipedale_firefoxos_signal') }}">Signaler</a>
+        </li>
+        <!---
+        <li>
+            <a href="{{ path('wikipedale_firefoxos_view') }}">Voir les signalements</a>
+        </li>
+        -->
+    </ul>
+</section>
+{% endblock  %}

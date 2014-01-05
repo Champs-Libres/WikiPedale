@@ -1,0 +1,31 @@
+{% extends "ProgracqteurWikipedaleBundle:FirefoxOS:city_layout.html.twig" %}
+
+{% block city_content %}
+
+    <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+
+    <script data-main="{{ asset('js/firefoxos_signal.js') }}" src="{{ asset('js/require.js') }}"></script>
+    
+    {% if (app.session.get('city') ) %}
+        {% if goToPlaceId is defined %}
+            <span id="data_for_init" data-city='{{ app.session.get('city').name }}' data-lon="{{app.session.get('city').center.lon}}" data-lat="{{app.session.get('city').center.lat}}" data-description_selected_id="{{goToPlaceId}}" data-firefoxos="true"></span>
+        {% else %}
+            <span id="data_for_init" data-city='{{ app.session.get('city').name }}' data-lon="{{app.session.get('city').center.lon}}" data-lat="{{app.session.get('city').center.lat}}" data-firefoxos="true"></span>
+        {% endif %}
+    {% endif %}
+
+    <article>
+        <div id="map"></div>
+    </article>
+
+    <button id="show_new_description_form_button" disabled="disabled">
+        Remplir les données
+    </button>
+
+    <button id="show_map_button" style="display:none;">
+        Retour à la carte
+    </button>
+        
+    {% include "ProgracqteurWikipedaleBundle:FirefoxOS:add_new_description.html.twig" %}
+{% endblock %}

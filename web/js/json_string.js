@@ -19,10 +19,19 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
         * @param{string} lon The longitude of the point.
         * @param{string} lat} The latitude of the point.
         */
-        p = new OpenLayers.Geometry.Point(lon, lat);
-        p.transform(map_display.get_map().getProjectionObject(), new OpenLayers.Projection('EPSG:4326'));
-        parser = new OpenLayers.Format.GeoJSON();
-        return parser.write(p, false);
+        if($("#map").attr("class") === "olMap") {
+            p = new OpenLayers.Geometry.Point(lon, lat);
+            p.transform(map_display.get_map().getProjectionObject(), new OpenLayers.Projection('EPSG:4326'));
+            parser = new OpenLayers.Format.GeoJSON();
+            var ret =  parser.write(p, false);
+            return ret;
+        }
+        else {
+            console.log("dslkdslk");
+            console.log('{"type":"Point","coordinates":[' + lon + ',' + lat + ']}');
+            return '{"type":"Point","coordinates":[' + lon + ',' + lat + ']}';
+        }
+        
     }
 
     function change_place(id, changement){

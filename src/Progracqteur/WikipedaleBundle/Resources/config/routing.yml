@@ -1,28 +1,27 @@
-  
 wikipedale_homepage:
   pattern: /
   defaults: {_controller: ProgracqteurWikipedaleBundle:Default:homepage }
   options:
     expose: true
-    
+
 wikipedale_about:
     pattern:  /about
     defaults: { _controller: ProgracqteurWikipedaleBundle:Default:about }
     options:
       expose: true
-  
+
 wikipedale_to_city:
   pattern: /city/{citySlug}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Manager:toCity }
   options:
     expose: true
-    
+
 wikipedale_reset_city:
   pattern: /reset_city
   defaults: {_controller: ProgracqteurWikipedaleBundle:Manager:resetCity }
   options:
     expose: true
-  
+
 wikipedale_place_view:
   pattern: /place/view/{id}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Place:view }
@@ -30,13 +29,13 @@ wikipedale_place_view:
     _format: html|json
   options:
     expose: true
-    
+
 wikipedale_place_list_by_bbox:
   pattern: /place/list/bybbox.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Place:listByBBox }
   requirements:
     _format: json
-    
+
 wikipedale_place_list_by_city:
   pattern: /place/list/bycity.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Place:listByCity }
@@ -52,8 +51,7 @@ wikipedale_place_change:
     _format: json
   options:
     expose: true
-    
-    
+
 wikipedale_user_confirm:
   pattern: /user/confirm/{token}/{placeId}.html
   defaults: {_controller: ProgracqteurWikipedaleBundle:Place:confirmUser }
@@ -91,7 +89,7 @@ wikipedale_comment_new:
     _method: POST
   options:
     expose: true
-    
+
 wikipedale_comment_change:
   pattern: /comment/change.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:change }
@@ -100,7 +98,7 @@ wikipedale_comment_change:
     _method: POST
   options:
     expose: true
-    
+
 wikipedale_comment_view:
   pattern: /comment/view/{commentId}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:view}
@@ -117,7 +115,7 @@ wikipedale_photo_list_by_place:
     _format: json|html
   options:
     expose: true
-    
+
 wikipedale_photo_new:
   pattern: /photo/new/place-{placeId}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Photo:new }
@@ -133,7 +131,7 @@ wikipedale_photo_view:
     _format: html
   options:
     expose: true
-    
+
 wikipedale_photo_update:
   pattern: /photo/update/{fileNameP}.{photoType}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Photo:update }
@@ -149,7 +147,7 @@ wikipedale_authenticate:
     _format: json
   options:
     expose: true
-    
+
 wikipedale_token_request_new:
   pattern: /token/new.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Token:getNewTokens}
@@ -157,7 +155,7 @@ wikipedale_token_request_new:
     _format: json
   options:
     expose: true
-    
+
 wikipedale_history_place_by_city:
   pattern: /history/places/bycity/{citySlug}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:PlaceTracking:byCity }
@@ -171,7 +169,7 @@ wikipedale_groups_list:
   defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:list }
   options:
     expose: false
-    
+
 wikipedale_groups_create:
   pattern: /admin/group/create
   defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:create }
@@ -183,25 +181,25 @@ wikipedale_groups_update:
   defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:update }
   options:
     expose: false
-    
+
 wikipedale_admin_user_show_form:
   pattern: /admin/user/show/{id}
   defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:userShowForm}
   options:
     expose: false
-    
+
 wikipedale_admin_user_new_virtual:
   pattern: /admin/user/virtual/new
   defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:newVirtualUser}
   options:
     expose: false
-    
+
 wikipedale_admin_user_create_virtual:
   pattern: /admin/user/virtual/create
   defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:createVirtualUser }
   options:
     expose: false
-    
+
 wikipedale_admin_homepage:
   pattern: /admin
   defaults: {_controller: ProgracqteurWikipedaleBundle:Admin:index }
@@ -209,12 +207,11 @@ wikipedale_admin_homepage:
 wikipedale_notations:
     resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/management_notation.yml"
     prefix:   /admin/notation
-    
 
 wikipedale_admin_usergroups:
   pattern: /admin/usergroup
   defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:userList }
-  
+
 wikipedale_admin_usergroups_update:
   pattern: /admin/usergroup/user/{id}
   defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:userUpdate }
@@ -224,8 +221,7 @@ wikipedale_admin_usergroups_add_or_remove_groups:
   defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:addRemoveGroups }
   requirements:
     method: POST
-    
-    
+
 wikipedale_notification_subscriptions_list:
   pattern: /profile/notifications
   defaults:
@@ -235,24 +231,51 @@ wikipedale_notification_subscriptions_show:
   pattern: /profile/notifications/{id}
   defaults: 
     _controller: ProgracqteurWikipedaleBundle:Notifications:show
-    
+
 wikipedale_notification_subscriptions_update:
   pattern: /profile/notifications/{id}/update
   defaults:
     _controller: ProgracqteurWikipedaleBundle:Notifications:update
-    
+
 ProgracqteurWikipedaleBundle_admin_category:
-        resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/model_category.yml"
-        prefix:   /admin/category
-        
+  resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/model_category.yml"
+  prefix:   /admin/category
+
 wikipedale_group_covers_zone:
-   pattern: /groups/bytype/bycovering/{type}.{slugZone}.{_format}
-   defaults: {_controller: ProgracqteurWikipedaleBundle:GroupFrontend:getGroupCoveringZone }
-   requirements:
-     _format: json
-     method: GET
-   options:
-     expose: true
-       
+  pattern: /groups/bytype/bycovering/{type}.{slugZone}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:GroupFrontend:getGroupCoveringZone }
+  requirements:
+    _format: json
+    method: GET
+  options:
+    expose: true
 
+wikipedale_firefoxos_index:
+  pattern: /firefoxos
+  defaults: {_controller: ProgracqteurWikipedaleBundle:FirefoxOS:homepage }
+  options:
+    expose: true
 
+wikipedale_firefoxos_choose_city:
+  pattern: /firefoxos/city/choice
+  defaults: {_controller: ProgracqteurWikipedaleBundle:FirefoxOS:chooseCity }
+  options:
+    expose: true
+
+wikipedale_firefoxos_signal:
+  pattern: /firefoxos/signal
+  defaults: {_controller: ProgracqteurWikipedaleBundle:FirefoxOS:signal }
+  options:
+    expose: true
+
+wikipedale_firefoxos_view:
+  pattern: /firefoxos/view
+  defaults: {_controller: ProgracqteurWikipedaleBundle:FirefoxOS:view }
+  options:
+    expose: true
+
+wikipedale_firefoxos_to_city:
+  pattern: /firefoxos/city/{citySlug}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:FirefoxOS:toCity }
+  options:
+    expose: true

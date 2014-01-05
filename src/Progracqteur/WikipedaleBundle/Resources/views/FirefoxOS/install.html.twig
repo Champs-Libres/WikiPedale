@@ -1,0 +1,46 @@
+<div style="width:100%;text-align:center;margin-bottom:20px;font:bold 24pt Helvetica;color:#908040">
+  Uello App
+</div>
+
+<div style="width:100%;text-align:center;margin-bottom:20px;font:bold 10pt Helvetica;color:black">
+  This page exists as an example of how a normal website can
+  be wrapped up as an Open Web App.
+</div>
+
+<div id="install_button_div" style="width:100%;text-align:center;display:none;">
+  <span id="install_button">INSTALL</span>
+</div>
+
+<script src="{{ asset('js/lib/jQuery/jquery-1.7.2.min.js') }}"></script>
+
+<script>
+var gManifestName = "{{ asset('firefoxos_manifest.webapp') }}";
+
+$(document).ready(function() {
+  var request = navigator.mozApps.getSelf();
+        request.onsuccess = function() {
+         if (request.result) {
+          console.log('ok');
+          $("#install_button").text("INSTALLED!");
+          $("#install_button_div").show();
+         } else {
+         $("#install_button_div").show();
+            $("#install_button").click(function() {
+                console.log('debut installation');
+                var req = navigator.mozApps.install(gManifestName);
+                console.log(req);
+                console.log('fin installation');
+                req.onsuccess = function() {
+                    $("#install_button").text("INSTALLED!").unbind('click');
+                }
+                req.onerror = function(errObj) {
+                    alert("Couldn't install (" + errObj.code + ") " + errObj.message);
+                }
+            });
+         }
+        }
+        request.onerror = function() {
+         alert('Error checking installation status: ' + this.error.message);
+        }
+});
+</script>

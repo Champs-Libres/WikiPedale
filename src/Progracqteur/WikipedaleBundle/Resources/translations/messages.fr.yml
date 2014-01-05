@@ -93,12 +93,12 @@ layout:
     logged_in_as: %username%
     profile: Votre profil
     home: Accueil
-    
+
 errors:
   404:
     place:
       not_found: L'emplacement demandé n'existe pas.
-      
+
 # Form field labels
 fos_user_group_form_name: "Nom du groupe :"
 
@@ -128,12 +128,11 @@ validation:
       have_children: Les catégories indiquées sont parentes d'autres catégories. Seules des catégories filles peuvent être indiquées.
     manager:
       group_is_not_type_manager: Le groupe associé n'est pas du type "gestionnaire de voirie". Veuillez indiquez un group du type "gestionnaire de voirie".
-      
-      
+
 #messages de confirmation d'adresse mail utilisateur non enregistré
 email_confirmation_message:
   subject: Vérification de votre adresse de courriel
-  
+
 notification_subscriptions:
   list:
     title: Mes notifications personnelles
@@ -177,7 +176,7 @@ notification_subscriptions:
       minutely: Immédiatement
       label: Fréquence d'envoi
       stopped: Suspendre
-    
+
 csv:
     place:
         list:
@@ -198,6 +197,3 @@ csv:
             creator: Créateur
             creator_email: Email du créateur
             creator_phone: Téléphone du créateur
-                
-      
-    
