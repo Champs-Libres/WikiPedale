@@ -22,6 +22,12 @@ Params passed by the controller to this template :
     </script>
 {% endblock %}
 
+{% block css %}
+    {% if (app.session.get('city') ) %}
+        <link rel="stylesheet"  href="{{ asset('css/map.css') }}" type="text/css"/>
+    {% endif %}
+{% endblock %}
+
 {% block body %}
     {% if (app.session.get('city') ) %}
         {% if goToPlaceId is defined %}
@@ -29,9 +35,6 @@ Params passed by the controller to this template :
         {% else %}
             <span id="data_for_init" data-city='{{ app.session.get('city').name }}' data-lon="{{app.session.get('city').center.lon}}" data-lat="{{app.session.get('city').center.lat}}"></span>
         {% endif %}
-    {% endif %}
-
-    {% if (app.session.get('city') ) %}
         {% include 'ProgracqteurWikipedaleBundle:Default:map.html.twig' with { 'categories' : categories } %}
     {% else %}
         {% include "ProgracqteurWikipedaleBundle:Default:accueil.html.twig" %}

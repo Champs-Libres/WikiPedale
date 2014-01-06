@@ -1,34 +1,18 @@
-.olImageLoadError { 
-    /* when OL can display an image */
-    display: none !important;
-}
-
-pihtml {
-    height:100%;
-    width: 100%;
-}
-
-#LienAccueil {
-    width: 150px;
-    position:absolute;
-    top:0;
-    left:0;
-    height:2em;
-}
-
 textarea {
     font-family: Tahoma,Sans,Arial,Helvetica,sans-serif;
 }
 
-dt {font-weight: bold;}
+dt { 
+    font-weight: bold;
+}
 
-.clearboth { clear:both; }
-
+/* used for views/Default/accueil.html.twig */
 #accueil {
     background: url('../img/accueil.png') no-repeat top left;
     width:100%;
     height:800px;
 }
+
 #accueil-texte {
     font-family: "Lucida Sans","Lucida Grande",sans-serif;
     width:30%;
@@ -36,17 +20,12 @@ dt {font-weight: bold;}
     margin-right:10%;
     text-transform: uppercase;
 }
+
 #accueil h1 { font-size: 2.5em; color:#2D2D2D; }
 #accueil ul { list-style-type: none; padding:0; }
 #accueil ul a { color: #000000; font-size:1.5em; text-decoration: none; }
 #accueil ul a:hover { background: #2D2D2D; color:#FFFFFF; }
-
-/* #form_AjoutPoint { display: none; } */
-
-/* Carte */
-#map {
-    height: 500px;
-}
+/* end used for views/Default/accueil.html.twig */
 
 label { font-size: 0.9em; color:#2D2D2D; display:block; }
 
@@ -66,13 +45,11 @@ p.PointTitle .span_id { font-size:1.2em; font-weight:bold; }
 
 div.PointDescription { padding:1em 0.5em 1em 1em; }
 
-
 #f_lieu, #f_description { width:95%; }
 
 .QuotationBegin { background: url('../img/QuotationMark.png') no-repeat top left; float:left; width:32px; height:32px; }
 .p_description { background: url('../img/QuotationMark-end.png') no-repeat bottom right; padding:0 35px 0 40px; margin:0 0 1em 0; }
 #span_description { font-style: italic; }
-
 
 div.PointDescription p.creator {
     font-size: 0.8em;
@@ -86,10 +63,7 @@ div.PointDescription p.creator {
 .option_orange { border-left: 1em solid #ffa100; }
 .option_green { border-left: 1em solid #69cb00; }
 
-
 /* dernieres modifs */
-
-
 #div_title_dernieres_modifs, #div_export_data {
     margin: 1em 0.5em 0 0.5em;
     padding : 0.2em 0.5em 0.2em 35px;
@@ -103,13 +77,6 @@ div.PointDescription p.creator {
     border:5px solid #D14836;
     margin: 0 0.5em 1em 0.5em;
     padding:1em 1em 1em 1em;
-}
-
-
-/* Panel */
-/**** Panel haut-gauche ****/
-#olPanelUL {
-  display:block;
 }
 
 .buttonPlus {
@@ -218,7 +185,6 @@ img#VilleActuelleRSSIcon {
     color:#FF5500;
 }
 
-
 #legend{
     position:absolute; 
     right:10px; 
@@ -241,60 +207,12 @@ img#VilleActuelleRSSIcon {
 
 .ButtonEdit a:hover { background: url('../img/edit-hover.png') no-repeat; }
 
-
-/* OpenLayers */
-        .olControlAttribution {
-            position: absolute;
-            bottom:0em;
-            font-size: 10px;
-            text-align: right;
-            color: #eeeeee;
-            background: #130085; /* fallback for IE - IE6 requires background shorthand*/
-            background: rgba(45, 45, 45, 0.4);
-            filter: alpha(opacity=90);
-            font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
-            padding: 2px 4px;
-            border-radius: 5px 0 0 0;
-        }
-        .olControlAttribution a {
-            color: #eeeeee;
-            font-weight: bold;
-        }
-        .olControlZoom a:hover {
-            color: white;
-            background: rgba(45, 45, 45, 0.4);
-        }
-        div.olControlZoomPanel {
-            top: 15px;
-            left: 15px;
-        }
-           div.flash-notice {
-               background-color: rgba(68,68,221,0.65);
-               color: white;
-               font-weight: bold;
-               box-shadow: 2px 2px 3px rgba(68,68,221,0.45), -2px -2px 3px rgba(68,68,221,0.45);
-               text-align: center;
-               paddding: 15px;
-               margin-left: 50px;
-               margin-right: 50px;
-               }
-               
-               div#OpenLayers.Control.Attribution_7 {
-                   position:absolute;
-                   bottom:0;
-               }
-      
-
 /* definition box */
-
 .def_box {
     display: inline-block;
-
-    
 }
 
 /* action link, button, etc. */
-
 .action {
     background: none repeat scroll 0 0 #3E3E3E;
     border: medium none;
@@ -308,10 +226,7 @@ img#VilleActuelleRSSIcon {
     text-decoration: none;
 }
                
-/* user profile */
-
-
-    
+/* user profile */    
 div.user_content {
     padding: 110px;
     }

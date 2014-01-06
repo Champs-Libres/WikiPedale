@@ -1,0 +1,75 @@
+/* CSS USED FOR views/Default/map.html.twig */
+
+/* Carte */
+#map {
+    height: 500px;
+}
+
+#logos_partenaires {
+	position:absolute;
+	left:5px;
+	bottom:1px;
+	z-index:1000;
+}
+
+#logos_partenaires div {
+	margin-right: 5px;
+	float: left;
+}
+
+#logos_partenaires img {
+	height: 50px;
+}
+
+
+/* OpenLayers */
+.olImageLoadError { 
+    /* when OL can display an image */
+    display: none !important;
+}
+
+/**** Panel haut-gauche ****/
+#olPanelUL {
+  display:block;
+}
+
+.olControlAttribution {
+    position: absolute;
+    bottom:0em;
+    font-size: 10px;
+    text-align: right;
+    color: #eeeeee;
+    background: #130085; /* fallback for IE - IE6 requires background shorthand*/
+    background: rgba(45, 45, 45, 0.4);
+    filter: alpha(opacity=90);
+    font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
+    padding: 2px 4px;
+    border-radius: 5px 0 0 0;
+}
+.olControlAttribution a {
+    color: #eeeeee;
+    font-weight: bold;
+}
+.olControlZoom a:hover {
+    color: white;
+    background: rgba(45, 45, 45, 0.4);
+}
+div.olControlZoomPanel {
+    top: 15px;
+    left: 15px;
+}
+div.flash-notice {
+   background-color: rgba(68,68,221,0.65);
+   color: white;
+   font-weight: bold;
+   box-shadow: 2px 2px 3px rgba(68,68,221,0.45), -2px -2px 3px rgba(68,68,221,0.45);
+   text-align: center;
+   paddding: 15px;
+   margin-left: 50px;
+   margin-right: 50px;
+}
+
+div#OpenLayers.Control.Attribution_7 {
+   position:absolute;
+   bottom:0;
+}
