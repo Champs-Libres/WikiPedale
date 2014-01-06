@@ -104,34 +104,37 @@
                             {{ 'layout.home'|trans({}, 'messages') }}
                         </a>
                     </div>
-                    
-                    <div id="menu_user_name" {% if not app.user %} style="display:none" {% endif %}>
-                        <a href="{{ path('fos_user_profile_show') }}" title="{{ 'layout.profile'|trans({'%username%': ''}, 'messages') }}">
-                            <img src="{{asset('img/menu/personne.png')}}" />
-                            {{ 'layout.logged_in_as'|trans({'%username%': ''}, 'messages') }}
-                            <span class="username" style="font-weight: bold;">{% if app.user %} {{app.user.label}} {% endif %}</span>
-                        </a>
+
+                    <div>
+                        <div id="menu_connexion" {% if app.user %} style="display:none" {% endif %}>
+                            <a class ="connexion" href="#login_form_div">
+                                <img src="{{asset('img/menu/connection.png')}}" />
+                                {{ 'layout.login'|trans({}, 'messages') }}
+                            </a>
+                        </div>
+                        <div id="menu_logout" {% if not app.user %} style="display:none" {% endif %}>
+                            <a href="{{ path('fos_user_security_logout') }}">
+                                <img src="{{asset('img/menu/connection.png')}}" />
+                                {{ 'layout.logout'|trans({}, 'messages') }}
+                            </a>
+                        </div>
                     </div>
 
-                    <div id="menu_connexion" {% if app.user %} style="display:none" {% endif %}>
-                        <a class ="connexion" href="#login_form_div">
-                            <img src="{{asset('img/menu/connection.png')}}" />
-                            {{ 'layout.login'|trans({}, 'messages') }}
-                        </a>
-                    </div>
+                    <div>
+                        <div id="menu_user_name" {% if not app.user %} style="display:none" {% endif %}>
+                            <a href="{{ path('fos_user_profile_show') }}" title="{{ 'layout.profile'|trans({'%username%': ''}, 'messages') }}">
+                                <img src="{{asset('img/menu/personne.png')}}" />
+                                {{ 'layout.logged_in_as'|trans({'%username%': ''}, 'messages') }}
+                                <span class="username" style="font-weight: bold;">{% if app.user %} {{app.user.label}} {% endif %}</span>
+                            </a>
+                        </div>
 
-                    <div id="menu_logout" {% if not app.user %} style="display:none" {% endif %}>
-                        <a href="{{ path('fos_user_security_logout') }}">
-                            <img src="{{asset('img/menu/connection.png')}}" />
-                            {{ 'layout.logout'|trans({}, 'messages') }}
-                        </a>
-                    </div>
-
-                    <div id="menu_register" {% if app.user %} style="display:none" {% endif %}>
-                        <a href="{{ path('fos_user_registration_register') }}">
-                            <img src="{{asset('img/icons/user.png')}}" />
-                            {{ 'layout.register'|trans({}, 'messages') }}
-                        </a>
+                        <div id="menu_register" {% if app.user %} style="display:none" {% endif %}>
+                            <a href="{{ path('fos_user_registration_register') }}">
+                                <img src="{{asset('img/menu/personne.png')}}" />
+                                {{ 'layout.register'|trans({}, 'messages') }}
+                            </a>
+                        </div>
                     </div>
 
                     <div id="menu_aide">

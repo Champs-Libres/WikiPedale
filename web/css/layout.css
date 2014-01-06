@@ -31,6 +31,11 @@ body p {padding: 0 1em 0 1em;}
 	height: 30px;
 }
 
+#ConnectionBar div div {
+	margin: auto;
+	display: table;
+}
+
 #ConnectionBar a, #ConnectionBar a:visited { 
 	color: #FFFFFF;
 	text-decoration: none;
