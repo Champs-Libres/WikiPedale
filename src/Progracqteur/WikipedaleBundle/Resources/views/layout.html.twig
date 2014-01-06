@@ -19,6 +19,7 @@
             <!-- Aucun fichier javascript ajouté par le template -->
         {% endblock %}
             
+        <link rel="stylesheet"  href="{{ asset('css/layout.css') }}" type="text/css"/>
         <link rel="stylesheet"  href="{{ asset('css/main.css') }}" type="text/css"/>
         <link rel="stylesheet"  href="{{ asset('css/forms.css') }}" type="text/css"/>
         
@@ -77,29 +78,86 @@
                 </div>
             </div>
 
-            <div class="grid_12" style="height:80px">
+            <div class="grid_12" id="banner">
                 <div style="float:left; height:80px; padding-left:1%">
-                    <img src="{{asset('img/banner/velo1.png')}}" height="100%">
+                    <img src="{{asset('img/banner/velo1.png')}}">
                 </div>
                 <div style="float:left; height:80px; padding-left:5%">
-                    <img src="{{asset('img/banner/logo.png')}}" height="100%">
+                    <img src="{{asset('img/banner/logo.png')}}">
                 </div>
                 <div style="float:left; height:80px; padding-left:6%">
-                    <img src="{{asset('img/banner/marqueur.png')}}" height="100%">
+                    <img src="{{asset('img/banner/marqueur.png')}}">
                 </div>
                 <div style="float:right; height:80px; padding-right:8%">
-                    <img src="{{asset('img/banner/velo3.png')}}" height="100%">
+                    <img src="{{asset('img/banner/velo3.png')}}">
                 </div>
                 <div style="float:right; height:80px; padding-right:15%">
-                    <img src="{{asset('img/banner/velo2.png')}}" height="100%">
-                </div>
-                
+                    <img src="{{asset('img/banner/velo2.png')}}">
+                </div>    
             </div>
 
             <div class="grid_12">
                 <div id="ConnectionBar">
-                    <a href="{{path('wikipedale_homepage')}}"><span id="LienAccueil"></span></a>
+                    <div>
+                        <a href="{{path('wikipedale_reset_city')}}">
+                            <img src="{{asset('img/menu/accueil.png')}}" />
+                            {{ 'layout.home'|trans({}, 'messages') }}
+                        </a>
+                    </div>
                     
+                    <div id="menu_user_name" {% if not app.user %} style="display:none" {% endif %}>
+                        <a href="{{ path('fos_user_profile_show') }}" title="{{ 'layout.profile'|trans({'%username%': ''}, 'messages') }}">
+                            <img src="{{asset('img/menu/personne.png')}}" />
+                            {{ 'layout.logged_in_as'|trans({'%username%': ''}, 'messages') }}
+                            <span class="username" style="font-weight: bold;">{% if app.user %} {{app.user.label}} {% endif %}</span>
+                        </a>
+                    </div>
+
+                    <div id="menu_connexion" {% if app.user %} style="display:none" {% endif %}>
+                        <a class ="connexion" href="#login_form_div">
+                            <img src="{{asset('img/menu/connection.png')}}" />
+                            {{ 'layout.login'|trans({}, 'messages') }}
+                        </a>
+                    </div>
+
+                    <div id="menu_logout" {% if not app.user %} style="display:none" {% endif %}>
+                        <a href="{{ path('fos_user_security_logout') }}">
+                            <img src="{{asset('img/menu/connection.png')}}" />
+                            {{ 'layout.logout'|trans({}, 'messages') }}
+                        </a>
+                    </div>
+
+                    <div id="menu_register" {% if app.user %} style="display:none" {% endif %}>
+                        <a href="{{ path('fos_user_registration_register') }}">
+                            <img src="{{asset('img/icons/user.png')}}" />
+                            {{ 'layout.register'|trans({}, 'messages') }}
+                        </a>
+                    </div>
+
+                    <div id="menu_aide">
+                        <a href="http://blog.uello.be/manuel_utilisation">
+                            <img src="{{asset('img/menu/aide.png')}}" />
+                            {{ 'layout.help'|trans({}, 'messages') }}
+                        </a>
+                    </div>
+
+                    <div id="menu_a_propos">
+                        <a href="{{path('wikipedale_about')}}">
+                            <img src="{{asset('img/menu/info.png')}}" />
+                            {{ 'layout.about'|trans({}, 'messages') }}
+                        </a>
+                    </div>
+
+                    
+
+                    <div id="menu_contact">
+                        <a href="mailto:uello@gracq.be">
+                            <img src="{{asset('img/menu/contact.png')}}" />
+                            {{ 'layout.contact'|trans({}, 'messages') }}
+                        </a>
+                    </div>
+
+                    <div>
                     {% if mainCities is defined %}
                         <select id="CitiesSelection" onchange="location = this.options[this.selectedIndex].value;">
                         {% if app.session.get('city') %}
@@ -112,28 +170,7 @@
                             {% endfor %}
                         </select>
                     {% endif %}
-                       
-                    <span id="menu_user_name" {% if not app.user %} style="display:none" {% endif %}>
-                        <img src="{{asset('img/icons/user.png')}}" />
-                        <a href="{{ path('fos_user_profile_show') }}" title="{{ 'layout.profile'|trans({'%username%': ''}, 'messages') }}">{{ 'layout.logged_in_as'|trans({'%username%': ''}, 'messages') }} <span class="username" style="font-weight: bold;">{% if app.user %} {{app.user.label}} {% endif %}</span></a>
-                    </span>
-
-                    <span id="menu_connexion" {% if app.user %} style="display:none" {% endif %}>
-                        <img src="{{asset('img/icons/login.png')}}" />
-                        <a class ="connexion" href="#login_form_div">{{ 'layout.login'|trans({}, 'messages') }}</a>
-                    </span>
-
-                    <span id="menu_logout" {% if not app.user %} style="display:none" {% endif %}>
-                        <img src="{{asset('img/icons/logout.png')}}" />
-                        <a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'messages') }}</a>
-                    </span>
-
-                    <span id="menu_register" {% if app.user %} style="display:none" {% endif %}>
-                        <img src="{{asset('img/icons/user.png')}}" />
-                        <a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'messages') }}</a>
-                    </span>
-                        <img src="{{asset('img/icons/home.png')}}" />
-                        <a href="{{path('wikipedale_reset_city')}}">{{ 'layout.home'|trans({}, 'messages') }}</a>
+                    </div>
                 </div>
             </div>
             <div class="clear"></div>
@@ -153,12 +190,6 @@
                 {% block body %}Rien dans le body...{% endblock %}
             </div>
             <div class="clear"></div>
- 
-            <div id="PiedDePage" class="grid_8">
-                <a href="{{path('wikipedale_about')}}">À propos de Uello</a> - 
-                <a href="http://blog.uello.be/manuel_utilisation" target="blank">Aide</a> - 
-                <a href="mailto:uello@gracq.be">Contact</a>
-            </div>
             
             <div id="logos" class="grid_4">
                 <a href="http://www.gracq.be"><img src="{{ asset('img/logos/logo_gracq.png') }}" /></a>

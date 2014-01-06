@@ -93,6 +93,9 @@ layout:
     logged_in_as: %username%
     profile: Votre profil
     home: Accueil
+    help: Aide
+    contact: Contact
+    about: À propos de Uello
 
 errors:
   404:

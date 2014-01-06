@@ -8,14 +8,6 @@ pihtml {
     width: 100%;
 }
 
-body {
-    padding:0;
-    margin: 0; 
-    height:100%; 
-    width: 100%;
-    font-family: Tahoma,Sans,Arial,Helvetica,sans-serif;
-}
-
 #LienAccueil {
     width: 150px;
     position:absolute;
@@ -27,8 +19,6 @@ body {
 textarea {
     font-family: Tahoma,Sans,Arial,Helvetica,sans-serif;
 }
-
-body p {padding: 0 1em 0 1em;}
 
 dt {font-weight: bold;}
 
@@ -159,20 +149,6 @@ div.PointDescription p.creator {
   text-align:center;
 }
 
-#ConnectionBar {
-    background: #2D2D2D url('../img/logos/logo_uello_blanc.png') no-repeat left;
-    text-align: right;
-    /*border-bottom: 1px solid #AAAAAA;*/
-    padding: 0.5em 1em 0 0;
-
-}
-#ConnectionBar a, #ConnectionBar a:visited, #ConnectionBar { color: #AAAAAA; font-size:0.9em; text-decoration: none;}
-#ConnectionBar a:hover { color: #FFFFFF;}
-
-#ConnectionBar img {
-    margin: 0 0 0 1em;
-}
-
 div#BoiteChoixVille {
     clear:right;
     margin:0 auto;
@@ -228,24 +204,6 @@ img#VilleActuelleRSSIcon {
     width:700px;
     color: #2E2E2E;
     margin:0 auto;
-}
-
-#PiedDePage {
-    background-color: #FFFFFF;
-    clear: both;
-    display: block;
-    font-size: 0.8em;
-    font-weight: normal;
-    margin-top: 1em;
-    text-align: center;
-}
-
-#logos {
-    text-align: right;
-}
-
-#logos img {
-    height:48px;
 }
 
 .errorMessage{

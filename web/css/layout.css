@@ -1,0 +1,57 @@
+body {
+    padding:0;
+    margin: 0; 
+    height:100%; 
+    width: 100%;
+    font-family: Tahoma,Sans,Arial,Helvetica,sans-serif;
+}
+
+body p {padding: 0 1em 0 1em;}
+
+#banner {
+	height:80px;
+}
+
+#banner img {
+	height: 100%;
+}
+
+#ConnectionBar {
+	display:table;
+	width: 100%;
+	padding-top: 1.5em;
+	padding-bottom: 0.5em;
+    background: #000000;
+    font-size:0.7em;
+}
+
+#ConnectionBar div {
+	text-align: center; 
+	display:table-cell;
+	height: 30px;
+}
+
+#ConnectionBar a, #ConnectionBar a:visited { 
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+#ConnectionBar a:hover {
+	color: #AAAAAA;
+}
+
+#ConnectionBar img {
+	height: 30px;
+	vertical-align: middle;
+	margin-bottom:7px;
+	margin-right: 2px;
+}
+
+#logos {
+    text-align: right;
+}
+
+#logos img {
+    height:48px;
+}
+
