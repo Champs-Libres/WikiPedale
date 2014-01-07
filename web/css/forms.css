@@ -1,13 +1,3 @@
-form {
-    background: #9cbc2c;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    padding: 1em 0.2em 0.5em 1em;
-    margin: 1em auto;
-    width:400px;
-}
-
 form fieldset {
     border: none;
     padding:0;
@@ -15,10 +5,9 @@ form fieldset {
 }
 
 form legend {
-    color: #384313;
+    color: #000;
     font-size: 1.1em;
     font-weight: bold;
-    text-shadow: 0 1px 1px #c0d576;
     padding:0 0 0.5em 0;
 }
 
@@ -29,15 +18,16 @@ form legend a {
 
 form label {
     float: left;
-    width: 120px;
+    width: 70px;
 }
 
-form input {
-    margin:0;
+form input, form textarea, form select {
+    width: 250px;
 }
 
 form input.envoi, form input.CancelButton {
-    background: #3E3E3E;
+    width: 150px;
+    background: #76B82A;
     border: none;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -52,9 +42,8 @@ form input.envoi, form input.CancelButton {
     float:right;
 }
 
-form input.envoi:hover, form input.CancelButton:hover {
-    background: #2D2D2D;
-    cursor: pointer;
+form input.envoi:hover {
+    background: #609522;
 }
 
 form input.CancelButton {
@@ -85,11 +74,6 @@ form#loginForm {
 /* Formulaire ajout point */
 #add_new_description_div {
     display:none;
-    background: #9CBC2C;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    margin: 0 0.5em 1em 0.5em;
 }
 
 #add_new_description_div img.verif {
@@ -97,14 +81,6 @@ form#loginForm {
     width:16px;
     height:16px;
     margin-right:0.2em;
-}
-
-#add_new_description_div label {
-    width: 20%;
-}
-
-#add_new_description_div textarea, #div_signaler fieldset input, #c_chzn.chzn-container.chzn-container-multi {
-    width:73%;
 }
 
 li.search-field {

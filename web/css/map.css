@@ -50,7 +50,25 @@
     padding:1em 1em 1em 1em;
 }
 
-#div_placeDetails, #div_placeDescription, #div_placeEdit { margin: 1em 0.5em 0 0.5em; border: 5px solid #2D2D2D; }
+/* #ToolsPanel - Affichage/Ajout signalement */
+
+.description_element{
+    margin-bottom: 10px;
+}
+
+div.PointDescription {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+}
+
+p.PointTitle { background: #2D2D2D; color: #FFFFFF; margin:0; padding-left: 0.2em; }
+p.PointTitle .span_id { font-size:1.2em; font-weight:bold; }
+
+#div_placeDetails, #div_placeEdit { 
+  margin: 1em 0.5em 0 0.5em; 
+  border: 5px 
+  solid #2D2D2D;
+}
 
 /* #ToolsPanel - Dernière modifs */
 #div_title_dernieres_modifs, #div_export_data {

@@ -1,15 +1,4 @@
 /* CSS USED FOR views/layout.html.twig */
-
-body {
-    padding:0;
-    margin: 0; 
-    height:100%; 
-    width: 100%;
-    font-family: Tahoma,Sans,Arial,Helvetica,sans-serif;
-}
-
-body p {padding: 0 1em 0 1em;}
-
 #banner {
 	height:80px;
 }

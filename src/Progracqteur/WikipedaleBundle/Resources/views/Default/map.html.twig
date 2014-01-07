@@ -25,12 +25,13 @@
             <img src="{{ asset('img/retour.png') }}" style="padding-left:10px"> Retour à la carte globale
         </div>
 
+        {% include "ProgracqteurWikipedaleBundle:Default:place_description.html.twig" %}
+
         <div id="div_add_new_description_button" class="right_menu"  title="Button is to be clicked">
             <img src="{{ asset('img/menu/ajout.png') }}"> Ajouter un signalement
         </div>
-        
+
         {% include "ProgracqteurWikipedaleBundle:Default:add_new_description.html.twig" %}
-        {% include "ProgracqteurWikipedaleBundle:Default:place_description.html.twig" %}
 
         <div id="param_carte">
             <div id="buttonOptionsAffichage" class="right_menu" title="Cliquez pour accéder aux options d'affichager et à l'export">
