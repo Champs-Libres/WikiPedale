@@ -25,19 +25,18 @@ change:
      place_type: le type
      other: un autre élément
      moderator_comment: le commentaire réservé au conseiller en mobilité
-  
+
 display_black_points:
   blackpoint: Point noir
   author: Constat effectué par
   add_picture: Ajouter une photo
   comments: commentaires
-  
+
 #help
 instructions:
   add_point1: 1. Localisez votre point sur la carte ci-contre.
   add_point2: 2. Completez le formulaire ci-dessous.
-  
-  
+
   # Registration
 registration:
     check_email: Un e-mail a été envoyé à l'adresse %email%. Veuillez suivre les instructions qui vous y sont indiquées.

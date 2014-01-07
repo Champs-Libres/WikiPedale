@@ -26,6 +26,30 @@ AddPoint:
   cancel: Effacer
   menu_return: Retour au menu général
 
+DisplayPoint:
+  author: Constat effectué par
+  position_change: Changer l'emplacement sur la carte
+  save: Sauvegarder
+  error: Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq
+  localisation: Localisation
+  description: Description détaillée
+  cem_comment: Commentaire du conseiller en mobilité (CeM)
+  category: Catégorie
+  cem_notation: Note du conseiller en mobilité (CeM)
+  gray_notation: rejeté (gris)
+  white_notation: pas encore pris en compte (blanc)
+  red_notation: pris en compte (rouge)
+  orange_notation: en cours de résolution (orange)
+  green_notation: résolu (vert)
+  type: Type du signalement
+  manager: Gestionnaire de voirie
+  delete: Ne plus afficher le signalement
+  internal_comments: Commentaires CeM-gestionnaire de Voirie
+  more_comments: Plus de commentaires & ajout
+  your_comment: Votre commentaire
+
+
+
 Controls:
   edit: Éditer
   save: Sauver

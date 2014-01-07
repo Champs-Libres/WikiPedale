@@ -21,21 +21,24 @@
     </div>
 
     <div id="ToolsPanel" class="grid_5 omega">
-        <div id="div_returnNormalMode" title="Button is to be clicked">
-            <img src="{{ asset('img/retour.png') }}" style="padding-left:10px"> Retour à la carte globale
+        <div id="div_returnNormalMode" style="display:none;" title="Button is to be clicked">
+            <img src="{{ asset('img/retour.png') }}" style="padding-left:10px">
+            {{ 'tools_panel.global_map_return'|trans({}, 'messages') }}
         </div>
 
         {% include "ProgracqteurWikipedaleBundle:Default:place_description.html.twig" %}
 
         <div id="div_add_new_description_button" class="right_menu"  title="Button is to be clicked">
-            <img src="{{ asset('img/menu/ajout.png') }}"> Ajouter un signalement
+            <img src="{{ asset('img/menu/ajout.png') }}">
+            {{ 'tools_panel.signalement_add'|trans({}, 'messages') }}
         </div>
 
         {% include "ProgracqteurWikipedaleBundle:Default:add_new_description.html.twig" %}
 
         <div id="param_carte">
             <div id="buttonOptionsAffichage" class="right_menu" title="Cliquez pour accéder aux options d'affichager et à l'export">
-                <img src="{{ asset('img/menu/recherche.png') }}"> Filtrer les signalements et export
+                <img src="{{ asset('img/menu/recherche.png') }}">
+                {{ 'tools_panel.filter_and_export'|trans({}, 'messages') }}
             </div>
 
             <div id="div_options_affichage">
@@ -106,7 +109,7 @@
 
         <div id="div_dernieres_modifs">
             <div id="div_title_dernieres_modifs">
-                Dernières modifications 
+                {{ 'tools_panel.last_modifications'|trans({}, 'messages') }}
                 <a href="{{ path('wikipedale_history_place_by_city', {'citySlug': app.session.get('city').slug, _format:'atom'}) }}">
                     <img src="{{ asset('img/rss_w_b.png') }}" alt="Flux RSS" height="14" width="14">
                 </a>

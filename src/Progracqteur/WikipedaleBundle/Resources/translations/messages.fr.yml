@@ -97,6 +97,13 @@ layout:
     contact: Contact
     about: À propos de Uello
 
+tools_panel:
+  global_map_return: Retour à la carte globale
+  signalement_add: Ajouter un signalement
+  filter_and_export: Filtrer les signalements et export
+  last_modifications: Dernières modifications
+
+
 errors:
   404:
     place:
