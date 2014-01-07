@@ -25,9 +25,16 @@
             <img src="{{ asset('img/retour.png') }}" style="padding-left:10px"> Retour à la carte globale
         </div>
 
+        <div id="div_add_new_description_button" class="right_menu"  title="Button is to be clicked">
+            <img src="{{ asset('img/menu/ajout.png') }}"> Ajouter un signalement
+        </div>
+        
+        {% include "ProgracqteurWikipedaleBundle:Default:add_new_description.html.twig" %}
+        {% include "ProgracqteurWikipedaleBundle:Default:place_description.html.twig" %}
+
         <div id="param_carte">
-            <div id="buttonOptionsAffichage" class="buttonPlus" title="Cliquez pour accéder aux options d'affichager et à l'export">
-                Filtrer les signalements et export
+            <div id="buttonOptionsAffichage" class="right_menu" title="Cliquez pour accéder aux options d'affichager et à l'export">
+                <img src="{{ asset('img/menu/recherche.png') }}"> Filtrer les signalements et export
             </div>
 
             <div id="div_options_affichage">
@@ -95,17 +102,6 @@
                 </div>
             </div>
         </div>
-
-        <div id="add_new_description">
-            <div id="div_add_new_description_button" class="buttonPlus" title="Button is to be clicked">
-                Ajouter un signalement
-            </div>
-        </div>
-
-        <div id="olPanelUL"></div>
-        
-        {% include "ProgracqteurWikipedaleBundle:Default:add_new_description.html.twig" %}
-        {% include "ProgracqteurWikipedaleBundle:Default:place_description.html.twig" %}
 
         <div id="div_dernieres_modifs">
             <div id="div_title_dernieres_modifs">
