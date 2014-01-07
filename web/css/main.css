@@ -1,3 +1,7 @@
+body {
+    font-size: 0.7em;
+}
+
 textarea {
     font-family: Tahoma,Sans,Arial,Helvetica,sans-serif;
 }

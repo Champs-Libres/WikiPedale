@@ -42,12 +42,6 @@
   margin-right: 4px;
 }
 
-/* Menu actions Signalement */
-#buttonOptionsAffichage, #div_add_new_description_button {
-    text-shadow: 0px 1px rgba(0, 0, 0, 0.1);
-    font-size:0.7em;
-}
-
 .buttonPlus {
   background: url('../img/menu/ajout.png') no-repeat 0.5em;
   background-size: 20px;
