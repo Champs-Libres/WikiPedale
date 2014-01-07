@@ -2,6 +2,10 @@ body {
     font-size: 0.7em;
 }
 
+a {
+    color: #76b82a;
+}
+
 textarea {
     font-family: Tahoma,Sans,Arial,Helvetica,sans-serif;
 }
