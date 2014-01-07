@@ -1,0 +1,19 @@
+/* used for views/Default/accueil.html.twig */
+#accueil {
+    background: url('../img/accueil.png') no-repeat top left;
+    width:100%;
+    height:600px;
+}
+
+#accueil-texte {
+    font-family: "Lucida Sans","Lucida Grande",sans-serif;
+    width:40%;
+    float:right;
+    margin-right:5%;
+    text-transform: uppercase;
+}
+
+#accueil-texte h1 { font-size: 2.5em; color:#2D2D2D; }
+#accueil-texte ul { list-style-type: none; padding:0; }
+#accueil-texte ul a { color: #000000; font-size:1.5em; text-decoration: none; }
+#accueil-texte ul a:hover { background: #2D2D2D; color:#FFFFFF; }

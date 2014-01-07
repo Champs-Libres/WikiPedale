@@ -6,27 +6,6 @@ dt {
     font-weight: bold;
 }
 
-/* used for views/Default/accueil.html.twig */
-#accueil {
-    background: url('../img/accueil.png') no-repeat top left;
-    width:100%;
-    height:800px;
-}
-
-#accueil-texte {
-    font-family: "Lucida Sans","Lucida Grande",sans-serif;
-    width:30%;
-    float:right;
-    margin-right:10%;
-    text-transform: uppercase;
-}
-
-#accueil h1 { font-size: 2.5em; color:#2D2D2D; }
-#accueil ul { list-style-type: none; padding:0; }
-#accueil ul a { color: #000000; font-size:1.5em; text-decoration: none; }
-#accueil ul a:hover { background: #2D2D2D; color:#FFFFFF; }
-/* end used for views/Default/accueil.html.twig */
-
 label { font-size: 0.9em; color:#2D2D2D; display:block; }
 
 #div_options_affichage {
