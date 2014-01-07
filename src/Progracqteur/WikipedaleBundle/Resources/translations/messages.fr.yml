@@ -100,8 +100,11 @@ layout:
 tools_panel:
   global_map_return: Retour à la carte globale
   signalement_add: Ajouter un signalement
+  signalement_add_help: Cliquez sur ce bouton pour ajouter un signalement.
+  signalement_cancel_add_help: Cliquez sur ce bouton pour annuler l'ajout du signalement.
   filter_and_export: Filtrer les signalements et export
   last_modifications: Dernières modifications
+  cancel: Annuler
 
 
 errors:

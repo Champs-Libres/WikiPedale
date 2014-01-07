@@ -123,9 +123,8 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
         * Changin the mode between 'add_new_place' and 'edit_place' / 'show_place'.
         */
         if(!add_new_place_mode) {
-            $('#div_add_new_description_button').text('Annuler')
-                .removeClass("buttonPlus")
-                .addClass("buttonAnnuler");
+            $('#div_add_new_description_button').hide();
+            $('#div_add_new_description_cancel_button').show();
             map_display.unactivate_markers();
 
             map_display.display_marker('new_description');
@@ -150,9 +149,8 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
             $("#div_placeDescription").hide();
         }
         else {
-            $('#div_add_new_description_button').text('Ajouter un signalement')
-                .removeClass("buttonAnnuler")
-                .addClass("buttonPlus");
+            $('#div_add_new_description_button').show();
+            $('#div_add_new_description_cancel_button').hide();
 
             map_display.undisplay_marker('new_description');
             map_display.undisplay_marker('new_description');

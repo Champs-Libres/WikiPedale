@@ -79,6 +79,7 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             
             // Menu
             $("#div_add_new_description_button").click(function() { data_map_glue.mode_change(); });
+            $("#div_add_new_description_cancel_button").click(function() { data_map_glue.mode_change(); });
             $("#div_returnNormalMode").click(function() { map_display.normal_mode(); });
             $("#buttonOptionsAffichage").click(function() { markers_filtering.activate_unactivate_filtering_form(); } );
 

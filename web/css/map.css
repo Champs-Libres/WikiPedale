@@ -42,6 +42,20 @@
   margin-right: 4px;
 }
 
+.right_menu:hover {
+  color: #76b82a;
+}
+
+.cancel {
+  color: red;
+  padding-left: 2em;
+  text-align:left;
+}
+
+.cancel:hover {
+  color: white;
+}
+
 /* #ToolsPanel - Filtrage / option d'affichage */
 #div_options_affichage {
     display:none;
