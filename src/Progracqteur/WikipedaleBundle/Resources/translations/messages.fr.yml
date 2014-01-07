@@ -106,6 +106,13 @@ tools_panel:
   last_modifications: Dernières modifications
   cancel: Annuler
 
+filter:
+  by_states: Filtrer par états
+  display_rejected_signalement: Afficher les signalements rejetés
+  by_categories: Filtrer par catégories
+  display_black_points: Afficher les catégories 'points noirs'
+  export: Export des données
+
 
 errors:
   404:
