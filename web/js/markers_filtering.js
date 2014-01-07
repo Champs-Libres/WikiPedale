@@ -93,15 +93,13 @@ define(['jQuery', 'map_display', 'descriptions', 'description'], function ($, ma
         * This function will display/undisplay the filtering form.
         */
         if (filtering_form_activated) {
-            $('#buttonOptionsAffichage').removeClass("buttonAnnuler")
-                .addClass("buttonPlus");
-            document.getElementById("div_options_affichage").style.display = "none";
-            document.getElementById("buttonOptionsAffichage").innerHTML = "Options d'affichage";
+            $('#buttonOptionsAffichage_cancel').hide();
+            $('#buttonOptionsAffichage').show();
+            $('#div_options_affichage').hide();
         } else {
-            $('#buttonOptionsAffichage').removeClass("buttonPlus")
-                .addClass("buttonAnnuler");
-            document.getElementById("div_options_affichage").style.display = "block";
-            document.getElementById("buttonOptionsAffichage").innerHTML = 'Annuler';
+            $('#buttonOptionsAffichage_cancel').show();
+            $('#buttonOptionsAffichage').hide();
+            $('#div_options_affichage').show();
         }
         filtering_form_activated = !filtering_form_activated;
         display_markers_regarding_to_filtering();

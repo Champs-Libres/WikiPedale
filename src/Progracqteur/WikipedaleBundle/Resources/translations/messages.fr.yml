@@ -101,8 +101,10 @@ tools_panel:
   global_map_return: Retour à la carte globale
   signalement_add: Ajouter un signalement
   signalement_add_help: Cliquez sur ce bouton pour ajouter un signalement.
-  signalement_cancel_add_help: Cliquez sur ce bouton pour annuler l'ajout du signalement.
+  signalement_cancel_add_help: Cliquez sur ce bouton pour annuler l'ajout du signalement
   filter_and_export: Filtrer les signalements et export
+  filter_and_export_help: Cliquez sur ce bouton pour accéder aux options d'affichager et à l'export
+  cancel_filter_and_export_help: Cliquez sur ce bouton pour annuler la filtration
   last_modifications: Dernières modifications
   cancel: Annuler
 
@@ -112,6 +114,10 @@ filter:
   by_categories: Filtrer par catégories
   display_black_points: Afficher les catégories 'points noirs'
   export: Export des données
+  white_state: pas encore pris en compte (blanc)
+  red_state: pris en compte (rouge)
+  orange_state: en cours de résolution (orange)
+  green_states: résolu (vert)
 
 
 errors:

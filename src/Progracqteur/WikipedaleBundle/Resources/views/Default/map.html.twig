@@ -41,9 +41,13 @@
         {% include "ProgracqteurWikipedaleBundle:Default:add_new_description.html.twig" %}
 
         <div id="param_carte">
-            <div id="buttonOptionsAffichage" class="right_menu" title="Cliquez pour accéder aux options d'affichager et à l'export">
+            <div id="buttonOptionsAffichage" class="right_menu" title="{{ 'tools_panel.filter_and_export_help'|trans({}, 'messages') }}">
                 <img src="{{ asset('img/menu/recherche.png') }}">
                 {{ 'tools_panel.filter_and_export'|trans({}, 'messages') }}
+            </div>
+
+            <div id="buttonOptionsAffichage_cancel" class="right_menu cancel" style="display:none;"  title="{{ 'tools_panel.cancel_filter_and_export_help'|trans({}, 'messages') }}">
+                {{ 'tools_panel.cancel'|trans({}, 'messages') }}
             </div>
 
             <div id="div_options_affichage">
@@ -51,10 +55,10 @@
                     <input type="checkbox" name="affichage_tous_ou_filtre_statusCeM">
                     {{ 'filter.by_states'|trans({}, 'messages') }}
                     <select style="width:100%" data-placeholder="" id="optionsAffichageFilterStatusCeM" multiple>
-                        <option class="option_white" value="0">pas encore pris en compte (blanc)</option>
-                        <option class="option_red" value="1">pris en compte (rouge)</option>
-                        <option class="option_orange" value="2">en cours de résolution (orange)</option>
-                        <option class="option_green" value="3">résolu (vert)</option>
+                        <option class="option_white" value="0">{{ 'filter.white_state'|trans({}, 'messages') }}</option>
+                        <option class="option_red" value="1">{{ 'filter.red_state'|trans({}, 'messages') }}</option>
+                        <option class="option_orange" value="2">{{ 'filter.orange_state'|trans({}, 'messages') }}</option>
+                        <option class="option_green" value="3">{{ 'filter.green_state'|trans({}, 'messages') }}</option>
                     </select>
 
                     <input type="checkbox" name="affichage_statusCeM_rejete">
