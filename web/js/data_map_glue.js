@@ -106,7 +106,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
                 if(! output_json.query.error) { 
                     map_display.get_marker_for(last_description_selected).erase();
                     descriptions.erase(last_description_selected);
-                    $('#div_placeDescription').hide();
+                    $('#div_place_description_display').hide();
                     last_description_selected = null;
                 } else { 
                     $('#span_place_description_delete_error').show();
@@ -145,8 +145,8 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
             } else {
                 $("#div_new_place_form_user_mail").show();
             }
-            $("#add_new_description_div").show();
-            $("#div_placeDescription").hide();
+            $("#form__add_new_description").show();
+            $("#div_place_description_display").hide();
         }
         else {
             $('#div_add_new_description_button').show();
@@ -157,13 +157,12 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
             map_display.get_map().events.remove("click");
             map_display.reactivate_description_markers(focus_on_place_of);
             // ne plus utiliser makers_and_assoc_data
-            
 
-            $("#add_new_description_div").hide();
+            $("#form__add_new_description").hide();
 
             /*
             if(last_description_selected !== null ) {
-                $("#div_placeDescription").show();
+                $("#div_place_description_display").show();
                 map_display.select_marker(last_description_selected);
             }
             */

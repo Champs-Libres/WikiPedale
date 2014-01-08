@@ -1,0 +1,100 @@
+/* #actions_panel - Menu */
+.right_menu {
+   margin-top: 1.2em;
+   padding-top: 0.7em;
+   padding-bottom:  0.7em;
+   background: #000000;
+   color: #FFFFFF;
+   text-align: center;
+}
+
+.right_menu:hover {
+   color: #76b82a;
+}
+
+.right_menu img {
+   height:25px;
+   vertical-align: middle;
+   margin-bottom: 5px;
+   margin-right: 4px;
+}
+
+.right_menu:hover {
+   color: #76b82a;
+}
+
+.cancel {
+   color: red;
+   padding-left: 2em;
+   text-align:left;
+}
+
+.cancel:hover {
+   color: white;
+}
+
+/* #actions_panel - Affichage/Ajout signalement / options d'affichage */
+
+.description_element{
+   margin-bottom: 10px;
+}
+
+.lateral_content {
+   padding-left: 1.5em;
+   padding-right: 1.5em;
+   padding-top: 0.5em;
+   padding-bottom: 0.5em;
+   border-bottom: 0.5em;
+   border-left: 0em;
+   border-right: 0em;
+   border-collapse: black;
+   border-style: solid;
+}
+
+.no_border {
+   border-style: none;
+}
+
+#div_options_affichage {
+   display: none;
+}
+
+p.PointTitle { 
+   background: #2D2D2D; 
+   color: #FFFFFF; 
+   margin:0; 
+   padding-left: 0.2em; 
+}
+
+p.PointTitle .span_id { 
+   font-size:1.2em; 
+   font-weight:bold; 
+}
+
+#div_placeDetails, #div_placeEdit { 
+   margin: 1em 0.5em 0 0.5em; 
+   border: 5px 
+   solid #2D2D2D;
+}
+
+/* #actions_panel - Dernière modifs */
+#div_title_dernieres_modifs, #div_export_data {
+   margin: 1em 0.5em 0 0.5em;
+   padding : 0.2em 0.5em 0.2em 35px;
+   border: 1px solid transparent;
+   height: 20px
+   text-shadow: 0px 1px rgba(0, 0, 0, 0.1);
+   text-transform: uppercase;
+}
+
+/* Formulaire ajout point */
+#form__add_new_description {
+    display:none;
+}
+
+#add_new_description_div img.verif {
+    float: left;
+    width:16px;
+    height:16px;
+    margin-right:0.2em;
+}

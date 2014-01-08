@@ -96,7 +96,7 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             $("#add_new_description_form__user_phonenumber").blur(function() { informer.update_new_description_form('user_phonenumber'); });
             $("#add_new_description_form__lieu").blur(function() { informer.update_new_description_form('lieu'); });
             $("#add_new_description_form__description").blur(function() { informer.update_new_description_form('description'); });
-            $("#add_new_description_div form").submit(function(e) { e.preventDefault(); description_create.catch_creating_form(this); });
+            $("#form__add_new_description").submit(function(e) { alert('lklsdl'); e.preventDefault(); description_create.catch_creating_form(this); });
             $("#new_place_form_reset_button").click(function(e) { console.log('blopblop'); e.preventDefault(); description_create.clear_creating_form(); });
             $("#add_new_description_form_informer__categories_medium_warning").hide();
 

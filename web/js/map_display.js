@@ -6,7 +6,6 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
         function($,basic_data_and_functions,descriptions,OpenLayers,params) {
     var displaying_tiny_map = false; // Display or not a tiny Map
     var old_center; // To re-center the map after displaying the tiny map
-
     var map; // Variable to acces to the map
     var osm;
     var placesLayer; // layer where existing places / new place marker are drawn
@@ -29,44 +28,27 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
     color_trad['1'] = 'r';
     color_trad['2'] = 'o';
     color_trad['3'] = 'g';
-    
-    function map_resizing(){
-    	/**
-    	* Change the size of the map : tiny map (comment mode) or normal map (normal mode)
-    	*/
-		if(!displaying_tiny_map) {
-            $("#map")
-			.width("30%")
-			.height("300px");
-            $("#actions_panel")
-			.width("70%");
-		} else {
-            $("#map")
-				.width("50%")
-				.height("500px");
-           	$("#actions_panel")
-			.width("50%");
-		}
-		displaying_tiny_map = ! displaying_tiny_map;
-		map.updateSize();
-    }
 
     function translate(current_description_id){
     	/**
     	* Translate the map in the div element for  the tiny map
     	*/
     	old_center = map.getCenter();
-		$("#map").hide();
-		$("#div_placeDescription").show();
-		$("#param_carte").hide();
-		$("#olPanelUL").hide();
-		$("#map_little").show();
-		$("#div_returnNormalMode").show();
-		$("#div_dernieres_modifs").hide();
+        $("#div_returnNormalMode").show();
+
+        $("#actions_panel").removeClass('grid_5');
+        $("#actions_panel").addClass('grid_12');
+		$("#map_container").hide();
+        $("#map_little").show();
+
+        $("#div__add_new_description").hide();
+		$("#div__filter_and_export").hide();
+		$("#div__latest_modifications").hide();
+
 		map.render("map_little");
 		map.updateSize();
 		if (current_description_id) {
-    		map.setCenter(descriptions.get_by_id(current_description_id).lonlat);
+    		map.setCenter(markers[current_description_id].lonlat);
     	}
     }
 
@@ -74,13 +56,17 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
     	/**
     	* Untranslate the map in the div element for  the 'normal map'
     	*/
-		$("#div_dernieres_modifs").show();
-		$("#div_returnNormalMode").hide();
-		$("#map").show();
-		$("#div_placeDescription").show();
-		$("#param_carte").show();
-		$("#olPanelUL").show();
-		$("#map_little").hide();
+        $("#div_returnNormalMode").hide();
+
+        $("#actions_panel").addClass('grid_5');
+        $("#actions_panel").removeClass('grid_12');
+		$("#map_container").show();
+        $("#map_little").hide();
+		
+        $("#div__add_new_description").show();
+        $("#div__filter_and_export").show();
+        $("#div__latest_modifications").show();
+
 		map.render("map");
 		map.updateSize();
     }

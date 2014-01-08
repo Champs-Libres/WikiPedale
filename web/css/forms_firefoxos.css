@@ -77,11 +77,11 @@ form#loginForm {
     margin-right:0.2em;
 }
 
-#add_new_description_div label {
+#form__add_new_description label {
     width: 20%;
 }
 
-#add_new_description_div textarea, #div_signaler fieldset input {
+#form__add_new_description textarea, #div_signaler fieldset input {
     width:73%;
 }
 

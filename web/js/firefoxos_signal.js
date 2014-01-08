@@ -67,7 +67,7 @@ require(['jQuery','user','description_create'],
             });
 
             $('#show_map_button').click(function() { 
-                $("#add_new_description_div").hide();
+                $("#form__add_new_description").hide();
                 $("#show_new_description_form_button").show();
                 $("#map").show();
                 $("#map_instruction").show();
@@ -75,6 +75,6 @@ require(['jQuery','user','description_create'],
             });
             
             // Add New Description
-            $("#new_place_form_submit_button").click(function() { console.log("lklsklkd"); description_create.catch_creating_form($("#add_new_description_form")); });
+            $("#new_place_form_submit_button").click(function() { description_create.catch_creating_form($("#form__add_new_description")); });
         }
     });

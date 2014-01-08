@@ -33,7 +33,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
 		* Hides all the forms that were opened (and display the data in text) and
         * stops the postion description edition.
     	*/
-    	$("#div_placeDescription div").each(function(i,e) {
+    	$("#div__place_description_display div").each(function(i,e) {
         	var id_e = $(e).attr("id");
         	if(id_e !== undefined && id_e.indexOf('_edit') !== -1 &&  id_e.indexOf('div_') !== -1) {
             	$(e).hide();
@@ -45,7 +45,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
             .attr("title", "Editer");
     	    });
 
-    	$("#div_placeDescription span").each(function(i,e) {
+    	$("#div__place_description_display span").each(function(i,e) {
     		// show span element except error 
         	var id_e = $(e).attr("id");
         	if(id_e !== undefined && id_e.indexOf('_error') === -1) {

@@ -34,12 +34,10 @@ form input.envoi, form input.CancelButton {
     -khtml-border-radius: 5px;
     border-radius: 5px;
     color: #ffffff;
-    display: block;
     letter-spacing: 1px;
     margin: 0.5em 0.5em 0 0.5em;
     padding: 0.5em;
     text-shadow: 0 1px 1px #000000;
-    float:right;
 }
 
 form input.envoi:hover {
@@ -55,7 +53,7 @@ form input.CancelButton:hover {
 }
 
 /* Boîte Connexion */
-#loginForm, #add_new_description_div {
+#loginForm {
     background: none;
     margin:0;
     padding:1em 0.2em 0 1em;
@@ -69,18 +67,6 @@ form#loginForm {
 
 #loginForm label {
     width:80%;
-}
-
-/* Formulaire ajout point */
-#add_new_description_div {
-    display:none;
-}
-
-#add_new_description_div img.verif {
-    float: left;
-    width:16px;
-    height:16px;
-    margin-right:0.2em;
 }
 
 li.search-field {

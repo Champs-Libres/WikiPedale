@@ -89,7 +89,7 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
                                 }
 
                                 if($("#map").attr("class") !== "olMap") {
-                                    $('#add_new_description_div').hide();
+                                    $('#form__add_new_description').hide();
                                     $('#new_place_form_submit_button').hide();
                                     $('#show_map_button').hide();
                                     $('#new_place_form_menu_return_button').show();
@@ -113,7 +113,7 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
         * Clear the data entered in the form used to create new description.
         * It remove also the marker of the map.
         */
-        //$("#add_new_description_form input[type=text], #add_new_description_form textarea, #add_new_description_form input[type=hidden]").val('');
+        //$("#form__add_new_description input[type=text], #form__add_new_description textarea, #form__add_new_description input[type=hidden]").val('');
         //$(the_form_to_clear).children('.message').text('');
         if($("#map").attr("class") === "olMap") {
             informer.reset_new_description_form();

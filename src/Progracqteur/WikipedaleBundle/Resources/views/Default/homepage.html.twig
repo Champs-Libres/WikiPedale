@@ -25,6 +25,7 @@ Params passed by the controller to this template :
 {% block css %}
     {% if (app.session.get('city') ) %}
         <link rel="stylesheet"  href="{{ asset('css/map.css') }}" type="text/css"/>
+        <link rel="stylesheet"  href="{{ asset('css/actions_panel.css') }}" type="text/css"/>
     {% else %}
         <link rel="stylesheet"  href="{{ asset('css/accueil.css') }}" type="text/css"/>
     {% endif %}

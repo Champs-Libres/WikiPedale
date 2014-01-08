@@ -1,0 +1,73 @@
+<div id="buttonOptionsAffichage" class="right_menu" title="{{ 'tools_panel.filter_and_export_help'|trans({}, 'messages') }}">
+   <img src="{{ asset('img/menu/recherche.png') }}">
+   {{ 'tools_panel.filter_and_export'|trans({}, 'messages') }}
+</div>
+
+<div id="buttonOptionsAffichage_cancel" class="right_menu cancel" style="display:none;"  title="{{ 'tools_panel.cancel_filter_and_export_help'|trans({}, 'messages') }}">
+   {{ 'tools_panel.cancel'|trans({}, 'messages') }}
+</div>
+
+<div id="div_options_affichage" class="lateral_content">
+   <div class="padding_bottom_small">
+      <input type="checkbox" name="affichage_tous_ou_filtre_statusCeM">
+      {{ 'filter.by_states'|trans({}, 'messages') }}
+      <select style="width:100%" data-placeholder="" id="optionsAffichageFilterStatusCeM" multiple>
+         <option class="option_white" value="0">{{ 'filter.white_state'|trans({}, 'messages') }}</option>
+         <option class="option_red" value="1">{{ 'filter.red_state'|trans({}, 'messages') }}</option>
+         <option class="option_orange" value="2">{{ 'filter.orange_state'|trans({}, 'messages') }}</option>
+         <option class="option_green" value="3">{{ 'filter.green_state'|trans({}, 'messages') }}</option>
+      </select>
+
+      <input type="checkbox" name="affichage_statusCeM_rejete">
+      {{ 'filter.display_rejected_signalement'|trans({}, 'messages') }}
+   </div>
+
+   <div class="padding_bottom_small">
+      <input type="checkbox" name="affichage_tous_ou_filtre_categorie">
+      {{ 'filter.by_categories'|trans({}, 'messages') }} :
+      <div>
+         <select style="width:100%" data-placeholder="" id="optionsAffichageFilterCategories" multiple>
+            {% for category in categories %}
+               {% if category.hasChildren and  category.term != 'long' %}
+                  <optgroup label="{{ category.label }}" >
+                     {% for childCategory in category.children %}
+                        <option value="{{ childCategory.id }}">{{ childCategory.label  }}</option>
+                     {% endfor %}
+                  </optgroup>
+               {% elseif category.term != 'long' %}
+                  <option value="{{ category.id }}">{{ category.label }}</option>
+               {% endif %}
+            {% endfor %}
+         </select>
+      </div>
+
+      <input type="checkbox" name="affichage_tous_ou_filtre_pn_categorie">
+      {{ 'filter.display_black_points'|trans({}, 'messages') }} :
+
+      <div>
+         <select style="width:100%" data-placeholder="" id="optionsAffichageAddLongTermCategories" multiple>
+            {% for category in categories %}
+               {% if category.hasChildren  and  category.term == 'long' %}
+                  <optgroup label="{{ category.label }}" >
+                     {% for childCategory in category.children %}
+                        <option value="{{ childCategory.id }}" selected="selected">{{ childCategory.label }}</option>
+                     {% endfor %}
+                  </optgroup>
+               {% elseif category.term == 'long' %}
+                  <option value="{{ category.id }}" selected="selected">{{ category.label }}</option>
+               {% endif %}
+            {% endfor %}
+         </select>
+      </div>
+   </div>
+
+   <div>
+      {{ 'filter.export'|trans({}, 'messages') }} :
+      <a id="csv_export_link" href="{{ path('wikipedale_place_list_by_city', { _format:'csv'}) }}?city={{ app.session.get('city').slug }}">
+     CSV
+      </a>
+      <a id="csv_basic_export_link" href="{{ path('wikipedale_place_list_by_city', { _format:'csv'}) }}?city={{ app.session.get('city').slug }}" style="display:none">
+     CSV
+      </a>
+   </div>
+</div>

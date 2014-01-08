@@ -7,7 +7,7 @@ define(['jQuery','basic_data_and_functions'], function($,basic_data_and_function
 		/**
 		* Reset all the informer images to '../img/verif_rien.png'
 		*/
-		$('#add_new_description_div img.verif').each(function(index, img_element){
+		$('#form__add_new_description img.verif').each(function(index, img_element){
 			$(img_element).attr('src', basic_data_and_functions.web_dir + 'img/verif_rien.png');
 		});
 
