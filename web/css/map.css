@@ -2,132 +2,140 @@
 
 /* Carte */
 #map {
-    height: 500px;
+   height: 500px;
 }
 
 #logos_partenaires {
-	position:absolute;
-	left:5px;
-	bottom:1px;
-	z-index:1000;
+   position:absolute;
+   left:5px;
+   bottom:1px;
+   z-index:1000;
 }
 
 #logos_partenaires div {
-	margin-right: 5px;
-	float: left;
+   margin-right: 5px;
+   float: left;
 }
 
 #logos_partenaires img {
-	height: 50px;
+   height: 50px;
 }
 
 /* #ToolsPanel - Menu */
 .right_menu {
-  margin-top: 0.7em;
-  padding-top: 0.7em;
-  padding-bottom:  0.7em;
-  background: #000000;
-  color: #FFFFFF;
-  text-align:center;
+   margin-top: 0.7em;
+   padding-top: 0.7em;
+   padding-bottom:  0.7em;
+   background: #000000;
+   color: #FFFFFF;
+   text-align:center;
 }
 
 .right_menu:hover {
-  color: #76b82a;
+   color: #76b82a;
 }
 
 .right_menu img {
-  height:25px;
-  vertical-align: middle;
-  margin-bottom: 5px;
-  margin-right: 4px;
+   height:25px;
+   vertical-align: middle;
+   margin-bottom: 5px;
+   margin-right: 4px;
 }
 
 .right_menu:hover {
-  color: #76b82a;
+   color: #76b82a;
 }
 
 .cancel {
-  color: red;
-  padding-left: 2em;
-  text-align:left;
+   color: red;
+   padding-left: 2em;
+   text-align:left;
 }
 
 .cancel:hover {
-  color: white;
+   color: white;
 }
 
 /* #ToolsPanel - Affichage/Ajout signalement / options d'affichage */
 
 .description_element{
-    margin-bottom: 10px;
+   margin-bottom: 10px;
 }
 
 div.PointDescription, #div_options_affichage {
-    padding-left: 1.5em;
-    padding-right: 1.5em;
-    display: none;
+   padding-left: 1.5em;
+   padding-right: 1.5em;
 }
 
-p.PointTitle { background: #2D2D2D; color: #FFFFFF; margin:0; padding-left: 0.2em; }
-p.PointTitle .span_id { font-size:1.2em; font-weight:bold; }
+p.PointTitle { 
+   background: #2D2D2D; 
+   color: #FFFFFF; 
+   margin:0; 
+   padding-left: 0.2em; 
+}
+
+p.PointTitle .span_id { 
+   font-size:1.2em; 
+   font-weight:bold; 
+}
 
 #div_placeDetails, #div_placeEdit { 
-  margin: 1em 0.5em 0 0.5em; 
-  border: 5px 
-  solid #2D2D2D;
+   margin: 1em 0.5em 0 0.5em; 
+   border: 5px 
+   solid #2D2D2D;
 }
 
 /* #ToolsPanel - Dernière modifs */
 #div_title_dernieres_modifs, #div_export_data {
-    margin: 1em 0.5em 0 0.5em;
-    padding : 0.2em 0.5em 0.2em 35px;
-    border: 1px solid transparent;
-    height: 20px
-    text-shadow: 0px 1px rgba(0, 0, 0, 0.1);
-    text-transform: uppercase;
+   margin: 1em 0.5em 0 0.5em;
+   padding : 0.2em 0.5em 0.2em 35px;
+   border: 1px solid transparent;
+   height: 20px
+   text-shadow: 0px 1px rgba(0, 0, 0, 0.1);
+   text-transform: uppercase;
 }
 
 #div_content_dernieres_modifs {
-    padding-left: 1.5em;
-    padding-right: 1.5em;
+   padding-left: 1.5em;
+   padding-right: 1.5em;
 }
-
 
 /* OpenLayers */
 .olImageLoadError { 
-    /* when OL can display an image */
-    display: none !important;
+   /* when OL can display an image */
+   display: none !important;
 }
 
 /**** Panel haut-gauche ****/
 #olPanelUL {
-  display:block;
+   display:block;
 }
 
 .olControlAttribution {
-    position: absolute;
-    bottom:0em;
-    font-size: 10px;
-    text-align: right;
-    color: #eeeeee;
-    background: #130085; /* fallback for IE - IE6 requires background shorthand*/
-    background: rgba(45, 45, 45, 0.4);
-    filter: alpha(opacity=90);
-    font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
-    padding: 2px 4px;
-    border-radius: 5px 0 0 0;
+   position: absolute;
+   bottom:0em;
+   font-size: 10px;
+   text-align: right;
+   color: #eeeeee;
+   background: #130085; /* fallback for IE - IE6 requires background shorthand*/
+   background: rgba(45, 45, 45, 0.4);
+   filter: alpha(opacity=90);
+   font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
+   padding: 2px 4px;
+   border-radius: 5px 0 0 0;
 }
 .olControlAttribution a {
-    color: #eeeeee;
-    font-weight: bold;
+   color: #eeeeee;
+   font-weight: bold;
 }
 .olControlZoom a:hover {
-    color: white;
-    background: rgba(45, 45, 45, 0.4);
+   color: white;
+   background: rgba(45, 45, 45, 0.4);
 }
+
 div.olControlZoomPanel {
-    top: 15px;
-    left: 15px;
+   top: 15px;
+   left: 15px;
 }
 div.flash-notice {
    background-color: rgba(68,68,221,0.65);
