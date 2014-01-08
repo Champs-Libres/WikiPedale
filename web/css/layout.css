@@ -7,7 +7,7 @@
 	height: 100%;
 }
 
-#ConnectionBar {
+#horizontal_menu {
 	display:table;
 	width: 100%;
 	padding-top: 1.5em;
@@ -15,27 +15,27 @@
     background: #000000;
 }
 
-#ConnectionBar div {
+#horizontal_menu div {
 	text-align: center; 
 	display:table-cell;
 	height: 30px;
 }
 
-#ConnectionBar div div {
+#horizontal_menu div div {
 	margin: auto;
 	display: table;
 }
 
-#ConnectionBar a, #ConnectionBar a:visited { 
+#horizontal_menu a, #horizontal_menu a:visited { 
 	color: #FFFFFF;
 	text-decoration: none;
 }
 
-#ConnectionBar a:hover {
+#horizontal_menu a:hover {
 	color: #AAAAAA;
 }
 
-#ConnectionBar img {
+#horizontal_menu img {
 	height: 30px;
 	vertical-align: middle;
 	margin-bottom:7px;
