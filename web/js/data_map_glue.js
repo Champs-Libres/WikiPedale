@@ -178,7 +178,6 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
         * To be executed when the user click on a marker on the global map.
         * @param {int} id_sig The id of the description to display.
         */
-        console.log('focus on place');
         if (last_description_selected) {
             map_display.unselect_marker(last_description_selected);
         }
