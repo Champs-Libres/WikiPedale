@@ -162,7 +162,7 @@
 
                     <div>
                     {% if mainCities is defined %}
-                        <select id="CitiesSelection" onchange="location = this.options[this.selectedIndex].value;">
+                        <select id="menu_city_selection" onchange="location = this.options[this.selectedIndex].value;">
                         {% if app.session.get('city') %}
                             <option><span style="color:red;">{{app.session.get('city').name}}</span></option>
                         {% else %}
