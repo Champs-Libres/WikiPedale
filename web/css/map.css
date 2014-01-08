@@ -21,7 +21,7 @@
    height: 50px;
 }
 
-/* #ToolsPanel - Menu */
+/* #actions_panel - Menu */
 .right_menu {
    margin-top: 0.7em;
    padding-top: 0.7em;
@@ -56,7 +56,7 @@
    color: white;
 }
 
-/* #ToolsPanel - Affichage/Ajout signalement / options d'affichage */
+/* #actions_panel - Affichage/Ajout signalement / options d'affichage */
 
 .description_element{
    margin-bottom: 10px;
@@ -85,7 +85,7 @@ p.PointTitle .span_id {
    solid #2D2D2D;
 }
 
-/* #ToolsPanel - Dernière modifs */
+/* #actions_panel - Dernière modifs */
 #div_title_dernieres_modifs, #div_export_data {
    margin: 1em 0.5em 0 0.5em;
    padding : 0.2em 0.5em 0.2em 35px;

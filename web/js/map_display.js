@@ -38,13 +38,13 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
             $("#map")
 			.width("30%")
 			.height("300px");
-            $("#ToolsPanel")
+            $("#actions_panel")
 			.width("70%");
 		} else {
             $("#map")
 				.width("50%")
 				.height("500px");
-           	$("#ToolsPanel")
+           	$("#actions_panel")
 			.width("50%");
 		}
 		displaying_tiny_map = ! displaying_tiny_map;
