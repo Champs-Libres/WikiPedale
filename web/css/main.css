@@ -7,6 +7,10 @@ body {
     font-family: Tahoma,Sans,Arial,Helvetica,sans-serif;
 }
 
+a > img{
+    border: 0;
+}
+
 a {
     color: #76b82a;
 }
