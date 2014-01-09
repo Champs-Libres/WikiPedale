@@ -27,8 +27,6 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
             return ret;
         }
         else {
-            console.log("dslkdslk");
-            console.log('{"type":"Point","coordinates":[' + lon + ',' + lat + ']}');
             return '{"type":"Point","coordinates":[' + lon + ',' + lat + ']}';
         }
         
