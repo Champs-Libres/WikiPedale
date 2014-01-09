@@ -55,6 +55,7 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
                     $(messages_div).text('Erreur! ' + error_messages  + 'Merci.');
                     $(messages_div).addClass('errorMessage');
                 } else {
+                    $(messages_div).text("Traitement en cours");
                     entity_string = json_string.edit_place(desc_data['description'], desc_data['lon'],
                         desc_data['lat'], desc_data['lieu'], desc_data['id'], desc_data['couleur'],
                         desc_data['user_label'], desc_data['email'], desc_data['user_phonenumber'],desc_data['categories']);
@@ -113,8 +114,8 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
         * Clear the data entered in the form used to create new description.
         * It remove also the marker of the map.
         */
-        //$("#form__add_new_description input[type=text], #form__add_new_description textarea, #form__add_new_description input[type=hidden]").val('');
-        //$(the_form_to_clear).children('.message').text('');
+        $("#form__add_new_description input[type=text], #form__add_new_description textarea, #form__add_new_description input[type=hidden]").val('');
+        $("#form__add_new_description").children('.message').text('');
         if($("#map").attr("class") === "olMap") {
             informer.reset_new_description_form();
             map_display.delete_marker_for('new_description');
