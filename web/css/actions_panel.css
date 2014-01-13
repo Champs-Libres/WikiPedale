@@ -98,3 +98,8 @@ p.PointTitle .span_id {
     height:16px;
     margin-right:0.2em;
 }
+
+.span_photo img {
+  width: 30%;
+  padding-right: 3%;
+}
