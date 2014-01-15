@@ -4,13 +4,13 @@
       </div>
 
       <div id="logos_partenaires">
-         <div style="text-align:center;background-color:#FFF;">
+         <div id="managed_by">
             {{ 'tools_panel.managed_by'|trans({}, 'messages') }}<br /> 
             <a href="http://www.{{ app.session.get('city').name | lower }}.be" target="new">
                <img src="{{ asset('img/cities/') }}logo_{{ app.session.get('city').name }}.png" alt="Logo de {{ app.session.get('city').name }}">
             </a>
          </div>
-         <div style="text-align:center;background-color:#FFF;">
+         <div id="with_support_from">
             {{ 'tools_panel.with_support_from'|trans({}, 'messages') }}<br />  
             <div>
                <a href="http://www.gracq.be" target="new"><img src="{{ asset('img/logos/icon_gracq.png') }}" alt="Gracq - les cyclistes quotidiens ASBL"></a>
