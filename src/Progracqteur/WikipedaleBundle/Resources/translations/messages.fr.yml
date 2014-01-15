@@ -107,6 +107,8 @@ tools_panel:
   cancel_filter_and_export_help: Cliquez sur ce bouton pour annuler la filtration
   last_modifications: Dernières modifications
   cancel: Annuler
+  managed_by: géré par
+  with_support_from: avec le soutien de
 
 filter:
   by_states: Filtrer par états
