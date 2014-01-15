@@ -4,16 +4,25 @@
       </div>
 
       <div id="logos_partenaires">
-         <div>
-            <a href="http://www.gracq.be" target="new"><img src="{{ asset('img/logos/icon_gracq.png') }}"></a>
+         <div style="text-align:center;background-color:#FFF;">
+            géré par <br /> 
+            <a href="http://www.{{ app.session.get('city').name | lower }}.be" target="new">
+               <img src="{{ asset('img/cities/') }}logo_{{ app.session.get('city').name }}.png" alt="Logo de {{ app.session.get('city').name }}">
+            </a>
          </div>
+         <div style="text-align:center;background-color:#FFF;">
+            avec le soutien de<br />  
+            <div>
+               <a href="http://www.gracq.be" target="new"><img src="{{ asset('img/logos/icon_gracq.png') }}" alt="Gracq - les cyclistes quotidiens ASBL"></a>
+            </div>
 
-         <div>
-            <a href="http://www.wallonie.be/" target="new"><img src="{{ asset('img/logos/icon_coq_wallon.jpg') }}"></a>
-         </div>
+            <div>
+               <a href="http://www.wallonie.be/" target="new"><img src="{{ asset('img/logos/icon_coq_wallon.jpg') }}" alt="Région wallonne"</a>
+            </div>
 
-         <div>
-            <a href="http://mobilite.wallonie.be" target="new"><img src="{{ asset('img/logos/logo_wacy.png') }}"></a>
+            <div>
+               <a href="http://mobilite.wallonie.be" target="new"><img src="{{ asset('img/logos/logo_wacy.png') }}" alt="Plan Wallonie Cyclable"></a>
+            </div>
          </div>
       </div>
    </div>
