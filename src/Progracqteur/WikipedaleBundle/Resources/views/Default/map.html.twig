@@ -6,7 +6,7 @@
       <div id="logos_partenaires">
          <div id="managed_by">
             {{ 'tools_panel.managed_by'|trans({}, 'messages') }}<br /> 
-            <a href="http://www.{{ app.session.get('city').name }}.be" target="new">
+            <a href="{{ app.session.get('city').url }}" target="new">
                <img src="{{ asset('img/cities/') }}logo_{{ app.session.get('city').slug }}.png" alt="Logo de {{ app.session.get('city').name }}">
             </a>
          </div>
