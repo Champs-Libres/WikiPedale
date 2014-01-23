@@ -1,7 +1,7 @@
 /* jslint vars: true */
 /*jslint indent: 3 */
 /* global define */
-"use strict";
+'use strict';
 
 /**
 * Some functions to deal with a description and access to its
