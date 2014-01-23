@@ -4,10 +4,10 @@
 'use strict';
 
 /**
-Provides all the functions used for the comment system.
-
-@module comments
-**/
+* Provides all the functions used for the comment system.
+*
+* @module comments
+*/
 define(['jQuery','basic_data_and_functions'], function($, basic_data_and_functions) {
    function update_last(aPlaceId) {
       /**
@@ -32,10 +32,14 @@ define(['jQuery','basic_data_and_functions'], function($, basic_data_and_functio
       });
    }
 
+   /**
+   * Update all the comments in the div element having #div_list_private_comment_container as id
+   * @method update_all
+   * @param {string} aPlaceId The id of the town selected.
+   */
    function update_all(aPlaceId) {
       /**
-      * Update all the comments in the div element having #div_list_private_comment_container as id
-      * @param {string} aPlaceId is the id of the town selected.
+      
       */
       var jsonUrlData  =  Routing.generate('wikiedale_comment_list_by_place', {_format: 'json', placeId: aPlaceId});
       $.ajax({
