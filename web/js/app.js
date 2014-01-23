@@ -1,6 +1,7 @@
 /* jslint vars: true */
 /*jslint indent: 3 */
 /* global require */
+'use strict';
 
 require.config({
    paths: {
