@@ -1,6 +1,8 @@
 /**
-* This module contains all the js relative to the comment system.
-*/
+Provides all the functions used for the comment system.
+
+@module comments
+**/
 
 define(['jQuery','basic_data_and_functions'], function($, basic_data_and_functions) {
     function update_last(aPlaceId) {
