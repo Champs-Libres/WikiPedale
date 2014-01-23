@@ -46,6 +46,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
       $('#div__add_new_description').hide();
       $('#div__filter_and_export').hide();
       $('#div__latest_modifications').hide();
+      $('#div__town_presentation').hide();
       map.render('map_little');
       map.updateSize();
       if (current_description_id) {
@@ -65,6 +66,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
       $('#div__add_new_description').show();
       $('#div__filter_and_export').show();
       $('#div__latest_modifications').show();
+      $('#div__town_presentation').show();
       map.render('map');
       map.updateSize();
    }
