@@ -23,27 +23,27 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
       desc_data['categories'] = [];
 
       $.map($(the_form_to_catch).serializeArray(), function(n){
-         if (n['name'] == 'categories') {
+         if (n['name'] === 'categories') {
             desc_data['categories'].push(n['value']);
          } else {
             desc_data[n['name']] = n['value'];
          }
       });
 
-      if(desc_data['description'] == '') {
+      if(desc_data['description'] === '') {
          error_messages = error_messages + 'Veuillez remplir la description. ';
       }
 
-      if(desc_data['lieu'] == '') {
+      if(desc_data['lieu'] === '') {
          error_messages = error_messages + 'Veuillez indiquer l\'adresse. ';
       }
 
-      if(desc_data['lon'] == '' || desc_data['lat'] == '') {
+      if(desc_data['lon'] === '' || desc_data['lat'] === '') {
          error_messages = error_messages + 'Veuillez indiquer où se trouve le point noir en cliquant sur la carte. ';
       }
 
       if(! user.isRegistered()){
-         if(desc_data['user_label'] == '') {
+         if(desc_data['user_label'] === '') {
             error_messages = error_messages + 'Veuillez donner votre nom. ';
          }
 
@@ -56,7 +56,7 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
          if(!userInAccordWithServer) {
             login.display_login_form_with_message('Veuillez vous reconnecter.');
          } else {
-            if(error_messages != '') {
+            if(error_messages !== '') {
                $(messages_div).text('Erreur! ' + error_messages  + 'Merci.');
                $(messages_div).addClass('errorMessage');
             } else {
