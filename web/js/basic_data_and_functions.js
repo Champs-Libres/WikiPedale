@@ -1,6 +1,7 @@
 /* jslint vars: true */
 /*jslint indent: 3 */
 /* global define, Routing */
+'use strict';
 
 /**
 * This module contains basic data and functions.
