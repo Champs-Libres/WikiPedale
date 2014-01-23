@@ -170,17 +170,17 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
       */
       var ret = '{"entity":"place"';
 
-      if (id==undefined || id==null) {
+      if (typeof id === 'undefined' || id==null) {
          ret = ret + ',"id":null';
       } else {
          ret = ret + ',"id":' + JSON.stringify(id);
       }
 
-      if (lon!=undefined && lon!=null && lat!=undefined && lon!=null) {
+      if (typeof lon !== 'undefined' && lon!=null && typeof lat !== 'undefined' && lon!=null) {
          ret = ret + ',"geom":'+ point(lon,lat);
       }
 
-      if ( !user.isRegistered() && (user_label != undefined || user_email != undefined)) {
+      if ( !user.isRegistered() && (typeof user_label !== 'undefined' || typeof user_email !== 'undefined')) {
          ret = ret + ',"creator":' + unregister_user(user_label, user_email, user_phonenumber);
       }
 
