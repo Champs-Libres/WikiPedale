@@ -192,7 +192,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
       * Display all the markers associated to a description as unactivate
       */
       $.each(markers, function(description_id, marker) {
-         if (marker != undefined) {
+         if (typeof marker !== 'undefined') {
             var description_data = descriptions.get_by_id(description_id);
             marker.events.remove('mousedown');
             marker.events.remove('touchstart');
@@ -273,7 +273,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
       * Display all the markers on the map.
       */
       $.each(markers, function(description_id, marker) {
-         if (marker != undefined) {
+         if (typeof marker !== 'undefined') {
             marker.display(true);
          }
       });
@@ -299,11 +299,11 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
             manager_c = color_trad[statuses[i].v];
          }
 
-         if (params.c2_label != undefined && statuses[i].t == params.c2_label) {
+         if (typeof params.c2_label !== 'undefined' && statuses[i].t == params.c2_label) {
             c2 = color_trad[statuses[i].v];
          }
 
-         if (params.c3_label != undefined && statuses[i].t == params.c3_label) {
+         if (typeof params.c3_label !== 'undefined' && statuses[i].t == params.c3_label) {
             c3 = color_trad[statuses[i].v];
          }
       }
@@ -322,9 +322,9 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
          option = '_' + option;
       }
 
-      if (params.c2_label == undefined) {
+      if (typeof params.c2_label === 'undefined') {
          return marker_img_url + 'm_' + term + manager_c + option +  '.png';
-      } else if (params.c3_label == undefined) {
+      } else if (typeof params.c3_label === 'undefined') {
          return marker_img_url + 'm_' + term + manager_c + c2 + option + '.png';
       } else {
          return marker_img_url + 'm_' + term + manager_c + c2 + c3 + option + '.png';
