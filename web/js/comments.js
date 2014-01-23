@@ -1,6 +1,7 @@
 /* jslint vars: true */
 /*jslint indent: 3 */
 /* global define, Routing */
+'use strict';
 
 /**
 Provides all the functions used for the comment system.
