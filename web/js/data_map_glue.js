@@ -1,6 +1,7 @@
 /* jslint vars: true */
 /*jslint indent: 3 */
 /* global define, Routing */
+'use strict';
 
 /**
 * This module is the glue between all the other modules. This leads to fundamental function
