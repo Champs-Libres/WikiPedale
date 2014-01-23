@@ -59,14 +59,14 @@ define(['jQuery','params'], function($,params) {
 
         // Then adding the id in id_for regarding to the new_description
       $.each(a_description.categories, function(i, c) {
-         if (id_for['Categories'][parseInt(c.id)] == undefined) {
+         if (typeof id_for['Categories'][parseInt(c.id)] === 'undefined') {
             id_for['Categories'][parseInt(c.id)] = [];
          }
          id_for['Categories'][parseInt(c.id)].push(desc_id);
       });
 
       if (a_description.placetype != null) {
-         if (id_for['PlaceTypes'][parseInt(a_description.placetype.id)] == undefined) {
+         if (typeof id_for['PlaceTypes'][parseInt(a_description.placetype.id)] === 'undefined') {
             id_for['PlaceTypes'][parseInt(a_description.placetype.id)] = [];
          }
          id_for['PlaceTypes'][parseInt(a_description.placetype.id)].push(desc_id);
@@ -75,7 +75,7 @@ define(['jQuery','params'], function($,params) {
       var a_description_id_added_for_cem = false;
       $.each(a_description.statuses, function(index, type_value) {
          if (type_value.t == params.manager_color) {
-            if (id_for['StatusCeM'][type_value.v.toString()] == undefined) {
+            if (typeof id_for['StatusCeM'][type_value.v.toString()] === 'undefined') {
                id_for['StatusCeM'][type_value.v.toString()] = [];
             }
             id_for['StatusCeM'][type_value.v.toString()].push(desc_id);
