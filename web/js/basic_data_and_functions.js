@@ -1,6 +1,6 @@
 /* jslint vars: true */
 /*jslint indent: 3 */
-/* global define */
+/* global define, Routing */
 
 /**
 * This module contains basic data and functions.
@@ -12,7 +12,7 @@ define([], function() {
    var i = 0;
    for (i = 0; i < (baseUrlsplit.length - 1);  i++) {
       web_dir = web_dir + baseUrlsplit[i] + '/';
-   } 
+   }
 
    function nl2br (str, is_xhtml) {
       // http://kevin.vanzonneveld.net
@@ -53,7 +53,7 @@ define([], function() {
    */
    function timestamp2date(t) {
       var d = new Date(t*1000);
-      return '' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear(); 
+      return '' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
    }
 
    return {
