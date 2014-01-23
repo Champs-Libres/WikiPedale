@@ -243,7 +243,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
       /**
       * Undisplay all the markers associated to a description as unactivate
       */
-      $.each(markers, function(description_id, marker) {
+      $.each(markers, function(description_id) {
          undisplay_marker(description_id);
       });
    }
