@@ -1,14 +1,15 @@
 {
    "version": "0.1",
    "name": "Uello",
-   "launch_path": "firefoxos",
+   "launch_path": "/firefoxos",
    "description": "Report or view problems encounter by cyclists (like pothole,... ). Uello is availaible in the municipalities of Mons, Namur Tournai, Walhain. The tool is  supported by the Walloon Region. (for privacy policy, please see http://uello.be/firefoxos_privacy_policy.txt)",
    "icons": {
       "60": "/img/icon-firefoxos-60.png",
+      "90": "/img/icon-firefoxos-90.png",
       "128": "/img/icon-firefoxos-128.png"
    },
    "developer": {
-      "name": "Marc Ducubu",
+      "name": "Marc Ducobu",
       "url": "http://www.champs-libres.coop"
    },
    "installs_allowed_from": ["*"],
