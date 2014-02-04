@@ -92,7 +92,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
       map.addLayer(osm);
       var voies_lentes_layer = new OpenLayers.Layer.WMS('Voies Lentes','http://geoservices.wallonie.be/arcgis/services/MOBILITE/VOIES_LENTES/MapServer/WMSServer?',
          {
-            layers: '1',
+            layers: '0',
             transparent: true,
          },{
             projection: new OpenLayers.Projection('EPSG:3857'),
