@@ -50,13 +50,12 @@ Installation
 
 - A postgresql >= 9.1 + postgis >= 2.0 database
 - php 5.5
-<<<<<<< HEAD
-- an Unix system (Linux, Mac Os) (not tested on Windows system but should work)
-=======
+- an Unix system (Linux, Mac Os)
+
 
 Note that we never test the installation on Windows.
 If you try and manage to install Uello on Windows please give us a feedback.
->>>>>>> 4bed714eeae808fa2c21fc398e55d7eaa6024833
+
 
 You will also need some geographical information about the zone you want to survey.
 
@@ -140,7 +139,7 @@ You may also use the embedded php server : `php app/console server:run`.
 
 The directories `app/cache` and `app/logs` must be writeable by the apache user *AND* the user you will use to run php app/console commands.
 
-See [Symfony documentation](http://doc.symfony.com/to_do) for doing this.
+See [the "setting up permissions" in the Symfony documentation](http://symfony.com/doc/current/book/installation.html#configuration-and-setup) for doing this.
 
 *basic data*
 
