@@ -5,6 +5,40 @@ Wikipedale est un logiciel de signalement de problèmes à Vélo. Il est dévelo
 
 Le projet est en test à l'adresse suivante http://uello.be.
 
+This software is developed by [Champs Libres](http://www.champs-libres.coop). You may find useful informations and help by contacting us !
+
+Concepts
+---------
+
+The story of a point :
+
+An **user** introduce a problem in the system: this "problem" will be named a "**place**" in the development language. 
+
+The users may introduce the points without being registered. In this case, the user will be asked for an email address and a phonenumber. The email address will be checked by an confirmation email, and the point will not be shown on the map unless the user has confirmed the point.
+
+If they are registered and authenticated, the users won't be prompted for his name, nor phonenumber, nor email.
+
+The user is then "suscribed" to **notifications** on further changes made on the point by the **moderators**.
+
+A **moderator's group** is chosen by the system. Currently, the system choose the **moderator's group** which is responsible for the point's zone. All **members** of the **moderators'group** receive an email which says that a new point has been introduced in the system.
+
+A **member** of the **moderator's group** may record a **manager's group**, which will be responsible for resolving the problem on the field. When a **member** of a **manager's group** has finished to resolve the problems, he may warn the **moderator's group** by sending him a **private comment**. Moderators and managers may, at any time, use private comments for discussions.
+
+**Moderators** indicate the status of the **place**, which we name a **notation**. The software offers the possibility to add different kind of notation to the place, but this possibility is not implemented at this moment. The **notation** may have three states : 
+
+- rejected (color: grey, value -1), not shown on the map ;
+- not taken into account by the moderator (color: blank, value: 0) ;
+- taken into account (color: red, value: 1)
+- a solution is planned (color: orange, value: 2)
+- resolved (color: green, value: 3)
+
+**Places** also have **categories**, which indicates the **term** of the place. **Term** say "something" about the difficulty of the resolution (TODO: check my english) of the place. For the implementation of Uello, we have three terms: 
+
+- short term : the problem may be resolved in a few time. 
+- mid term: the problem is not so easy to resolve, but is reachable in a couple of month. i.e. : the blank mark on the street will be painted during the next painting campaign, which usually take place at Spring.
+- long term : the problem require time and discussion before being resolved. Until now, only **moderators** may introduce long term problems, after a discussion with a municipal commission.
+
+The users (including moderators and managers) may adapt the **notification** delay on their control panel. Notifications may be send immediatly (a cron must be introduced) or on a daily basis. 
 
 
 Installation 
@@ -14,7 +48,7 @@ Installation
 
 - A postgresql >= 9.1 + postgis >= 2.0 database
 - php 5.5
-- an Unix system (Linux, Mac Os)
+- an Unix system (Linux, Mac Os) (not tested on Windows system but should work)
 
 You will also need some geographical information about the zone you want to survey.
 
@@ -30,7 +64,7 @@ CREATE EXTENSION postgis;
 *Install the app and dependencies*
 
 ```bash
-git clone <url> wikipedale # use the stable branch for test and prod
+git clone https://github.com/Champs-Libres/WikiPedale.git wikipedale # use the stable branch for test and prod
 cd wikipedale
 #get composer.phar
 curl -sS https://getcomposer.org/installer | php
