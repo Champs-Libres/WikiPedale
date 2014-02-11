@@ -7,6 +7,8 @@ Le projet est en test à l'adresse suivante http://uello.be.
 
 This software is developed by [Champs Libres](http://www.champs-libres.coop). You may find useful informations and help by contacting us !
 
+A demo implementation is available here : http://demo.uello.be
+
 Concepts
 ---------
 
@@ -163,6 +165,8 @@ CREATE TABLE zones
   polygon geography(Polygon,4326) NOT NULL, --  very important ! the geographical polygon of the zone. Note the CRS
   center geography(Point,4326) NOT NULL, -- the geographical center of the above's polygon. The UI will center there
   type character varying(5) NOT NULL, -- a 5-character string to indicate the kind of zone. 
+  url character varying(255) NOT NULL, -- the url of the website of the zone, if any. This will appears in the UI
+  description text NOT NULL, -- a descriptions moderators would like to shown in the UI
   CONSTRAINT zones_pkey PRIMARY KEY (id)
 )
 ```
@@ -181,6 +185,10 @@ For moderators and manager, you may create some groups in the admin zone:
 - create the groups ;
 - create the notations ;
 - add users to groups (when you will have users :-), see below )
+
+*prepare cron jobs*
+
+you must execute cron jobs to send notifications email. This cronjob must execute `php app/console wikipedale:notification:send2 60 --env=prod` for minutely notification, and `php app/console wikipedale:notification:send2 86400 --env=prod` for daily notifications.
 
 *adapt the UI*
 
