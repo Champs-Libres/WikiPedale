@@ -8,7 +8,9 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 
 /**
- * Description of NotificationProcessor
+ * You must implements this class for creating a new kind of notification.
+ * Then, you must register the implemented class as a tagged service.
+ * The NotificationProcessor class will be called by the Notification command-line command.
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
