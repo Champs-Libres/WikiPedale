@@ -67,7 +67,7 @@ parameters:
     #for localisation. If you speak french, do not change this
     date_format       : d/m/Y à H:i
     
-    #the cities which should appears on the front page. You may change this later. Cities may refer to an entry of the zones table (see below). 
+    #the cities which should appears on the front page. You may change this later. A City has to refer to the slug of an entry of the zones table (see below). 
     cities_in_front_page: [mons, tournai, liege, walhain, namur]
 
     #this is the information of the type of each report
