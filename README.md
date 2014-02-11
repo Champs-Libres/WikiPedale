@@ -25,7 +25,6 @@ Create a postgresql database and enable postgis:
 ```sql
 
 CREATE EXTENSION postgis;
-
 ```
 
 *Install the app and dependencies*
