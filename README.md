@@ -22,11 +22,11 @@ If they are registered and authenticated, the users won't be prompted for his na
 
 The user is then "suscribed" to **notifications** on further changes made on the point by the **moderators**.
 
-A **moderator's group** is chosen by the system. Currently, the system choose the **moderator's group** which is responsible for the point's zone. All **members** of the **moderators'group** receive an email which says that a new point has been introduced in the system.
+A **moderator's group** is chosen by the system. Currently, the system choose the **moderator's group** which is responsible for the point's zone. All **members** of the **moderators'group** receive an email which says that a new **place** has been introduced in the system.
 
-A **member** of the **moderator's group** may record a **manager's group**, which will be responsible for resolving the problem on the field. When a **member** of a **manager's group** has finished to resolve the problems, he may warn the **moderator's group** by sending him a **private comment**. Moderators and managers may, at any time, use private comments for discussions.
+A **member** of the **moderator's group** may record a **manager's group**, which will be responsible for resolving the problem on the field. When a **member** of a **manager's group** has finished to resolve the problems, he may warn the **moderator's group** by sending him a **private comment**. Moderators and managers may, at any time, use **private comments** for discussions.
 
-**Moderators** indicate the status of the **place**, which we name a **notation**. The software offers the possibility to add different kind of notation to the place, but this possibility is not implemented at this moment. The **notation** may have three states : 
+**Moderators** indicate, amongst others, the status of the **place**, which we name a **notation**. The software offers the possibility to add different kind of notation to the place, but this possibility is not implemented at this moment. The **notation** may have three states : 
 
 - rejected (color: grey, value -1), not shown on the map ;
 - not taken into account by the moderator (color: blank, value: 0) ;
