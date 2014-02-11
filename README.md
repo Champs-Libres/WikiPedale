@@ -34,7 +34,7 @@ CREATE EXTENSION postgis;
 git clone <url> wikipedale
 cd wikipedale
 #get composer.phar
-curl <todo>
+curl -sS https://getcomposer.org/installer | php
 #install symfony + dependencies
 php composer.phar install
 ```
@@ -68,7 +68,7 @@ parameters:
     #for localisation. If you speak french, do not change this
     date_format       : d/m/Y à H:i
     
-    #the cities which should appears on the front page. You may change this later.
+    #the cities which should appears on the front page. You may change this later. Cities may refer to an entry of the zones table (see below). 
     cities_in_front_page: [mons, tournai, liege, walhain, namur]
 
     #this is the information of the type of each report
@@ -83,6 +83,8 @@ parameters:
     place_type_default: 'bike.short'
 
 ```
+
+In case of error you can edit the parameters file */app/config/parameters.yml*.
 
 *Prepare the database'schema*
 
@@ -137,6 +139,9 @@ CREATE TABLE zones
   CONSTRAINT zones_pkey PRIMARY KEY (id)
 )
 ```
+
+Then you have to add the slug of the zones that you want to see in front page
+in the array *cities_in_front_page* contained in the file *app/config/parameters.yml*.
 
 *add categories and groups*
 
