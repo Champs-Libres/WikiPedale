@@ -8,8 +8,8 @@ use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 /**
  * Progracqteur\WikipedaleBundle\Entity\Management\Zone
  */
-class Zone
-{
+class Zone {
+
     /**
      * @var integer $id
      */
@@ -34,19 +34,31 @@ class Zone
      * @var polygon $polygon
      */
     private $polygon;
-    
+
     /**
      *
      * @var Progracqteur\WikipedaleBundle\Resources\Geo\Point 
      */
     private $center;
-    
+
     /**
      *
      * @var string
      */
     private $type;
-    
+
+    /**
+     *
+     * @var string
+     */
+    private $url = '';
+
+    /**
+     *
+     * @var string
+     */
+    private $description = '';
+
     /**
      * Type of zone "city"
      * 
@@ -55,15 +67,13 @@ class Zone
     const TYPE_CITY = 'city';
     const TYPE_SPW = "spw";
 
-
     /**
      * Set id
      *
      * @param integer $id
      * @return Zone
      */
-    public function setId($id)
-    {
+    public function setId($id) {
         $this->id = $id;
         return $this;
     }
@@ -73,8 +83,7 @@ class Zone
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -84,8 +93,7 @@ class Zone
      * @param string $name
      * @return Zone
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
         return $this;
     }
@@ -95,8 +103,7 @@ class Zone
      *
      * @return string 
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -106,8 +113,7 @@ class Zone
      * @param string $slug
      * @return Zone
      */
-    public function setSlug($slug)
-    {
+    public function setSlug($slug) {
         $this->slug = $slug;
         return $this;
     }
@@ -117,8 +123,7 @@ class Zone
      *
      * @return string 
      */
-    public function getSlug()
-    {
+    public function getSlug() {
         return $this->slug;
     }
 
@@ -128,8 +133,7 @@ class Zone
      * @param string $codeProvince
      * @return Zone
      */
-    public function setCodeProvince($codeProvince)
-    {
+    public function setCodeProvince($codeProvince) {
         $this->codeProvince = $codeProvince;
         return $this;
     }
@@ -139,8 +143,7 @@ class Zone
      *
      * @return string 
      */
-    public function getCodeProvince()
-    {
+    public function getCodeProvince() {
         return $this->codeProvince;
     }
 
@@ -150,8 +153,7 @@ class Zone
      * @param polygon $polygon
      * @return Zone
      */
-    public function setPolygon($polygon)
-    {
+    public function setPolygon($polygon) {
         $this->polygon = $polygon;
         return $this;
     }
@@ -161,28 +163,26 @@ class Zone
      *
      * @return polygon 
      */
-    public function getPolygon()
-    {
+    public function getPolygon() {
         return $this->polygon;
     }
-    
+
     /**
      *
      * @return Progracqteur\WikipedaleBundle\Resources\Geo\Point 
      */
-    public function getCenter()
-    {
+    public function getCenter() {
         return $this->center;
     }
-    
+
     public function __toString() {
         if ($this->getType() === self::TYPE_CITY) {
-            return "Commune de ".$this->getName();
+            return "Commune de " . $this->getName();
         } else {
-            return "District SPW de ".$this->getName();
+            return "District SPW de " . $this->getName();
         }
     }
-    
+
     /**
      * Type may be : 
      * 
@@ -195,7 +195,7 @@ class Zone
     public function getType() {
         return $this->type;
     }
-    
+
     /**
      * Set the type of the Zone.
      * 
@@ -207,4 +207,23 @@ class Zone
         $this->type = $type;
         return $this;
     }
+
+    /**
+     * Return the URL of the website of the zone
+     * @return string
+     */
+    public function getUrl() {
+        return $this->url;
+    }
+
+    /**
+     * Return a description of the zone. This description should be shown
+     * to the public.
+     * 
+     * @return string
+     */
+    public function getDescription() {
+        return $this->description;
+    }
+
 }

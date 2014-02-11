@@ -26,4 +26,8 @@ Progracqteur\WikipedaleBundle\Entity\Management\Zone:
     type:
       type: string
       length: 5
+    url:
+      type: string
+    description:
+      type: text
       

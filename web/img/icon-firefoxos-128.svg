@@ -7,10 +7,34 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    width="128"
    height="128"
-   id="svg3173">
+   id="svg3173"
+   inkscape:version="0.48.2 r9819"
+   sodipodi:docname="icon-firefoxos-128.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview18"
+     showgrid="false"
+     inkscape:zoom="1.84375"
+     inkscape:cx="64"
+     inkscape:cy="64"
+     inkscape:window-x="384"
+     inkscape:window-y="131"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg3173" />
   <defs
      id="defs3175" />
   <metadata
@@ -21,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -73,15 +97,4 @@
        y="121.08472"
        id="tspan3970"
        style="font-size:20px;font-weight:bold;fill:#2b1100;-inkscape-font-specification:Pecita Bold" /></text>
-  <text
-     x="89.079132"
-     y="23.404213"
-     transform="matrix(0.52374925,0.85187248,-0.85187248,0.52374925,0,0)"
-     id="text4748"
-     xml:space="preserve"
-     style="font-size:14px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Pecita;-inkscape-font-specification:Pecita Bold"><tspan
-       x="89.079132"
-       y="23.404213"
-       id="tspan4750"
-       style="font-size:28px;font-weight:bold;-inkscape-font-specification:Pecita Bold">Uello</tspan></text>
 </svg>
