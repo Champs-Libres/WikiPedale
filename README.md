@@ -34,8 +34,8 @@ A **member** of the **moderator's group** may record a **manager's group**, whic
 - a solution is planned (color: orange, value: 2)
 - resolved (color: green, value: 3)
 
-**Places** also have **categories**, which indicates the **term** of the place. **Term** say "something" about the difficulty of the resolution (TODO: check my english) of the place. For the implementation of Uello, we have three terms: 
-
+**Places** also have **categories**, which classify the type of the problem. Each 
+**category** is associated with an estimated **term** that can be :
 - short term : the problem may be resolved in a few time. 
 - mid term: the problem is not so easy to resolve, but is reachable in a couple of month. i.e. : the blank mark on the street will be painted during the next painting campaign, which usually take place at Spring.
 - long term : the problem require time and discussion before being resolved. Until now, only **moderators** may introduce long term problems, after a discussion with a municipal commission.
