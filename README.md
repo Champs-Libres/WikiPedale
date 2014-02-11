@@ -14,7 +14,9 @@ Installation
 
 - A postgresql >= 9.1 + postgis >= 2.0 database
 - php 5.5
-- an Unix system (Linux, Mac Os)
+
+Note that we never test the installation on Windows.
+If you try and manage to install Uello on Windows please give us a feedback.
 
 You will also need some geographical information about the zone you want to survey.
 
