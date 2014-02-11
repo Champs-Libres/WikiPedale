@@ -31,7 +31,7 @@ CREATE EXTENSION postgis;
 *Install the app and dependencies*
 
 ```bash
-git clone <url> wikipedale
+git clone <url> wikipedale # use the stable branch for test and prod
 cd wikipedale
 #get composer.phar
 curl <todo>
