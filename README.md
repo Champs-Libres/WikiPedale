@@ -80,17 +80,14 @@ parameters:
                - {key: medium, label: place_type.bike.medium.label, mayAddToPlace: IS_AUTHENTICATED_ANONYMOUSLY }
                   
     place_type_default: 'bike.short'
-
 ```
 
-In case of error you can edit the parameters file */app/config/parameters.yml*.
+In case of error you can edit the parameters file `/app/config/parameters.yml`.
 
 *Prepare the database'schema*
 
 ```sh
-
 php app/console doctrine:migrations:migrate
-
 ```
 
 *Configure web server and permissions*
@@ -108,9 +105,7 @@ See [Symfony documentation](http://doc.symfony.com/to_do) for doing this.
 _create an admin user_
 
 ```bash
-
 php app/console fos:user:create admin --super-admin
-
 ```
 
 _add data for zones_
@@ -125,7 +120,6 @@ It is very important to create zones ! You must provide your own zone, based upo
 Here are the fields in the database :
 
 ```sql
-
 CREATE TABLE zones
 (
   id integer NOT NULL,
@@ -140,7 +134,7 @@ CREATE TABLE zones
 ```
 
 Then you have to add the slug of the zones that you want to see in front page
-in the array *cities_in_front_page* contained in the file *app/config/parameters.yml*.
+in the array `cities_in_front_page` contained in the file `app/config/parameters.yml`.
 
 *add categories and groups*
 
