@@ -44,7 +44,7 @@ Progracqteur\WikipedaleBundle\Entity\Management\Notation:
       - Length: { max: 20, min: 3}
     name:
       - NotBlank: ~
-      - Length: { max: 20, min: 3}
+      - Length: { max: 60, min: 3}
 
 Progracqteur\WikipedaleBundle\Entity\Management\Group:
   properties:
