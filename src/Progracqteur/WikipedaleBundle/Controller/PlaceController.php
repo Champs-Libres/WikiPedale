@@ -26,8 +26,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
  * @author Julien Fastré
  */
 class PlaceController extends Controller {
-    
-    
+
     public function viewAction($_format, $id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -60,51 +59,6 @@ class PlaceController extends Controller {
                 $rep = new NormalizedResponse($place);
                 $ret = $normalizer->serialize($rep, $_format);
                 return new Response($ret);
-        }
-    }
-    
-    public function listByBBoxAction($_format, Request $request){
-        
-        throw new \Exception("cette fonction n'est plus fonctionnelle tant que la fonction covers n'a pas été adaptée");
-        
-        $em = $this->getDoctrine()->getManager();
-        
-        $BboxStr = $request->get('bbox', null);
-        if ($BboxStr === null) {
-            throw new \Exception('Fournissez un bbox');
-        }
-        
-        $BboxArr = explode(',', $BboxStr, 4);
-        
-        foreach($BboxArr as $value){
-            if (!is_numeric($value))
-            {
-                throw new \Exception("Le Bbox n'est pas valide : $BboxStr");
-            }
-        }
-
-        $bbox = BBox::fromCoord($BboxArr[0], $BboxArr[1], $BboxArr[2], $BboxArr[3]);
-        
-        $p = $em->createQuery('SELECT p from ProgracqteurWikipedaleBundle:Model\\Place p 
-                  where covers(:bbox, p.geom) = true and p.accepted = true')
-                ->setParameter('bbox', $bbox->toWKT());
-
-        $r = $p->getResult();
-
-        switch($_format) {
-            case 'json':
-                $normalizer = $this->get('progracqteurWikipedaleSerializer');
-                $rep = new NormalizedResponse($r);
-                $ret = $normalizer->serialize($rep, $_format);
-                return new Response($ret);
-                break;
-            case 'html':
-                return new Response('Pas encore implémenté');
-            case 'csv' :
-                return $this->render('ProbracqteurWikipedaleBundle:Place:list.csv.twig', 
-                        array(
-                            'places' => $r
-                        ));       
         }
     }
     
