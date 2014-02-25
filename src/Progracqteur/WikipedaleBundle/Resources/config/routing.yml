@@ -26,7 +26,7 @@ wikipedale_place_view:
   pattern: /place/view/{id}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Place:view }
   requirements:
-    _format: html|json
+    _format: json
   options:
     expose: true
 
