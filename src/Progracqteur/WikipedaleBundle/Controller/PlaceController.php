@@ -57,6 +57,7 @@ class PlaceController extends Controller {
                 $normalizer = $this->get('progracqteurWikipedaleSerializer');
                 $rep = new NormalizedResponse($place);
                 $ret = $normalizer->serialize($rep, $_format);
+
                 return new Response($ret);
         }
     }
@@ -142,13 +143,13 @@ class PlaceController extends Controller {
             case 'json':
                 $normalizer = $this->get('progracqteurWikipedaleSerializer');
                 $rep = new NormalizedResponse($r);
-                
                 $ret = $normalizer->serialize($rep, $_format);
                 
                 return new Response($ret);
-                break;
+
             case 'html':
                 return new Response('Pas encore implémenté');
+
             case 'csv' :
                 $response = $this->render('ProgracqteurWikipedaleBundle:Place:list.csv.twig', 
                         array(
@@ -216,6 +217,7 @@ class PlaceController extends Controller {
                 $logger->warn('Wikipedale:PlaceController:ChangeAction use of invalid token');
                 $response = new Response('invalid token provided');
                 $response->setStatusCode(400);
+
                 return $response;
             }
         }
@@ -245,6 +247,7 @@ class PlaceController extends Controller {
         {
             $r = new Response("Il faut être enregistré pour modifier une place");
             $r->setStatusCode(403);
+
             return $r;
         }
         
@@ -316,6 +319,7 @@ class PlaceController extends Controller {
         } catch (ChangeException $exc) {
             $r = new Response($exc->getMessage());
             $r->setStatusCode(403);
+
             return $r;
         }
         
@@ -323,6 +327,7 @@ class PlaceController extends Controller {
         {
             $r = new Response("Vous n'avez pas de droits suffisants pour effectuer cette modification");
             $r->setStatusCode(403);
+
             return $r;
         }
         
@@ -413,7 +418,6 @@ class PlaceController extends Controller {
         
         $form = $this->createForm(new PlaceType(), $place);
         
-        
         return $this->render('ProgracqteurWikipedaleBundle:Place:manager_view.html.twig',
                 array(
                     'form' => $form->createView(), 
@@ -443,18 +447,13 @@ class PlaceController extends Controller {
             {
                 $r = new Response('Place already confirmed');
                 $r->setStatusCode(401);
+
                 return $r;
             }
             
             $creator->setChecked(true);
-            
-            
             $place->setConfirmedCreator($creator);
-            
-           
-            
             $this->getDoctrine()->getManager()->flush($place);
-            
             
             return $this->render('ProgracqteurWikipedaleBundle:Place:confirmed.html.twig',
                     array(
@@ -463,6 +462,7 @@ class PlaceController extends Controller {
         } else {
             $r = new Response('check code does not match');
             $r->setStatusCode(401);
+
             return $r;
         }
     }
