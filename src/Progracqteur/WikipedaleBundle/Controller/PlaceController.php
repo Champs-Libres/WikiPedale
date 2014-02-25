@@ -49,8 +49,7 @@ class PlaceController extends Controller {
             {
                 throw new \Exception('code does not match '.$code.' '.$hash);
                 throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
-            }
-                
+            }      
         }
         
         switch ($_format){
@@ -164,8 +163,7 @@ class PlaceController extends Controller {
                 $response->headers->set('Pragma', 'no-cache');
                 $response->headers->set('Expires', '0');
 
-                return $response; 
-                
+                return $response;    
         }
     }
     
@@ -266,9 +264,7 @@ class PlaceController extends Controller {
             if ($this->get('security.context')->getToken()->getUser() instanceof User) //si utilisateur connecté
             {
                 $place->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
-            } 
-            else 
-            { 
+            } else { 
                 $user = $place->getCreator();
                 
                 $place->getChangeset()->setAuthor($user);
@@ -309,8 +305,6 @@ class PlaceController extends Controller {
             $waitingForConfirmation = true;
         }
         
-        
-
         /**
          * @var Progracqteur\WikipedaleBundle\Resources\Security\ChangeService 
          */
@@ -391,8 +385,7 @@ class PlaceController extends Controller {
                 {
                     $hashCheckCode = hash('sha512', $place->getCreator()->getCheckCode());
                     $params['checkcode'] = $hashCheckCode;
-                }
-                
+                }     
                
         return $this->redirect(
                 $this->generateUrl('wikipedale_place_view', $params)
@@ -427,14 +420,10 @@ class PlaceController extends Controller {
                     'place'=> $place
                     )
                 );
-        
-        
     }
     
     public function confirmUserAction(Request $request, $token, $placeId) 
     {
-        
-        
         $place = $this->getDoctrine()->getManager()
                 ->getRepository('ProgracqteurWikipedaleBundle:Model\Place')
                 ->find($placeId);
@@ -471,14 +460,11 @@ class PlaceController extends Controller {
                     array(
                         'place' => $place
                     ));
-        } else 
-        {
+        } else {
             $r = new Response('check code does not match');
             $r->setStatusCode(401);
             return $r;
         }
-        
     }
-    
 }
 
