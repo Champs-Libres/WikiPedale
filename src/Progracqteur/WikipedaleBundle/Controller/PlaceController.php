@@ -167,8 +167,6 @@ class PlaceController extends Controller {
                 return $response; 
                 
         }
-        
-        
     }
     
     public function changeAction($_format, Request $request)
