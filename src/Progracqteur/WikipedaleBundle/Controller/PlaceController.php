@@ -27,6 +27,13 @@ use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
  */
 class PlaceController extends Controller {
 
+    /**
+     * Return a given place
+     *
+     * @param int $id The id of the asked place
+     *
+     * @return Symfony\Component\HttpFoundation\Response A json that contains the details of the place of id $id.
+     */
     public function viewAction($_format, $id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -62,6 +69,13 @@ class PlaceController extends Controller {
         }
     }
     
+    /**
+     * Return all the places for a given city
+     *
+     * @param Symfony\Component\HttpFoundation\Request $request the request that must contain a city param
+     *
+     * @return Symfony\Component\HttpFoundation\Response A json that contains an array of all the place of the city
+     */
     public function listByCityAction($_format, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -167,14 +181,17 @@ class PlaceController extends Controller {
                 return $response;    
         }
     }
-    
+
+    /**
+     * Update a given place
+     *
+     * @param string $_format The format of the request ()
+     * @param Symfony\Component\HttpFoundation\Request $request The request containing the changes
+     *
+     * @return Symfony\Component\HttpFoundation\Response An error (400, 401, 403 or 404) if there is a problem. If not redirect to the viewAction : the JSON of the updated place
+     */    
     public function changeAction($_format, Request $request)
     {
-        /**
-         *  Change the data of a place.
-         * @param string $_format The format of the request () 
-         * @param string $request The request containing the changes
-         */
         $logger = $this->get('logger');
 
         if ($request->getMethod() != 'POST')
@@ -251,14 +268,12 @@ class PlaceController extends Controller {
             return $r;
         }
         
-        
         //ajoute l'utilisateur courant comme créateur si connecté
         if ($place->getId() == null && $this->get('security.context')->getToken()->getUser() instanceof User)
         {
             $u = $this->get('security.context')->getToken()->getUser();
             $place->setCreator($u);
         }
-        
         
         //ajoute l'utilisateur courant au changeset
         if ($place->getChangeset()->isCreation()) // si création
@@ -397,6 +412,9 @@ class PlaceController extends Controller {
                 );
     }
     
+    /**
+     * ?? A supprimer ??
+     */
     public function placeManagerFormAction($id, Request $request)
     {
         if (!$this->get('security.context')->isGranted(User::ROLE_ADMIN))
@@ -426,6 +444,18 @@ class PlaceController extends Controller {
                 );
     }
     
+    /**
+     * Validate a place for an unregister user (When an unregister user add a place, the added
+     * place is not displayed on the map and an email
+     * is send to user with a confimation code. This controller check this confirmation code.
+     * If the confirmation code is correct the place is validate and shown on the map).
+     *
+     * @param Symfony\Component\HttpFoundation\Request $request the request
+     * @param string $token The confirmation code
+     * @param int $placeId The id of the related place
+     *
+     * @return Symfony\Component\HttpFoundation\Response Error 401 if problems. If not a confrmation page.
+     */
     public function confirmUserAction(Request $request, $token, $placeId) 
     {
         $place = $this->getDoctrine()->getManager()
