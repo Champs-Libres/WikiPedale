@@ -119,7 +119,7 @@ filter:
   white_state: pas encore pris en compte (blanc)
   red_state: pris en compte (rouge)
   orange_state: en cours de résolution (orange)
-  green_states: résolu (vert)
+  green_state: résolu (vert)
 
 
 errors:
