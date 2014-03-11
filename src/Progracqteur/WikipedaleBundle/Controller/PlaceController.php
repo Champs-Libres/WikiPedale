@@ -72,9 +72,10 @@ class PlaceController extends Controller {
     /**
      * Return all the places for a given city
      *
+     * @param String $_format the format of the output (csv or json)
      * @param Symfony\Component\HttpFoundation\Request $request the request that must contain a city param
      *
-     * @return Symfony\Component\HttpFoundation\Response A json that contains an array of all the place of the city
+     * @return Symfony\Component\HttpFoundation\Response A csv or json file that contains an array of all the place of the city
      */
     public function listByCityAction($_format, Request $request)
     {
