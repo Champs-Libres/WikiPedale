@@ -1,5 +1,9 @@
 {% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
 
+{% block css %}
+<link rel="stylesheet"  href="{{ asset('css/register.css') }}" type="text/css"/>
+{% endblock css %}
+
 {% block body %}
 {% include "FOSUserBundle:Registration:register_content.html.twig" %}
 {% endblock body %}
