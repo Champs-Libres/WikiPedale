@@ -109,6 +109,7 @@ tools_panel:
   cancel: Annuler
   managed_by: géré par
   with_support_from: avec le soutien de
+  color_legend: Légende des couleurs
 
 filter:
   by_states: Filtrer par états

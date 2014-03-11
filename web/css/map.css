@@ -5,6 +5,23 @@
    height: 500px;
 }
 
+#map_legend {
+   position:absolute;
+   right:3px;
+   bottom:20px;
+   z-index:1000;
+   background-color: #FFFFFF;
+   padding-left: 10px;
+   padding-right: 10px;
+   width: 130px;
+   color: #808080;
+}
+
+#map_legend img {
+   height: 1.7em;
+   margin-right: 5px;
+}
+
 #logos_partenaires {
    position:absolute;
    left:5px;
