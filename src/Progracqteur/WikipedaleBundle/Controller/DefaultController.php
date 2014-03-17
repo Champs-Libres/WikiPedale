@@ -7,18 +7,28 @@ use Symfony\Component\HttpFoundation\Response;
 use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 
 /**
+ * Description of DefaultController
+ *
+ * This controller contains the only webpages of the application (except for the admin part).
  * 
  * @author Julien Fastré <julien arobase fastre point info>
  */
 class DefaultController extends Controller
 {
     
-    
+    /**
+     * Display the 'about' webpage.
+     */
     public function aboutAction()
     {
         return $this->render('ProgracqteurWikipedaleBundle:Default:about.html.twig');
     }
     
+
+    /**
+     * Display 'homepage' webpage. This is the main page of the application : the webpage is 
+     * updated (in function of the user interaction) with JSON request.
+     */
     public function homepageAction()
     {
         $id = $this->getRequest()->get('id', null);
