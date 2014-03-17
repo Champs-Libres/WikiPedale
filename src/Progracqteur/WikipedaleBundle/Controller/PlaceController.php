@@ -249,7 +249,7 @@ class PlaceController extends Controller
         }
         
         //ajoute l'utilisateur courant comme créateur si connecté
-        if (ch && $this->get('security.context')->getToken()->getUser() instanceof User) {
+        if ($place->getId() == null && $this->get('security.context')->getToken()->getUser() instanceof User) {
             $u = $this->get('security.context')->getToken()->getUser();
             $place->setCreator($u);
         }
