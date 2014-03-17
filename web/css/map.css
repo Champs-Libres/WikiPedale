@@ -6,15 +6,11 @@
 }
 
 #map_legend {
-   position:absolute;
-   right:3px;
-   bottom:20px;
-   z-index:1000;
    background-color: #FFFFFF;
-   padding-left: 10px;
-   padding-right: 10px;
-   width: 130px;
    color: #808080;
+   font-size: 12px;
+   text-align: center;
+   width: 100%
 }
 
 #map_legend img {
@@ -25,7 +21,7 @@
 #logos_partenaires {
    position:absolute;
    left:5px;
-   bottom:1px;
+   bottom:5px;
    z-index:1000;
 }
 
@@ -54,7 +50,8 @@
 
 .olControlAttribution {
    position: absolute;
-   bottom:0em;
+   bottom:5px;
+   right: 5px;
    font-size: 10px;
    text-align: right;
    color: #eeeeee;
@@ -62,7 +59,7 @@
    background: rgba(45, 45, 45, 0.4);
    filter: alpha(opacity=90);
    font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
-   padding: 2px 4px;
+   padding: 2px 5px;
    border-radius: 5px 0 0 0;
 }
 .olControlAttribution a {
