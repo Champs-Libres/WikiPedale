@@ -77,16 +77,14 @@ class PlaceController extends Controller
         $citySlug = $request->get('city', null);
         $citySlug = $this->get('progracqteur.wikipedale.slug')->slug($citySlug);
         
-        if ($citySlug === null)
-        {
+        if ($citySlug === null) {
             throw new \Exception('Renseigner une ville dans une variable \'city\' ');
         }
         
         $city = $em->getRepository('ProgracqteurWikipedaleBundle:Management\\Zone')
                 ->findOneBy(array('slug' => $citySlug));
         
-        if ($city === null)
-        {
+        if ($city === null) {
             throw $this->createNotFoundException("Aucune ville correspondant à $citySlug n'a pu être trouvée");
         }
 
@@ -160,9 +158,7 @@ class PlaceController extends Controller
 
             case 'csv' :
                 $response = $this->render('ProgracqteurWikipedaleBundle:Place:list.csv.twig', 
-                        array(
-                            'places' => $r
-                        ));
+                    array('places' => $r));
                 
                 $response->setStatusCode(200);
                 $response->headers->set('Content-Type', 'text/csv');
