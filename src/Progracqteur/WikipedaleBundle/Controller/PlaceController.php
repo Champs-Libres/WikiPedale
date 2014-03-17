@@ -25,8 +25,8 @@ use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
  *
  * @author Julien Fastré
  */
-class PlaceController extends Controller {
-
+class PlaceController extends Controller
+{
     /**
      * Return a given place
      *
@@ -34,39 +34,32 @@ class PlaceController extends Controller {
      *
      * @return Symfony\Component\HttpFoundation\Response A json that contains the details of the place of id $id.
      */
-    public function viewAction($_format, $id)
+    public function viewAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        
         $place = $em->getRepository('ProgracqteurWikipedaleBundle:Model\\Place')->find($id);
         
-        if ($place === null)
-        {
+        if ($place === null) {
             throw $this->createNotFoundException("L'endroit n'a pas été trouvé dans la base de donnée");
         }
         
         if ($place->isAccepted() === false 
-                && ! $this->get('security.context')->isGranted(User::ROLE_SEE_UNACCEPTED))
-        {
+                && ! $this->get('security.context')->isGranted(User::ROLE_SEE_UNACCEPTED)) {
             $hash = $this->getRequest()->query->get('checkcode');
             $code = $place->getCreator()->getCheckCode();
             
-            
-            if ($hash !== hash('sha512', $code))
-            {
+
+            if ($hash !== hash('sha512', $code)) { /* sha512 -> is the used hashing algorithm */
                 throw new \Exception('code does not match '.$code.' '.$hash);
                 throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
             }      
         }
         
-        switch ($_format){
-            case 'json':
-                $normalizer = $this->get('progracqteurWikipedaleSerializer');
-                $rep = new NormalizedResponse($place);
-                $ret = $normalizer->serialize($rep, $_format);
+        $normalizer = $this->get('progracqteurWikipedaleSerializer');
+        $rep = new NormalizedResponse($place);
+        $ret = $normalizer->serialize($rep, 'json');
 
-                return new Response($ret);
-        }
+        return new Response($ret);
     }
     
     /**
