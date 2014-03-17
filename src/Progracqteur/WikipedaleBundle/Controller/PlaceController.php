@@ -173,9 +173,8 @@ class PlaceController extends Controller
     }
 
     /**
-     * Update a given place
+     * Update a given place (post method and json objec)
      *
-     * @param string $_format The format of the request ()
      * @param Symfony\Component\HttpFoundation\Request $request The request containing the changes
      *
      * @return Symfony\Component\HttpFoundation\Response An error (400, 401, 403 or 404) if there is a problem. If not redirect to the viewAction : the JSON of the updated place
@@ -184,15 +183,13 @@ class PlaceController extends Controller
     {
         $logger = $this->get('logger');
 
-        if ($request->getMethod() != 'POST')
-        {
+        if ($request->getMethod() != 'POST') {
             throw new \Exception("Only post method accepted");
         }
         
         //check tokens
         $token = $request->attributes->get('token', null);
-        if ($token === null)
-        {
+        if ($token === null) {
             //if WSSE authentication, does not need token
             if(! 
                     (
@@ -200,27 +197,21 @@ class PlaceController extends Controller
                         AND 
                         $this->get('security.context')->getToken()->isFullyAuthenticated()
                     )
-              )
-            {
+              ) {
                 /*TODO: when the token will be enabled into javascript, if there
                  * is no token, the script must reject request without tokens
                  */
                 $logger->warn('Wikipedale:PlaceController:ChangeAction change place without token');
                 
                 //TODO: remove debug code below :
-                if ($this->get('security.context')->getToken() instanceof WsseUserToken)
-                {
-                    if (!$this->get('security.context')->getToken()->isFullyAuthenticated())
-                    {
+                if ($this->get('security.context')->getToken() instanceof WsseUserToken) {
+                    if (!$this->get('security.context')->getToken()->isFullyAuthenticated()) {
                         $logger->debug('Wikipedale:PlaceController:ChangeAction connected with WSSE but not fully');
                     }
                 }
-                
             }
-                
         } else {
-            if (false === $this->get('progracqteur.wikipedale.token_provider')->isCsrfTokenValid($token))
-            {
+            if (false === $this->get('progracqteur.wikipedale.token_provider')->isCsrfTokenValid($token)) {
                 $logger->warn('Wikipedale:PlaceController:ChangeAction use of invalid token');
                 $response = new Response('invalid token provided');
                 $response->setStatusCode(400);
@@ -250,8 +241,7 @@ class PlaceController extends Controller
                 ($this->get('security.context')->getToken()->getUser() instanceof User) == false 
                 && 
                 $place->getChangeset()->isCreation() == false
-            )
-        {
+            ) {
             $r = new Response("Il faut être enregistré pour modifier une place");
             $r->setStatusCode(403);
 
@@ -259,18 +249,14 @@ class PlaceController extends Controller
         }
         
         //ajoute l'utilisateur courant comme créateur si connecté
-        if ($place->getId() == null && $this->get('security.context')->getToken()->getUser() instanceof User)
-        {
+        if (ch && $this->get('security.context')->getToken()->getUser() instanceof User) {
             $u = $this->get('security.context')->getToken()->getUser();
             $place->setCreator($u);
         }
         
         //ajoute l'utilisateur courant au changeset
-        if ($place->getChangeset()->isCreation()) // si création
-        {
-            
-            if ($this->get('security.context')->getToken()->getUser() instanceof User) //si utilisateur connecté
-            {
+        if ($place->getChangeset()->isCreation()) { // si création 
+            if ($this->get('security.context')->getToken()->getUser() instanceof User) { //si utilisateur connecté
                 $place->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
             } else { 
                 $user = $place->getCreator();
@@ -286,8 +272,7 @@ class PlaceController extends Controller
         //if user = unregistered and creation, prepare the user for checking
         //and set the place as not accepted, and send an email to the user
         if ($place->getChangeset()->isCreation() === true 
-                && $place->getCreator()->isRegistered() === false)
-        {
+                && $place->getCreator()->isRegistered() === false) {
             $place->setAccepted(false);
             $checkCode = $place->getCreator()->getCheckCode();
             $place->getChangeset()->setCreation(null);
@@ -300,15 +285,14 @@ class PlaceController extends Controller
                     ->setFrom('no-reply@uello.be') //TODO insert into parameters.yml
                     ->setTo($place->getCreator()->getEmail())
                     ->setBody(
-                            $this->renderView('ProgracqteurWikipedaleBundle:Emails:confirmation.txt.twig',
-                                    array(
-                                        'code' => $checkCode,
-                                        'user' => $place->getCreator(),
-                                        'place' => $place
-                                    )), 'text/plain'
-                            )
-                    ;
-            
+                        $this->renderView('ProgracqteurWikipedaleBundle:Emails:confirmation.txt.twig',
+                            array(
+                                'code' => $checkCode,
+                                'user' => $place->getCreator(),
+                                'place' => $place
+                            )), 'text/plain'
+                    );
+
             $this->get('mailer')->send($message);
             $waitingForConfirmation = true;
         }
@@ -328,8 +312,7 @@ class PlaceController extends Controller
             return $r;
         }
         
-        if ($return == false)
-        {
+        if ($return == false) {
             $r = new Response("Vous n'avez pas de droits suffisants pour effectuer cette modification");
             $r->setStatusCode(403);
 
@@ -345,16 +328,13 @@ class PlaceController extends Controller
         
         $errors = $validator->validate($place, $arrayValidation);
         
-        if ($errors->count() > 0)
-        {
+        if ($errors->count() > 0) {
             $stringErrors = ''; $k = 0;
-            foreach ($errors as $error)
-            {
+            foreach ($errors as $error) {
                 $stringErrors .= $k.'. '.$error->getMessage();
             }
             
             throw new HttpException(403, 'Erreurs de validation : '.$stringErrors);
-            
         }
         
         
@@ -365,41 +345,32 @@ class PlaceController extends Controller
         //If the change is a creation, suscribe the creator to notification
         //only for registered users - a notificaiton will be suscribe at email confirmation for unregistered
         if ($place->getChangeset()->isCreation() === true
-                && $place->getCreator()->isRegistered() === true) {
-
-        
+            && $place->getCreator()->isRegistered() === true) {
             $notification = new NotificationSubscription();
-            
-                       
+                  
             $notification->setOwner($place->getCreator())
                     ->setKind(NotificationSubscription::KIND_PUBLIC_PLACE)
                     ->setPlace($place)
                     ->setTransporter(NotificationSubscription::TRANSPORTER_MAIL);
             
             $em->persist($notification);
-            
         }
-        
-        
         
         $em->flush();
         
         $params = array(
-                            'id' => $place->getId(), 
-                            '_format' => 'json',
-                            'return' => $return,
-                            'addUserInfo' => $request->get('addUserInfo', false)
-                        );
+            'id' => $place->getId(), 
+            '_format' => 'json',
+            'return' => $return,
+            'addUserInfo' => $request->get('addUserInfo', false));
         
-                if ($waitingForConfirmation === true)
-                {
-                    $hashCheckCode = hash('sha512', $place->getCreator()->getCheckCode());
-                    $params['checkcode'] = $hashCheckCode;
-                }     
+        if ($waitingForConfirmation === true) {
+            $hashCheckCode = hash('sha512', $place->getCreator()->getCheckCode());
+            $params['checkcode'] = $hashCheckCode;
+        }     
                
         return $this->redirect(
-                $this->generateUrl('wikipedale_place_view', $params)
-                );
+            $this->generateUrl('wikipedale_place_view', $params));
     }
     
     /**
