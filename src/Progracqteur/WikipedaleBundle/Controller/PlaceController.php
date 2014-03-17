@@ -388,22 +388,19 @@ class PlaceController extends Controller
     public function confirmUserAction(Request $request, $token, $placeId) 
     {
         $place = $this->getDoctrine()->getManager()
-                ->getRepository('ProgracqteurWikipedaleBundle:Model\Place')
-                ->find($placeId);
+            ->getRepository('ProgracqteurWikipedaleBundle:Model\Place')
+            ->find($placeId);
         
-        if ($place === null)
-        {
+        if ($place === null) {
             throw $this->createNotFoundException('Place not found');
         }
         
         if ($place->getCreator() instanceof \Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser
-                && $place->getCreator()->checkCode($token))
-        {
+                && $place->getCreator()->checkCode($token)) {
             $creator = $place->getCreator();
             
             //if the creator is already confirmed, stop the script
-            if ($creator->isChecked())
-            {
+            if ($creator->isChecked()) {
                 $r = new Response('Place already confirmed');
                 $r->setStatusCode(401);
 
@@ -415,9 +412,9 @@ class PlaceController extends Controller
             $this->getDoctrine()->getManager()->flush($place);
             
             return $this->render('ProgracqteurWikipedaleBundle:Place:confirmed.html.twig',
-                    array(
-                        'place' => $place
-                    ));
+                array(
+                    'place' => $place
+                ));
         } else {
             $r = new Response('check code does not match');
             $r->setStatusCode(401);
@@ -426,4 +423,3 @@ class PlaceController extends Controller
         }
     }
 }
-
