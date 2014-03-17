@@ -25,6 +25,8 @@ twig:
         - 'ProgracqteurWikipedaleBundle:Form:fields.html.twig'
     globals:
         date_format: %date_format%
+        user_manuel_url: %user_manuel_url%
+        contact_url: %contact_url%
 
 # Assetic Configuration
 assetic:
