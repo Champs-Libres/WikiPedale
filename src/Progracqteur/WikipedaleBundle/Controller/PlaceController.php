@@ -179,7 +179,7 @@ class PlaceController extends Controller
      *
      * @return Symfony\Component\HttpFoundation\Response An error (400, 401, 403 or 404) if there is a problem. If not redirect to the viewAction : the JSON of the updated place
      */    
-    public function changeAction($_format, Request $request)
+    public function changeAction(Request $request)
     {
         $logger = $this->get('logger');
 
@@ -228,7 +228,7 @@ class PlaceController extends Controller
         }
         
         $serializer = $this->get('progracqteurWikipedaleSerializer');
-        $place = $serializer->deserialize($serializedJson, NormalizerSerializerService::PLACE_TYPE, $_format);
+        $place = $serializer->deserialize($serializedJson, NormalizerSerializerService::PLACE_TYPE, 'json');
         
         $categories = $place->getCategory();
         if(! $categories->isEmpty()) {
@@ -371,38 +371,6 @@ class PlaceController extends Controller
                
         return $this->redirect(
             $this->generateUrl('wikipedale_place_view', $params));
-    }
-    
-    /**
-     * ?? A supprimer ??
-     */
-    public function placeManagerFormAction($id, Request $request)
-    {
-        if (!$this->get('security.context')->isGranted(User::ROLE_ADMIN))
-        {
-            throw new \Symfony\Component\Security\Core\Exception\AccessDeniedException(); 
-        }
-        
-        $em = $this->getDoctrine()->getManager();
-        $place = $em->createQuery('SELECT p from ProgracqteurWikipedaleBundle:Model\Place p where p.id = :id')
-                ->setParameter('id', $id)
-                ->getSingleResult();
-        
-        if ($place === null)
-        {
-            throw $this->createNotFoundException(
-                    $this->get('translator')->trans('errors.404.place.not_found')
-                    );
-        }
-        
-        $form = $this->createForm(new PlaceType(), $place);
-        
-        return $this->render('ProgracqteurWikipedaleBundle:Place:manager_view.html.twig',
-                array(
-                    'form' => $form->createView(), 
-                    'place'=> $place
-                    )
-                );
     }
     
     /**
