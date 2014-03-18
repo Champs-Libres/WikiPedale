@@ -1,3 +1,7 @@
+{#
+    Template that display the lastest mmodificications for the report.
+#}
+
 <div id="div_title_dernieres_modifs">
    {{ 'tools_panel.last_modifications'|trans({}, 'messages') }}
    <a href="{{ path('wikipedale_history_place_by_city', {'citySlug': app.session.get('city').slug, _format:'atom'}) }}">
