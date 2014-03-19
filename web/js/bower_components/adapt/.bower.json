@@ -1,0 +1,14 @@
+{
+  "name": "adapt",
+  "homepage": "https://github.com/nathansmith/adapt",
+  "_release": "c3f08d69fc",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "c3f08d69fcd79af459de8bb44065969adc96ab5b"
+  },
+  "_source": "git://github.com/nathansmith/adapt.git",
+  "_target": "*",
+  "_originalSource": "adapt",
+  "_direct": true
+}
