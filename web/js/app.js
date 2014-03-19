@@ -5,10 +5,10 @@
 
 require.config({
    paths: {
-      'jQuery': 'lib/jQuery/jquery-1.8.2',
-      'OpenLayers': 'lib/OpenLayers/OpenLayers',
-      'select2': 'lib/select2-3.4.5/select2',
-      'colorbox': 'lib/Colorbox/jquery.colorbox',
+      'jQuery': 'bower_components/jquery/jquery',
+      'OpenLayers': 'bower_components/openlayers/OpenLayers',
+      'select2': 'bower_components/select2/select2',
+      'colorbox': 'bower_components/colorbox/jquery.colorbox',
    },
    shim: {
       'jQuery': {

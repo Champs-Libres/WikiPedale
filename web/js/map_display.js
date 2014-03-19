@@ -17,7 +17,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
 
 
 
-   var marker_img_url = basic_data_and_functions.web_dir + 'js/lib/OpenLayers/img/';
+   var marker_img_url = basic_data_and_functions.web_dir + 'img/OpenLayers/';
    var markers = [];
    markers['new_description'] = null;
 

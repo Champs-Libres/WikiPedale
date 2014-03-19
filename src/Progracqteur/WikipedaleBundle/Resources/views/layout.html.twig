@@ -12,8 +12,8 @@
         <script data-main="{{ asset('js/app.js') }}" src="{{ asset('js/require.js') }}"></script>
 
 
-        <link rel="stylesheet" href="{{ asset('css/colorbox.css') }}" type="text/css"/>
-        <link rel="stylesheet" href="{{ asset('js/lib/select2-3.4.5/select2.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('js/bower_components/colorbox/example1/colorbox.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('js/bower_components/select2/select2.css') }}" type="text/css"/>
 
         {% block javascript %}
             <!-- Aucun fichier javascript ajouté par le template -->
@@ -30,12 +30,12 @@
         {% endblock %}
 
         <noscript>
-            <link rel="stylesheet" href="{{ asset('js/lib/adapt.js/assets/css/mobile.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('js/bower_components/adapt/assets/css/mobile.min.css') }}" />
         </noscript>
         <script>
             var ADAPT_CONFIG = {
                 // Where is your CSS?
-                path: '{{ asset("js/lib/adapt.js/assets/css/") }}',
+                path: '{{ asset("js/bower_components/adapt/assets/css/") }}',
                 dynamic: true,
                 range: [
                     '0px    to 760px  = mobile.min.css',
@@ -48,7 +48,7 @@
                 ]
             };
         </script>
-        <script src="{{ asset('js/lib/adapt.js/assets/js/adapt.min.js') }}"></script>    
+        <script src="{{ asset('js/bower_components/adapt/assets/js/adapt.min.js') }}"></script>    
     </head>
     <body>  
         <div class="container_12">   
