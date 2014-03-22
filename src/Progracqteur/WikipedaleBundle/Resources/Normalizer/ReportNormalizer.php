@@ -16,7 +16,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 
 /**
- * Description of PlaceNormalizer
+ * Description of ReportNormalizer
  *
  * @author julien [at] fastre [point] info
  */
@@ -29,9 +29,9 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
     private $service;
     
     /**
-     * Place being denormalized
+     * Report being denormalized
      * (useful for recursive denormalization)
-     * @var Progracqteur\WikipedaleBundle\Entity\Model\Place 
+     * @var Progracqteur\WikipedaleBundle\Entity\Model\Report 
      */
     private $currentReport;
     
@@ -223,7 +223,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
     
     /**
      * 
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place $object
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report $object
      * @param string $format
      * @return array
      */

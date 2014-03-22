@@ -54,7 +54,7 @@ class NotificationSubscription
     /**
      * @var \Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
-    private $report;
+    private $place;
 
     
     const KIND_MODERATOR = 'moderator';
@@ -300,12 +300,12 @@ class NotificationSubscription
     /**
      * Set report
      *
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report $report
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report $place
      * @return NotificationSubscription
      */
-    public function setPlace(\Progracqteur\WikipedaleBundle\Entity\Model\Report $report = null)
+    public function setPlace(\Progracqteur\WikipedaleBundle\Entity\Model\Report $place = null)
     {
-        $this->report = $report;
+        $this->report = $place;
     
         return $this;
     }

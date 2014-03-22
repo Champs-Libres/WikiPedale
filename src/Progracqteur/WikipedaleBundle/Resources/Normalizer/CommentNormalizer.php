@@ -56,15 +56,15 @@ class CommentNormalizer implements NormalizerInterface, DenormalizerInterface
             }*/
 
         if (isset($data['placeId'])) {
-            $place = $this->service->getManager()
+            $report = $this->service->getManager()
                 ->getRepository('ProgracqteurWikipedaleBundle:Model\\Report')
                 ->find($data['placeId']);
             
-            if ($place === null) {
-                throw new \Exception("place with id ".$data['placeId']." not found");
+            if ($report === null) {
+                throw new \Exception("report with id ".$data['placeId']." not found");
             }
             
-            $p->setPlace($place);
+            $p->setPlace($report);
         }
 
         if (isset($data['text'])) {

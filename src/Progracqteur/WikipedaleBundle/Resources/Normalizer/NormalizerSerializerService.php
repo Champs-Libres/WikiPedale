@@ -116,7 +116,7 @@ class NormalizerSerializerService {
     
     /**
      *
-     * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer 
+     * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\ReportNormalizer 
      */
     public function getReportNormalizer()
     {
@@ -361,7 +361,7 @@ class NormalizerSerializerService {
         switch($type)
         {
             case self::PLACE_TYPE :
-                $array = array($this->getPlaceNormalizer());
+                $array = array($this->getReportNormalizer());
                 break;
             case self::COMMENT_TYPE :
                 $array = array($this->getCommentNormalizer());

@@ -288,8 +288,8 @@ class PlaceController extends Controller
                         $this->renderView('ProgracqteurWikipedaleBundle:Emails:confirmation.txt.twig',
                             array(
                                 'code' => $checkCode,
-                                'user' => $place->getCreator(),
-                                'place' => $place
+                                'user' => $report->getCreator(),
+                                'place' => $report
                             )), 'text/plain'
                     );
 
@@ -408,12 +408,12 @@ class PlaceController extends Controller
             }
             
             $creator->setChecked(true);
-            $place->setConfirmedCreator($creator);
+            $report->setConfirmedCreator($creator);
             $this->getDoctrine()->getManager()->flush($report);
             
             return $this->render('ProgracqteurWikipedaleBundle:Place:confirmed.html.twig',
                 array(
-                    'place' => $place
+                    'place' => $report
                 ));
         } else {
             $r = new Response('check code does not match');
