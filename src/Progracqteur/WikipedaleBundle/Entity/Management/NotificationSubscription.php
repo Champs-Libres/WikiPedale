@@ -52,9 +52,9 @@ class NotificationSubscription
     private $groupRef;
 
     /**
-     * @var \Progracqteur\WikipedaleBundle\Entity\Model\Place
+     * @var \Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
-    private $place;
+    private $report;
 
     
     const KIND_MODERATOR = 'moderator';
@@ -298,25 +298,25 @@ class NotificationSubscription
     }
 
     /**
-     * Set place
+     * Set report
      *
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place $place
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report $report
      * @return NotificationSubscription
      */
-    public function setPlace(\Progracqteur\WikipedaleBundle\Entity\Model\Place $place = null)
+    public function setPlace(\Progracqteur\WikipedaleBundle\Entity\Model\Report $report = null)
     {
-        $this->place = $place;
+        $this->report = $report;
     
         return $this;
     }
 
     /**
-     * Get place
+     * Get report
      *
-     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place 
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report 
      */
     public function getPlace()
     {
-        return $this->place;
+        return $this->report;
     }
 }
