@@ -1,4 +1,4 @@
-Progracqteur\WikipedaleBundle\Entity\Model\Place:
+Progracqteur\WikipedaleBundle\Entity\Model\Report:
   getters:
     creator: 
       - NotNull: {message: La creator ne peut être nul}

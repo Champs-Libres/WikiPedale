@@ -579,14 +579,8 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     {
         $this->initializeProxyStatuses();
 
-        foreach($this->getStatuses() as $status)
-        {
-            
-            if ($status->getValue() >= -1 && $status->getValue() <= 3)
-            {
-                
-            } else 
-            {
+        foreach($this->getStatuses() as $status) {
+            if (!($status->getValue() >= -1 && $status->getValue() <= 3)) {
                 $propertyPath = $context->getPropertyPath() . '.status';
                 $context->setPropertyPath($propertyPath);
                 $context->addViolation('place.validation.message.status.valueNotCorrect', array(), null);
@@ -594,7 +588,6 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
         }
         
         return true;
-        
     }
     
     /**
@@ -608,17 +601,12 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
      */
     public function hasOnlyOneChange(ExecutionContext $context)
     {
-        if ($this->proxyCountStatusChanges <= 1)
+        if ($this->proxyCountStatusChanges <= 1) {
             return true;
-        else
-        {
+        } else {
             $context->addViolationAtSubPath('status', 'place.validation.message.onlyOneStatusAtATime', array(), null);
         }
-            
-    }
-
-    
-    
+    }    
     
     /**
      * return the common way to name a place
@@ -630,8 +618,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     {
         $l =  $this->getAddress()->getRoad();
         
-        if (strlen($l) < 2)
-        {
+        if (strlen($l) < 2) {
             $l = "Sans label";
         }
         
@@ -656,22 +643,15 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
      */
     private function _getCreator()
     {
-        if (!is_null($this->creator))
-        {
+        if (!is_null($this->creator)) {
             return $this->creator;
-        } 
-        elseif (!is_null($this->creatorUnregisteredProxy))
-        {
+        } elseif (!is_null($this->creatorUnregisteredProxy)) {
             return $this->creatorUnregisteredProxy;
-        } 
-        elseif ($this->infos->has('creator'))
-        {
+        } elseif ($this->infos->has('creator')) {
             $u = UnregisteredUser::fromHash($this->infos->creator);
             $this->creatorUnregisteredProxy = $u;
             return $u;
-        } 
-        else 
-        {
+        } else {
             return null;
         }
     }
@@ -751,13 +731,11 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     public function setDescription($description)
     {
         $description = trim($description);
-        if ($this->description !== $description )
-        {
+        if ($this->description !== $description) {
             $this->change('description', $this->description, $description);
             $this->description = $description;
             $this->getChangeset()->addChange(ChangeService::PLACE_DESCRIPTION, $description);
         }
-        
     }
 
     /**
@@ -782,13 +760,12 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     
     public function setModeratorComment($comment) 
     {
-        if ($this->moderatorComment !== $comment)
-        {
+        if ($this->moderatorComment !== $comment) {
             $this->change('moderatorComment', $this->moderatorComment, $comment);
             $this->moderatorComment = $comment;
             $this->getChangeset()->addChange(
-                    ChangeService::PLACE_MODERATOR_COMMENT_ALTER, 
-                    $comment);
+                ChangeService::PLACE_MODERATOR_COMMENT_ALTER, 
+                $comment);
         }
         
         return $this;
@@ -801,13 +778,12 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     
     public function setAccepted($accepted)
     {
-        if ($this->accepted != $accepted)
-        {
+        if ($this->accepted != $accepted) {
             $this->change('accepted', $this->accepted, $accepted);
             $this->accepted = $accepted;
             $this->getChangeset()->addChange(
-                    ChangeService::PLACE_ACCEPTED, 
-                    $accepted);
+                ChangeService::PLACE_ACCEPTED, 
+                $accepted);
         }
     }
     
@@ -818,8 +794,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     
     public function setStatusBicycle($status)
     {
-        if ($this->statusBicycle != $status)
-        {
+        if ($this->statusBicycle != $status) {
             $this->change('statusBicycle', $this->statusBicycle, $status);
             $this->statusBicycle = $status;
             $this->getChangeset()->addChange(ChangeService::PLACE_STATUS_BICYCLE, $status);
@@ -828,8 +803,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     
     public function setStatusZone($status)
     {
-        if ($this->statusZone != $status)
-        {
+        if ($this->statusZone != $status) {
             $this->change('statusZone', $this->statusZone, $status);
             $this->statusZone = $status;
             $this->getChangeset()->addChange(ChangeService::PLACE_STATUS_Zone, $status);
@@ -845,8 +819,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     
     private function setLastUpdateNow()
     {
-        if ($this->proxyLastUpdate === false)
-        {
+        if ($this->proxyLastUpdate === false) {
             $this->lastUpdate = new \DateTime();
             $this->proxyLastUpdate = true;
         }
@@ -863,15 +836,12 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     public function setManager(Group $manager = null)
     {
         
-        if ($manager === null)
-        {
+        if ($manager === null) {
             return $this->removeManager();
         }
         
-        if ($this->getManager() === null)
-        {
-            if ($this->getChangeset()->isCreation())
-            {
+        if ($this->getManager() === null) {
+            if ($this->getChangeset()->isCreation()) {
                 $this->manager = $manager;
                 $this->getChangeset()
                         ->addChange(ChangeService::PLACE_MANAGER_ADD, $manager);
@@ -879,8 +849,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
                 $this->change('manager', $this->manager, $manager);
                 $this->getChangeset()->addChange(ChangeService::PLACE_MANAGER_ALTER, $manager);
             } 
-        } elseif ($this->getManager()->getId() !== $manager->getId())
-        {
+        } elseif ($this->getManager()->getId() !== $manager->getId()) {
             $this->change('manager', $this->manager, $manager);
             $this->getChangeset()->addChange(ChangeService::PLACE_MANAGER_ALTER, $manager);
         }
@@ -890,8 +859,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     
     public function removeManager()
     {
-        if ($this->getManager() !== null)
-        {
+        if ($this->getManager() !== null) {
             $oldManager = -1;
         } else {
             $oldManager = $this->getManager();
@@ -922,13 +890,11 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
      */
     public function setType(Place\PlaceType $type)
     {
-        if ($this->getType() === null)
-        {
+        if ($this->getType() === null) {
             $this->type = $type;
             $this->getChangeset()->addChange(ChangeService::PLACE_PLACETYPE_ALTER, $type);
             
-        } elseif ($this->getType()->getId() !== $type->getId())
-        {
+        } elseif ($this->getType()->getId() !== $type->getId()) {
             $this->change('type', $this->type, $type);
             $this->getChangeset()->addChange(ChangeService::PLACE_PLACETYPE_ALTER, $type);
         }
@@ -954,13 +920,11 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
         $oldInfos = clone($this->getInfos());
         
         //create the entry in the hash, update it if necessary
-        if (! $this->infos->has('nbComments'))
-        {
+        if (! $this->infos->has('nbComments')) {
             $this->infos->nbComments = new Hash();
         }
         
-        if (! $this->infos->nbComments->has($type))
-        {
+        if (! $this->infos->nbComments->has($type)) {
             $this->infos->nbComments->{$type} = 1;
         } else {
             $this->infos->nbComments->{$type} ++;
@@ -979,13 +943,11 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     public function getNbComments($type)
     {
         //create the entry in the hash, update it if necessary
-        if (! $this->infos->has('nbComments'))
-        {
+        if (! $this->infos->has('nbComments')) {
             return 0;
         }
         
-        if (! $this->infos->nbComments->has($type))
-        {
+        if (! $this->infos->nbComments->has($type)) {
             return 0;
         } else {
             return (int) $this->infos->nbComments->{$type};
@@ -1004,8 +966,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
      */
     public function getChangeset() {
         
-        if ($this->changeset === null)
-        {
+        if ($this->changeset === null) {
             $this->changeset = new Place\PlaceTracking($this);
             //$this->changesets->add($this->changeset);
         }
@@ -1050,8 +1011,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     public function addCategory(Category $category)
     {
         $this->category[] = $category;
-        if ($this->proxyAddCategory === null)
-        {
+        if ($this->proxyAddCategory === null) {
             $this->proxyAddCategory = new \Doctrine\Common\Collections\ArrayCollection();
         }
         
@@ -1084,11 +1044,9 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     {
         foreach ($this->category as $key => $categoryRecorded)
         {
-            if ($categoryRecorded->getId() === $category->getId())
-            {
+            if ($categoryRecorded->getId() === $category->getId()) {
                 $this->category->remove($key);
-                if ($this->proxyRemoveCagory === null)
-                {
+                if ($this->proxyRemoveCagory === null) {
                     $this->proxyRemoveCagory = new \Doctrine\Common\Collections\ArrayCollection();
                 }
                 $this->proxyRemoveCagory->add($category);
@@ -1109,10 +1067,10 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
      */
     public function hasCategory(Category $category)
     {
-        foreach($this->category as $cat)
-        {
-            if ($cat->getId() == $category->getId())
+        foreach($this->category as $cat) {
+            if ($cat->getId() == $category->getId()) {
                 return true;
+            }
         }
         return false;
     }
@@ -1126,10 +1084,8 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
      */
     public function isCategoriesValid(ExecutionContext $context)
     {
-        foreach($this->getCategory() as $cat)
-        {
-            if ($cat->hasChildren())
-            {
+        foreach($this->getCategory() as $cat) {
+            if ($cat->hasChildren()) {
                 $context->addViolationAtSubPath('category', 'validation.place.category.have_children', array(), null);
                 return;
             }
@@ -1139,8 +1095,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     public function isManagerValid(ExecutionContext $context)
     {
         if ($this->getManager() !== null 
-                && $this->getManager()->getType() !== Group::TYPE_MANAGER )
-        {
+                && $this->getManager()->getType() !== Group::TYPE_MANAGER ) {
             $context->addViolationAtSubPath('manager', 'validation.place.manager.group_is_not_type_manager', 
                     array(), $this->getManager());
         }

@@ -3,7 +3,7 @@
 namespace Progracqteur\WikipedaleBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
@@ -13,14 +13,14 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 require_once __DIR__.'/../../../../../app/AppKernel.php';
 
 /**
- * Description of PlaceControllerTest
+ * Description of ReportControllerTest
  *
  * @author julien
  */
-class PlaceControllerTest extends WebTestCase {
-    
-    private $_kernel;
-    
+class ReportControllerTest extends WebTestCase
+{
+    private $_kernel;  
+
     public function testValidationCorrect() 
     {
         $p = $this->getPlace();
@@ -30,9 +30,8 @@ class PlaceControllerTest extends WebTestCase {
         $errors = $validator->validate($p);
         
         $this->assertEquals(0, $errors->count());
-        
     }
-    
+
     public function testValidationUser()
     {
         $p = $this->getPlace(false);
@@ -52,8 +51,7 @@ class PlaceControllerTest extends WebTestCase {
         $string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent volutpat consectetur ligula, venenatis tincidunt dui commodo et. Curabitur eleifend justo dolor. Maecenas vel ipsum sit amet odio vehicula commodo eget sit amet sem. Curabitur sagittis pulvinar mauris. Fusce ut augue vitae nulla semper malesuada eu vel massa. Suspendisse vel justo mauris. Sed mattis ipsum sed mi dapibus vestibulum. Cras vitae lorem eget tortor fringilla ornare ut vel sapien. ";
         
         $s = $string;
-        for ($a = 0; $a < 10000; $a = $a+463)
-        {
+        for ($a = 0; $a < 10000; $a = $a+463) {
             $s .= $string;
         }
         
@@ -64,8 +62,6 @@ class PlaceControllerTest extends WebTestCase {
         
         $errors = $validator->validate($p);
         
-        
-        
         $this->assertEquals(1, $errors->count());
     }
     
@@ -74,7 +70,6 @@ class PlaceControllerTest extends WebTestCase {
         $p = $this->getPlace();
         
         $p->setStatusBicycle(1);
-        
         
         $validator = $this->getValidator();
         
@@ -92,42 +87,18 @@ class PlaceControllerTest extends WebTestCase {
         $validator = $this->getValidator();
         
         $errors = $validator->validate($p, array('creation'));
-        
+
         $this->assertEquals(1, $errors->count());
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     public function getValidator()
     {
-        if ($this->_kernel === null){
+        if ($this->_kernel === null) {
             $this->_kernel = new \AppKernel('dev', true);
             $this->_kernel->boot(); 
         }
         
         return $this->_kernel->getContainer()->get('validator');
-        
-        
     }
     
     
@@ -136,21 +107,21 @@ class PlaceControllerTest extends WebTestCase {
      */
     private function getPlace($user = true)
     {
-        $p = new Place();
+        $p = new Report();
         $p->setGeom($this->getRandomPoint());
+
+        $p->setTerm('short');
         
         $p->setAddress($this->geolocate($p->getGeom()));
         
-        if ($user == true)
-        {
+        if ($user == true) {
             $u = new UnregisteredUser();
             $u->setLabel('non enregistré '.$this->createId());
-            $u->setEmail('test@email');
+            $u->setEmail('test@email.com');
             $u->setIp('192.168.1.89');
 
             $p->setCreator($u);
-        }
-        
+        } 
         
         return $p;
     }
@@ -173,7 +144,8 @@ class PlaceControllerTest extends WebTestCase {
 
     private $z = array(6);
 
-    public function createId() {
+    public function createId()
+    {
   
         $s = '';
         $d = array_rand($this->z);
@@ -186,11 +158,11 @@ class PlaceControllerTest extends WebTestCase {
         }
 
         return $s;
-  }
+    }
   
-  private function geolocate(Point $point)
-  {
-      $a = new Address();
+    private function geolocate(Point $point)
+    {
+        $a = new Address();
 
         //si la chaine est vide, retourne le hash
         
@@ -199,30 +171,15 @@ class PlaceControllerTest extends WebTestCase {
         $lat = $point->getLat();
         $lon = $point->getLon();
         
-        //$ch = curl_init();
-        
-         $url = "http://open.mapquestapi.com/nominatim/v1/reverse?format=xml&lat=$lat&lon=$lon";
-        
-        //echo $url;
-        
-        //curl_setopt($ch, CURLOPT_URL, $url);
-        
-        //$d = curl_exec($ch);
-        
-        //curl_close($ch);
-        
-        //echo "\n";
-        //echo $d;
+        $url = "http://open.mapquestapi.com/nominatim/v1/reverse?format=xml&lat=$lat&lon=$lon";
         
         $dom->load($url);
         $docs = $dom->getElementsByTagName('addressparts');
         
         $doc = $docs->item(0);
 
-        if ($dom->hasChildNodes())
-        {
-            foreach ($doc->childNodes as $node)
-            {
+        if ($dom->hasChildNodes()) {
+            foreach ($doc->childNodes as $node) {
                 $v = $node->nodeValue;
                 
                 switch ($node->nodeName) {
@@ -256,9 +213,7 @@ class PlaceControllerTest extends WebTestCase {
                 }
             }
         }
-        
         return $a;
-  }
-    
+    }
 }
 
