@@ -16,8 +16,8 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\ReportNormalizer;
  * @author julien [at] fastre [point] info & marcducobu [at] gmail [point] com
  */
 
-class CommentNormalizer implements NormalizerInterface, DenormalizerInterface {
-    
+class CommentNormalizer implements NormalizerInterface, DenormalizerInterface
+{    
     /**
      *
      * @var Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService 
@@ -35,7 +35,6 @@ class CommentNormalizer implements NormalizerInterface, DenormalizerInterface {
     {
         $this->service = $service;
     }
-
     
     public function denormalize($data, $class, $format = null, array $context = array()) 
     {
@@ -56,50 +55,50 @@ class CommentNormalizer implements NormalizerInterface, DenormalizerInterface {
                 }
             }*/
 
-    if (isset($data['placeId'])) {
-        $place = $this->service->getManager()
-            ->getRepository('ProgracqteurWikipedaleBundle:Model\\Report')
-            ->find($data['placeId']);
-        
-        if ($place === null) {
-            throw new \Exception("place with id ".$data['placeId']." not found");
+        if (isset($data['placeId'])) {
+            $place = $this->service->getManager()
+                ->getRepository('ProgracqteurWikipedaleBundle:Model\\Report')
+                ->find($data['placeId']);
+            
+            if ($place === null) {
+                throw new \Exception("place with id ".$data['placeId']." not found");
+            }
+            
+            $p->setPlace($place);
         }
-        
-        $p->setPlace($place);
-    }
 
-    if (isset($data['text'])) {
-        $p->setContent($data['text']);
-    }
+        if (isset($data['text'])) {
+            $p->setContent($data['text']);
+        }
 
-    if (isset($data['creator'])) {
-            $userNormalizer = $this->service->getUserNormalizer();
-            if ($userNormalizer->supportsDenormalization($data['creator'], 
-                    $class, 
-                    $format)) {
-                $u = $userNormalizer->denormalize($data['creator'], 
+        if (isset($data['creator'])) {
+                $userNormalizer = $this->service->getUserNormalizer();
+                if ($userNormalizer->supportsDenormalization($data['creator'], 
                         $class, 
-                        $format);
-                $p->setCreator($u);
+                        $format)) {
+                    $u = $userNormalizer->denormalize($data['creator'], 
+                            $class, 
+                            $format);
+                    $p->setCreator($u);
+                }
+            }
+
+        if (isset($data['published'])) {
+            $p->setPublished($data['published']);
+        }
+            
+        if (isset($data['type'])) {
+            switch($data['type']) {
+                case 'moderator_manager' :
+                    $p->setType(Comment::TYPE_MODERATOR_MANAGER);
+                    break;
+                default :
+                    $p->setType(Comment::TYPE_PUBLIC);
+                    break;
             }
         }
 
-    if (isset($data['published'])) {
-            $p->setPublished($data['published']);
-        }
-        
-    if (isset($data['type'])) {
-        switch($data['type']) {
-            case 'moderator_manager' :
-                $p->setType(Comment::TYPE_MODERATOR_MANAGER);
-                break;
-            default :
-                $p->setType(Comment::TYPE_PUBLIC);
-                break;
-        }
-    }
-
-    return $p;
+        return $p;
     }
 
   	/**
