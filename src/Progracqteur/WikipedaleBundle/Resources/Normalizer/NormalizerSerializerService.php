@@ -4,7 +4,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\CategoryNormalizer;
-use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\ReportNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\PhotoNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\GroupNormalizer;
@@ -43,7 +43,7 @@ class NormalizerSerializerService {
     
     //Normalizers
     private $addressNormalizer = null;
-    private $placeNormalizer = null;
+    private $reportNormalizer = null;
     private $userNormalizer = null;
     private $photoNormalizer = null;
     private $normalizedResponseNormalizer = null;
@@ -118,14 +118,14 @@ class NormalizerSerializerService {
      *
      * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer 
      */
-    public function getPlaceNormalizer()
+    public function getReportNormalizer()
     {
-        if ($this->placeNormalizer === null)
+        if ($this->reportNormalizer === null)
         {
-            $this->placeNormalizer = new PlaceNormalizer($this);
+            $this->reportNormalizer = new ReportNormalizer($this);
         }
         
-        return $this->placeNormalizer;
+        return $this->reportNormalizer;
     }
     
     /**
@@ -303,7 +303,7 @@ class NormalizerSerializerService {
         switch($short_class)
         {
             case self::PLACE_TYPE :
-                return 'Progracqteur\\WikipedaleBundle\\Entity\\Model\\Place';
+                return 'Progracqteur\\WikipedaleBundle\\Entity\\Model\\Report';
             case self::ADDRESS_TYPE : 
                 return 'Progracqteur\\WikipedaleBundle\\Resources\\Container\\Address';
             case self::USER_TYPE : 

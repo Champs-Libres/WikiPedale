@@ -1,6 +1,6 @@
 ## YAML Template.
 ---
-Progracqteur\WikipedaleBundle\Entity\Model\Place:
+Progracqteur\WikipedaleBundle\Entity\Model\Report:
   changeTrackingPolicy: NOTIFY
 #FIXME: implémenter le tracking policy: pour l'instant, rien ne change
   type: entity
@@ -71,3 +71,13 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place:
     category:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category
       nullable: true
+      joinTable:
+        name: place_category
+        joinColumns:
+          place_id:
+            referencedColumnName: id
+        inverseJoinColumns:
+          category_id:
+            referencedColumnName: id
+
+

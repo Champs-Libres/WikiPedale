@@ -3,7 +3,7 @@
 namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus;
@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
  *
  * @author julien [at] fastre [point] info
  */
-class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
+class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
     
     /**
      *
@@ -33,7 +33,7 @@ class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
      * (useful for recursive denormalization)
      * @var Progracqteur\WikipedaleBundle\Entity\Model\Place 
      */
-    private $currentPlace;
+    private $currentReport;
     
     
     const PLACE_TYPE = 'placetype';
@@ -50,20 +50,20 @@ class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
     public function denormalize($data, $class, $format = null, array $context = array()) {
         
         if ($data['id'] === null){
-            $p = new Place();
+            $p = new Report();
         }
         else {
             $p = $this->service->getManager()
-                    ->getRepository('ProgracqteurWikipedaleBundle:Model\\Place')
+                    ->getRepository('ProgracqteurWikipedaleBundle:Model\\Report')
                     ->find($data['id']);
             
             if ($p === null)
             {
-                throw new \Exception("La place recherchée n'existe pas");
+                throw new \Exception("Le signalement recherchée n'existe pas");
             }
         }
         
-        $this->setCurrentPlace($p);
+        $this->setCurrentReport($p);
         
         if (isset($data['description']))
             $p->setDescription($data['description']);
@@ -154,16 +154,16 @@ class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
             // from the place.
             foreach ($p->getCategory() as $recordedCat)
             {
-                $categoryIsAssociatedWithPlace = false;
+                $categoryIsAssociatedWithReport = false;
                 foreach ($arrayCategories as $key => $newCat)
                 {
                     if ($newCat->getId() == $recordedCat->getId()) {
-                        $categoryIsAssociatedWithPlace = true;
+                        $categoryIsAssociatedWithReport = true;
                         unset($arrayCategories[$key]);
                         break;  
                     }
                 }
-                if ($categoryIsAssociatedWithPlace == false)
+                if ($categoryIsAssociatedWithReport == false)
                 {
                     $p->removeCategory($recordedCat);
                 } 
@@ -318,18 +318,18 @@ class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
         }
     }
     
-    private function setCurrentPlace(Place $place)
+    private function setCurrentReport(Report $report)
     {
-        $this->currentPlace = $place;
+        $this->currentReport = $report;
     }
     
     /*
      * 
      * @return Progracqteur\WikipedaleBundle\Entity\Model\Place
      */
-    public function getCurrentPlace()
+    public function getCurrentReport()
     {
-        return $this->currentPlace;
+        return $this->currentReport;
     }
 }
 

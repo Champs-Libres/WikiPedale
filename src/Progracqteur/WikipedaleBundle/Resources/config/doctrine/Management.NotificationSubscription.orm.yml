@@ -31,6 +31,6 @@ Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription:
       inversedBy: notificationSubscriptions
       nullable: true
     place:
-      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Report
       inversedBy: notificationSubscriptions
       nullable: true

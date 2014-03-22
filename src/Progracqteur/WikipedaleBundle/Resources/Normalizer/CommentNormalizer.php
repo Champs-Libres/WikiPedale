@@ -8,7 +8,7 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizingException;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
-use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\ReportNormalizer;
 
 /**
  * Description of PlaceNormalizer
@@ -58,7 +58,7 @@ class CommentNormalizer implements NormalizerInterface, DenormalizerInterface {
     if (isset($data['placeId']))
     {
         $place = $this->service->getManager()
-                ->getRepository('ProgracqteurWikipedaleBundle:Model\\Place')
+                ->getRepository('ProgracqteurWikipedaleBundle:Model\\Report')
                 ->find($data['placeId']);
         
         if ($place === null)

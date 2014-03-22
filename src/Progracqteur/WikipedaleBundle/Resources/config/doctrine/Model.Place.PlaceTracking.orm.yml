@@ -23,5 +23,5 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking:
       nullable: true
       mappedBy: PlaceChanges
     place:
-      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Report
       inversedBy: changesets

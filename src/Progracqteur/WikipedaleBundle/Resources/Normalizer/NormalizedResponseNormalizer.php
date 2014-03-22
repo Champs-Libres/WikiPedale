@@ -6,7 +6,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
 use Progracqteur\WikipedaleBundle\Entity\Model\Photo;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
@@ -94,9 +94,9 @@ class NormalizedResponseNormalizer implements NormalizerInterface
      */
     private function getNormalizedForm($object)
     {
-        if ($object instanceof Place)
+        if ($object instanceof Report)
         {
-            return $this->service->getPlaceNormalizer()->normalize($object);
+            return $this->service->getReportNormalizer()->normalize($object);
         } elseif ($object instanceof User)
         {
             return $this->service->getUserNormalizer()->normalize($object);

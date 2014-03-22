@@ -27,7 +27,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Photo:
     creator:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\User
     place:
-      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Report
       inversedBy: photos
       cascade: [persist, remove]
   lifecycleCallbacks:

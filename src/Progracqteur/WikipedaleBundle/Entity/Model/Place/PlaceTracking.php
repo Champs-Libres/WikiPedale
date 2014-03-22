@@ -7,7 +7,7 @@ use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use \Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 
@@ -36,11 +36,11 @@ class PlaceTracking implements ChangesetInterface {
     
     /**
      *
-     * @var Progracqteur\WikipedaleBundle\Entity\Model\Place 
+     * @var Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
     private $place;
     
-    public function __construct(Place $place)
+    public function __construct(Report $place)
     {
         $this->details = new Hash;
         $this->place = $place;

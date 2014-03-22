@@ -20,16 +20,16 @@ class PhotoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $place = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Place")->find($placeId);
+        $report = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report")->find($placeId);
         
-        if ($place === null)
+        if ($report === null)
         {
-            throw $this->createNotFoundException("La place $placeId n'a pas été trouvée");
+            throw $this->createNotFoundException("Le signalement $placeId n'a pas été trouvée");
         }
         
         $q = $em->createQuery("SELECT ph from ProgracqteurWikipedaleBundle:Model\\Photo ph 
-            where ph.place = :place and ph.published = true")
-                ->setParameter('place', $place);
+            where ph.place = :report and ph.published = true")
+                ->setParameter('report', $report);
         
         $photos = $q->getResult();
         
@@ -58,15 +58,15 @@ class PhotoController extends Controller
         
         $em = $this->getDoctrine()->getManager();
         
-        $place = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Place")->find($placeId);
+        $report = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report")->find($placeId);
         
-        if ($place === null)
+        if ($report === null)
         {
-            throw $this->createNotFoundException("La place $placeId n'a pas été trouvée");
+            throw $this->createNotFoundException("Le signalement $placeId n'a pas été trouvée");
         }
         
         $photo = $this->get('progracqteurWikipedalePhotoService')->createPhoto();
-        $photo->setPlace($place);
+        $photo->setPlace($report);
         
         $security = $this->get('security.context');
         

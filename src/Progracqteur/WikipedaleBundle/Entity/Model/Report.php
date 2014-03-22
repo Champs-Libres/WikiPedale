@@ -21,7 +21,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 /**
  * Progracqteur\WikipedaleBundle\Entity\Model\Place
  */
-class Place implements ChangeableInterface, NotifyPropertyChanged
+class Report implements ChangeableInterface, NotifyPropertyChanged
 {
     /**
      * @var integer $id
