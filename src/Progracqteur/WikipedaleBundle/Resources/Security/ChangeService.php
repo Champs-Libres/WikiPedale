@@ -248,7 +248,7 @@ class ChangeService {
                          throw ChangeException::param('status');
                      }
                      
-                     /**
+                     /*
                      $dql = "select g from ProgracqteurWikipedaleBundle:Management\Group g 
                          JOIN g.Zone c JOIN g.notation n 
                          WHERE 
