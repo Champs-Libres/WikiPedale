@@ -95,16 +95,16 @@ wikipedale_comment_view:
   options:
     expose: true
 
-wikipedale_photo_list_by_place:
-  pattern: /photo/list/byplace/{placeId}.{_format}
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Photo:getPhotoByPlace }
+wikipedale_photo_list_by_report:
+  pattern: /photo/list/byreport/{reportId}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Photo:getPhotoByReport }
   requirements:
     _format: json|html
   options:
     expose: true
 
 wikipedale_photo_new:
-  pattern: /photo/new/place-{placeId}.{_format}
+  pattern: /photo/new/report-{reportId}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Photo:new }
   requirements:
     _format: html

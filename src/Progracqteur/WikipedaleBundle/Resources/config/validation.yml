@@ -25,12 +25,12 @@ Progracqteur\WikipedaleBundle\Entity\Model\Photo:
           mimeTypesMessage: Le fichier n'est pas un format accepté. Seul le format jpg est accepté.
     creator:
       - NotNull: {message: Le créateur ne peut pas être null}
-    place:
-      - NotNull: {message: La photo doit être reliée à un emplacement}
+    report:
+      - NotNull: {message: La photo doit être reliée à un signalement}
   properties:
     legend:
       - Length: {max: 500, maxMessage: La légende ne peut dépasser 500 caractères }
-      
+
 Progracqteur\WikipedaleBundle\Entity\Management\Notation:
   constraints:
     - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:

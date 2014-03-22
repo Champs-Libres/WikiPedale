@@ -13,7 +13,7 @@ define(['jQuery','basic_data_and_functions'], function($,basic_data_and_function
       * Open a new window where it is possible to add a photo.
       * @param {int} i The id of the description  for which the photo will be associated 
       */
-      window.open(Routing.generate('wikipedale_photo_new', {_format: 'html', placeId: i}));
+      window.open(Routing.generate('wikipedale_photo_new', {_format: 'html', reportId: i}));
    }
 
    function refresh_span_photo(id) {
@@ -23,7 +23,7 @@ define(['jQuery','basic_data_and_functions'], function($,basic_data_and_function
       */
       var data;
       var span_photo_inner = '<br />';
-      var url_photo_list = Routing.generate('wikipedale_photo_list_by_place', {_format: 'json', placeId: id});
+      var url_photo_list = Routing.generate('wikipedale_photo_list_by_report', {_format: 'json', reportId: id});
       $.getJSON(url_photo_list, function(raw_data) {
          data = raw_data.results;
          if (data.length === 0) {
