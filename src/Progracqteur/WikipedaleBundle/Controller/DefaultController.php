@@ -33,14 +33,14 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         if ($id != null) {
-            $place = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Place')
+            $report = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Report')
                 ->find($id);
             
-            if ($place === null OR $place->isAccepted() == FALSE) {
-                throw $this->createNotFoundException('errors.404.place.not_found');
+            if ($report === null OR $report->isAccepted() == FALSE) {
+                throw $this->createNotFoundException('errors.404.report.not_found');
             }
             
-            $stringGeo = $this->get('progracqteur.wikipedale.geoservice')->toString($place->getGeom());
+            $stringGeo = $this->get('progracqteur.wikipedale.geoservice')->toString($report->getGeom());
             
             $city = $em->createQuery('select c 
                     from ProgracqteurWikipedaleBundle:Management\Zone c
