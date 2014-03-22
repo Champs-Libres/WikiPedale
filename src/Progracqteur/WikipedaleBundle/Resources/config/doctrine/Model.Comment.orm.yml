@@ -33,4 +33,4 @@ Progracqteur\WikipedaleBundle\Entity\Model\Comment:
         name: place_id
         referencedColumnName: id
   lifecycleCallbacks:
-    preFlush: [registerToPlace]
+    preFlush: [registerToReport]

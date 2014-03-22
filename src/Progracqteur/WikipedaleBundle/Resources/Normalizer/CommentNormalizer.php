@@ -64,7 +64,7 @@ class CommentNormalizer implements NormalizerInterface, DenormalizerInterface
                 throw new \Exception("report with id ".$data['placeId']." not found");
             }
             
-            $p->setPlace($report);
+            $p->setReport($report);
         }
 
         if (isset($data['text'])) {
@@ -117,7 +117,7 @@ class CommentNormalizer implements NormalizerInterface, DenormalizerInterface
             'createDate' => $this->service->getDateNormalizer()->normalize($object->getCreationDate(), $format),
             'creator' => $this->service->getUserNormalizer()->normalize($object->getCreator(), $format),
             //'place' => $this->service->getPlaceNormalizer()->normalize($object->getPlace(), $format),
-            'placeId' => $object->getPlace()->getId(),
+            'placeId' => $object->getReport()->getId(),
             'type' => $object->getType() 
         );
     }

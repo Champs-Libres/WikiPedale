@@ -52,24 +52,24 @@ wikipedale_user_confirm:
   options:
     expose: true
 
-wikiedale_comment_last_by_place:
-  pattern: /comment/last/byplace/{placeId}.{_format}
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:getLastCommentByPlace}
+wikiedale_comment_last_by_report:
+  pattern: /comment/last/byreport/{reportId}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:getLastCommentByReport}
   requirements:
     _format: json|html
   options:
     expose: true
 
-wikiedale_comment_list_by_place:
-  pattern: /comment/list/byplace/{placeId}.{_format}
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:getCommentByPlace}
+wikiedale_comment_list_by_report:
+  pattern: /comment/list/byreport/{reportId}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:getCommentByReport}
   requirements:
     _format: json|html
   options:
     expose: true
 
 wikipedale_comment_new:
-  pattern: /comment/new/place-{placeId}.{_format}
+  pattern: /comment/new/report-{reportId}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:newbis }
   requirements:
     _format: json

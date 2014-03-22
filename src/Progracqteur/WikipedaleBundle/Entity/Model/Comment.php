@@ -190,7 +190,7 @@ class Comment
      * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report $report
      * @return Comment
      */
-    public function setPlace(\Progracqteur\WikipedaleBundle\Entity\Model\Report $report = null)
+    public function setReport(\Progracqteur\WikipedaleBundle\Entity\Model\Report $report = null)
     {
         if ($this->report !== null) {
             throw new \Exception("You cannot switch the comment report !");
@@ -205,7 +205,7 @@ class Comment
      *
      * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report 
      */
-    public function getPlace()
+    public function getReport()
     {
         return $this->report;
     }
@@ -236,7 +236,7 @@ class Comment
     /**
      * called by prePersist lifeCycleEvent
      */
-    public function registerToPlace() {
-        $this->getPlace()->registerComment($this);
+    public function registerToReport() {
+        $this->getReport()->registerComment($this);
     }
 }

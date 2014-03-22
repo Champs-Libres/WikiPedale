@@ -21,16 +21,16 @@ class CommentController extends Controller
     
     const MAX_COMMENTS_BY_REQUEST = 40;
     
-    private function getCommentByPLaceLimit($_format, $placeId, $limit, Request $request)
+    private function getCommentByReportLimit($_format, $reportId, $limit, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $report = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report")->find($placeId);
+        $report = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report")->find($reportId);
         
         if ($report === null OR $report->isAccepted() === false)
         {
                                                     //TODO: i18n
-            throw $this->createNotFoundException("Le signalement $placeId n'a pas été trouvée");
+            throw $this->createNotFoundException("Le signalement $reportId n'a pas été trouvée");
         }
         
         $qstring = "SELECT cm 
@@ -133,17 +133,17 @@ class CommentController extends Controller
         }
     }
 
-    public function getLastCommentByPlaceAction($_format, $placeId, Request $request)
+    public function getLastCommentByReportAction($_format, $reportId, Request $request)
     {
-        return $this->getCommentByPLaceLimit($_format, $placeId, 1, $request);
+        return $this->getCommentByReportLimit($_format, $reportId, 1, $request);
     }
 
-    public function getCommentByPlaceAction($_format, $placeId,Request $request)
+    public function getCommentByReportAction($_format, $reportId,Request $request)
     {
-        return $this->getCommentByPLaceLimit($_format, $placeId, null, $request);
+        return $this->getCommentByReportLimit($_format, $reportId, null, $request);
     }
     
-    public function newbisAction($placeId, $_format, Request $request)
+    public function newbisAction($reportId, $_format, Request $request)
     {
         if ($request->getMethod() != 'POST')
         {
@@ -158,11 +158,11 @@ class CommentController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $report = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report")
-                ->find($placeId);
+                ->find($reportId);
         
         if ($report === null)
         {
-            throw $this->createNotFoundException("La report $placeId n'a pas été trouvée");
+            throw $this->createNotFoundException("La report $reportId n'a pas été trouvée");
         }
 
         $serializedJson = $request->get('entity', null);
@@ -284,7 +284,7 @@ class CommentController extends Controller
         $em->persist($comment);
         
         //add user to comment
-        $comment->getPlace()->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
+        $comment->getReport()->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
         
         $em->flush();
         
