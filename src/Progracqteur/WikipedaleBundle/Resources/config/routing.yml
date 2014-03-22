@@ -24,7 +24,7 @@ wikipedale_reset_city:
 
 wikipedale_place_view:
   pattern: /place/view/{id}.{_format}
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Place:view }
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Report:view }
   requirements:
     _format: json
   options:
@@ -32,7 +32,7 @@ wikipedale_place_view:
 
 wikipedale_place_list_by_city:
   pattern: /place/list/bycity.{_format}
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Place:listByCity }
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Report:listByCity }
   requirements:
     _format: json|csv
   options:
@@ -40,7 +40,7 @@ wikipedale_place_list_by_city:
 
 wikipedale_place_change:
   pattern: /place/change.{_format}
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Place:change }
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Report:change }
   requirements:
     _format: json
   options:
@@ -48,7 +48,7 @@ wikipedale_place_change:
 
 wikipedale_user_confirm:
   pattern: /user/confirm/{token}/{placeId}.html
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Place:confirmUser }
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Report:confirmUser }
   options:
     expose: true
 

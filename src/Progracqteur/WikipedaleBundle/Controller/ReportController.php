@@ -21,18 +21,18 @@ use Progracqteur\WikipedaleBundle\Form\Model\PlaceType;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 
 /**
- * Description of PlaceController
+ * Description of ReportController
  *
  * @author Julien Fastré
  */
-class PlaceController extends Controller
+class ReportController extends Controller
 {
     /**
-     * Return a given place
+     * Return a given report
      *
-     * @param int $id The id of the asked place
+     * @param int $id The id of the asked report
      *
-     * @return Symfony\Component\HttpFoundation\Response A json that contains the details of the place of id $id.
+     * @return Symfony\Component\HttpFoundation\Response A json that contains the details of the report of id $id.
      */
     public function viewAction($id)
     {
@@ -63,12 +63,12 @@ class PlaceController extends Controller
     }
     
     /**
-     * Return all the places for a given city
+     * Return all the reports for a given city
      *
      * @param String $_format the format of the output (csv or json)
      * @param Symfony\Component\HttpFoundation\Request $request the request that must contain a city param
      *
-     * @return Symfony\Component\HttpFoundation\Response A csv or json file that contains an array of all the place of the city
+     * @return Symfony\Component\HttpFoundation\Response A csv or json file that contains an array of all the report of the city
      */
     public function listByCityAction($_format, Request $request)
     {
@@ -157,12 +157,12 @@ class PlaceController extends Controller
                 return new Response('Pas encore implémenté');
 
             case 'csv' :
-                $response = $this->render('ProgracqteurWikipedaleBundle:Place:list.csv.twig', 
-                    array('places' => $r));
+                $response = $this->render('ProgracqteurWikipedaleBundle:Report:list.csv.twig', 
+                    array('reports' => $r));
                 
                 $response->setStatusCode(200);
                 $response->headers->set('Content-Type', 'text/csv');
-                $response->headers->set('Content-Description', 'List of places');
+                $response->headers->set('Content-Description', 'List of reports');
                 $response->headers->set('Content-Disposition', 'attachment; filename=list.csv');
                 $response->headers->set('Content-Transfer-Encoding', 'binary');
                 $response->headers->set('Pragma', 'no-cache');
@@ -173,11 +173,11 @@ class PlaceController extends Controller
     }
 
     /**
-     * Update a given place (post method and json objec)
+     * Update a given report (post method and json objec)
      *
      * @param Symfony\Component\HttpFoundation\Request $request The request containing the changes
      *
-     * @return Symfony\Component\HttpFoundation\Response An error (400, 401, 403 or 404) if there is a problem. If not redirect to the viewAction : the JSON of the updated place
+     * @return Symfony\Component\HttpFoundation\Response An error (400, 401, 403 or 404) if there is a problem. If not redirect to the viewAction : the JSON of the updated report
      */    
     public function changeAction(Request $request)
     {
@@ -201,18 +201,18 @@ class PlaceController extends Controller
                 /*TODO: when the token will be enabled into javascript, if there
                  * is no token, the script must reject request without tokens
                  */
-                $logger->warn('Wikipedale:PlaceController:ChangeAction change place without token');
+                $logger->warn('Wikipedale:ReportController:ChangeAction change report without token');
                 
                 //TODO: remove debug code below :
                 if ($this->get('security.context')->getToken() instanceof WsseUserToken) {
                     if (!$this->get('security.context')->getToken()->isFullyAuthenticated()) {
-                        $logger->debug('Wikipedale:PlaceController:ChangeAction connected with WSSE but not fully');
+                        $logger->debug('Wikipedale:ReportController:ChangeAction connected with WSSE but not fully');
                     }
                 }
             }
         } else {
             if (false === $this->get('progracqteur.wikipedale.token_provider')->isCsrfTokenValid($token)) {
-                $logger->warn('Wikipedale:PlaceController:ChangeAction use of invalid token');
+                $logger->warn('Wikipedale:ReportController:ChangeAction use of invalid token');
                 $response = new Response('invalid token provided');
                 $response->setStatusCode(400);
 
@@ -374,14 +374,14 @@ class PlaceController extends Controller
     }
     
     /**
-     * Validate a place for an unregister user (When an unregister user add a place, the added
-     * place is not displayed on the map and an email
+     * Validate a report for an unregister user (When an unregister user add a report, the added
+     * report is not displayed on the map and an email
      * is send to user with a confimation code. This controller check this confirmation code.
-     * If the confirmation code is correct the place is validate and shown on the map).
+     * If the confirmation code is correct the report is validate and shown on the map).
      *
      * @param Symfony\Component\HttpFoundation\Request $request the request
      * @param string $token The confirmation code
-     * @param int $placeId The id of the related place
+     * @param int $placeId The id of the related report
      *
      * @return Symfony\Component\HttpFoundation\Response Error 401 if problems. If not a confrmation page.
      */
@@ -411,9 +411,9 @@ class PlaceController extends Controller
             $report->setConfirmedCreator($creator);
             $this->getDoctrine()->getManager()->flush($report);
             
-            return $this->render('ProgracqteurWikipedaleBundle:Place:confirmed.html.twig',
+            return $this->render('ProgracqteurWikipedaleBundle:Report:confirmed.html.twig',
                 array(
-                    'place' => $report
+                    'report' => $report
                 ));
         } else {
             $r = new Response('check code does not match');

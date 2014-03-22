@@ -207,7 +207,7 @@ notification_subscriptions:
       stopped: Suspendre
 
 csv:
-    place:
+    report:
         list:
             statuses: '{-1} Rejeté (gris)|{0}Non traité (blanc) | {1} Pris en compte (rouge) | {2} En cours de résolution (orange) | {3} Résolu (vert)'
             id: Identifiant
