@@ -81,15 +81,15 @@ class PlaceTrackingToTextService {
         }
         
         //if the change is add a photo (do not consider other changes)
-        if (isset($keyChanges[ChangeService::PLACE_ADD_PHOTO]))
+        if (isset($keyChanges[ChangeService::REPORT_ADD_PHOTO]))
         {
             return $this->t->trans('place.add.photo', $args, $domain);
         }
         
         //if the change concern the status of the place
-        if (isset($keyChanges[ChangeService::PLACE_STATUS]))
+        if (isset($keyChanges[ChangeService::REPORT_STATUS]))
         {
-            $status = $keyChanges[ChangeService::PLACE_STATUS]->getNewValue();
+            $status = $keyChanges[ChangeService::REPORT_STATUS]->getNewValue();
             $args['%notation%'] = $status->getType();
             
             switch ($status->getValue())
@@ -112,13 +112,13 @@ class PlaceTrackingToTextService {
             }
         }
         
-        if (isset($keyChanges[ChangeService::PLACE_MANAGER_ADD]) 
-                OR isset($keyChanges[ChangeService::PLACE_MANAGER_ALTER])) {
+        if (isset($keyChanges[ChangeService::REPORT_MANAGER_ADD]) 
+                OR isset($keyChanges[ChangeService::REPORT_MANAGER_ALTER])) {
             
-            if (isset($keyChanges[ChangeService::PLACE_MANAGER_ADD])) {
-                $idGroupManager = $keyChanges[ChangeService::PLACE_MANAGER_ADD]->getNewValue();
+            if (isset($keyChanges[ChangeService::REPORT_MANAGER_ADD])) {
+                $idGroupManager = $keyChanges[ChangeService::REPORT_MANAGER_ADD]->getNewValue();
             } else {
-                $idGroupManager = $keyChanges[ChangeService::PLACE_MANAGER_ALTER]->getNewValue();
+                $idGroupManager = $keyChanges[ChangeService::REPORT_MANAGER_ALTER]->getNewValue();
             }
             
             $groupManager = $this->em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
@@ -176,22 +176,22 @@ class PlaceTrackingToTextService {
         
         switch ($type)
         {
-            case ChangeService::PLACE_ADDRESS :
+            case ChangeService::REPORT_ADDRESS :
                 return $this->t->trans('change.place.address' , array(), $d);
                 break;
-            case ChangeService::PLACE_DESCRIPTION:
+            case ChangeService::REPORT_DESCRIPTION:
                 return $this->t->trans('change.place.description', array(), $d);
                 break;
-            case ChangeService::PLACE_GEOM:
+            case ChangeService::REPORT_GEOM:
                 return $this->t->trans('change.place.geom', array(), $d);
                 break;
-            case ChangeService::PLACE_ADD_CATEGORY:
-            case ChangeService::PLACE_REMOVE_CATEGORY:
+            case ChangeService::REPORT_ADD_CATEGORY:
+            case ChangeService::REPORT_REMOVE_CATEGORY:
                 return $this->t->trans('change.place.category', array(), $d);
                 break;
-            case ChangeService::PLACE_PLACETYPE_ALTER:
+            case ChangeService::REPORT_PLACETYPE_ALTER:
                 return $this->t->trans('change.place.place_type', array(), $d);
-            case ChangeService::PLACE_MODERATOR_COMMENT_ALTER:
+            case ChangeService::REPORT_MODERATOR_COMMENT_ALTER:
                 return $this->t->trans('change.place.moderator_comment', array(), $d);
             default:
                 return $this->t->trans('change.place.other', array(), $d);

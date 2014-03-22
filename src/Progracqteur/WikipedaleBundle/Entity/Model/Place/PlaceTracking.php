@@ -89,32 +89,32 @@ class PlaceTracking implements ChangesetInterface {
             //et traitement de creation
             switch ($type)
             {
-                case ChangeService::PLACE_CREATOR:
+                case ChangeService::REPORT_CREATOR:
                     //Il ne faut rien faire: place creator n'est normalement pas permis
                     break;
-                case ChangeService::PLACE_ADD_PHOTO:
+                case ChangeService::REPORT_ADD_PHOTO:
                     $newValue = $newValue->getFileName();
                     break;
-                case ChangeService::PLACE_CREATION:
+                case ChangeService::REPORT_CREATION:
                     $this->setCreation(true);
                     //il n'y a pas d'autrs modifs à effectuer
                     break;
-                case ChangeService::PLACE_GEOM:
+                case ChangeService::REPORT_GEOM:
                     $newValue = $newValue->toGeoJson();
                     break;
-                case ChangeService::PLACE_ADDRESS:
+                case ChangeService::REPORT_ADDRESS:
                     $newValue = json_encode($newValue->toArray());
                     break;
-                case ChangeService::PLACE_STATUS:
+                case ChangeService::REPORT_STATUS:
                     $a = array('type' => $newValue->getType(),
                         'value' => $newValue->getValue());
                     $newValue = json_encode($a);
                     break;
-                case ChangeService::PLACE_PLACETYPE_ALTER:
+                case ChangeService::REPORT_PLACETYPE_ALTER:
                     $newValue = $newValue->getId();
                     break;
-                case ChangeService::PLACE_ADD_CATEGORY:
-                case ChangeService::PLACE_REMOVE_CATEGORY:
+                case ChangeService::REPORT_ADD_CATEGORY:
+                case ChangeService::REPORT_REMOVE_CATEGORY:
                     $ids = array();
                     foreach ($newValue as $category)
                     {
@@ -122,18 +122,18 @@ class PlaceTracking implements ChangesetInterface {
                     }
                     $newValue = json_encode($ids);
                     break;
-                case ChangeService::PLACE_MODERATOR_COMMENT_ALTER:
+                case ChangeService::REPORT_MODERATOR_COMMENT_ALTER:
                     $newValue = $newValue;
                     break;
-                case ChangeService::PLACE_MANAGER_ADD:
-                case ChangeService::PLACE_MANAGER_ALTER:
-                case ChangeService::PLACE_MANAGER_REMOVE:
+                case ChangeService::REPORT_MANAGER_ADD:
+                case ChangeService::REPORT_MANAGER_ALTER:
+                case ChangeService::REPORT_MANAGER_REMOVE:
                     $newValue = $newValue->getId();
                     break;
-                case ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD:
+                case ChangeService::REPORT_COMMENT_MODERATOR_MANAGER_ADD:
                     $newValue = $newValue->getId();
                     break;
-                case ChangeService::PLACE_TERM:
+                case ChangeService::REPORT_TERM:
                     $newValue = $newValue;
                 //default:
                     //rien à faire
@@ -269,34 +269,34 @@ class PlaceTracking implements ChangesetInterface {
             
             switch ($key)
             {
-                case ChangeService::PLACE_CREATOR:
+                case ChangeService::REPORT_CREATOR:
                     //Il ne faut rien faire: place creator n'est normalement pas permis
                     $newValue = $value;
                     break;
-                case ChangeService::PLACE_ADD_PHOTO:
+                case ChangeService::REPORT_ADD_PHOTO:
                     $newValue = $value;
                     break;
-                case ChangeService::PLACE_CREATION:
+                case ChangeService::REPORT_CREATION:
                     $newValue = $value;
                     break;
-                case ChangeService::PLACE_GEOM:
+                case ChangeService::REPORT_GEOM:
                     $newValue = Point::fromGeoJson($value);
                     break;
-                case ChangeService::PLACE_ADDRESS:
+                case ChangeService::REPORT_ADDRESS:
                     $a = json_decode($value);
                     $newValue = Address::fromArray($a);
                     break;
-                case ChangeService::PLACE_STATUS:
+                case ChangeService::REPORT_STATUS:
                     $a = json_decode($value); 
                     $status = new PlaceStatus();
                     $status->setType($a->type)->setValue($a->value);
                     $newValue = $status;
                     break;
-                case ChangeService::PLACE_PLACETYPE_ALTER:
+                case ChangeService::REPORT_PLACETYPE_ALTER:
                     $newValue = $value;
                     break;
-                case ChangeService::PLACE_ADD_CATEGORY:
-                case ChangeService::PLACE_REMOVE_CATEGORY: 
+                case ChangeService::REPORT_ADD_CATEGORY:
+                case ChangeService::REPORT_REMOVE_CATEGORY: 
                     $a = json_decode($value);
                     $newValue = $a;
                 default:

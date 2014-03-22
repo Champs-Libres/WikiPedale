@@ -57,7 +57,7 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
             {
                 switch($change->getType())
                 {
-                    case ChangeService::PLACE_ADDRESS :
+                    case ChangeService::REPORT_ADDRESS :
                         
                         $value = $this->service->getAddressNormalizer()->normalize($change->getNewValue());
                         /*$h = $change->getNewValue();
@@ -66,10 +66,10 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
                         */
                         break;
                         
-                    case ChangeService::PLACE_ADD_PHOTO : 
+                    case ChangeService::REPORT_ADD_PHOTO : 
                         $value = $change->getNewValue(); //on garde le filename de la photo
                         break;
-                    case ChangeService::PLACE_GEOM :
+                    case ChangeService::REPORT_GEOM :
                         $value = $change->getNewValue()->toArrayGeoJson();
                         break;
                     default:

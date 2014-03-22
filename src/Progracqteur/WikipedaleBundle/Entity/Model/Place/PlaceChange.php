@@ -43,25 +43,23 @@ class PlaceChange implements ChangeInterface{
      * 
      * 
      * If the type is :
-     * - PLACE_STATUS : the new value is an instance of Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus
+     * - REPORT_STATUS : the new value is an instance of Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus
      * - PLACE_PHOTO: a string which represent the filename of the new picture
-     * - PLACE_GEOM: a Progracqteur\WikipedaleBundle\Resources\Geo\Point
-     * - PLACE_ADDRESS : Progracqteur\WikipedaleBundle\Resources\Container\Address
-     * - PLACE_DETAILS = deprecated!
-     * - PLACE_DESCRIPTION = string
-     * - PLACE_GEOM = Progracqteur\WikipedaleBundle\Resources\Geo\Point;
-     * - PLACE_ADD_COMMENT = not implemented;
-     * - PLACE_ADD_VOTE = not implemented;
-     * - PLACE_ADD_PHOTO = string of the filename;
-     * - PLACE_REMOVE_PHOTO = not implemented;
-     * - PLACE_STATUS_BICYCLE = deprecated;
-     * - PLACE_STATUS_Zone = deprecated;
-     * - PLACE_CREATOR = this should not happen;
-     * - PLACE_ACCEPTED = boolean;
-     * - PLACE_ADD_CATEGORY = array of id of categories after the changes were made;
-     * - PLACE_REMOVE_CATEGORY = array of id of categories afther the changes were made;
-     * - PLACE_PLACETYPE_ALTER = id of the new placetype
-     * -PLACE_MANAGER_ADD ou PLACE_MANAGER_ALTER ou PLACE_MANAGER_REMOVE: id of the manager's group
+     * - REPORT_ADDRESS : Progracqteur\WikipedaleBundle\Resources\Container\Address
+     * - REPORT_DESCRIPTION = string
+     * - REPORT_GEOM = Progracqteur\WikipedaleBundle\Resources\Geo\Point;
+     * - REPORT_ADD_COMMENT = not implemented;
+     * - REPORT_ADD_VOTE = not implemented;
+     * - REPORT_ADD_PHOTO = string of the filename;
+     * - REPORT_REMOVE_PHOTO = not implemented;
+     * - REPORT_STATUS_BICYCLE = deprecated;
+     * - REPORT_STATUS_Zone = deprecated;
+     * - REPORT_CREATOR = this should not happen;
+     * - REPORT_ACCEPTED = boolean;
+     * - REPORT_ADD_CATEGORY = array of id of categories after the changes were made;
+     * - REPORT_REMOVE_CATEGORY = array of id of categories afther the changes were made;
+     * - REPORT_PLACETYPE_ALTER = id of the new placetype
+     * -REPORT_MANAGER_ADD ou REPORT_MANAGER_ALTER ou REPORT_MANAGER_REMOVE: id of the manager's group
      * 
      * @return mixed
      */

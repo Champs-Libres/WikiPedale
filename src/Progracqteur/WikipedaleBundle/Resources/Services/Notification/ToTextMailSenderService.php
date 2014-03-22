@@ -227,7 +227,7 @@ class ToTextMailSenderService {
                     }
                     
                     //if the change is add a photo (do not consider other changes)
-                    if (isset($keyChanges[ChangeService::PLACE_ADD_PHOTO]))
+                    if (isset($keyChanges[ChangeService::REPORT_ADD_PHOTO]))
                     {
                         $t .= $p.$this->t->trans('mail.place.add_photo', $args, self::DOMAIN);
                         $t .= "\n";
@@ -237,9 +237,9 @@ class ToTextMailSenderService {
 
 
                     //if the change concern the status of the place
-                    if (isset($keyChanges[ChangeService::PLACE_STATUS]))
+                    if (isset($keyChanges[ChangeService::REPORT_STATUS]))
                     {
-                        $status = $keyChanges[ChangeService::PLACE_STATUS]->getNewValue();
+                        $status = $keyChanges[ChangeService::REPORT_STATUS]->getNewValue();
                         $args['%notation%'] = $this->om
                                 ->getRepository('ProgracqteurWikipedaleBundle:Management\Notation')
                                 ->find($status->getType());
@@ -274,7 +274,7 @@ class ToTextMailSenderService {
                     }
 
                     //if the author added a private comment
-                    if (isset($keyChanges[ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD])) {
+                    if (isset($keyChanges[ChangeService::REPORT_COMMENT_MODERATOR_MANAGER_ADD])) {
                         $t .= $p. $this->t->trans('mail.place.comment.private_add',
                                 $args, self::DOMAIN);
                         $t .= "\n";
@@ -282,7 +282,7 @@ class ToTextMailSenderService {
                         //retrieve the comment
                         $comment = $this->om
                                 ->getRepository('ProgracqteurWikipedaleBundle:Model\Comment')
-                                ->find($keyChanges[ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD]
+                                ->find($keyChanges[ChangeService::REPORT_COMMENT_MODERATOR_MANAGER_ADD]
                                         ->getNewValue());
 
                         if ($comment !== null) {
@@ -295,13 +295,13 @@ class ToTextMailSenderService {
 
 
                     //if a manager was assigned
-                    if (isset($keyChanges[ChangeService::PLACE_MANAGER_ADD])
-                            OR isset($keyChanges[ChangeService::PLACE_MANAGER_ALTER])) {
+                    if (isset($keyChanges[ChangeService::REPORT_MANAGER_ADD])
+                            OR isset($keyChanges[ChangeService::REPORT_MANAGER_ALTER])) {
 
-                        if (isset($keyChanges[ChangeService::PLACE_MANAGER_ADD]))
-                            $temp_ch = $keyChanges[ChangeService::PLACE_MANAGER_ADD];
-                        elseif (isset($keyChanges[ChangeService::PLACE_MANAGER_ALTER])) 
-                            $temp_ch = $keyChanges[ChangeService::PLACE_MANAGER_ALTER];
+                        if (isset($keyChanges[ChangeService::REPORT_MANAGER_ADD]))
+                            $temp_ch = $keyChanges[ChangeService::REPORT_MANAGER_ADD];
+                        elseif (isset($keyChanges[ChangeService::REPORT_MANAGER_ALTER])) 
+                            $temp_ch = $keyChanges[ChangeService::REPORT_MANAGER_ALTER];
 
                         $manager = $this->om
                                 ->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
@@ -330,7 +330,7 @@ class ToTextMailSenderService {
                         $t.= "\n";
                     }
 
-                    if (isset($keyChanges[ChangeService::PLACE_MANAGER_REMOVE])) {
+                    if (isset($keyChanges[ChangeService::REPORT_MANAGER_REMOVE])) {
                         $t.= $p . $this->t->trans('mail.place.manager.remove', $args, self::DOMAIN);
                         $t.="\n";
                     }
@@ -341,11 +341,11 @@ class ToTextMailSenderService {
 
                     //count the changes
                     $nb = 0;
-                    $key_not_to_track = array(ChangeService::PLACE_CREATION, 
-                        ChangeService::PLACE_STATUS, ChangeService::PLACE_ADD_PHOTO,
-                        ChangeService::PLACE_MANAGER_ADD, ChangeService::PLACE_MANAGER_ALTER,
-                        ChangeService::PLACE_MANAGER_REMOVE, 
-                        ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD);
+                    $key_not_to_track = array(ChangeService::REPORT_CREATION, 
+                        ChangeService::REPORT_STATUS, ChangeService::REPORT_ADD_PHOTO,
+                        ChangeService::REPORT_MANAGER_ADD, ChangeService::REPORT_MANAGER_ALTER,
+                        ChangeService::REPORT_MANAGER_REMOVE, 
+                        ChangeService::REPORT_COMMENT_MODERATOR_MANAGER_ADD);
                     $changes = array();
 
 
@@ -424,22 +424,22 @@ class ToTextMailSenderService {
         
         switch ($type)
         {
-            case ChangeService::PLACE_ADDRESS :
+            case ChangeService::REPORT_ADDRESS :
                 return $this->t->trans('mail.place.change.item.address' , array(), $d);
                 break;
-            case ChangeService::PLACE_DESCRIPTION:
+            case ChangeService::REPORT_DESCRIPTION:
                 return $this->t->trans('mail.place.change.item.description', array(), $d);
                 break;
-            case ChangeService::PLACE_GEOM:
+            case ChangeService::REPORT_GEOM:
                 return $this->t->trans('mail.place.change.item.geom', array(), $d);
                 break;
-            case ChangeService::PLACE_ADD_CATEGORY:
-            case ChangeService::PLACE_REMOVE_CATEGORY:
+            case ChangeService::REPORT_ADD_CATEGORY:
+            case ChangeService::REPORT_REMOVE_CATEGORY:
                 return $this->t->trans('mail.place.change.item.category', array(), $d);
                 break;
-            case ChangeService::PLACE_PLACETYPE_ALTER:
+            case ChangeService::REPORT_PLACETYPE_ALTER:
                 return $this->t->trans('mail.place.change.item.place_type', array(), $d);
-            case ChangeService::PLACE_MODERATOR_COMMENT_ALTER:
+            case ChangeService::REPORT_MODERATOR_COMMENT_ALTER:
                 return $this->t->trans('mail.place.change.item.moderator_comment', array(), $d);
             default:
                 return $this->t->trans('mail.place.change.item.other', array(), $d);

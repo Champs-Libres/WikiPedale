@@ -40,13 +40,13 @@ class ChangesetConsistent {
                     default: 
                         $correctedChanges[$value->getType()] = $value->getNewValue();
                         break;
-                    case ChangeService::PLACE_ADD_PHOTO:
+                    case ChangeService::REPORT_ADD_PHOTO:
                         $correctedChanges[$value->getType()] = $this->om->
                             getRepository('ProgracqteurWikipedaleBundle:Model\Photo')
                                 ->findBy(array('filename' => $value->getNewValue()));
                         break;
-                    case ChangeService::PLACE_ADD_CATEGORY:
-                    case ChangeService::PLACE_REMOVE_CATEGORY:
+                    case ChangeService::REPORT_ADD_CATEGORY:
+                    case ChangeService::REPORT_REMOVE_CATEGORY:
                         //foreach category in array
                         $a = $value->getNewValue(); 
                         $b = array();
@@ -57,7 +57,7 @@ class ChangesetConsistent {
                         }
                         $correctedChanges[$value->getType()] = $b;
                         break;
-                    case ChangeService::PLACE_PLACETYPE_ALTER:
+                    case ChangeService::REPORT_PLACETYPE_ALTER:
                         $correctedChanges[$value->getType()] = $this->om
                             ->getRepository('ProgracqteurWikipedaleBundle:Model\Place\PlaceType')
                                 ->find($value->getNewValue());
