@@ -42,7 +42,7 @@ class Comment
     /**
      * @var \Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
-    private $place;
+    private $report;
     
     /**
      * @var string
@@ -187,16 +187,16 @@ class Comment
     /**
      * Set Report
      *
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report $place
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report $report
      * @return Comment
      */
-    public function setPlace(\Progracqteur\WikipedaleBundle\Entity\Model\Report $place = null)
+    public function setPlace(\Progracqteur\WikipedaleBundle\Entity\Model\Report $report = null)
     {
         if ($this->report !== null) {
             throw new \Exception("You cannot switch the comment report !");
         }
         
-        $this->report = $place;
+        $this->report = $report;
         return $this;
     }
 

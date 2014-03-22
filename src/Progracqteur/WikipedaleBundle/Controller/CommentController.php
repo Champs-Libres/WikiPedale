@@ -25,26 +25,26 @@ class CommentController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $place = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Place")->find($placeId);
+        $report = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report")->find($placeId);
         
-        if ($place === null OR $place->isAccepted() === false)
+        if ($report === null OR $report->isAccepted() === false)
         {
                                                     //TODO: i18n
-            throw $this->createNotFoundException("La place $placeId n'a pas été trouvée");
+            throw $this->createNotFoundException("Le signalement $placeId n'a pas été trouvée");
         }
         
         $qstring = "SELECT cm 
             FROM ProgracqteurWikipedaleBundle:Model\\Comment cm 
             WHERE 
-            cm.place = :place 
+            cm.report = :report 
             and cm.published = true 
             ";
         
         $q = $em->createQuery()
-                ->setParameter('place',$place);
+                ->setParameter('report',$report);
         
         $countQuery = $em->createQuery()
-                ->setParameter('place', $place);
+                ->setParameter('report', $report);
         
         
         //create a where clause depending on the user's roles
@@ -108,7 +108,7 @@ class CommentController extends Controller
         $countQueryDQLString = 'SELECT count(cm.id) 
             FROM ProgracqteurWikipedaleBundle:Model\Comment cm
             WHERE
-            cm.place = :place 
+            cm.report = :report 
             and cm.published = true AND ('.$strCommentTypeCondition.') ';
                 
         
@@ -157,12 +157,12 @@ class CommentController extends Controller
         
         $em = $this->getDoctrine()->getManager();
         
-        $place = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Place")
+        $report = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report")
                 ->find($placeId);
         
-        if ($place === null)
+        if ($report === null)
         {
-            throw $this->createNotFoundException("La place $placeId n'a pas été trouvée");
+            throw $this->createNotFoundException("La report $placeId n'a pas été trouvée");
         }
 
         $serializedJson = $request->get('entity', null);
