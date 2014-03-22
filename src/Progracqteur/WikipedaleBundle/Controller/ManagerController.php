@@ -3,7 +3,7 @@
 namespace Progracqteur\WikipedaleBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
@@ -11,7 +11,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerServi
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
 
 /**
- * Description of PlaceController
+ * Description of ManagerController
  *
  * @author Julien Fastré
  */
