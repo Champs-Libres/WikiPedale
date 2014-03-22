@@ -40,9 +40,9 @@ class Comment
     private $creator;
 
     /**
-     * @var \Progracqteur\WikipedaleBundle\Entity\Model\Place
+     * @var \Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
-    private $place;
+    private $report;
     
     /**
      * @var string
@@ -185,29 +185,29 @@ class Comment
     }
 
     /**
-     * Set place
+     * Set Report
      *
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place $place
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report $report
      * @return Comment
      */
-    public function setPlace(\Progracqteur\WikipedaleBundle\Entity\Model\Place $place = null)
+    public function setPlace(\Progracqteur\WikipedaleBundle\Entity\Model\Report $report = null)
     {
-        if ($this->place !== null) {
-            throw new \Exception("You cannot switch the comment place !");
+        if ($this->report !== null) {
+            throw new \Exception("You cannot switch the comment report !");
         }
         
-        $this->place = $place;
+        $this->report = $report;
         return $this;
     }
 
     /**
-     * Get place
+     * Get Report
      *
-     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place 
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report 
      */
     public function getPlace()
     {
-        return $this->place;
+        return $this->report;
     }
 
     /**
