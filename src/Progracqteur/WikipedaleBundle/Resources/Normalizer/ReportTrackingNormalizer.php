@@ -8,12 +8,12 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerServi
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 /**
- * normalizer PlaceTracking elements to an array, and back. 
+ * normalizer ReportTracking elements to an array, and back. 
  * Used with Serializer.
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class PlaceTrackingNormalizer implements NormalizerInterface {
+class ReportTrackingNormalizer implements NormalizerInterface {
     
     /**
      *

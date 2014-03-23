@@ -108,7 +108,7 @@ class NormalizedResponseNormalizer implements NormalizerInterface
             return $this->service->getPhotoNormalizer()->normalize($object);
         } elseif ($object instanceof ReportTracking)
         {
-            return $this->service->getPlaceTrackingNormalizer()->normalize($object);
+            return $this->service->getReportTrackingNormalizer()->normalize($object);
         } elseif  ($object instanceof Category) 
         {
             return $this->service->getCategoryNormalizer()->normalize($object);

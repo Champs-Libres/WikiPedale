@@ -13,7 +13,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedResponseNormali
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedExceptionResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\DateNormalizer;
-use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceTrackingNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\ReportTrackingNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\CommentNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
@@ -48,7 +48,7 @@ class NormalizerSerializerService {
     private $photoNormalizer = null;
     private $normalizedResponseNormalizer = null;
     private $normalizedResponseExceptionNormalizer = null;
-    private $placeTrackingNormalizer = null;
+    private $reportTrackingNormalizer = null;
     private $dateNormalizer = null;
     private $groupNormalizer = null;
     private $zoneNormalizer = null;
@@ -152,14 +152,14 @@ class NormalizerSerializerService {
         return $this->photoNormalizer;
     }
     
-    public function getPlaceTrackingNormalizer()
+    public function getReportTrackingNormalizer()
     {
-        if ($this->placeTrackingNormalizer === null)
+        if ($this->reportTrackingNormalizer === null)
         {
-            $this->placeTrackingNormalizer = new PlaceTrackingNormalizer($this);
+            $this->reportTrackingNormalizer = new ReportTrackingNormalizer($this);
         }
         
-        return $this->placeTrackingNormalizer;
+        return $this->reportTrackingNormalizer;
     }
     
     /**
