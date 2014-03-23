@@ -2,7 +2,7 @@
 ---
 Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking:
   type: entity
-  repositoryClass: Progracqteur\WikipedaleBundle\EntityRepositories\Model\Place\PlaceTrackingRepository
+  repositoryClass: Progracqteur\WikipedaleBundle\EntityRepositories\Model\Report\ReportTrackingRepository
   readOnly: ~
   table: placeTracking
   id:

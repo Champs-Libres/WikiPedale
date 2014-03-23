@@ -1,6 +1,6 @@
 <?php
 
-namespace Progracqteur\WikipedaleBundle\EntityRepositories\Model\Place;
+namespace Progracqteur\WikipedaleBundle\EntityRepositories\Model\Report;
 
 use Doctrine\ORM\EntityRepository;
 use Progracqteur\WikipedaleBundle\Entity\Management\Zone;
@@ -8,11 +8,11 @@ use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 /**
- * Description of PlaceTrackingRepository
+ * Description of ReportTrackingRepository
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class PlaceTrackingRepository extends EntityRepository {
+class ReportTrackingRepository extends EntityRepository {
     
     /**
      * 
