@@ -143,9 +143,9 @@ wikipedale_token_request_new:
   options:
     expose: true
 
-wikipedale_history_place_by_city:
-  pattern: /history/places/bycity/{citySlug}.{_format}
-  defaults: {_controller: ProgracqteurWikipedaleBundle:PlaceTracking:byCity }
+wikipedale_history_report_by_city:
+  pattern: /history/reports/bycity/{citySlug}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:ReportTracking:byCity }
   requirements:
     _format: json|atom
   options:
