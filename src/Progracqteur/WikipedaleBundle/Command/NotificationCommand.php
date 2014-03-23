@@ -38,7 +38,7 @@ class NotificationCommand extends ContainerAwareCommand {
                 )
                 ->setParameter('frequency', $input->getArgument('frequency'))
                 ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'subscription', ClassMetadata::FETCH_EAGER)
-                ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'placeTracking', ClassMetadata::FETCH_EAGER)
+                ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'reportTracking', ClassMetadata::FETCH_EAGER)
                 ->setFetchMode('ProgracqteurWikipedaleBundle:Model\Report\ReportTracking', 'report', ClassMetadata::FETCH_EAGER)
                 ->getResult();
         

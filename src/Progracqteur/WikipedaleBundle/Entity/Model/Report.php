@@ -386,7 +386,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
      * this is a proxy method to set a confirmed creator to the report
      * and set the report as accepted.
      * 
-     * a placetracking instance is also set with code ChangeService::REPORT_CREATOR_CONFIRMATIN
+     * a reporttracking instance is also set with code ChangeService::REPORT_CREATOR_CONFIRMATIN
      * 
      * 
      * @param \Progracqteur\WikipedaleBundle\Entity\Model\Unregistereduser $creator
@@ -1103,9 +1103,9 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     }
     
     public function checkEmptyReportTracking() {
-        $placeTracking = $this->getChangeset();
+        $reportTracking = $this->getChangeset();
         
-        $changes = $placeTracking->getChanges();
+        $changes = $reportTracking->getChanges();
         
         
         if (count($changes) === 0) {
@@ -1114,13 +1114,13 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     }
     
     public function registerCurrentChangeset() {
-        $placeTracking = $this->getChangeset();
+        $reportTracking = $this->getChangeset();
         
-        $changes = $placeTracking->getChanges();
+        $changes = $reportTracking->getChanges();
         
         
         if (count($changes) > 0) {
-            $this->changesets->add($placeTracking);
+            $this->changesets->add($reportTracking);
         }
     }
 }
