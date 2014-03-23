@@ -41,7 +41,7 @@ class PlaceTrackingRepository extends EntityRepository {
         $sql.= " ORDER BY date DESC LIMIT :limit OFFSET :offset";
         
         $rsm = new ResultSetMappingBuilder($this->getEntityManager());
-        $rsm->addRootEntityFromClassMetadata('ProgracqteurWikipedaleBundle:Model\Place\PlaceTracking', 'pt');
+        $rsm->addRootEntityFromClassMetadata('ProgracqteurWikipedaleBundle:Model\Report\ReportTracking', 'pt');
         
         /*$rsm->addEntityResult('ProgracqteurWikipedaleBundle:Model\Place\PlaceTracking', 'pt')
                 ->addFieldResult('pt', 'id', 'id')

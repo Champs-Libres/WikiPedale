@@ -93,7 +93,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     
     /**
      *
-     * @var Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking 
+     * @var Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking 
      */
     private $changeset = null;
     
@@ -963,12 +963,12 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
      * return the changeset made since the entity was created or 
      * retrieved from the database.
      * 
-     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking
      */
     public function getChangeset() {
         
         if ($this->changeset === null) {
-            $this->changeset = new Place\PlaceTracking($this);
+            $this->changeset = new Report\ReportTracking($this);
             //$this->changesets->add($this->changeset);
         }
         
@@ -1102,7 +1102,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
         }
     }
     
-    public function checkEmptyPlaceTracking() {
+    public function checkEmptyReportTracking() {
         $placeTracking = $this->getChangeset();
         
         $changes = $placeTracking->getChanges();

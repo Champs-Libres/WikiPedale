@@ -60,7 +60,7 @@ class PlaceTrackingController extends Controller {
         } 
         
         
-        $tracks = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Place\PlaceTracking')
+        $tracks = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Report\ReportTracking')
                 ->getLastEvents($first, $max, $city, $private);
         
         

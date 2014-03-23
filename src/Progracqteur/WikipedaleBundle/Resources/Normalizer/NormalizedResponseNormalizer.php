@@ -11,7 +11,7 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
 use Progracqteur\WikipedaleBundle\Entity\Model\Photo;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking;
 use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 use Progracqteur\WikipedaleBundle\Entity\Management\Zone;
 
@@ -106,7 +106,7 @@ class NormalizedResponseNormalizer implements NormalizerInterface
         } elseif ($object instanceof Photo)
         {
             return $this->service->getPhotoNormalizer()->normalize($object);
-        } elseif ($object instanceof PlaceTracking)
+        } elseif ($object instanceof ReportTracking)
         {
             return $this->service->getPlaceTrackingNormalizer()->normalize($object);
         } elseif  ($object instanceof Category) 

@@ -11,6 +11,6 @@ Progracqteur\WikipedaleBundle\Entity\Management\Notification\PendingNotification
       mappedBy: pendingNotifications
       fetch: EAGER
     placeTracking:
-      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking
       mappedBy: pendingNotifications
       fetch: EAGER

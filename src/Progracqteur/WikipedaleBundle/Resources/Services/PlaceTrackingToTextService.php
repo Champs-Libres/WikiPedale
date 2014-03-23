@@ -2,13 +2,13 @@
 
 namespace Progracqteur\WikipedaleBundle\Resources\Services;
 
-use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking;
 use Symfony\Component\Translation\Translator;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 use Doctrine\ORM\EntityManager;
 
 /**
- * This class transform a placeTracking entity into a text readable by
+ * This class transform a reportTracking entity into a text readable by
  * an human. 
  * 
  * The texts were discussed there : https://github.com/progracqteur/WikiPedale/issues/27
@@ -42,38 +42,38 @@ class PlaceTrackingToTextService {
      * The string is translatable.
      * 
      * 
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking $placeTracking
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking $reportTracking
      * @return string
      */
-    public function toText(PlaceTracking $placeTracking)
+    public function toText(ReportTracking $reportTracking)
     {
         //domain of the messages :
         $domain = 'changes';
         
         //prepare common arguments for translator
         //try {
-            $authorLabel = $placeTracking->getAuthor()->getLabel();
+            $authorLabel = $reportTracking->getAuthor()->getLabel();
             //FIXME: this should not throw an error !
         //}
         //catch (\Exception $e) {$authorLabel = $this->t->trans('user.unknow', array(), $domain); }
         
-        $placeName = $placeTracking->getPlace()->getLabel();
+        $reportName = $reportTracking->getReport()->getLabel();
         
         $args = array(
                 '%author%' => $authorLabel,
-                '%place%' => $placeName
+                '%place%' => $reportName
             );
         
         
-        //check if the place Tracking is a creation, return string if true
-        if ($placeTracking->isCreation())
+        //check if the report Tracking is a creation, return string if true
+        if ($reportTracking->isCreation())
         {
             return $this->t->trans('place.is.created', $args, $domain);
         }
         
               
         //order the thanges to be founded by isset() function and array[key]
-        $changes = $placeTracking->getChanges();
+        $changes = $reportTracking->getChanges();
         $keyChanges = array(); 
         foreach ($changes as $change)
         {
@@ -86,7 +86,7 @@ class PlaceTrackingToTextService {
             return $this->t->trans('place.add.photo', $args, $domain);
         }
         
-        //if the change concern the status of the place
+        //if the change concern the status of the report
         if (isset($keyChanges[ChangeService::REPORT_STATUS]))
         {
             $status = $keyChanges[ChangeService::REPORT_STATUS]->getNewValue();

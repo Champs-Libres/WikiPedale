@@ -1,20 +1,20 @@
 <?php
 
-namespace Progracqteur\WikipedaleBundle\Entity\Model\Place;
+namespace Progracqteur\WikipedaleBundle\Entity\Model\Report;
 
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeInterface;
 
 /**
- * The elements of the place which has been changed, with the type and the new
+ * The elements of the report which has been changed, with the type and the new
  * values. 
  * 
  * Types are stored in instances of
- *    Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking
+ *    Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking
  * 
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class PlaceChange implements ChangeInterface{
+class ReportChange implements ChangeInterface{
     
     private $type;
     private $value = null;

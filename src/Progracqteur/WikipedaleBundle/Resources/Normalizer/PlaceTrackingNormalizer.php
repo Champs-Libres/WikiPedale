@@ -3,7 +3,7 @@
 namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
@@ -33,7 +33,7 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
 
     /**
      * 
-     * @param Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking $object
+     * @param Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking $object
      * @param string $format
      */
     public function normalize($object, $format = null, array $context = array()) {
@@ -46,7 +46,7 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
           'date' => $this->service->getDateNormalizer()->normalize($object->getDate(), $format),
           'isCreation' => $object->isCreation(),
           'author' => $userNormalizer->normalize($object->getAuthor()),
-          'placeId' => $object->getPlace()->getId()
+          'placeId' => $object->getReport()->getId()
         );
         
         $changes = array();
@@ -97,7 +97,7 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
     }
 
     public function supportsNormalization($data, $format = null) {
-        if ($data instanceof PlaceTracking)
+        if ($data instanceof ReportTracking)
         {
             return true;
         }

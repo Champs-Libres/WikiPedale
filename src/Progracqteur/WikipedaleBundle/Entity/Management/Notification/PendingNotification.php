@@ -20,7 +20,7 @@ class PendingNotification
     private $subscription;
 
     /**
-     * @var \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking
+     * @var \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking
      */
     private $placeTracking;
 
@@ -61,10 +61,10 @@ class PendingNotification
     /**
      * Set placeTracking
      *
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\PlaceTracking $placeTracking
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking $placeTracking
      * @return PendingNotification
      */
-    public function setPlaceTracking(\Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking $placeTracking = null)
+    public function setPlaceTracking(\Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking $placeTracking = null)
     {
         $this->placeTracking = $placeTracking;
     
@@ -74,7 +74,7 @@ class PendingNotification
     /**
      * Get placeTracking
      *
-     * @return \Progracqteur\WikipedaleBundle\Entity\Model\PlaceTracking 
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking 
      */
     public function getPlaceTracking()
     {

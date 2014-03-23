@@ -1,25 +1,25 @@
 <?php
 
-namespace Progracqteur\WikipedaleBundle\Entity\Model\Place;
+namespace Progracqteur\WikipedaleBundle\Entity\Model\Report;
 
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangesetInterface;
 use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
-use \Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
+use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 
 /**
- * PlaceTracking store changes on Place instances.
+ * ReportTracking store changes on Report instances.
  * 
- * PlaceTracking is iterable: every element of an iteration is an instance of 
- * PlaceChange
+ * ReportTracking is iterable: every element of an iteration is an instance of 
+ * ReportChange
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class PlaceTracking implements ChangesetInterface {
+class ReportTracking implements ChangesetInterface {
     
     private $id;
     
@@ -38,22 +38,22 @@ class PlaceTracking implements ChangesetInterface {
      *
      * @var Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
-    private $place;
+    private $report;
     
-    public function __construct(Report $place)
+    public function __construct(Report $report)
     {
         $this->details = new Hash;
-        $this->place = $place;
+        $this->report = $report;
         $this->date = new \DateTime();
     }
     
     /**
      * 
-     * @return Progracqteur\WikipedaleBundle\Entity\Model\Place
+     * @return Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
-    public function getPlace()
+    public function getReport()
     {
-        return $this->place;
+        return $this->report;
     }
     
     /**
@@ -90,7 +90,7 @@ class PlaceTracking implements ChangesetInterface {
             switch ($type)
             {
                 case ChangeService::REPORT_CREATOR:
-                    //Il ne faut rien faire: place creator n'est normalement pas permis
+                    //Il ne faut rien faire: report creator n'est normalement pas permis
                     break;
                 case ChangeService::REPORT_ADD_PHOTO:
                     $newValue = $newValue->getFileName();
@@ -149,7 +149,7 @@ class PlaceTracking implements ChangesetInterface {
     }
     
     /**
-     * return true if the changeset concern a creation of a place.
+     * return true if the changeset concern a creation of a report
      * @return boolean
      */
     public function isCreation() {
@@ -202,7 +202,7 @@ class PlaceTracking implements ChangesetInterface {
     
     /**
      * get all the changes into an array of 
-     * Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceChange
+     * Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportChange
      * 
      * @return array
      */
@@ -225,12 +225,12 @@ class PlaceTracking implements ChangesetInterface {
     
     /**
      * 
-     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceChange
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportChange
      */
     public function current() {
         $prop = $this->types[$this->intTypes];
         $val = $this->values[$this->intTypes];
-        return new PlaceChange($prop, $val);
+        return new ReportChange($prop, $val);
     }
         
     public function key() {
@@ -257,7 +257,7 @@ class PlaceTracking implements ChangesetInterface {
     
     /**
      * this function prepare the class for iteration. It transforms the hash
-     * into PlaceChanges elements, ready to be iterated one by one.
+     * into ReportChanges elements, ready to be iterated one by one.
      */
     private function prepareIterationFromHash()
     {
@@ -270,7 +270,7 @@ class PlaceTracking implements ChangesetInterface {
             switch ($key)
             {
                 case ChangeService::REPORT_CREATOR:
-                    //Il ne faut rien faire: place creator n'est normalement pas permis
+                    //Il ne faut rien faire: report creator n'est normalement pas permis
                     $newValue = $value;
                     break;
                 case ChangeService::REPORT_ADD_PHOTO:
@@ -304,7 +304,7 @@ class PlaceTracking implements ChangesetInterface {
             }
 
             //for debugging in case of message "Notice: Undefined variable: 
-            //newValue in /home/user/public_html/uello21/src/Progracqteur/WikipedaleBundle/Entity/Model/Place/PlaceTracking.php 
+            //newValue in /home/user/public_html/uello21/src/Progracqteur/WikipedaleBundle/Entity/Model/Report/ReportTracking.php 
             //line 295"
             //try {
                 $this->values[] = $newValue;
@@ -315,7 +315,7 @@ class PlaceTracking implements ChangesetInterface {
     }
     
     public function checkIfEmpty() {
-        $this->getPlace()->checkEmptyPlaceTracking();
+        $this->getReport()->checkEmptyReportTracking();
     }
 
 }

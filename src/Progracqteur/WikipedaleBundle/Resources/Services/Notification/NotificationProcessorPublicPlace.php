@@ -11,7 +11,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterBySubscriptionPublicPlace;
 
 /**
- * This class process the sending of change's subscription to individual place
+ * This class process the sending of change's subscription to individual report
  * 
  *
  * @author Julien Fastré <julien arobase fastre point info>
@@ -115,7 +115,7 @@ class NotificationProcessorPublicPlace extends NotificationProcessor {
                 ->setParameter('subscription_kind', $this->getKey())
                 ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'subscription', ClassMetadata::FETCH_EAGER)
                 ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'placeTracking', ClassMetadata::FETCH_EAGER)
-                ->setFetchMode('ProgracqteurWikipedaleBundle:Model\Place\PlaceTracking', 'place', ClassMetadata::FETCH_EAGER)
+                ->setFetchMode('ProgracqteurWikipedaleBundle:Model\Report\ReportTracking', 'report', ClassMetadata::FETCH_EAGER)
                 ->getResult();
         
         //filter notifications.
@@ -129,16 +129,16 @@ class NotificationProcessorPublicPlace extends NotificationProcessor {
                         ->mayBeSend($notification->getPlaceTracking(), 
                                 $notification->getSubscription())) {
 
-                    echo "NPPublicPlace: Notification de la placeTracking ". 
+                    echo "NPPublicPlace: Notification de la reportTracking ". 
                             $notification->getPlaceTracking()->getId() .
-                            " (placeid) ".$notification->getPlaceTracking()->getPlace()->getId().
+                            " (placeid) ".$notification->getPlaceTracking()->getReport()->getId().
                             " à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                             "\n";
 
                 } else {
-                    echo "NPPublicPlace: Refus DE Notification de la placeTracking par FilterBySubscriptionPublicPlace ". 
+                    echo "NPPublicPlace: Refus DE Notification de la reportTracking par FilterBySubscriptionPublicPlace ". 
                             $notification->getPlaceTracking()->getId() .
-                            " (placeid ".$notification->getPlaceTracking()->getPlace()->getId().
+                            " (placeid ".$notification->getPlaceTracking()->getReport()->getId().
                             ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                             "\n";
                     
@@ -147,9 +147,9 @@ class NotificationProcessorPublicPlace extends NotificationProcessor {
                 }
                 
              } else {
-                echo "NPPublicPlace: Interdiction De Notification de la placeTracking par FilterByRole ". 
+                echo "NPPublicPlace: Interdiction De Notification de la reportTracking par FilterByRole ". 
                         $notification->getPlaceTracking()->getId() .
-                        " (placeid ".$notification->getPlaceTracking()->getPlace()->getId().
+                        " (placeid ".$notification->getPlaceTracking()->getReport()->getId().
                         ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                         "\n";
                 $this->om->remove($notification);

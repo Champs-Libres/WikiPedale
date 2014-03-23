@@ -60,7 +60,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Report:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Photo
       mappedBy: place
     changesets:
-      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking
       mappedBy: place
       cascade: [persist]
     comments:

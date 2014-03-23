@@ -5,7 +5,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Services\Notification;
 use Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilter;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangesetInterface;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking;
 
 /**
  * Description of NotificationFilterBySubscriptionKind
@@ -26,7 +26,7 @@ class NotificationFilterBySubscriptionModerator implements NotificationFilter {
             return false;
         }
         
-        if ($changeset instanceof PlaceTracking) {
+        if ($changeset instanceof ReportTracking) {
             
             //block notification for you own modifications
             if ($changeset->getAuthor()->getId() === $subscription->getOwner()->getId())

@@ -158,10 +158,10 @@ class ToTextMailSenderService {
         }
         $t.= "\n \n";
         
-        //sort by place
+        //sort by report
         
         /**
-         * array to sort placetrackings by place and date
+         * array to sort reporttrackings by place and date
          */
         $a = array();
         
@@ -170,7 +170,7 @@ class ToTextMailSenderService {
         foreach ($notifications as $notification)
         {
             $u = (int) $notification->getPlaceTracking()->getDate()->format('U');
-            $a[$notification->getPlaceTracking()->getPlace()->getId()][$u] = $notification;
+            $a[$notification->getPlaceTracking()->getReport()->getId()][$u] = $notification;
         }
         
         //prefix for changes items :
@@ -192,7 +192,7 @@ class ToTextMailSenderService {
                 //show the header if this is the first element of the place
                 if ($headerShow === false) {
                     $t .= "**".$this->t->trans('mail.place.header', 
-                    array('%label%' => $placetracking->getPlace()->getLabel()), 
+                    array('%label%' => $placetracking->getReport()->getLabel()), 
                         self::DOMAIN).
                         "** \n \n";
 
@@ -205,7 +205,7 @@ class ToTextMailSenderService {
                     echo "TOTEXTMAIL : traitement de la placeteracking ".$placetracking->getId()."\n";
                     $args = array(
                                     '%author%' => $placetracking->getAuthor()->getLabel(),
-                                    '%label%' => $placetracking->getPlace()->getLabel(),
+                                    '%label%' => $placetracking->getReport()->getLabel(),
                                     '%date%' => $placetracking->getDate()->format($this->date_format)
                                 );
 
@@ -397,7 +397,7 @@ class ToTextMailSenderService {
                 } catch (\Exception $e) {
                     $exception = new SendPendingNotificationException(
                             $notification, 
-                            'error during transformation to text of the placetracking',
+                            'error during transformation to text of the reporttracking',
                             0,
                             $e);
                     $this->exceptions[] = $exception;
@@ -406,7 +406,7 @@ class ToTextMailSenderService {
             
             $t .= "\n\n";
             
-            $t .= $this->addPlacePresentation($placetracking->getPlace());
+            $t .= $this->addPlacePresentation($placetracking->getReport());
             
             $t .= "\n\n\n\n\n\n\n\n";
         }

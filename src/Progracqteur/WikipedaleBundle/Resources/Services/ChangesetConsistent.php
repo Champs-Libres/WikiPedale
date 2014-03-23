@@ -4,7 +4,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangesetInterface;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 
 /**
@@ -30,7 +30,7 @@ class ChangesetConsistent {
      * @return array
      */
     public function getChanges(ChangesetInterface $changeset) {
-        if ($changeset instanceof PlaceTracking) {
+        if ($changeset instanceof ReportTracking) {
             $changes = $changeset->getChanges();
             
             $correctedChanges = array();

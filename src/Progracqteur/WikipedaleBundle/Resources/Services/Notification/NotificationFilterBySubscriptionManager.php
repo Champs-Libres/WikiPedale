@@ -5,7 +5,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Services\Notification;
 use Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilter;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangesetInterface;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking;
 use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 
 /**
@@ -27,7 +27,7 @@ class NotificationFilterBySubscriptionManager implements NotificationFilter {
             return false;
         }
         
-        if ($changeset instanceof PlaceTracking) {
+        if ($changeset instanceof ReportTracking) {
             
             //block notification for you own modifications
             if ($changeset->getAuthor()->getId() === $subscription->getOwner()->getId())
@@ -39,7 +39,7 @@ class NotificationFilterBySubscriptionManager implements NotificationFilter {
             
             //check if the subscriber is the manager of the place
             
-            if ($changeset->getPlace()->getManager() === null){
+            if ($changeset->getReport()->getManager() === null){
                 return false;
             }
             $groups = $subscription->getOwner()->getGroups();
@@ -54,7 +54,7 @@ class NotificationFilterBySubscriptionManager implements NotificationFilter {
             
             
             
-            if (in_array($changeset->getPlace()->getManager()->getId(), $groupsManagerIds)) {
+            if (in_array($changeset->getReport()->getManager()->getId(), $groupsManagerIds)) {
                 return true;
             } else {
                 return false;
