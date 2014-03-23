@@ -64,21 +64,21 @@ class NotificationProcessorManager extends NotificationProcessor {
         
         //filter notifications
         foreach ($pendingNotifications as $key => $notification) {
-            if ($this->filterByRole->mayBeSend($notification->getPlaceTracking(), $notification->getSubscription()))
+            if ($this->filterByRole->mayBeSend($notification->getReportTracking(), $notification->getSubscription()))
             {
                 if ($this->filterBySubscription
-                        ->mayBeSend($notification->getPlaceTracking(), $notification->getSubscription())) {
+                        ->mayBeSend($notification->getReportTracking(), $notification->getSubscription())) {
 
                     echo "NPManager: Notification de la ReportTracking ". 
-                            $notification->getPlaceTracking()->getId() .
-                            " (placeid) ".$notification->getPlaceTracking()->getReport()->getId().
+                            $notification->getReportTracking()->getId() .
+                            " (placeid) ".$notification->getReportTracking()->getReport()->getId().
                             " à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                             "\n";
 
                 } else {
                     echo "NPManager: Refus DE Notification de la ReportTracking par FilterBySubscription ". 
-                            $notification->getPlaceTracking()->getId() .
-                            " (placeid ".$notification->getPlaceTracking()->getReport()->getId().
+                            $notification->getReportTracking()->getId() .
+                            " (placeid ".$notification->getReportTracking()->getReport()->getId().
                             ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                             "\n";
                     
@@ -90,8 +90,8 @@ class NotificationProcessorManager extends NotificationProcessor {
 
             } else {
                 echo "NPManager: Interdiction De Notification de la ReportTracking par FilterByRole ". 
-                        $notification->getPlaceTracking()->getId() .
-                        " (placeid ".$notification->getPlaceTracking()->getReport()->getId().
+                        $notification->getReportTracking()->getId() .
+                        " (placeid ".$notification->getReportTracking()->getReport()->getId().
                         ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                         "\n";
                 $this->om->remove($notification);
@@ -117,7 +117,7 @@ class NotificationProcessorManager extends NotificationProcessor {
             
             echo "NPManager: traitement de pendingNotification ".$notification->getId().
                     " (reporttracking ".
-                    $notification->getPlaceTracking()->getId().
+                    $notification->getReportTracking()->getId().
                     ") terminé \n";
             $this->om->remove($notification);
             

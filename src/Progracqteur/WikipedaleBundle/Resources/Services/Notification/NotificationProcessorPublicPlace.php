@@ -76,8 +76,8 @@ class NotificationProcessorPublicPlace extends NotificationProcessor {
         if ($exception === null) {
             
             echo "NPPublicPlace : traitement de pendingNotification ".$notification->getId().
-                    " (placetracking ".
-                    $notification->getPlaceTracking()->getId().
+                    " (reporttracking ".
+                    $notification->getReportTracking()->getId().
                     ") terminé \n";
             $this->om->remove($notification);
             
@@ -114,7 +114,7 @@ class NotificationProcessorPublicPlace extends NotificationProcessor {
                 ->setParameter('frequency', $frequency)
                 ->setParameter('subscription_kind', $this->getKey())
                 ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'subscription', ClassMetadata::FETCH_EAGER)
-                ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'placeTracking', ClassMetadata::FETCH_EAGER)
+                ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'reportTracking', ClassMetadata::FETCH_EAGER)
                 ->setFetchMode('ProgracqteurWikipedaleBundle:Model\Report\ReportTracking', 'report', ClassMetadata::FETCH_EAGER)
                 ->getResult();
         
@@ -122,23 +122,23 @@ class NotificationProcessorPublicPlace extends NotificationProcessor {
         //if the notification may NOT be sent, they are removed from pendingNotificaitons
         //and from the OM
         foreach ($pendingNotifications as $key => $notification) {
-            if ($this->filterByRole->mayBeSend($notification->getPlaceTracking(), 
+            if ($this->filterByRole->mayBeSend($notification->getReportTracking(), 
                     $notification->getSubscription()))
             {
                 if ($this->filterBySubscription
-                        ->mayBeSend($notification->getPlaceTracking(), 
+                        ->mayBeSend($notification->getReportTracking(), 
                                 $notification->getSubscription())) {
 
                     echo "NPPublicPlace: Notification de la reportTracking ". 
-                            $notification->getPlaceTracking()->getId() .
-                            " (placeid) ".$notification->getPlaceTracking()->getReport()->getId().
+                            $notification->getReportTracking()->getId() .
+                            " (placeid) ".$notification->getReportTracking()->getReport()->getId().
                             " à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                             "\n";
 
                 } else {
                     echo "NPPublicPlace: Refus DE Notification de la reportTracking par FilterBySubscriptionPublicPlace ". 
-                            $notification->getPlaceTracking()->getId() .
-                            " (placeid ".$notification->getPlaceTracking()->getReport()->getId().
+                            $notification->getReportTracking()->getId() .
+                            " (placeid ".$notification->getReportTracking()->getReport()->getId().
                             ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                             "\n";
                     
@@ -148,8 +148,8 @@ class NotificationProcessorPublicPlace extends NotificationProcessor {
                 
              } else {
                 echo "NPPublicPlace: Interdiction De Notification de la reportTracking par FilterByRole ". 
-                        $notification->getPlaceTracking()->getId() .
-                        " (placeid ".$notification->getPlaceTracking()->getReport()->getId().
+                        $notification->getReportTracking()->getId() .
+                        " (placeid ".$notification->getReportTracking()->getReport()->getId().
                         ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                         "\n";
                 $this->om->remove($notification);

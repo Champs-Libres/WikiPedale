@@ -169,17 +169,17 @@ class ToTextMailSenderService {
         
         foreach ($notifications as $notification)
         {
-            $u = (int) $notification->getPlaceTracking()->getDate()->format('U');
-            $a[$notification->getPlaceTracking()->getReport()->getId()][$u] = $notification;
+            $u = (int) $notification->getReportTracking()->getDate()->format('U');
+            $a[$notification->getReportTracking()->getReport()->getId()][$u] = $notification;
         }
         
         //prefix for changes items :
         $p = '- ';
         
         //create a string for each report
-        foreach ($a as $placeId => $notifications_)
+        foreach ($a as $reportId => $notifications_)
         {
-            echo "TOTEXTMAIL : traitement de la place ".$placeId."\n";
+            echo "TOTEXTMAIL : traitement du signalement ".$reportId."\n";
             
             $headerShow = false;
             
@@ -187,7 +187,7 @@ class ToTextMailSenderService {
             foreach($notifications_ as $timestamp => $notification) {
                 try {
                 
-                $reporttracking = $notification->getPlaceTracking();
+                $reporttracking = $notification->getReportTracking();
                 
                 //show the header if this is the first element of the report
                 if ($headerShow === false) {
