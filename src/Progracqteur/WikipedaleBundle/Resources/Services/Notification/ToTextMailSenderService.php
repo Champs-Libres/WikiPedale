@@ -5,7 +5,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Services\Notification;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 use Symfony\Component\Translation\Translator;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\RouterInterface;
@@ -161,7 +161,7 @@ class ToTextMailSenderService {
         //sort by report
         
         /**
-         * array to sort reporttrackings by place and date
+         * array to sort reporttrackings by report and date
          */
         $a = array();
         
@@ -176,7 +176,7 @@ class ToTextMailSenderService {
         //prefix for changes items :
         $p = '- ';
         
-        //create a string for each place
+        //create a string for each report
         foreach ($a as $placeId => $notifications_)
         {
             echo "TOTEXTMAIL : traitement de la place ".$placeId."\n";
@@ -187,12 +187,12 @@ class ToTextMailSenderService {
             foreach($notifications_ as $timestamp => $notification) {
                 try {
                 
-                $placetracking = $notification->getPlaceTracking();
+                $reporttracking = $notification->getPlaceTracking();
                 
-                //show the header if this is the first element of the place
+                //show the header if this is the first element of the report
                 if ($headerShow === false) {
                     $t .= "**".$this->t->trans('mail.place.header', 
-                    array('%label%' => $placetracking->getReport()->getLabel()), 
+                    array('%label%' => $reporttracking->getReport()->getLabel()), 
                         self::DOMAIN).
                         "** \n \n";
 
@@ -202,14 +202,14 @@ class ToTextMailSenderService {
 
 
 
-                    echo "TOTEXTMAIL : traitement de la placeteracking ".$placetracking->getId()."\n";
+                    echo "TOTEXTMAIL : traitement de la reporttracking ".$reporttracking->getId()."\n";
                     $args = array(
-                                    '%author%' => $placetracking->getAuthor()->getLabel(),
-                                    '%label%' => $placetracking->getReport()->getLabel(),
-                                    '%date%' => $placetracking->getDate()->format($this->date_format)
+                                    '%author%' => $reporttracking->getAuthor()->getLabel(),
+                                    '%label%' => $reporttracking->getReport()->getLabel(),
+                                    '%date%' => $reporttracking->getDate()->format($this->date_format)
                                 );
 
-                    if ($placetracking->isCreation())
+                    if ($reporttracking->isCreation())
                     {
                         $t .= $p.$this->t->trans('mail.place.creation', 
                                 $args,
@@ -221,7 +221,7 @@ class ToTextMailSenderService {
 
 
                     $keyChanges = array();
-                    foreach ($placetracking as $change)
+                    foreach ($reporttracking as $change)
                     {
                         $keyChanges[$change->getType()] = $change;
                     }
@@ -236,7 +236,7 @@ class ToTextMailSenderService {
 
 
 
-                    //if the change concern the status of the place
+                    //if the change concern the status of the report
                     if (isset($keyChanges[ChangeService::REPORT_STATUS]))
                     {
                         $status = $keyChanges[ChangeService::REPORT_STATUS]->getNewValue();
@@ -406,7 +406,7 @@ class ToTextMailSenderService {
             
             $t .= "\n\n";
             
-            $t .= $this->addPlacePresentation($placetracking->getReport());
+            $t .= $this->addReportPresentation($reporttracking->getReport());
             
             $t .= "\n\n\n\n\n\n\n\n";
         }
@@ -447,13 +447,13 @@ class ToTextMailSenderService {
     }
     
     
-    private function addPlacePresentation(Place $place) {
+    private function addReportPresentation(Report $report) {
         $t = '';
         
         $t.= $this->t->trans('mail.place.presentation.actual',
                 array(
-                    '%label%' => $place->getLabel(),
-                    '%id%' => $place->getId()
+                    '%label%' => $report->getLabel(),
+                    '%id%' => $report->getId()
                 ), self::DOMAIN);
         
         $t.="\n\n";
@@ -462,19 +462,19 @@ class ToTextMailSenderService {
         
         $t.="\n";
         
-        $t.= '>'.$place->getDescription();
+        $t.= '>'.$report->getDescription();
         
         $t.="\n";
         
         $t.= $this->t->trans('mail.place.presentation.introduced_by_when', 
                 array(
-                    '%creator%' => $place->getCreator()->getLabel(),
-                    '%create_date%' => $place->getCreateDate()->format($this->date_format)
+                    '%creator%' => $report->getCreator()->getLabel(),
+                    '%create_date%' => $report->getCreateDate()->format($this->date_format)
                 ), self::DOMAIN);
         
         $t.="\n";
         
-        if ($place->getModeratorComment() != '') {
+        if ($report->getModeratorComment() != '') {
             $t.= $this->t->trans('mail.place.presentation.moderator_comment_header',
                     array(
 
@@ -482,16 +482,16 @@ class ToTextMailSenderService {
 
             $t.= "\n";
 
-            $t.= '>'.$place->getModeratorComment();
+            $t.= '>'.$report->getModeratorComment();
 
             $t.= "\n";
         }
         
         //anonymous function to show categories label
-        $func = function() use ($place) {
+        $func = function() use ($report) {
                     $string = '';
                     $i = 0;
-                    foreach ($place->getCategory() as $cat) {
+                    foreach ($report->getCategory() as $cat) {
                         if ($i !== 0) {
                             $string .= ', ';
                         }
@@ -509,14 +509,14 @@ class ToTextMailSenderService {
         
         $t.="\n";
         
-        if ($place->getManager() === null) {
+        if ($report->getManager() === null) {
             $managerLabel = $this->t->trans(
                     'mail.place.presentation.no_manager', 
                     array(),
                     self::DOMAIN
                     );
         } else {
-            $managerLabel = $place->getManager()->getName();
+            $managerLabel = $report->getManager()->getName();
         }
         
         $t.= $this->t->trans('mail.place.presentation.manager', array(
@@ -527,7 +527,7 @@ class ToTextMailSenderService {
         
         $t.= $this->t->trans('mail.place.presentation.link', array(
             '%url%' => $this->router->generate('wikipedale_homepage', array(
-                    'id' => $place->getId()
+                    'id' => $report->getId()
                 ), true)
         ), self::DOMAIN);
         

@@ -15,7 +15,7 @@ use Doctrine\ORM\EntityManager;
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class PlaceTrackingToTextService {
+class ReportTrackingToTextService {
     
     /**
      * the translator, stored by the constructor

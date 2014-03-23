@@ -4,7 +4,7 @@ parameters:
   progracqteur_wikipedale.security.controlList.class : Progracqteur\WikipedaleBundle\Resources\Security\ChangeService
   progracqteur_wikipedale.service.photo.class: Progracqteur\WikipedaleBundle\Resources\Services\PhotoService
   progracqteur_wikipedale.service.slug.class: Progracqteur\WikipedaleBundle\Resources\Services\SlugService
-  progracqteur.wikipedale.service.place.tracking.toText.class: Progracqteur\WikipedaleBundle\Resources\Services\PlaceTrackingToTextService
+  progracqteur.wikipedale.service.place.tracking.toText.class: Progracqteur\WikipedaleBundle\Resources\Services\ReportTrackingToTextService
 services:
   progracqteurWikipedaleSerializer:
     class: %progracqteur_wikipedale.normalizer.class%
