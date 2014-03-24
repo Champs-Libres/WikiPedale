@@ -7,13 +7,13 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportStatus;
 use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 
-class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, \Symfony\Component\DependencyInjection\ContainerAwareInterface
+class LoadReportData extends AbstractFixture implements OrderedFixtureInterface, \Symfony\Component\DependencyInjection\ContainerAwareInterface
 {
 
 
@@ -24,7 +24,7 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, 
     }
     
     /**
-     *Cette fonction ajoute trois place à des endroits aléatoires
+     *Cette fonction ajoute trois report à des endroits aléatoires
      * @param ObjectManager $manager 
      */
     public function load(ObjectManager $manager) {
@@ -42,16 +42,16 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, 
         
             $str = $this->createId();
 
-            $place = new Place();
-            $place->setCreator($this->getReference('user'));
-            $place->setDescription($this->getLipsum(rand(10,60)));
+            $report = new Report();
+            $report->setCreator($this->getReference('user'));
+            $report->setDescription($this->getLipsum(rand(10,60)));
             if (rand(0,5) > 3) //add randomly a moderator comment, or not
-                $place->setModeratorComment($this->getLipsum(rand(10,90)));
-            $place->setGeom($point);
+                $report->setModeratorComment($this->getLipsum(rand(10,90)));
+            $report->setGeom($point);
             
             $add = $this->geolocate($point);
             
-            $place->setAddress($add);
+            $report->setAddress($add);
             
             //add a random category amongst the one loaded
             $cat_array = array('1', '2', '3', null, null, null, null);
@@ -60,44 +60,44 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, 
             {
                 $cat_string_ref = 'cat'.$cat_array[$rand];
                 echo "add $cat_string_ref \n";
-                $place->addCategory($this->getReference('cat'.$cat_array[$rand]));
+                $report->addCategory($this->getReference('cat'.$cat_array[$rand]));
             }
             
-            //ajout un statut à toutes les places, sauf à quatre d'entre elles
+            //ajout un statut à toutes les report, sauf à quatre d'entre elles
             if ($i != 0 OR $i != 10 OR $i != 15 OR $i != 19)
             {
-                $p = new PlaceStatus();
+                $p = new ReportStatus();
                 $p->setType($notations[array_rand($notations)])
                         ->setValue($valuesNotations[array_rand($valuesNotations)]);
-                $place->addStatus($p);
+                $report->addStatus($p);
                 
                 //ajoute un deuxième statut à une sur trois
                 if ($i%3 == 0)
                 {
-                    $p = new PlaceStatus();
+                    $p = new ReportStatus();
                 $p->setType($notations[array_rand($notations)])
                         ->setValue($valuesNotations[array_rand($valuesNotations)]);
-                $place->addStatus($p);
+                $report->addStatus($p);
                 }
             }
             
-            //ajout d'un manager de voirie responsable à une place sur deux
+            //ajout d'un manager de voirie responsable à une report sur deux
             if ((($i+2) % 2) === 0)
             {
-                $place->setManager($this->getReference('manager_mons'));
+                $report->setManager($this->getReference('manager_mons'));
             }
             
-            $place->getChangeset()->setAuthor($this->getReference('user'));
+            $report->getChangeset()->setAuthor($this->getReference('user'));
             
             //add a type (little 4 more frequently)
             $type_array = array('big', 'little', 'middle', 'little', 'little', 'little');
             $rand = array_rand($type_array);
             $reportType = $this->getReference('type_'.$type_array[$rand]);
-            $place->setType($reportType);
+            $report->setType($reportType);
 
-            echo "type de la place est ".$place->getType()->getLabel()." \n";
+            echo "type de le signalement est ".$report->getType()->getLabel()." \n";
             
-            $errors = $this->container->get('validator')->validate($place);
+            $errors = $this->container->get('validator')->validate($report);
             if (count($errors) > 0)
             {
                 $m = "";
@@ -108,55 +108,55 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, 
                 
                 //ignore some errors
                 if (!($m === "place.validation.message.onlyOneStatusAtATime"))
-                    throw new \Exception("place invalide $m");
+                    throw new \Exception("report invalide $m");
             }
             
-            $manager->persist($place);
+            $manager->persist($report);
             
-            $this->addReference("PLACE_FOR_REGISTERED_USER".$i, $place);
+            $this->addReference("REPORT_FOR_REGISTERED_USER".$i, $report);
         }
     
-        //ajout de places avec utilisateurs non enregistré
+        //ajout de reports avec utilisateurs non enregistré
         for ($i=0; $i<20; $i++)
         {
             echo "Création du point $i (utilisateur inconnu) \n";
             
-            $place = new Place();
+            $report = new Report();
             $point = $this->getRandomPoint();
-            $place->setGeom($point);
+            $report->setGeom($point);
 
             $u = new UnregisteredUser();
             $u->setLabel('non enregistré '.$this->createId());
             $u->setEmail('test@fastre.info');
             $u->setIp('192.168.1.89');
             $u->setPhonenumber("012345678901");
-            $place->setDescription($this->getLipsum(rand(10,60)));
+            $report->setDescription($this->getLipsum(rand(10,60)));
             if (rand(0,5) > 3) //add randomly a moderator comment, or not
-                $place->setModeratorComment($this->getLipsum(rand(10,90)));
+                $report->setModeratorComment($this->getLipsum(rand(10,90)));
 
-            $place->setCreator($u);
+            $report->setCreator($u);
 
-            $place->setAddress($this->geolocate($point));
+            $report->setAddress($this->geolocate($point));
             
-            //ajout un statut à toutes les places, sauf à quatre d'entre elles
+            //ajout un statut à toutes les signalement, sauf à quatre d'entre elles
             if ($i != 0 OR $i != 10 OR $i != 15 OR $i != 19)
             {
-                $p = new PlaceStatus();
+                $p = new ReportStatus();
                 $p->setType($notations[array_rand($notations)])
                         ->setValue($valuesNotations[array_rand($valuesNotations)]);
-                $place->addStatus($p);
+                $report->addStatus($p);
                 
                 //ajoute un deuxième statut à une sur trois
                 if ($i%3 == 0)
                 {
-                    $p = new PlaceStatus();
+                    $p = new ReportStatus();
                 $p->setType($notations[array_rand($notations)])
                         ->setValue($valuesNotations[array_rand($valuesNotations)]);
-                $place->addStatus($p);
+                $report->addStatus($p);
                 }
             }
             
-            $place->getChangeset()->setAuthor($u);
+            $report->getChangeset()->setAuthor($u);
             
             //add a random category amongst the one loaded
             $cat_array = array('1', '2', '3', null, null, null, null);
@@ -165,16 +165,16 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, 
             {
                 $cat_string_ref = 'cat'.$cat_array[$rand];
                 echo "add $cat_string_ref \n";
-                $place->addCategory($this->getReference('cat'.$cat_array[$rand]));
+                $report->addCategory($this->getReference('cat'.$cat_array[$rand]));
             }
             
             //add a type (little 4 more frequently)
             $type_array = array('big', 'little', 'middle', 'little', 'little', 'little');
             $rand = array_rand($type_array);
             $reportType = $this->getReference('type_'.$type_array[$rand]);
-            $place->setType($reportType);
+            $report->setType($reportType);
             
-            $errors = $this->container->get('validator')->validate($place);
+            $errors = $this->container->get('validator')->validate($report);
             if (count($errors) > 0)
             {
                 $m = "";
@@ -185,16 +185,16 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, 
                 
                 //ignore some errors
                 if (!($m === "place.validation.message.onlyOneStatusAtATime"))
-                    throw new \Exception("place invalide $m");
+                    throw new \Exception("report invalide $m");
             }
 
-            $manager->persist($place);
+            $manager->persist($report);
             
-            $this->addReference("PLACE_FOR_UNREGISTERED_USER".$i, $place);
+            $this->addReference("REPORT_FOR_UNREGISTERED_USER".$i, $report);
         }
         
         
-        $manager->persist($place);
+        $manager->persist($report);
         
         $manager->flush();
         

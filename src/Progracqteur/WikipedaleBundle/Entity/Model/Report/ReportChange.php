@@ -43,8 +43,8 @@ class ReportChange implements ChangeInterface{
      * 
      * 
      * If the type is :
-     * - REPORT_STATUS : the new value is an instance of Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus
-     * - PLACE_PHOTO: a string which represent the filename of the new picture
+     * - REPORT_STATUS : the new value is an instance of Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportStatus
+     * - REPORT_PHOTO: a string which represent the filename of the new picture
      * - REPORT_ADDRESS : Progracqteur\WikipedaleBundle\Resources\Container\Address
      * - REPORT_DESCRIPTION = string
      * - REPORT_GEOM = Progracqteur\WikipedaleBundle\Resources\Geo\Point;

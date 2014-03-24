@@ -1,9 +1,9 @@
 <?php
 
-namespace Progracqteur\WikipedaleBundle\Entity\Model\Place;
+namespace Progracqteur\WikipedaleBundle\Entity\Model\Report;
 
 /**
- * This entity represent the statuses of the places
+ * This entity represent the statuses of the reports
  * Those are described by : 
  *    - a type ;
  *    - a value ;
@@ -16,7 +16,7 @@ namespace Progracqteur\WikipedaleBundle\Entity\Model\Place;
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class PlaceStatus {
+class ReportStatus {
     
     /**
      * the type of the status
@@ -57,7 +57,7 @@ class PlaceStatus {
         return $this;
     }
     
-    public function equals(PlaceStatus $status)
+    public function equals(ReportStatus $status)
     {
         return ($this->getType() ===  $status->getType() 
                 && $this->getValue() === $status->getValue());

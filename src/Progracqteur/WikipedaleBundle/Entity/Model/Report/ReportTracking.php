@@ -288,7 +288,7 @@ class ReportTracking implements ChangesetInterface {
                     break;
                 case ChangeService::REPORT_STATUS:
                     $a = json_decode($value); 
-                    $status = new PlaceStatus();
+                    $status = new ReportStatus();
                     $status->setType($a->type)->setValue($a->value);
                     $newValue = $status;
                     break;

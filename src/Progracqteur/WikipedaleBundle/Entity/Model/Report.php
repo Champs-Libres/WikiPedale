@@ -14,7 +14,7 @@ use Progracqteur\WikipedaleBundle\Resources\Security\ChangeableInterface;
 use Doctrine\Common\NotifyPropertyChanged;
 use Doctrine\Common\PropertyChangedListener;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportStatus;
 use Symfony\Component\Validator\ExecutionContext;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 use Progracqteur\WikipedaleBundle\Entity\Management\Group;
@@ -463,7 +463,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
             
             foreach ($this->infos->placeStatuses->toArray() as $type => $value)
             {
-                $status = new PlaceStatus();
+                $status = new ReportStatus();
                 $status->setType($type)->setValue($value);
                 $this->proxyStatuses->add($status);
             }
@@ -491,10 +491,10 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
      * Add a new status to the class, and retrieve old status 
      * with same type.
      * 
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus $status
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportStatus $status
      * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
-    public function addStatus(PlaceStatus $status)
+    public function addStatus(ReportStatus $status)
     {
         $this->initializeProxyStatuses(); 
         
@@ -531,10 +531,10 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     /**
      * Remove completely the statuses equals of the given status
      * 
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus $status
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportStatus $status
      * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
-    public function removeStatus(PlaceStatus $status)
+    public function removeStatus(ReportStatus $status)
     {
         $this->initializeProxyStatuses();
         

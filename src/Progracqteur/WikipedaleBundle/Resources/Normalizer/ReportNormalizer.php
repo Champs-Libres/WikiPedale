@@ -6,7 +6,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportStatus;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
@@ -126,7 +126,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
                         && isset($arrayStatus['v']) 
                         )
                 {
-                    $status = new PlaceStatus();
+                    $status = new ReportStatus();
                     $status->setType($arrayStatus['t'])
                             ->setValue($arrayStatus['v']);
                     $p->addStatus($status);
@@ -151,7 +151,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             //at first, check if recorded categories match with a one existing 
             // in the json request. If yes, delete from the request's categories's array
             // if the category is not in the json's request, remove the category
-            // from the place.
+            // from the report.
             foreach ($p->getCategory() as $recordedCat)
             {
                 $categoryIsAssociatedWithReport = false;
@@ -309,7 +309,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
         
     }
     public function supportsNormalization($data, $format = null) {
-        if ($data instanceof Place)
+        if ($data instanceof Report)
         {
             return true;
         } else
@@ -325,7 +325,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
     
     /*
      * 
-     * @return Progracqteur\WikipedaleBundle\Entity\Model\Place
+     * @return Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
     public function getCurrentReport()
     {
