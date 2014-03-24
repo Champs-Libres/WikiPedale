@@ -3,61 +3,67 @@
 namespace Progracqteur\WikipedaleBundle\Entity\Model;
 
 use Symfony\Component\Validator\ExecutionContext;
+use \Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Progracqteur\WikipedaleBundle\Entity\Model\Category
+ * Category for a report. The categories are used for classifying the report.
+ *
+ * A Category is either parent either children. A category is parent if and only if it has not parent, 
+ * otherwise the category is childen.
+ *
+ * A Category is assigned with a term that help to classify the reports.
  */
 class Category
 {
     /**
-     * @var integer $id
+     * @var integer $id Unique identifier of a category
      */
     private $id;
 
     /**
-     * @var string $label
+     * @var string $label Label of a category
      */
     private $label;
     
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @var \Doctrine\Common\Collections\ArrayCollection $children Collection of the children of the category (if the category is parent otherwise this collection is empty)
      */
     private $children;
 
     /**
-     * @var Progracqteur\WikipedaleBundle\Entity\Model\Category
+     * @var Progracqteur\WikipedaleBundle\Entity\Model\Category $parent The parent of the category (if the category is children)
      */
     private $parent;
     
     /**
      *
-     * @var double 
+     * @var double $order Display order used in the application.
      */
     protected $order;
     
     /**
-     *
-     * @var boolean
+     * @var boolean $used True if the  category is used.
      */
     private $used = true;
     
-    
-    /**
-     * associated term
-     * 
-     * @var string
+    /** 
+     * @var string  $term The associated term.
      */
     private $term;
 
     public function __construct()
     {
-        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->children = new ArrayCollection();
+    }
+
+    public function __toString() {
+        return $this->getLabel();
     }
     
     /**
-     * Get id
+     * Get the id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -67,7 +73,7 @@ class Category
     /**
      * Set label
      *
-     * @param string $label
+     * @param string $label The new label
      * @return Category
      */
     public function setLabel($label)
@@ -77,7 +83,7 @@ class Category
     }
 
     /**
-     * Get label
+     * Get the label
      *
      * @return string 
      */
@@ -86,9 +92,24 @@ class Category
         return $this->label;
     }
 
-   
     /**
-     * Get children
+     * Return an hierarchical view of the label :
+     * - if the category is parent, the returned string is "The category label"
+     * - if the category is children, the returned string is "Tha parent category label > The category label"
+     * 
+     * @return string
+     */
+    public function getHierarchicalLabel() 
+    {        
+        if ($this->isParent()) {
+            return $this->getLabel();
+        } else {
+            return $this->getParent()->getLabel().' > '.$this->getLabel();
+        }            
+    }
+
+    /**
+     * Get the children
      *
      * @return Doctrine\Common\Collections\Collection 
      */
@@ -97,14 +118,45 @@ class Category
         return $this->children;
     }
 
+
     /**
-     * Set parent
+     * Get the children
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    private function _addChildren(Category $newChildren)
+    {
+        $this->children->add($newChildren);
+        return $this;
+    }
+
+
+    /**
+     * Return True if the categrory has children
+     *
+     * @return boolean
+     */
+
+    public function hasChildren()
+    {
+        return ($this->getChildren()->count() !== 0);
+    }
+
+    /**
+     * Set parent 
      *
      * @param Progracqteur\WikipedaleBundle\Entity\Model\Category $parent
      * @return Category
      */
     public function setParent(\Progracqteur\WikipedaleBundle\Entity\Model\Category $parent = null)
     {
+        if ($parent === null) {
+            if($this->parent->children->contains($this)) {
+                $this->parent->children->remove($this);
+            }
+        } else {
+            $parent->_addChildren($this);
+        }
         $this->parent = $parent;
         return $this;
     }
@@ -119,52 +171,29 @@ class Category
         return $this->parent;
     }
     
-    public function __toString() {
-        return $this->getLabel();
-    }
-    
-    public function hasParent()
-    {
-        return (!($this->parent === null));
-    }
-    
     /**
-     * return true if a category is still in use
-     * 
+     * Returns True if the category has a parent
+     *
      * @return boolean
      */
-    public function isUsed(){
-        return $this->used;
-    }
-    
-    /**
-     * set if a category may be in used or not
-     * 
-     * @param boolean $used
-     */
-    public function setUsed($used)
+    public function hasParent()
     {
-        $this->used = $used;
+        return ($this->parent !== null);
     }
-    
+
     /**
-     * 
-     * @param double $order
+     * Retuns True if the category is parent
+     *
+     * @return boolean
      */
-    public function setOrder($order)
+    public function isParent()
     {
-        $this->order = $order;
+        return ! ($this->hasParent());
     }
-    
+
     /**
-     * 
-     * @return double
+     *
      */
-    public function getOrder()
-    {
-        return $this->order;
-    }
-    
     public function isParentAChild(ExecutionContext $context)
     {
         if ($this->hasParent())
@@ -178,52 +207,59 @@ class Category
         }
     }
     
-    public function hasChildren()
-    {
-        if ($this->getChildren()->count() === 0)
-            return false;
-        else
-            return true;
+    /**
+     * Return True if a category is still in use
+     * 
+     * @return boolean
+     */
+    public function isUsed(){
+        return $this->used;
     }
     
     /**
-     * Return an hierarchical view of the label
+     * Set if a category may be in used or not
      * 
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Category $category
+     * @param boolean $used
+     */
+    public function setUsed($used)
+    {
+        $this->used = $used;
+    }
+    
+    /**
+     * Set the Display Order
+     * 
+     * @param double $order
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+    }
+    
+    /**
+     * Get the Display Order
+     * 
+     * @return double
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * Get the term
+     *
      * @return string
      */
-    public function getHierarchicalLabel() 
-    {
-        $str = '';
-        
-        if ($this->hasParent())
-            return $this->addParentLabel($str);
-        else 
-            return $this->getLabel();
-
-    }
-    
-    /**
-     * Recursive function, which add the hierarchical parent label to the
-     * string, until the parent category is reached
-     * 
-     * @param type $string
-     * @return type
-     */
-    public function addParentLabel(&$string)
-    {
-        if ($this->hasParent())
-        {
-            return $this->getParent()->addParentLabel($string).' < '.$this->getLabel();
-        } else {
-            return $this->getLabel().$string;
-        }
-    }
-    
     public function getTerm() {
         return $this->term;
     }
     
+    /**
+     * Set the term
+     *
+     * @param string $term The new term
+     */
     public function setTerm($term) {
         $this->term = $term;
     }
