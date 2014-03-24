@@ -61,14 +61,14 @@ class ReportTrackingToTextService {
         
         $args = array(
                 '%author%' => $authorLabel,
-                '%place%' => $reportName
+                '%report%' => $reportName
             );
         
         
         //check if the report Tracking is a creation, return string if true
         if ($reportTracking->isCreation())
         {
-            return $this->t->trans('place.is.created', $args, $domain);
+            return $this->t->trans('report.is.created', $args, $domain);
         }
         
               
@@ -83,7 +83,7 @@ class ReportTrackingToTextService {
         //if the change is add a photo (do not consider other changes)
         if (isset($keyChanges[ChangeService::REPORT_ADD_PHOTO]))
         {
-            return $this->t->trans('place.add.photo', $args, $domain);
+            return $this->t->trans('report.add.photo', $args, $domain);
         }
         
         //if the change concern the status of the report
@@ -95,19 +95,19 @@ class ReportTrackingToTextService {
             switch ($status->getValue())
             {
                 case -1 : 
-                    return $this->t->trans('place.status.rejected', $args, $domain);
+                    return $this->t->trans('report.status.rejected', $args, $domain);
                     break;
                 case 0 :
-                    return $this->t->trans('place.status.notReviewed', $args, $domain);
+                    return $this->t->trans('report.status.notReviewed', $args, $domain);
                     break;
                 case 1 :
-                    return $this->t->trans('place.status.takenIntoAccount', $args, $domain);
+                    return $this->t->trans('report.status.takenIntoAccount', $args, $domain);
                     break;
                 case 2 :
-                    return $this->t->trans('place.status.inChange', $args, $domain);
+                    return $this->t->trans('report.status.inChange', $args, $domain);
                     break;
                 case 3 :
-                    return $this->t->trans('place.status.success', $args, $domain);
+                    return $this->t->trans('report.status.success', $args, $domain);
                     break;
             }
         }
@@ -126,7 +126,7 @@ class ReportTrackingToTextService {
             
             $args['%group%'] = $groupManager->getName();
             
-            return $this->t->trans('place.manager.new', $args, $domain);
+            return $this->t->trans('report.manager.new', $args, $domain);
             
         }
         
@@ -140,7 +140,7 @@ class ReportTrackingToTextService {
         {
             $args['%change%'] = 
                  $this->getStringFromChangeType($changes[0]->getType());
-            return $this->t->trans('place.change.one', $args, $domain);
+            return $this->t->trans('report.change.one', $args, $domain);
         }
         
         if ($nb == 2)
@@ -149,7 +149,7 @@ class ReportTrackingToTextService {
                  $this->getStringFromChangeType($changes[0]->getType());
             $args['%change__%'] = 
                  $this->getStringFromChangeType($changes[1]->getType());
-            return $this->t->trans('place.change.two', $args, $domain);
+            return $this->t->trans('report.change.two', $args, $domain);
         }
         
         if ($nb > 2)
@@ -160,7 +160,7 @@ class ReportTrackingToTextService {
                  $this->getStringFromChangeType($changes[1]->getType());
             $more = $nb - 2;
             $args['%more%'] = $more;
-            return $this->t->transChoice('place.change.more', $more, $args, $domain);
+            return $this->t->transChoice('report.change.more', $more, $args, $domain);
         }
         
         
@@ -177,24 +177,24 @@ class ReportTrackingToTextService {
         switch ($type)
         {
             case ChangeService::REPORT_ADDRESS :
-                return $this->t->trans('change.place.address' , array(), $d);
+                return $this->t->trans('change.report.address' , array(), $d);
                 break;
             case ChangeService::REPORT_DESCRIPTION:
-                return $this->t->trans('change.place.description', array(), $d);
+                return $this->t->trans('change.report.description', array(), $d);
                 break;
             case ChangeService::REPORT_GEOM:
-                return $this->t->trans('change.place.geom', array(), $d);
+                return $this->t->trans('change.report.geom', array(), $d);
                 break;
             case ChangeService::REPORT_ADD_CATEGORY:
             case ChangeService::REPORT_REMOVE_CATEGORY:
-                return $this->t->trans('change.place.category', array(), $d);
+                return $this->t->trans('change.report.category', array(), $d);
                 break;
             case ChangeService::REPORT_REPORTTYPE_ALTER:
-                return $this->t->trans('change.place.place_type', array(), $d);
+                return $this->t->trans('change.report.report_type', array(), $d);
             case ChangeService::REPORT_MODERATOR_COMMENT_ALTER:
-                return $this->t->trans('change.place.moderator_comment', array(), $d);
+                return $this->t->trans('change.report.moderator_comment', array(), $d);
             default:
-                return $this->t->trans('change.place.other', array(), $d);
+                return $this->t->trans('change.report.other', array(), $d);
         }
     }
     
