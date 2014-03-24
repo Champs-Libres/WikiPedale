@@ -23,7 +23,7 @@ class ReportControllerTest extends WebTestCase
 
     public function testValidationCorrect() 
     {
-        $p = $this->getPlace();
+        $p = $this->getReport();
         
         $validator = $this->getValidator();
         
@@ -34,7 +34,7 @@ class ReportControllerTest extends WebTestCase
 
     public function testValidationUser()
     {
-        $p = $this->getPlace(false);
+        $p = $this->getReport(false);
         
         $validator = $this->getValidator();
         
@@ -45,7 +45,7 @@ class ReportControllerTest extends WebTestCase
     
     public function testValidationDescriptionMoreThan10000()
     {
-        $p = $this->getPlace();
+        $p = $this->getReport();
         
         //ce texte contient 463 caractères
         $string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent volutpat consectetur ligula, venenatis tincidunt dui commodo et. Curabitur eleifend justo dolor. Maecenas vel ipsum sit amet odio vehicula commodo eget sit amet sem. Curabitur sagittis pulvinar mauris. Fusce ut augue vitae nulla semper malesuada eu vel massa. Suspendisse vel justo mauris. Sed mattis ipsum sed mi dapibus vestibulum. Cras vitae lorem eget tortor fringilla ornare ut vel sapien. ";
@@ -65,32 +65,6 @@ class ReportControllerTest extends WebTestCase
         $this->assertEquals(1, $errors->count());
     }
     
-    public function testValidationStatusBicycleOnCreation()
-    {
-        $p = $this->getPlace();
-        
-        $p->setStatusBicycle(1);
-        
-        $validator = $this->getValidator();
-        
-        $errors = $validator->validate($p, array('creation'));
-        
-        $this->assertEquals(1, $errors->count());
-    }
-    
-    public function testValidationStatusZoneOnCreation()
-    {
-        $p = $this->getPlace();
-        
-        $p->setStatusZone(1);
-        
-        $validator = $this->getValidator();
-        
-        $errors = $validator->validate($p, array('creation'));
-
-        $this->assertEquals(1, $errors->count());
-    }
-    
     public function getValidator()
     {
         if ($this->_kernel === null) {
@@ -103,9 +77,9 @@ class ReportControllerTest extends WebTestCase
     
     
     /**
-     * @return  Progracqteur\WikipedaleBundle\Entity\Model\Place
+     * @return  Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
-    private function getPlace($user = true)
+    private function getReport($user = true)
     {
         $p = new Report();
         $p->setGeom($this->getRandomPoint());
