@@ -4,9 +4,9 @@ namespace Progracqteur\WikipedaleBundle\Entity\Management;
 
 use Doctrine\ORM\Mapping as ORM;
 
-
 /**
- * NotificationSubscription
+ * NotificationSubscription 
+ * Used for a user to subscribe to the notifications (update of the report)
  */
 class NotificationSubscription
 {
@@ -54,14 +54,12 @@ class NotificationSubscription
     /**
      * @var \Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
-    private $place;
-
+    private $report;
     
     const KIND_MODERATOR = 'moderator';
     const KIND_MANAGER = 'manager';
     const KIND_PUBLIC = 'public';
-    const KIND_PUBLIC_PLACE = 'publicplace';
-    
+    const KIND_PUBLIC_REPORT = 'publicplace';
     
     const FREQUENCY_MINUTELY = 60;
     const FREQUENCY_DAILY = 86400;
@@ -69,13 +67,10 @@ class NotificationSubscription
     
     const TRANSPORTER_MAIL = 'email';
     
-    
     public function __construct() {
         $this->transporter = self::TRANSPORTER_MAIL;
         $this->frequency = self::FREQUENCY_MINUTELY;
     }
-    
-
     
     /**
      * Get id
@@ -300,12 +295,12 @@ class NotificationSubscription
     /**
      * Set report
      *
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report $place
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report $report
      * @return NotificationSubscription
      */
-    public function setPlace(\Progracqteur\WikipedaleBundle\Entity\Model\Report $place = null)
+    public function setReport(\Progracqteur\WikipedaleBundle\Entity\Model\Report $report = null)
     {
-        $this->report = $place;
+        $this->report = $report;
     
         return $this;
     }
@@ -315,7 +310,7 @@ class NotificationSubscription
      *
      * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report 
      */
-    public function getPlace()
+    public function getReport()
     {
         return $this->report;
     }

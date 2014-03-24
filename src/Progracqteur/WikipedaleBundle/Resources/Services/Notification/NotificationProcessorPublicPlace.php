@@ -65,7 +65,7 @@ class NotificationProcessorPublicPlace extends NotificationProcessor {
     }
 
     public function getKey() {
-        return NotificationSubscription::KIND_PUBLIC_PLACE;
+        return NotificationSubscription::KIND_PUBLIC_REPORT;
     }
 
     public function mayBeCreated(User $user) {

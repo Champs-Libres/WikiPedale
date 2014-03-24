@@ -57,7 +57,7 @@ class ToTextMailSenderService {
         $this->t = $translator;
         $this->array[NotificationSubscription::KIND_MODERATOR] = $moderatorArray;
         $this->array[NotificationSubscription::KIND_MANAGER] = $managerArray;
-        $this->array[NotificationSubscription::KIND_PUBLIC_PLACE] = NotificationFilterBySubscriptionPublicPlace::$authorizedChangesToBeNotified;
+        $this->array[NotificationSubscription::KIND_PUBLIC_REPORT] = NotificationFilterBySubscriptionPublicPlace::$authorizedChangesToBeNotified;
         $this->date_format = $date_format;
         $this->om = $om;
         $this->router = $router;
@@ -123,11 +123,11 @@ class ToTextMailSenderService {
                         );
 
                 } else {
-                    if ($notificationSubscription->getPlace() !== null) {
+                    if ($notificationSubscription->getReport() !== null) {
                         
                         $subText .= $this->t->trans('mail.subscriptions.place',
                             array('%place%' => $notificationSubscription
-                                    ->getPlace()->getLabel()
+                                    ->getReport()->getLabel()
                         ),
                         self::DOMAIN
                         );

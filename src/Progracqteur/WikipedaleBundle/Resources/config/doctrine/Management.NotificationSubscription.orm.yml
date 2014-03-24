@@ -30,7 +30,10 @@ Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Group
       inversedBy: notificationSubscriptions
       nullable: true
-    place:
+    report:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Report
       inversedBy: notificationSubscriptions
       nullable: true
+      joinColumn:
+        name: place_id
+        referencedColumnName: id

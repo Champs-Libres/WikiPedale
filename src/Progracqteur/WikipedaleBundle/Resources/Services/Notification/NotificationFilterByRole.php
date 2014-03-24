@@ -42,7 +42,7 @@ class NotificationFilterByRole {
             return false;
         }
         
-        if ($changeset->getPlace()->isAccepted() === false)
+        if ($changeset->getReport()->isAccepted() === false)
         {
             echo "FILTER BY ROLE place not accepted \n";
             return false;

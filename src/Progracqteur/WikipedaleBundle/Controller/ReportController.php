@@ -349,8 +349,8 @@ class ReportController extends Controller
             $notification = new NotificationSubscription();
                   
             $notification->setOwner($report->getCreator())
-                    ->setKind(NotificationSubscription::KIND_PUBLIC_PLACE)
-                    ->setPlace($report)
+                    ->setKind(NotificationSubscription::KIND_PUBLIC_REPORT)
+                    ->setReport($report)
                     ->setTransporter(NotificationSubscription::TRANSPORTER_MAIL);
             
             $em->persist($notification);
