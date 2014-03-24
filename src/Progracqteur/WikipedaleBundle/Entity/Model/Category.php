@@ -118,19 +118,6 @@ class Category
         return $this->children;
     }
 
-
-    /**
-     * Get the children
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    private function _addChildren(Category $newChildren)
-    {
-        $this->children->add($newChildren);
-        return $this;
-    }
-
-
     /**
      * Return True if the categrory has children
      *
@@ -154,7 +141,7 @@ class Category
             echo "null";
             $this->parent->children->removeElement($this);
         } else {
-            $parent->_addChildren($this);
+            $parent->children->add($this);
         }
         $this->parent = $parent;
         return $this;
