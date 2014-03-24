@@ -151,9 +151,8 @@ class Category
     public function setParent(\Progracqteur\WikipedaleBundle\Entity\Model\Category $parent = null)
     {
         if ($parent === null) {
-            if($this->parent->children->contains($this)) {
-                $this->parent->children->remove($this);
-            }
+            echo "null";
+            $this->parent->children->removeElement($this);
         } else {
             $parent->_addChildren($this);
         }
