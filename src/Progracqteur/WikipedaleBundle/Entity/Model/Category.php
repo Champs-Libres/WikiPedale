@@ -192,7 +192,7 @@ class Category
     }
 
     /**
-     *
+     * Add to the context a violationAtSubPath if a Category has a parent that has a parent that has a parent
      */
     public function isParentAChild(ExecutionContext $context)
     {
