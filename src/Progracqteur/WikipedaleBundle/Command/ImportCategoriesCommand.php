@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 
 /**
- * Description of ImportCategories
+ * Import categories into the application. These categories are used for bike report.
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
