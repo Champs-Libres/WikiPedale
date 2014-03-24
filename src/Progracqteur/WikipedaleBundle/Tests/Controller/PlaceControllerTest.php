@@ -30,7 +30,6 @@ class PlaceControllerTest extends WebTestCase {
         $errors = $validator->validate($p);
         
         $this->assertEquals(0, $errors->count());
-        
     }
     
     public function testValidationUser()
@@ -52,19 +51,15 @@ class PlaceControllerTest extends WebTestCase {
         $string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent volutpat consectetur ligula, venenatis tincidunt dui commodo et. Curabitur eleifend justo dolor. Maecenas vel ipsum sit amet odio vehicula commodo eget sit amet sem. Curabitur sagittis pulvinar mauris. Fusce ut augue vitae nulla semper malesuada eu vel massa. Suspendisse vel justo mauris. Sed mattis ipsum sed mi dapibus vestibulum. Cras vitae lorem eget tortor fringilla ornare ut vel sapien. ";
         
         $s = $string;
-        for ($a = 0; $a < 10000; $a = $a+463)
-        {
+        for ($a = 0; $a < 10000; $a = $a+463) {
             $s .= $string;
         }
         
         $p->setDescription($s);
         
-        
         $validator = $this->getValidator();
         
         $errors = $validator->validate($p);
-        
-        
         
         $this->assertEquals(1, $errors->count());
     }
@@ -74,7 +69,6 @@ class PlaceControllerTest extends WebTestCase {
         $p = $this->getPlace();
         
         $p->setStatusBicycle(1);
-        
         
         $validator = $this->getValidator();
         
@@ -94,42 +88,17 @@ class PlaceControllerTest extends WebTestCase {
         $errors = $validator->validate($p, array('creation'));
         
         $this->assertEquals(1, $errors->count());
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    }    
     
     public function getValidator()
     {
-        if ($this->_kernel === null){
+        if ($this->_kernel === null) {
             $this->_kernel = new \AppKernel('dev', true);
             $this->_kernel->boot(); 
         }
         
-        return $this->_kernel->getContainer()->get('validator');
-        
-        
+        return $this->_kernel->getContainer()->get('validator');        
     }
-    
     
     /**
      * @return  Progracqteur\WikipedaleBundle\Entity\Model\Place
@@ -141,8 +110,7 @@ class PlaceControllerTest extends WebTestCase {
         
         $p->setAddress($this->geolocate($p->getGeom()));
         
-        if ($user == true)
-        {
+        if ($user == true) {
             $u = new UnregisteredUser();
             $u->setLabel('non enregistré '.$this->createId());
             $u->setEmail('test@email');
@@ -150,8 +118,6 @@ class PlaceControllerTest extends WebTestCase {
 
             $p->setCreator($u);
         }
-        
-        
         return $p;
     }
     
@@ -174,7 +140,6 @@ class PlaceControllerTest extends WebTestCase {
     private $z = array(6);
 
     public function createId() {
-  
         $s = '';
         $d = array_rand($this->z);
         $dd = $this->z[$d];
@@ -186,34 +151,18 @@ class PlaceControllerTest extends WebTestCase {
         }
 
         return $s;
-  }
+    }
   
-  private function geolocate(Point $point)
-  {
-      $a = new Address();
-
-        //si la chaine est vide, retourne le hash
-        
+    private function geolocate(Point $point)
+    {
+        $a = new Address();
+            
         $dom = new \DOMDocument();
-        
         $lat = $point->getLat();
         $lon = $point->getLon();
-        
-        //$ch = curl_init();
-        
-         $url = "http://open.mapquestapi.com/nominatim/v1/reverse?format=xml&lat=$lat&lon=$lon";
-        
-        //echo $url;
-        
-        //curl_setopt($ch, CURLOPT_URL, $url);
-        
-        //$d = curl_exec($ch);
-        
-        //curl_close($ch);
-        
-        //echo "\n";
-        //echo $d;
-        
+                
+        $url = "http://open.mapquestapi.com/nominatim/v1/reverse?format=xml&lat=$lat&lon=$lon";
+
         $dom->load($url);
         $docs = $dom->getElementsByTagName('addressparts');
         
@@ -255,10 +204,7 @@ class PlaceControllerTest extends WebTestCase {
                         break;
                 }
             }
-        }
-        
+        }   
         return $a;
-  }
-    
+    }
 }
-
