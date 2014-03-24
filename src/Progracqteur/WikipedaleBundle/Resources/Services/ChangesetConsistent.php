@@ -57,9 +57,9 @@ class ChangesetConsistent {
                         }
                         $correctedChanges[$value->getType()] = $b;
                         break;
-                    case ChangeService::REPORT_PLACETYPE_ALTER:
+                    case ChangeService::REPORT_REPORTTYPE_ALTER:
                         $correctedChanges[$value->getType()] = $this->om
-                            ->getRepository('ProgracqteurWikipedaleBundle:Model\Place\PlaceType')
+                            ->getRepository('ProgracqteurWikipedaleBundle:Model\Report\ReportType')
                                 ->find($value->getNewValue());
                         break;
                     case ChangeService::PLACE_COMMENT_ADD:

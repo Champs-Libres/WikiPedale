@@ -52,7 +52,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Report:
       nullable: true
       mappedBy: place
     type:
-      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportType
       nullable: true
       mappedBy: places
   oneToMany:

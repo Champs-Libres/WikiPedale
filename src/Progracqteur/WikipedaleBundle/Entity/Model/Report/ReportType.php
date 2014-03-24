@@ -1,13 +1,13 @@
 <?php
 
-namespace Progracqteur\WikipedaleBundle\Entity\Model\Place;
+namespace Progracqteur\WikipedaleBundle\Entity\Model\Report;
 
 /**
- * Type of the place
+ * Type of the report
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class PlaceType {
+class ReportType {
     
     /**
      *
@@ -42,7 +42,7 @@ class PlaceType {
     /**
      * 
      * @param string $label
-     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportType
      */
     public function setLabel($label)
     {

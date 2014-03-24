@@ -5,7 +5,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportType;
 
 
 /**
@@ -13,7 +13,7 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType;
  *
  * @author julien [at] fastre [point] info
  */
-class PlaceTypeNormalizer implements NormalizerInterface, DenormalizerInterface {
+class ReportTypeNormalizer implements NormalizerInterface, DenormalizerInterface {
     
     private $service;
     
@@ -29,14 +29,14 @@ class PlaceTypeNormalizer implements NormalizerInterface, DenormalizerInterface 
     
     public function denormalize($data, $class, $format = null, array $context = array()) {
         $type = $this->service->getManager()
-                ->getRepository('ProgracqteurWikipedaleBundle:Model\Place\PlaceType')
+                ->getRepository('ProgracqteurWikipedaleBundle:Model\Report\ReportType')
                 ->find($data[self::ID]);
         return $type;
     }
     
     /**
      * 
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType $object
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportType $object
      * @param string $format
      * @return array
      */
@@ -63,7 +63,7 @@ class PlaceTypeNormalizer implements NormalizerInterface, DenormalizerInterface 
     
     public function supportsNormalization($data, $format = null) {
         
-        if ($data instanceof PlaceType) {
+        if ($data instanceof ReportType) {
             return true;
         } else
         {

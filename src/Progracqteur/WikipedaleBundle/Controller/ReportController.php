@@ -17,7 +17,7 @@ use Progracqteur\WikipedaleBundle\Resources\Security\ChangeException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseUserToken;
-use Progracqteur\WikipedaleBundle\Form\Model\PlaceType;
+use Progracqteur\WikipedaleBundle\Form\Model\ReportType;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 
 /**

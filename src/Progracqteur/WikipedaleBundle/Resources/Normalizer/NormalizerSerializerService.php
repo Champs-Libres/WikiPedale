@@ -8,7 +8,7 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\ReportNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\PhotoNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\GroupNormalizer;
-use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceTypeNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\ReportTypeNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedExceptionResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
@@ -52,7 +52,7 @@ class NormalizerSerializerService {
     private $dateNormalizer = null;
     private $groupNormalizer = null;
     private $zoneNormalizer = null;
-    private $placeTypeNormalizer = null;
+    private $reportTypeNormalizer = null;
     private $commentNormalizer = null;
     
     /**
@@ -207,14 +207,14 @@ class NormalizerSerializerService {
      * 
      * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\ZoneNormalizer
      */
-    public function getPlaceTypeNormalizer()
+    public function getReportTypeNormalizer()
     {
-        if ($this->placeTypeNormalizer === null)
+        if ($this->reportTypeNormalizer === null)
         {
-            $this->placeTypeNormalizer = new PlaceTypeNormalizer($this);
+            $this->reportTypeNormalizer = new ReportTypeNormalizer($this);
         }
         
-        return $this->placeTypeNormalizer;
+        return $this->reportTypeNormalizer;
     }
     
     /**

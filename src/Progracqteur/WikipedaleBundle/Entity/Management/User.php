@@ -135,7 +135,7 @@ class User extends BaseUser
     /**
      * indicate if the user may alter the place type
      */
-    const ROLE_PLACETYPE_ALTER = 'ROLE_PLACETYPE_ALTER';
+    const ROLE_REPORTTYPE_ALTER = 'ROLE_PLACETYPE_ALTER';
     
     /**
      * indicate if the user may see unaccepted entities (like places,

@@ -101,8 +101,8 @@ class DefaultController extends Controller
                 ->getResult();
         //Todo: cachable query
         
-        $placeTypes = $this->getDoctrine()->getManager()
-                ->getRepository('ProgracqteurWikipedaleBundle:Model\Place\PlaceType')
+        $reportTypes = $this->getDoctrine()->getManager()
+                ->getRepository('ProgracqteurWikipedaleBundle:Model\Report\ReportType')
                 ->findAll();
         //TODO : cachable query
         
@@ -119,7 +119,7 @@ class DefaultController extends Controller
             'mainCities' => $mainCities, 
             'cities' => $cities,
             'categories' => $categories,
-            'placeTypes' => $placeTypes,
+            'reportTypes' => $reportTypes,
             'managers' => $managers,
             'terms_allowed' => $terms_allowed_array
         );

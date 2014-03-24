@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface as FormBuilder;
 use Doctrine\ORM\EntityRepository;
 
-class PlaceType extends AbstractType
+class ReportType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
@@ -32,6 +32,6 @@ class PlaceType extends AbstractType
 
     public function getName()
     {
-        return 'progracqteur_wikipedalebundle_model_placetype';
+        return 'progracqteur_wikipedalebundle_model_reporttype';
     }
 }

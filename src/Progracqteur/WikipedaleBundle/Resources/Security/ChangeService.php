@@ -37,7 +37,7 @@ class ChangeService {
     const REPORT_MANAGER_ADD = 190;
     const REPORT_MANAGER_ALTER = 193;
     const REPORT_MANAGER_REMOVE = 198;
-    const REPORT_PLACETYPE_ALTER = 200;
+    const REPORT_REPORTTYPE_ALTER = 200;
     const REPORT_MODERATOR_COMMENT_ALTER = 210;
     const REPORT_TERM = 220;
     const REPORT_CREATOR_CONFIRMATION = 1600;
@@ -308,7 +308,7 @@ class ChangeService {
                      if ($this->securityContext->isGranted(User::ROLE_CATEGORY))
                      {
                          //TODO: wheen we will need it, check if the user may add the category
-                         //with specific term using place_type
+                         //with specific term using report_type
                          continue;
                      } else {
                          throw ChangeException::param('add category ');
@@ -333,8 +333,8 @@ class ChangeService {
                          throw ChangeException::param('manager');
                      }
                      break;
-                 case self::REPORT_PLACETYPE_ALTER:
-                     if ($this->securityContext->isGranted(User::ROLE_PLACETYPE_ALTER))
+                 case self::REPORT_REPORTTYPE_ALTER:
+                     if ($this->securityContext->isGranted(User::ROLE_REPORTTYPE_ALTER))
                      {
                          continue;
                      } else {

@@ -437,7 +437,7 @@ class ToTextMailSenderService {
             case ChangeService::REPORT_REMOVE_CATEGORY:
                 return $this->t->trans('mail.place.change.item.category', array(), $d);
                 break;
-            case ChangeService::REPORT_PLACETYPE_ALTER:
+            case ChangeService::REPORT_REPORTTYPE_ALTER:
                 return $this->t->trans('mail.place.change.item.place_type', array(), $d);
             case ChangeService::REPORT_MODERATOR_COMMENT_ALTER:
                 return $this->t->trans('mail.place.change.item.moderator_comment', array(), $d);

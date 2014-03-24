@@ -110,7 +110,7 @@ class ReportTracking implements ChangesetInterface {
                         'value' => $newValue->getValue());
                     $newValue = json_encode($a);
                     break;
-                case ChangeService::REPORT_PLACETYPE_ALTER:
+                case ChangeService::REPORT_REPORTTYPE_ALTER:
                     $newValue = $newValue->getId();
                     break;
                 case ChangeService::REPORT_ADD_CATEGORY:
@@ -292,7 +292,7 @@ class ReportTracking implements ChangesetInterface {
                     $status->setType($a->type)->setValue($a->value);
                     $newValue = $status;
                     break;
-                case ChangeService::REPORT_PLACETYPE_ALTER:
+                case ChangeService::REPORT_REPORTTYPE_ALTER:
                     $newValue = $value;
                     break;
                 case ChangeService::REPORT_ADD_CATEGORY:

@@ -197,15 +197,15 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
         if (isset($data[self::PLACE_TYPE]))
         {
             if ($this->service
-                    ->getPlaceTypeNormalizer()
+                    ->getReportTypeNormalizer()
                     ->supportsDenormalization($data[self::PLACE_TYPE], $class))
             {
                 $type = $this->service
-                        ->getPlaceTypeNormalizer()
+                        ->getReportTypeNormalizer()
                         ->denormalize($data[self::PLACE_TYPE], $class);
                 $p->setType($type);
             } else {
-                throw new NormalizingException('could not denormalize placeType');
+                throw new NormalizingException('could not denormalize reportType');
             }
         }
         
@@ -259,12 +259,12 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
         
         if ($object->getType() !== null)
         {
-            $placeType = $this->service
-                    ->getPlaceTypeNormalizer()
+            $reportType = $this->service
+                    ->getReportTypeNormalizer()
                     ->normalize($object->getType());
         } else
         {
-            $placeType = null;
+            $reportType = null;
         }
         
         $nbComments = array(
@@ -291,7 +291,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             'categories' => $c,
             'manager' => $manager,
             self::TERM => $object->getTerm(),
-            self::PLACE_TYPE => $placeType,
+            self::PLACE_TYPE => $reportType,
             self::MODERATOR_COMMENT => $object->getModeratorComment(),
             self::COMMENTS => $nbComments,
         );

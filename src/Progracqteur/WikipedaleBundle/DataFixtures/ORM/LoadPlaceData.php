@@ -92,8 +92,8 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, 
             //add a type (little 4 more frequently)
             $type_array = array('big', 'little', 'middle', 'little', 'little', 'little');
             $rand = array_rand($type_array);
-            $placeType = $this->getReference('type_'.$type_array[$rand]);
-            $place->setType($placeType);
+            $reportType = $this->getReference('type_'.$type_array[$rand]);
+            $place->setType($reportType);
 
             echo "type de la place est ".$place->getType()->getLabel()." \n";
             
@@ -171,8 +171,8 @@ class LoadPlaceData extends AbstractFixture implements OrderedFixtureInterface, 
             //add a type (little 4 more frequently)
             $type_array = array('big', 'little', 'middle', 'little', 'little', 'little');
             $rand = array_rand($type_array);
-            $placeType = $this->getReference('type_'.$type_array[$rand]);
-            $place->setType($placeType);
+            $reportType = $this->getReference('type_'.$type_array[$rand]);
+            $place->setType($reportType);
             
             $errors = $this->container->get('validator')->validate($place);
             if (count($errors) > 0)

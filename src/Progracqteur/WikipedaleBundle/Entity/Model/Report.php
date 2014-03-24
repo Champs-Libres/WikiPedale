@@ -116,7 +116,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     
     /**
      *
-     * @var \Progracqteur\WikipedaleBundle\Entity\Place\PlaceType 
+     * @var \Progracqteur\WikipedaleBundle\Entity\Report\ReportType 
      */
     private $type;
     
@@ -886,18 +886,18 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     
     /**
      * 
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType $type
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportType $type
      * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
-    public function setType(Place\PlaceType $type)
+    public function setType(Report\ReportType $type)
     {
         if ($this->getType() === null) {
             $this->type = $type;
-            $this->getChangeset()->addChange(ChangeService::REPORT_PLACETYPE_ALTER, $type);
+            $this->getChangeset()->addChange(ChangeService::REPORT_REPORTTYPE_ALTER, $type);
             
         } elseif ($this->getType()->getId() !== $type->getId()) {
             $this->change('type', $this->type, $type);
-            $this->getChangeset()->addChange(ChangeService::REPORT_PLACETYPE_ALTER, $type);
+            $this->getChangeset()->addChange(ChangeService::REPORT_REPORTTYPE_ALTER, $type);
         }
         
         
@@ -906,7 +906,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     
     /**
      * 
-     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportType
      */
     public function getType()
     {
