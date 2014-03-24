@@ -364,7 +364,7 @@ class ChangeService {
                         } else {
                             throw ChangeException::param('term_not_default');
                         }
-                    } elseif ($this->securityContext->isGranted(User::ROLE_PLACE_TERM)) {
+                    } elseif ($this->securityContext->isGranted(User::ROLE_REPORT_TERM)) {
                         //OK ! 
                         continue;
                     } else {
