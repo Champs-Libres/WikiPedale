@@ -3,7 +3,7 @@ mail:
               Bonjour %dest%, 
               
               Vous recevez ce courriel car vous êtes abonnés aux modifications 
-              de différents emplacements sur le site http://uello.be.
+              de différents signalements sur le site http://uello.be.
               
               Vos abonnements sont les suivants :
               
@@ -30,35 +30,35 @@ mail:
   subscriptions:
     group: Notifications du groupe %groupe%
     zone: Notifications de la zone %zone%
-    place: Notification de l'emplacement %place%
+    report: Notification du signalement %report%
   subject: Notifications de Uello
-  place:
-    header: Emplacement "%label%"
-    creation: %author% a créé l'emplacement %label% le %date%
-    add_photo: %author% a ajouté une photographie à l'emplacement %label% le %date%
+  report:
+    header: Signalement "%label%"
+    creation: %author% a créé le signalement %label% le %date%
+    add_photo: %author% a ajouté une photographie au signalement %label% le %date%
     manager:
       add: %author% a désigné le gestionnaire de voirie %manager% le %date%.
-      you: %author% vous a désigné comme gestionnaire pour cet emplacement le %date%.
-      remove: %author% a retiré le gestionnaire de voirie de l'emplacement le %date%.
+      you: %author% vous a désigné comme gestionnaire pour ce signalement le %date%.
+      remove: %author% a retiré le gestionnaire de voirie du signalement le %date%.
     status:
 #TODO: add a notation label when the notation will be used...      
-      rejected: %author% a rejeté l'emplacement le %date%.
-      notReviewed: %author% a marqué l'emplacement comme non traité le %date%.
-      takenIntoAccount: %author% a pris en compte l'emplacement le %date%.
-      inChange: %author% a renseigné l'emplacement comme étant en cours de résolution le %date%.
-      success: %author% a renseigné l'emplacement comme résolu le %date%.
+      rejected: %author% a rejeté le signalement le %date%.
+      notReviewed: %author% a marqué le signalement comme non traité le %date%.
+      takenIntoAccount: %author% a pris en compte le signalement le %date%.
+      inChange: %author% a renseigné le signalement comme étant en cours de résolution le %date%.
+      success: %author% a renseigné le signalement comme résolu le %date%.
     comment:
       private_add: %author% a ajouté un commentaire privé le %date%.
     change:
-      one: "%author% a modifié %change% de l'emplacement le %date%."
-      two: "%author% a modifié %change_% et %change__% de l'emplacement le %date%."
-      more: "{1} %author% a modifié %change0%, %change1% et une autre caractéristique de l'emplacement %place% le %date%. | [2,Inf] %author% a modifié %change0%, %change1% et %more% autres caractéristiques de l'emplacement le %date%."
+      one: "%author% a modifié %change% du signalement le %date%."
+      two: "%author% a modifié %change_% et %change__% du signalement le %date%."
+      more: "{1} %author% a modifié %change0%, %change1% et une autre caractéristique du signalement %report% le %date%. | [2,Inf] %author% a modifié %change0%, %change1% et %more% autres caractéristiques du signalement le %date%."
       item:
         address: l'adresse
         description: la description
         geom: la position géographique
         category: la catégorie
-        place_type: le type d'emplacement
+        report_type: le type du signalement
         moderator_comment: le commentaire du modérateur
         other: autre
     presentation:
@@ -70,6 +70,3 @@ mail:
       manager: "Gestionnaire de voirie : %manager_label%"
       no_manager : Aucun
       link: "Voir sur le site : %url%"
-      
-      
-      

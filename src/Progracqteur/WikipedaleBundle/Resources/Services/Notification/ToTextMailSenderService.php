@@ -125,8 +125,8 @@ class ToTextMailSenderService {
                 } else {
                     if ($notificationSubscription->getReport() !== null) {
                         
-                        $subText .= $this->t->trans('mail.subscriptions.place',
-                            array('%place%' => $notificationSubscription
+                        $subText .= $this->t->trans('mail.subscriptions.report',
+                            array('%report%' => $notificationSubscription
                                     ->getReport()->getLabel()
                         ),
                         self::DOMAIN
@@ -191,7 +191,7 @@ class ToTextMailSenderService {
                 
                 //show the header if this is the first element of the report
                 if ($headerShow === false) {
-                    $t .= "**".$this->t->trans('mail.place.header', 
+                    $t .= "**".$this->t->trans('mail.report.header', 
                     array('%label%' => $reporttracking->getReport()->getLabel()), 
                         self::DOMAIN).
                         "** \n \n";
@@ -211,7 +211,7 @@ class ToTextMailSenderService {
 
                     if ($reporttracking->isCreation())
                     {
-                        $t .= $p.$this->t->trans('mail.place.creation', 
+                        $t .= $p.$this->t->trans('mail.report.creation', 
                                 $args,
                                 self::DOMAIN
                                 );
@@ -229,7 +229,7 @@ class ToTextMailSenderService {
                     //if the change is add a photo (do not consider other changes)
                     if (isset($keyChanges[ChangeService::REPORT_ADD_PHOTO]))
                     {
-                        $t .= $p.$this->t->trans('mail.place.add_photo', $args, self::DOMAIN);
+                        $t .= $p.$this->t->trans('mail.report.add_photo', $args, self::DOMAIN);
                         $t .= "\n";
                         continue;
                     }
@@ -249,23 +249,23 @@ class ToTextMailSenderService {
                         switch ($status->getValue())
                         {
                             case -1 : 
-                                $t .=  $this->t->trans('mail.place.status.rejected', 
+                                $t .=  $this->t->trans('mail.report.status.rejected', 
                                         $args, self::DOMAIN);
                                 break;
                             case 0 :
-                                $t .=  $this->t->trans('mail.place.status.notReviewed', 
+                                $t .=  $this->t->trans('mail.report.status.notReviewed', 
                                         $args, self::DOMAIN);
                                 break;
                             case 1 :
-                                $t .=  $this->t->trans('mail.place.status.takenIntoAccount', 
+                                $t .=  $this->t->trans('mail.report.status.takenIntoAccount', 
                                         $args, self::DOMAIN);
                                 break;
                             case 2 :
-                                $t .=  $this->t->trans('mail.place.status.inChange', 
+                                $t .=  $this->t->trans('mail.report.status.inChange', 
                                         $args, self::DOMAIN);
                                 break;
                             case 3 :
-                                $t .=  $this->t->trans('mail.place.status.success', 
+                                $t .=  $this->t->trans('mail.report.status.success', 
                                         $args, self::DOMAIN);
                                 break;
                         }
@@ -275,7 +275,7 @@ class ToTextMailSenderService {
 
                     //if the author added a private comment
                     if (isset($keyChanges[ChangeService::REPORT_COMMENT_MODERATOR_MANAGER_ADD])) {
-                        $t .= $p. $this->t->trans('mail.place.comment.private_add',
+                        $t .= $p. $this->t->trans('mail.report.comment.private_add',
                                 $args, self::DOMAIN);
                         $t .= "\n";
 
@@ -318,10 +318,10 @@ class ToTextMailSenderService {
 
 
                         if (in_array($manager->getId(), $groupIds)){
-                            $t.= $p. $this->t->trans('mail.place.manager.you', $args, self::DOMAIN);
+                            $t.= $p. $this->t->trans('mail.report.manager.you', $args, self::DOMAIN);
                         } else {
                             $args['%manager%'] = $manager->getName();
-                            $t.= $p . $this->t->trans('mail.place.manager.add', $args, self::DOMAIN);
+                            $t.= $p . $this->t->trans('mail.report.manager.add', $args, self::DOMAIN);
                         }
 
 
@@ -331,7 +331,7 @@ class ToTextMailSenderService {
                     }
 
                     if (isset($keyChanges[ChangeService::REPORT_MANAGER_REMOVE])) {
-                        $t.= $p . $this->t->trans('mail.place.manager.remove', $args, self::DOMAIN);
+                        $t.= $p . $this->t->trans('mail.report.manager.remove', $args, self::DOMAIN);
                         $t.="\n";
                     }
 
@@ -369,7 +369,7 @@ class ToTextMailSenderService {
                     {
                         $args['%change%'] = 
                              $this->getStringFromChangeType($changes[0]->getType());
-                        $t .= $p.$this->t->trans('mail.place.change.one', $args, self::DOMAIN);
+                        $t .= $p.$this->t->trans('mail.report.change.one', $args, self::DOMAIN);
                         $t .= "\n";
                     }
 
@@ -379,7 +379,7 @@ class ToTextMailSenderService {
                              $this->getStringFromChangeType($changes[0]->getType());
                         $args['%change__%'] = 
                              $this->getStringFromChangeType($changes[1]->getType());
-                        $t .= $p.$this->t->trans('mail.place.change.two', $args, self::DOMAIN);
+                        $t .= $p.$this->t->trans('mail.report.change.two', $args, self::DOMAIN);
                         $t .= "\n";
                     }
 
@@ -391,7 +391,7 @@ class ToTextMailSenderService {
                              $this->getStringFromChangeType($changes[1]->getType());
                         $more = $nb - 2;
                         $args['%more%'] = $more;
-                        $t .=  $p.$this->t->transChoice('mail.place.change.more', $more, $args, self::DOMAIN);
+                        $t .=  $p.$this->t->transChoice('mail.report.change.more', $more, $args, self::DOMAIN);
                         $t .= "\n";
                     }
                 } catch (\Exception $e) {
@@ -425,24 +425,24 @@ class ToTextMailSenderService {
         switch ($type)
         {
             case ChangeService::REPORT_ADDRESS :
-                return $this->t->trans('mail.place.change.item.address' , array(), $d);
+                return $this->t->trans('mail.report.change.item.address' , array(), $d);
                 break;
             case ChangeService::REPORT_DESCRIPTION:
-                return $this->t->trans('mail.place.change.item.description', array(), $d);
+                return $this->t->trans('mail.report.change.item.description', array(), $d);
                 break;
             case ChangeService::REPORT_GEOM:
-                return $this->t->trans('mail.place.change.item.geom', array(), $d);
+                return $this->t->trans('mail.report.change.item.geom', array(), $d);
                 break;
             case ChangeService::REPORT_ADD_CATEGORY:
             case ChangeService::REPORT_REMOVE_CATEGORY:
-                return $this->t->trans('mail.place.change.item.category', array(), $d);
+                return $this->t->trans('mail.report.change.item.category', array(), $d);
                 break;
             case ChangeService::REPORT_REPORTTYPE_ALTER:
-                return $this->t->trans('mail.place.change.item.place_type', array(), $d);
+                return $this->t->trans('mail.report.change.item.report_type', array(), $d);
             case ChangeService::REPORT_MODERATOR_COMMENT_ALTER:
-                return $this->t->trans('mail.place.change.item.moderator_comment', array(), $d);
+                return $this->t->trans('mail.report.change.item.moderator_comment', array(), $d);
             default:
-                return $this->t->trans('mail.place.change.item.other', array(), $d);
+                return $this->t->trans('mail.report.change.item.other', array(), $d);
         }
     }
     
@@ -450,7 +450,7 @@ class ToTextMailSenderService {
     private function addReportPresentation(Report $report) {
         $t = '';
         
-        $t.= $this->t->trans('mail.place.presentation.actual',
+        $t.= $this->t->trans('mail.report.presentation.actual',
                 array(
                     '%label%' => $report->getLabel(),
                     '%id%' => $report->getId()
@@ -458,7 +458,7 @@ class ToTextMailSenderService {
         
         $t.="\n\n";
         
-        $t.= $this->t->trans('mail.place.presentation.description_header', array(), self::DOMAIN);
+        $t.= $this->t->trans('mail.report.presentation.description_header', array(), self::DOMAIN);
         
         $t.="\n";
         
@@ -466,7 +466,7 @@ class ToTextMailSenderService {
         
         $t.="\n";
         
-        $t.= $this->t->trans('mail.place.presentation.introduced_by_when', 
+        $t.= $this->t->trans('mail.report.presentation.introduced_by_when', 
                 array(
                     '%creator%' => $report->getCreator()->getLabel(),
                     '%create_date%' => $report->getCreateDate()->format($this->date_format)
@@ -475,7 +475,7 @@ class ToTextMailSenderService {
         $t.="\n";
         
         if ($report->getModeratorComment() != '') {
-            $t.= $this->t->trans('mail.place.presentation.moderator_comment_header',
+            $t.= $this->t->trans('mail.report.presentation.moderator_comment_header',
                     array(
 
                     ), self::DOMAIN);
@@ -503,7 +503,7 @@ class ToTextMailSenderService {
                     return $string;
                 };
         
-        $t.= $this->t->trans('mail.place.presentation.categories', array(
+        $t.= $this->t->trans('mail.report.presentation.categories', array(
                 '%categories%' => $func()
             ), self::DOMAIN);
         
@@ -511,7 +511,7 @@ class ToTextMailSenderService {
         
         if ($report->getManager() === null) {
             $managerLabel = $this->t->trans(
-                    'mail.place.presentation.no_manager', 
+                    'mail.report.presentation.no_manager', 
                     array(),
                     self::DOMAIN
                     );
@@ -519,13 +519,13 @@ class ToTextMailSenderService {
             $managerLabel = $report->getManager()->getName();
         }
         
-        $t.= $this->t->trans('mail.place.presentation.manager', array(
+        $t.= $this->t->trans('mail.report.presentation.manager', array(
             '%manager_label%' => $managerLabel
         ), self::DOMAIN);
                 
         $t.="\n";
         
-        $t.= $this->t->trans('mail.place.presentation.link', array(
+        $t.= $this->t->trans('mail.report.presentation.link', array(
             '%url%' => $this->router->generate('wikipedale_homepage', array(
                     'id' => $report->getId()
                 ), true)
