@@ -1087,7 +1087,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     {
         foreach($this->getCategory() as $cat) {
             if ($cat->hasChildren()) {
-                $context->addViolationAtSubPath('category', 'validation.place.category.have_children', array(), null);
+                $context->addViolationAtSubPath('category', 'validation.report.category.have_children', array(), null);
                 return;
             }
         }
@@ -1097,7 +1097,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     {
         if ($this->getManager() !== null 
                 && $this->getManager()->getType() !== Group::TYPE_MANAGER ) {
-            $context->addViolationAtSubPath('manager', 'validation.place.manager.group_is_not_type_manager', 
+            $context->addViolationAtSubPath('manager', 'validation.report.manager.group_is_not_type_manager', 
                     array(), $this->getManager());
         }
     }
