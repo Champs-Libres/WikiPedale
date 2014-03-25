@@ -28,7 +28,7 @@ class ReportTrackingNormalizer implements NormalizerInterface {
     
     
     public function denormalize($data, $class, $format = null, array $context = array()) {
-        throw new \Exception("denormalization of a placeTracking is forbidden");
+        throw new \Exception("denormalization of a reportTracking is forbidden");
     }
 
     /**
