@@ -161,14 +161,14 @@ services:
   progracqteur.wikipedale.form.type.term:
       class: Progracqteur\WikipedaleBundle\Form\Type\TermType
       arguments:
-          place_type: %report_types%
+          report_type: %report_types%
       tags:
         - { name: form.type, alias: term }
       
   progracqteur.wikipedale.validators.term:
     class: Progracqteur\WikipedaleBundle\Validator\Constraints\TermValidator
     arguments:
-      place_type: %report_types%
+      report_type: %report_types%
     tags:
         - { name: validator.constraint_validator, alias: term }
       

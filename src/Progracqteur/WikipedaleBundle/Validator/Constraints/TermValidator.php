@@ -18,13 +18,13 @@ class TermValidator extends ConstraintValidator {
      *
      * @var array 
      */
-    private $place_type;
+    private $report_type;
     
     private $message = "validators.term.not_valid_term";
     
     
-    public function __construct($place_type) {
-        $this->place_type = $place_type;
+    public function __construct($report_type) {
+        $this->report_type = $report_type;
     }
     
     /**
@@ -37,7 +37,7 @@ class TermValidator extends ConstraintValidator {
         
         $valid_terms = array();
         
-        foreach ($this->place_type as $target => $array) {
+        foreach ($this->report_type as $target => $array) {
             //TODO : we work only for bike place now
             if ($target === "bike") {
                 foreach ($array["terms"] as $term) {

@@ -12,10 +12,10 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class TermType extends AbstractType {
     
-    private $place_type;
+    private $report_type;
     
-    public function __construct($place_type) {
-        $this->place_type = $place_type;
+    public function __construct($report_type) {
+        $this->report_type = $report_type;
     }
     
     
@@ -33,7 +33,7 @@ class TermType extends AbstractType {
         
         $valid_terms = array();
         
-        foreach ($this->place_type as $target => $array) {
+        foreach ($this->report_type as $target => $array) {
             //TODO : we work only for bike place now
             if ($target === "bike") {
                 foreach ($array["terms"] as $term) {
@@ -44,7 +44,7 @@ class TermType extends AbstractType {
         
         $resolver->setDefaults(array( 
            'choices' => $valid_terms,
-           'empty_value' => 'place_type.form.type.term.choose'
+           'empty_value' => 'report_type.form.type.term.choose'
         ));
     }
 
