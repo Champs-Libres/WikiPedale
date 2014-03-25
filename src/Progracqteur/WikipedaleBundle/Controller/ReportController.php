@@ -370,7 +370,7 @@ class ReportController extends Controller
         }     
                
         return $this->redirect(
-            $this->generateUrl('wikipedale_place_view', $params));
+            $this->generateUrl('wikipedale_report_view', $params));
     }
     
     /**
