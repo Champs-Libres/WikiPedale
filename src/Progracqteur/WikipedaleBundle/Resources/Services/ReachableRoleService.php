@@ -8,8 +8,9 @@ use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Symfony\Component\Security\Core\Role\Role;
 
 /**
- * Description of ReachableRoleService
- *
+ * This service say, wether or not, if the given role is reachable 
+ * by the user (using role_hierarchy).
+ * 
  * @author julienfastre
  */
 class ReachableRoleService {
