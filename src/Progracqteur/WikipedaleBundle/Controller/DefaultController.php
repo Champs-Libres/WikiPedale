@@ -125,7 +125,7 @@ class DefaultController extends Controller
         );
 
         if ($id != null) {
-            $paramsToView['goToPlaceId'] = $id;
+            $paramsToView['selectedReportId'] = $id;
         }
         
         return $this->render('ProgracqteurWikipedaleBundle:Default:homepage.html.twig', 
