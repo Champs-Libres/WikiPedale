@@ -7,7 +7,12 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Description of NotificationCompilerPass
+ * This compiler gather all services tagged with 
+ * 'progracqteur.wikipedale.notification.processor' and
+ * 'progracqteur.wikipedale.notification.transport' and let them ready
+ * for Notification Corner
+ * 
+ * @see NotificationCorner
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */

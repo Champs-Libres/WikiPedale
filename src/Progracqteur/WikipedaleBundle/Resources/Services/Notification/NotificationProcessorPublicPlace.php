@@ -11,7 +11,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterBySubscriptionPublicPlace;
 
 /**
- * This class process the sending of change's subscription to individual report
+ * This class process the sending of change's subscription to individual reporters.
  * 
  *
  * @author Julien Fastré <julien arobase fastre point info>

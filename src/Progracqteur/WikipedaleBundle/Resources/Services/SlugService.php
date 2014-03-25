@@ -3,7 +3,7 @@
 namespace Progracqteur\WikipedaleBundle\Resources\Services;
 
 /**
- * Description of SlugService
+ * transform an string to a slug.
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */

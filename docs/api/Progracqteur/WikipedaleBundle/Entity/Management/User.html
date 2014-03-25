@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Progracqteur\WikipedaleBundle\Entity\Management\User | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management.html">Progracqteur\WikipedaleBundle\Entity\Management</a>\User</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>User</strong>        extends <abbr title="FOS\UserBundle\Entity\User">User</abbr></p>
+
+            <div class="description">
+            <p>Progracqteur\WikipedaleBundle\Entity\Management\User</p>
+            <p>
+</p>
+        </div>
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>ROLE_ADMIN</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ROLE_CATEGORY</td>
+                <td class="last">
+                    <p><em>indicate if the user may create or alter categories on a report</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ROLE_NOTATION</td>
+                <td class="last">
+                    <p><em>indicate if the user may create or alter notation.</em></p>
+                    <p>The group which use it must be associated with a particular notation</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ROLE_MANAGER</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ROLE_MODERATOR</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ROLE_DETAILS_LITTLE</td>
+                <td class="last">
+                    <p><em>indicate if the user may alter details of a little point</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ROLE_DETAILS_BIG</td>
+                <td class="last">
+                    <p><em>indicate if the user may alter details of a BIG point</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ROLE_PUBLISHED</td>
+                <td class="last">
+                    <p><em>indicate if the user may publish/unpublish a report</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ROLE_SEE_USER_DETAILS</td>
+                <td class="last">
+                    <p><em>indicate if the user may see email and personal details of other users</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ROLE_MANAGER_ALTER</td>
+                <td class="last">
+                    <p><em>indicate if the user may alter or modify the manager of a report</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ROLE_REPORTTYPE_ALTER</td>
+                <td class="last">
+                    <p><em>indicate if the user may alter the report type</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ROLE_SEE_UNACCEPTED</td>
+                <td class="last">
+                    <p><em>indicate if the user may see unaccepted entities (like reports,  photos, comments, etc.)</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ROLE_MODERATOR_COMMENT_ALTER</td>
+                <td class="last">
+                    <p><em>indicate if the user may alter the moderator's comment the moderator's comment is inside a report: this is not a comment entity</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ROLE_COMMENT_MODERATOR_MANAGER</td>
+                <td class="last">
+                    <p><em>indicate if the user may add and see private comments between moderators and manager.</em></p>
+                    <p>This concern comment entity and not 
+report's moderator comment</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ROLE_REPORT_TERM</td>
+                <td class="last">
+                    <p><em>indicate if the user may alter the term.</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_getId">getId</a>()
+                    <p>Get id</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setLabel">setLabel</a>(string $label)
+                    <p>Set label</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getLabel">getLabel</a>()
+                    <p>Get label</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getSalt">getSalt</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Progracqteur\WikipedaleBundle\Entity\Management\datetime">datetime</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_getCreationDate">getCreationDate</a>()
+                    <p>Get creationDate</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setConfirmed">setConfirmed</a>(boolean $confirmed)
+                    <p>Set confirmed</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_getConfirmed">getConfirmed</a>()
+                    <p>Get confirmed</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/User.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\User">User</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setPhonenumber">setPhonenumber</a>(string $phonenumber)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getPhonenumber">getPhonenumber</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setInfos">setInfos</a>(<a href="../../../../Progracqteur/WikipedaleBundle/Resources/Container/Hash.html"><abbr title="Progracqteur\WikipedaleBundle\Resources\Container\Hash">Hash</abbr></a> $infos)
+                    <p>Set infos</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Resources\Container\Hash">Hash</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_getInfos">getInfos</a>()
+                    <p>Get infos</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_increaseNbComment">increaseNbComment</a>()
+                    <p>Set nbComment</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_getNbComment">getNbComment</a>()
+                    <p>Get nbComment</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_increaseNbVote">increaseNbVote</a>($nbVote)
+                    <p>Set nbVote</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_getNbVote">getNbVote</a>()
+                    <p>Get nbVote</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_isRegistered">isRegistered</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setVirtual">setVirtual</a>($virtual)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_isVirtual">isVirtual</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_isVirtualConsistant">isVirtualConsistant</a>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Symfony\Component\Validator\ExecutionContextInterface">ExecutionContextInterface</abbr> $context)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Doctrine\Common\Collections\ArrayCollection">ArrayCollection</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_getNotificationSubscriptions">getNotificationSubscriptions</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_equals">equals</a>(<abbr title="Symfony\Component\Security\Core\User\UserInterface">UserInterface</abbr> $user)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/User.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\User">User</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_addNotificationSubscription">addNotificationSubscription</a>(<a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a> $notification)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_removeNotificationSubscription">removeNotificationSubscription</a>(<a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a> $notification)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 166</div>
+        <code>            public            
+    <strong>__construct</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getId">
+        <div class="location">at line 182</div>
+        <code>            public            integer
+    <strong>getId</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get id</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setLabel">
+        <div class="location">at line 194</div>
+        <code>            public            
+    <strong>setLabel</strong>(string $label)</code>
+    </h3>
+    <div class="details">
+        <p>Set label</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$label</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getLabel">
+        <div class="location">at line 204</div>
+        <code>            public            string
+    <strong>getLabel</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get label</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getSalt">
+        <div class="location">at line 219</div>
+        <code>            public            
+    <strong>getSalt</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getCreationDate">
+        <div class="location">at line 241</div>
+        <code>            public            <abbr title="Progracqteur\WikipedaleBundle\Entity\Management\datetime">datetime</abbr>
+    <strong>getCreationDate</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get creationDate</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\datetime">datetime</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setConfirmed">
+        <div class="location">at line 251</div>
+        <code>            public            
+    <strong>setConfirmed</strong>(boolean $confirmed)</code>
+    </h3>
+    <div class="details">
+        <p>Set confirmed</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>boolean</td>
+                <td>$confirmed</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getConfirmed">
+        <div class="location">at line 261</div>
+        <code>            public            boolean
+    <strong>getConfirmed</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get confirmed</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setPhonenumber">
+        <div class="location">at line 271</div>
+        <code>            public            <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/User.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\User">User</abbr></a>
+    <strong>setPhonenumber</strong>(string $phonenumber)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$phonenumber</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/User.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\User">User</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getPhonenumber">
+        <div class="location">at line 281</div>
+        <code>            public            string
+    <strong>getPhonenumber</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setInfos">
+        <div class="location">at line 292</div>
+        <code>            public            
+    <strong>setInfos</strong>(<a href="../../../../Progracqteur/WikipedaleBundle/Resources/Container/Hash.html"><abbr title="Progracqteur\WikipedaleBundle\Resources\Container\Hash">Hash</abbr></a> $infos)</code>
+    </h3>
+    <div class="details">
+        <p>Set infos</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../Progracqteur/WikipedaleBundle/Resources/Container/Hash.html"><abbr title="Progracqteur\WikipedaleBundle\Resources\Container\Hash">Hash</abbr></a></td>
+                <td>$infos</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getInfos">
+        <div class="location">at line 302</div>
+        <code>            public            <abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Resources\Container\Hash">Hash</abbr>
+    <strong>getInfos</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get infos</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Resources\Container\Hash">Hash</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_increaseNbComment">
+        <div class="location">at line 312</div>
+        <code>            public            
+    <strong>increaseNbComment</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Set nbComment</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getNbComment">
+        <div class="location">at line 322</div>
+        <code>            public            integer
+    <strong>getNbComment</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get nbComment</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_increaseNbVote">
+        <div class="location">at line 332</div>
+        <code>            public            
+    <strong>increaseNbVote</strong>($nbVote)</code>
+    </h3>
+    <div class="details">
+        <p>Set nbVote</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$nbVote</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getNbVote">
+        <div class="location">at line 342</div>
+        <code>            public            integer
+    <strong>getNbVote</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get nbVote</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isRegistered">
+        <div class="location">at line 347</div>
+        <code>            public            
+    <strong>isRegistered</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setVirtual">
+        <div class="location">at line 352</div>
+        <code>            public            
+    <strong>setVirtual</strong>($virtual)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$virtual</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isVirtual">
+        <div class="location">at line 357</div>
+        <code>            public            
+    <strong>isVirtual</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isVirtualConsistant">
+        <div class="location">at line 361</div>
+        <code>            public            
+    <strong>isVirtualConsistant</strong>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Symfony\Component\Validator\ExecutionContextInterface">ExecutionContextInterface</abbr> $context)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Symfony\Component\Validator\ExecutionContextInterface">ExecutionContextInterface</abbr></td>
+                <td>$context</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getNotificationSubscriptions">
+        <div class="location">at line 374</div>
+        <code>            public            <abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Doctrine\Common\Collections\ArrayCollection">ArrayCollection</abbr>
+    <strong>getNotificationSubscriptions</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Doctrine\Common\Collections\ArrayCollection">ArrayCollection</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_equals">
+        <div class="location">at line 379</div>
+        <code>            public            
+    <strong>equals</strong>(<abbr title="Symfony\Component\Security\Core\User\UserInterface">UserInterface</abbr> $user)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Symfony\Component\Security\Core\User\UserInterface">UserInterface</abbr></td>
+                <td>$user</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addNotificationSubscription">
+        <div class="location">at line 393</div>
+        <code>            public            <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/User.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\User">User</abbr></a>
+    <strong>addNotificationSubscription</strong>(<a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a> $notification)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a></td>
+                <td>$notification</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/User.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\User">User</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_removeNotificationSubscription">
+        <div class="location">at line 399</div>
+        <code>            public            
+    <strong>removeNotificationSubscription</strong>(<a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a> $notification)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a></td>
+                <td>$notification</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

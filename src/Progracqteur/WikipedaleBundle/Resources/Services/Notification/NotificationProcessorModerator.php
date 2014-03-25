@@ -9,7 +9,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\Notification\PendingNotifica
 use Doctrine\ORM\Mapping\ClassMetadata;
 
 /**
- * Description of NotificationProcessorModerator
+ * Process notification for managers.
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */

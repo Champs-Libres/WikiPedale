@@ -11,17 +11,25 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 
 /**
- * Description of NotificationCommand
+ * This command send all notifications for wikipedale, which should be sent
+ * on the given "frequency" parameter.
+ * 
+ * This command use the notification corner.
+ * 
+ * @see \Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationCorner
  *
  * @author Julien Fastré <julien arobase fastre point info>
+ * @author Julien Fastré <julien.fastre@champs-libres.coop>
  */
-class NotificationBisCommand extends ContainerAwareCommand {
+class NotificationCommand extends ContainerAwareCommand {
     
     const ARGUMENT_FREQUENCY = 'frequency';
     
     public function configure() {
-        $this->setName('wikipedale:notification:send2')
-                ->setDescription('Send notifications of wikipedale2')
+        $this->setName('wikipedale:notification:send')
+                ->setDescription('Send notifications for wikipedale. The Frequency parameter select the '
+                        . 'message which should be sent. This command should be run by the OS on a cron job executed regularly.'
+                        . ' ')
                 ->addArgument(self::ARGUMENT_FREQUENCY, InputArgument::REQUIRED, "Frequency")
                 ;
     }
