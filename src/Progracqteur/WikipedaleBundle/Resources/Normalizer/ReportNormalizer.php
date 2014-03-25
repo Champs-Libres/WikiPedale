@@ -257,7 +257,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
     
     public function supportsDenormalization($data, $type, $format = null) 
     {
-        if ($data['entity'] == 'place') {
+        if ($data['entity'] == 'report') {
             return true;
         } else {
             return false;
