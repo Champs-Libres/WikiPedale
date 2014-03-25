@@ -233,7 +233,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             );
         
         return  array(
-            'entity' => 'place',
+            'entity' => 'report',
             'description' => $object->getDescription(),
             'geom' => $object->getGeom()->toArrayGeoJson(),
             'id' => $object->getId(),
