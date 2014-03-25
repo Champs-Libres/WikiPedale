@@ -116,7 +116,6 @@ class CommentNormalizer implements NormalizerInterface, DenormalizerInterface
             'creationDate' => $this->service->getDateNormalizer()->normalize($object->getCreationDate(), $format),
             'createDate' => $this->service->getDateNormalizer()->normalize($object->getCreationDate(), $format),
             'creator' => $this->service->getUserNormalizer()->normalize($object->getCreator(), $format),
-            //'place' => $this->service->getPlaceNormalizer()->normalize($object->getPlace(), $format),
             'reportId' => $object->getReport()->getId(),
             'type' => $object->getType() 
         );
