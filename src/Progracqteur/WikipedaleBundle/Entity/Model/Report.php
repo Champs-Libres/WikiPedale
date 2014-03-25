@@ -87,8 +87,6 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     
     private $statusZone = 0;
     
-    private $statusBicycle = 0;
-    
     private $lastUpdate;
     
     /**
@@ -754,11 +752,6 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
         return $this->statusZone;
     }
     
-    public function getStatusBicycle()
-    {
-        return $this->statusBicycle;
-    }
-    
     public function setModeratorComment($comment) 
     {
         if ($this->moderatorComment !== $comment) {
@@ -791,15 +784,6 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     public function isAccepted()
     {
         return $this->accepted;
-    }
-    
-    public function setStatusBicycle($status)
-    {
-        if ($this->statusBicycle != $status) {
-            $this->change('statusBicycle', $this->statusBicycle, $status);
-            $this->statusBicycle = $status;
-            $this->getChangeset()->addChange(ChangeService::REPORT_STATUS_BICYCLE, $status);
-        }
     }
     
     public function setStatusZone($status)

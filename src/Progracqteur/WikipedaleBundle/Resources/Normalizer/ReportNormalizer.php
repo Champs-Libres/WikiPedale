@@ -102,11 +102,6 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             }
         }
         
-        if (isset($data['statusBicycle']))
-        {
-            $p->setStatusBicycle($data['statusBicycle']);
-        }
-        
         if (isset($data['statusZone']))
         {
             $p->setStatusZone($data['statusZone']);
@@ -284,7 +279,6 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             'createDate' => $this->service->getDateNormalizer()->normalize($object->getCreateDate(), $format),
             'lastUpdate' => $this->service->getDateNormalizer()->normalize($object->getLastUpdate(), $format),
             'nbPhotos' => $object->getNbPhoto(),
-            //'statusBicycle' => $object->getStatusBicycle(),
             //'statusZone' => $object->getStatusZone(),
             'accepted' => $object->isAccepted(),
             'statuses' => $s,
