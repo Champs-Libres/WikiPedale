@@ -47,7 +47,7 @@ wikipedale_report_change:
     expose: true
 
 wikipedale_user_confirm:
-  pattern: /user/confirm/{token}/{placeId}.html
+  pattern: /user/confirm/{token}/{reportId}.html
   defaults: {_controller: ProgracqteurWikipedaleBundle:Report:confirmUser }
   options:
     expose: true

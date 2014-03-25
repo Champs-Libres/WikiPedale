@@ -381,15 +381,15 @@ class ReportController extends Controller
      *
      * @param Symfony\Component\HttpFoundation\Request $request the request
      * @param string $token The confirmation code
-     * @param int $placeId The id of the related report
+     * @param int $reportId The id of the related report
      *
      * @return Symfony\Component\HttpFoundation\Response Error 401 if problems. If not a confrmation page.
      */
-    public function confirmUserAction(Request $request, $token, $placeId) 
+    public function confirmUserAction(Request $request, $token, $reportId) 
     {
         $report = $this->getDoctrine()->getManager()
             ->getRepository('ProgracqteurWikipedaleBundle:Model\Report')
-            ->find($placeId);
+            ->find($reportId);
         
         if ($report === null) {
             throw $this->createNotFoundException('Report not found');
