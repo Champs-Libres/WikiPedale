@@ -62,7 +62,7 @@ class ChangesetConsistent {
                             ->getRepository('ProgracqteurWikipedaleBundle:Model\Report\ReportType')
                                 ->find($value->getNewValue());
                         break;
-                    case ChangeService::PLACE_COMMENT_ADD:
+                    case ChangeService::REPORT_COMMENT_ADD:
                         $correctedChanges[$value->getType()] = $this->om
                             ->getRepository('ProgracqteurWikipedaleBundle:Model\Comment')
                             ->find($value->getNewValue());
