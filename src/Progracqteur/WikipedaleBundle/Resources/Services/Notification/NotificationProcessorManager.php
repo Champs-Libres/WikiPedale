@@ -71,14 +71,14 @@ class NotificationProcessorManager extends NotificationProcessor {
 
                     echo "NPManager: Notification de la ReportTracking ". 
                             $notification->getReportTracking()->getId() .
-                            " (placeid) ".$notification->getReportTracking()->getReport()->getId().
+                            " (reportId) ".$notification->getReportTracking()->getReport()->getId().
                             " à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                             "\n";
 
                 } else {
                     echo "NPManager: Refus DE Notification de la ReportTracking par FilterBySubscription ". 
                             $notification->getReportTracking()->getId() .
-                            " (placeid ".$notification->getReportTracking()->getReport()->getId().
+                            " (reportId ".$notification->getReportTracking()->getReport()->getId().
                             ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                             "\n";
                     
@@ -91,7 +91,7 @@ class NotificationProcessorManager extends NotificationProcessor {
             } else {
                 echo "NPManager: Interdiction De Notification de la ReportTracking par FilterByRole ". 
                         $notification->getReportTracking()->getId() .
-                        " (placeid ".$notification->getReportTracking()->getReport()->getId().
+                        " (reportId ".$notification->getReportTracking()->getReport()->getId().
                         ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                         "\n";
                 $this->om->remove($notification);

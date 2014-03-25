@@ -46,7 +46,7 @@ class ReportTrackingNormalizer implements NormalizerInterface {
           'date' => $this->service->getDateNormalizer()->normalize($object->getDate(), $format),
           'isCreation' => $object->isCreation(),
           'author' => $userNormalizer->normalize($object->getAuthor()),
-          'placeId' => $object->getReport()->getId()
+          'reportId' => $object->getReport()->getId()
         );
         
         $changes = array();
