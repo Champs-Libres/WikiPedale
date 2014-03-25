@@ -289,7 +289,7 @@ class ReportController extends Controller
                             array(
                                 'code' => $checkCode,
                                 'user' => $report->getCreator(),
-                                'place' => $report
+                                'report' => $report
                             )), 'text/plain'
                     );
 
