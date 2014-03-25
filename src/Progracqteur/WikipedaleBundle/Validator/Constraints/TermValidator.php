@@ -29,16 +29,16 @@ class TermValidator extends ConstraintValidator {
     
     /**
      * 
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place $place (not defined in interface)
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report $report (not defined in interface)
      * @param \Symfony\Component\Validator\Constraint $constraint
      */
-    public function validate($place, Constraint $constraint) {
+    public function validate($report, Constraint $constraint) {
         //TODO term is now used in categories. This should be adapted.
         
         $valid_terms = array();
         
         foreach ($this->report_type as $target => $array) {
-            //TODO : we work only for bike place now
+            //TODO : we work only for bike report now
             if ($target === "bike") {
                 foreach ($array["terms"] as $term) {
                     $valid_terms[] = $term['key'];
@@ -46,12 +46,12 @@ class TermValidator extends ConstraintValidator {
             }
         }
         
-        if (in_array($place->getTerm(), $valid_terms)) {
+        if (in_array($report->getTerm(), $valid_terms)) {
             //this is ok !
         } else {
             //we have a problem :-)
             $this->context->addViolationAt('term', $this->message, 
-                    array('%term%' => $place->getTerm()), null);
+                    array('%term%' => $report->getTerm()), null);
         }
         
     }
