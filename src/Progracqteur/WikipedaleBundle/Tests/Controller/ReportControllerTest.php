@@ -64,35 +64,7 @@ class ReportControllerTest extends WebTestCase
         $this->assertEquals(1, $errors->count());
     }
     
-<<<<<<< HEAD:src/Progracqteur/WikipedaleBundle/Tests/Controller/PlaceControllerTest.php
-    public function testValidationStatusBicycleOnCreation()
-    {
-        $p = $this->getPlace();
-        
-        $p->setStatusBicycle(1);
-        
-        $validator = $this->getValidator();
-        
-        $errors = $validator->validate($p, array('creation'));
-        
-        $this->assertEquals(1, $errors->count());
-    }
-    
-    public function testValidationStatusZoneOnCreation()
-    {
-        $p = $this->getPlace();
-        
-        $p->setStatusZone(1);
-        
-        $validator = $this->getValidator();
-        
-        $errors = $validator->validate($p, array('creation'));
-        
-        $this->assertEquals(1, $errors->count());
-    }    
-    
-=======
->>>>>>> fcce9b42bfcc14c46b40da6f3bb6b7aca1b3960a:src/Progracqteur/WikipedaleBundle/Tests/Controller/ReportControllerTest.php
+
     public function getValidator()
     {
         if ($this->_kernel === null) {
@@ -100,11 +72,8 @@ class ReportControllerTest extends WebTestCase
             $this->_kernel->boot(); 
         }
         
-<<<<<<< HEAD:src/Progracqteur/WikipedaleBundle/Tests/Controller/PlaceControllerTest.php
-        return $this->_kernel->getContainer()->get('validator');        
-=======
+
         return $this->_kernel->getContainer()->get('validator');
->>>>>>> fcce9b42bfcc14c46b40da6f3bb6b7aca1b3960a:src/Progracqteur/WikipedaleBundle/Tests/Controller/ReportControllerTest.php
     }
     
     /**
@@ -126,12 +95,10 @@ class ReportControllerTest extends WebTestCase
             $u->setIp('192.168.1.89');
 
             $p->setCreator($u);
-<<<<<<< HEAD:src/Progracqteur/WikipedaleBundle/Tests/Controller/PlaceControllerTest.php
-        }
-=======
+
         } 
         
->>>>>>> fcce9b42bfcc14c46b40da6f3bb6b7aca1b3960a:src/Progracqteur/WikipedaleBundle/Tests/Controller/ReportControllerTest.php
+
         return $p;
     }
     
@@ -153,13 +120,11 @@ class ReportControllerTest extends WebTestCase
 
     private $z = array(6);
 
-<<<<<<< HEAD:src/Progracqteur/WikipedaleBundle/Tests/Controller/PlaceControllerTest.php
-    public function createId() {
-=======
+
     public function createId()
     {
   
->>>>>>> fcce9b42bfcc14c46b40da6f3bb6b7aca1b3960a:src/Progracqteur/WikipedaleBundle/Tests/Controller/ReportControllerTest.php
+
         $s = '';
         $d = array_rand($this->z);
         $dd = $this->z[$d];
@@ -176,25 +141,18 @@ class ReportControllerTest extends WebTestCase
     private function geolocate(Point $point)
     {
         $a = new Address();
-<<<<<<< HEAD:src/Progracqteur/WikipedaleBundle/Tests/Controller/PlaceControllerTest.php
-            
-=======
+
 
         //si la chaine est vide, retourne le hash
-        
->>>>>>> fcce9b42bfcc14c46b40da6f3bb6b7aca1b3960a:src/Progracqteur/WikipedaleBundle/Tests/Controller/ReportControllerTest.php
+
         $dom = new \DOMDocument();
         $lat = $point->getLat();
         $lon = $point->getLon();
-<<<<<<< HEAD:src/Progracqteur/WikipedaleBundle/Tests/Controller/PlaceControllerTest.php
-                
-        $url = "http://open.mapquestapi.com/nominatim/v1/reverse?format=xml&lat=$lat&lon=$lon";
 
-=======
         
         $url = "http://open.mapquestapi.com/nominatim/v1/reverse?format=xml&lat=$lat&lon=$lon";
         
->>>>>>> fcce9b42bfcc14c46b40da6f3bb6b7aca1b3960a:src/Progracqteur/WikipedaleBundle/Tests/Controller/ReportControllerTest.php
+
         $dom->load($url);
         $docs = $dom->getElementsByTagName('addressparts');
         
@@ -234,15 +192,10 @@ class ReportControllerTest extends WebTestCase
                         break;
                 }
             }
-<<<<<<< HEAD:src/Progracqteur/WikipedaleBundle/Tests/Controller/PlaceControllerTest.php
-        }   
-        return $a;
-    }
-}
-=======
+
         }
         return $a;
     }
 }
 
->>>>>>> fcce9b42bfcc14c46b40da6f3bb6b7aca1b3960a:src/Progracqteur/WikipedaleBundle/Tests/Controller/ReportControllerTest.php
+
