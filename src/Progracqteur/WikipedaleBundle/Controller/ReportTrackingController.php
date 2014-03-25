@@ -77,7 +77,7 @@ class ReportTrackingController extends Controller {
                 break;
             case 'atom' :
 
-                $r = $this->render('ProgracqteurWikipedaleBundle:History:places.atom.twig', array(
+                $r = $this->render('ProgracqteurWikipedaleBundle:History:reports.atom.twig', array(
                    'title' => $city->getName(),
                    'subtitle' => "Dernières mises à jour de la ville de ".$city->getName(),
                    'tracks' => $tracks,
