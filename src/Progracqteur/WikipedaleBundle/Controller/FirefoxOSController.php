@@ -51,7 +51,7 @@ class FirefoxOsController extends Controller
         $terms_allowed = ' ';
         $terms_allowed_array = array();
         $iTerm = 0;
-        foreach ($this->get('service_container')->getParameter('place_types') 
+        foreach ($this->get('service_container')->getParameter('report_types') 
                 as $target => $array) {
             //TODO extendds to other transports
                     if ($target === 'bike') {
@@ -111,7 +111,7 @@ class FirefoxOsController extends Controller
         $terms_allowed = ' ';
         $terms_allowed_array = array();
         $iTerm = 0;
-        foreach ($this->get('service_container')->getParameter('place_types') 
+        foreach ($this->get('service_container')->getParameter('report_types') 
                 as $target => $array) {
             //TODO extendds to other transports
                     if ($target === 'bike') {

@@ -228,7 +228,7 @@ class ReportController extends Controller
         }
         
         $serializer = $this->get('progracqteurWikipedaleSerializer');
-        $report = $serializer->deserialize($serializedJson, NormalizerSerializerService::PLACE_TYPE, 'json');
+        $report = $serializer->deserialize($serializedJson, NormalizerSerializerService::REPORT_TYPE, 'json');
         
         $categories = $report->getCategory();
         if(! $categories->isEmpty()) {

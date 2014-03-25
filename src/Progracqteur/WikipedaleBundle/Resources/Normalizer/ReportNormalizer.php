@@ -36,7 +36,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
     private $currentReport;
     
     
-    const PLACE_TYPE = 'placetype';
+    const REPORT_TYPE = 'placetype';
     const MODERATOR_COMMENT = 'moderatorComment';
     const COMMENTS = 'comments';
     const TERM = 'term';
@@ -162,13 +162,13 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             }
         }
         
-        if (isset($data[self::PLACE_TYPE])) {
+        if (isset($data[self::REPORT_TYPE])) {
             if ($this->service
                     ->getReportTypeNormalizer()
-                    ->supportsDenormalization($data[self::PLACE_TYPE], $class)) {
+                    ->supportsDenormalization($data[self::REPORT_TYPE], $class)) {
                 $type = $this->service
                         ->getReportTypeNormalizer()
-                        ->denormalize($data[self::PLACE_TYPE], $class);
+                        ->denormalize($data[self::REPORT_TYPE], $class);
                 $p->setType($type);
             } else {
                 throw new NormalizingException('could not denormalize reportType');
@@ -249,7 +249,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             'categories' => $c,
             'manager' => $manager,
             self::TERM => $object->getTerm(),
-            self::PLACE_TYPE => $reportType,
+            self::REPORT_TYPE => $reportType,
             self::MODERATOR_COMMENT => $object->getModeratorComment(),
             self::COMMENTS => $nbComments,
         );

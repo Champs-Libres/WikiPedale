@@ -43,7 +43,7 @@ class DebugController extends Controller {
         
         $userNormalizer = $service->getUserNormalizer();
         
-        $u2 = $userNormalizer->denormalize(array('id' =>2), NormalizerSerializerService::PLACE_TYPE, 'json');
+        $u2 = $userNormalizer->denormalize(array('id' =>2), NormalizerSerializerService::REPORT_TYPE, 'json');
 
         if (is_null($u2))
         {
@@ -324,10 +324,10 @@ class DebugController extends Controller {
         $place->setDescription('Description '.$str);
         $place->setGeom($point);
         
-        $place_type = $this->get('service_container')->getParameter('place_types');
+        $report_type = $this->get('service_container')->getParameter('report_types');
         $valid_terms = array();
         
-        foreach ($place_type as $target => $array) {
+        foreach ($report_type as $target => $array) {
             //TODO : we work only for bike place now
             if ($target === "bike") {
                 foreach ($array["terms"] as $term) {

@@ -20,7 +20,7 @@ services:
       em: '@doctrine.orm.entity_manager'
       geoService: '@progracqteur.wikipedale.geoservice'
       reachableRoles: '@progracqteur.wikipedale.services.reachables_roles'
-      defaultTypeTerm: %place_type_default%
+      defaultTypeTerm: %report_type_default%
       
   progracqteurWikipedalePhotoService:
     class: %progracqteur_wikipedale.service.photo.class%
@@ -161,14 +161,14 @@ services:
   progracqteur.wikipedale.form.type.term:
       class: Progracqteur\WikipedaleBundle\Form\Type\TermType
       arguments:
-          place_type: %place_types%
+          place_type: %report_types%
       tags:
         - { name: form.type, alias: term }
       
   progracqteur.wikipedale.validators.term:
     class: Progracqteur\WikipedaleBundle\Validator\Constraints\TermValidator
     arguments:
-      place_type: %place_types%
+      place_type: %report_types%
     tags:
         - { name: validator.constraint_validator, alias: term }
       
