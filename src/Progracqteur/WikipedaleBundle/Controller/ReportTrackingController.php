@@ -83,7 +83,7 @@ class ReportTrackingController extends Controller {
                    'tracks' => $tracks,
                    'citySlug' => $city->getSlug(),
                    'toTextService' => $this->get('progracqteur.wikipedale.place.tracking.toText'),
-                   'urlFeed' => $this->generateUrl('wikipedale_history_place_by_city', 
+                   'urlFeed' => $this->generateUrl('wikipedale_history_report_by_city', 
                            array('_format' => 'atom',
                                'citySlug' => $citySlug), true)
                 ));
