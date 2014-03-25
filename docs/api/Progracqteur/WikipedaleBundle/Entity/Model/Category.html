@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Progracqteur\WikipedaleBundle\Entity\Model\Category | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Model.html">Progracqteur\WikipedaleBundle\Entity\Model</a>\Category</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>Category</strong></p>
+
+            <div class="description">
+            <p>Progracqteur\WikipedaleBundle\Entity\Model\Category</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_getId">getId</a>()
+                    <p>Get id</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Model/Category.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Category">Category</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setLabel">setLabel</a>(string $label)
+                    <p>Set label</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getLabel">getLabel</a>()
+                    <p>Get label</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Doctrine\Common\Collections\Collection">Collection</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_getChildren">getChildren</a>()
+                    <p>Get children</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Model/Category.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Category">Category</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setParent">setParent</a>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Progracqteur\WikipedaleBundle\Entity\Model\Category">Category</abbr> $parent = null)
+                    <p>Set parent</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Progracqteur\WikipedaleBundle\Entity\Model\Category">Category</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_getParent">getParent</a>()
+                    <p>Get parent</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___toString">__toString</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_hasParent">hasParent</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_isUsed">isUsed</a>()
+                    <p>return true if a category is still in use</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setUsed">setUsed</a>(boolean $used)
+                    <p>set if a category may be in used or not</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setOrder">setOrder</a>(double $order)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    double
+                </td>
+                <td class="last">
+                    <a href="#method_getOrder">getOrder</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_isParentAChild">isParentAChild</a>(<abbr title="Symfony\Component\Validator\ExecutionContext">ExecutionContext</abbr> $context)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_hasChildren">hasChildren</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getHierarchicalLabel">getHierarchicalLabel</a>()
+                    <p>Return an hierarchical view of the label</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Progracqteur\WikipedaleBundle\Entity\Model\type">type</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_addParentLabel">addParentLabel</a>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Model\type">type</abbr> $string)
+                    <p>Recursive function, which add the hierarchical parent label to the string, until the parent category is reached</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getTerm">getTerm</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setTerm">setTerm</a>($term)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 52</div>
+        <code>            public            
+    <strong>__construct</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getId">
+        <div class="location">at line 62</div>
+        <code>            public            integer
+    <strong>getId</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get id</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setLabel">
+        <div class="location">at line 73</div>
+        <code>            public            <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Model/Category.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Category">Category</abbr></a>
+    <strong>setLabel</strong>(string $label)</code>
+    </h3>
+    <div class="details">
+        <p>Set label</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$label</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Model/Category.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Category">Category</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getLabel">
+        <div class="location">at line 84</div>
+        <code>            public            string
+    <strong>getLabel</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get label</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getChildren">
+        <div class="location">at line 95</div>
+        <code>            public            <abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Doctrine\Common\Collections\Collection">Collection</abbr>
+    <strong>getChildren</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get children</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Doctrine\Common\Collections\Collection">Collection</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setParent">
+        <div class="location">at line 106</div>
+        <code>            public            <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Model/Category.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Category">Category</abbr></a>
+    <strong>setParent</strong>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Progracqteur\WikipedaleBundle\Entity\Model\Category">Category</abbr> $parent = null)</code>
+    </h3>
+    <div class="details">
+        <p>Set parent</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Progracqteur\WikipedaleBundle\Entity\Model\Category">Category</abbr></td>
+                <td>$parent</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Model/Category.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Category">Category</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getParent">
+        <div class="location">at line 117</div>
+        <code>            public            <abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Progracqteur\WikipedaleBundle\Entity\Model\Category">Category</abbr>
+    <strong>getParent</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get parent</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Progracqteur\WikipedaleBundle\Entity\Model\Category">Category</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method___toString">
+        <div class="location">at line 122</div>
+        <code>            public            
+    <strong>__toString</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_hasParent">
+        <div class="location">at line 126</div>
+        <code>            public            
+    <strong>hasParent</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isUsed">
+        <div class="location">at line 136</div>
+        <code>            public            boolean
+    <strong>isUsed</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>return true if a category is still in use</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setUsed">
+        <div class="location">at line 145</div>
+        <code>            public            
+    <strong>setUsed</strong>(boolean $used)</code>
+    </h3>
+    <div class="details">
+        <p>set if a category may be in used or not</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>boolean</td>
+                <td>$used</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setOrder">
+        <div class="location">at line 154</div>
+        <code>            public            
+    <strong>setOrder</strong>(double $order)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>double</td>
+                <td>$order</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getOrder">
+        <div class="location">at line 163</div>
+        <code>            public            double
+    <strong>getOrder</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>double</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isParentAChild">
+        <div class="location">at line 168</div>
+        <code>            public            
+    <strong>isParentAChild</strong>(<abbr title="Symfony\Component\Validator\ExecutionContext">ExecutionContext</abbr> $context)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Symfony\Component\Validator\ExecutionContext">ExecutionContext</abbr></td>
+                <td>$context</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_hasChildren">
+        <div class="location">at line 181</div>
+        <code>            public            
+    <strong>hasChildren</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getHierarchicalLabel">
+        <div class="location">at line 195</div>
+        <code>            public            string
+    <strong>getHierarchicalLabel</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Return an hierarchical view of the label</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addParentLabel">
+        <div class="location">at line 213</div>
+        <code>            public            <abbr title="Progracqteur\WikipedaleBundle\Entity\Model\type">type</abbr>
+    <strong>addParentLabel</strong>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Model\type">type</abbr> $string)</code>
+    </h3>
+    <div class="details">
+        <p>Recursive function, which add the hierarchical parent label to the string, until the parent category is reached</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Model\type">type</abbr></td>
+                <td>$string</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Model\type">type</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getTerm">
+        <div class="location">at line 223</div>
+        <code>            public            
+    <strong>getTerm</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setTerm">
+        <div class="location">at line 227</div>
+        <code>            public            
+    <strong>setTerm</strong>($term)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$term</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>
