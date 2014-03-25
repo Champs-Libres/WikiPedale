@@ -57,7 +57,7 @@ class FirefoxOsController extends Controller
                     if ($target === 'bike') {
                         foreach ($array["terms"] as $term) {
                             if ($this->get('security.context')->isGranted(
-                                    $term['mayAddToPlace'])){
+                                    $term['mayAddToReport'])){
                                 if ($iTerm > 0) {
                                     $terms_allowed .= ', ';
                                 }
@@ -117,7 +117,7 @@ class FirefoxOsController extends Controller
                     if ($target === 'bike') {
                         foreach ($array["terms"] as $term) {
                             if ($this->get('security.context')->isGranted(
-                                    $term['mayAddToPlace'])){
+                                    $term['mayAddToReport'])){
                                 if ($iTerm > 0) {
                                     $terms_allowed .= ', ';
                                 }
