@@ -23,7 +23,7 @@ wikipedale_reset_city:
     expose: true
 
 wikipedale_report_view:
-  pattern: /place/view/{id}.{_format}
+  pattern: /report/view/{id}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Report:view }
   requirements:
     _format: json
