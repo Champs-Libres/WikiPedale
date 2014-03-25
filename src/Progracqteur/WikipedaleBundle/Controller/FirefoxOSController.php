@@ -83,10 +83,6 @@ class FirefoxOsController extends Controller
                 ->getResult();
         //Todo: cachable query
 
-        $placeTypes = $this->getDoctrine()->getManager()
-                ->getRepository('ProgracqteurWikipedaleBundle:Model\Place\PlaceType')
-                ->findAll();
-
         if ($this->getRequest()->getSession()->get('city') !== null)
         {
             $z = $this->getRequest()->getSession()->get('city');
