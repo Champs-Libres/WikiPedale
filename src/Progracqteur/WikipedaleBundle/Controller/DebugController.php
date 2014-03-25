@@ -384,7 +384,7 @@ class DebugController extends Controller {
         
         
         return $this->render("ProgracqteurWikipedaleBundle:Dev:send_request.html.twig", array(
-            'action' => $this->generateUrl('wikipedale_place_change', array('_format' => 'json')),
+            'action' => $this->generateUrl('wikipedale_report_change', array('_format' => 'json')),
             'json' => $ret
         ));
         

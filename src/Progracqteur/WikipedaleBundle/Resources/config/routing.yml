@@ -38,8 +38,8 @@ wikipedale_report_list_by_city:
   options:
     expose: true
 
-wikipedale_place_change:
-  pattern: /place/change.{_format}
+wikipedale_report_change:
+  pattern: /report/change.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Report:change }
   requirements:
     _format: json

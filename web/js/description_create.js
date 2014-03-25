@@ -64,7 +64,7 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
                var entity_string = json_string.edit_place(desc_data['description'], desc_data['lon'],
                   desc_data['lat'], desc_data['lieu'], desc_data['id'], desc_data['couleur'],
                   desc_data['user_label'], desc_data['email'], desc_data['user_phonenumber'],desc_data['categories']);
-               var url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
+               var url_edit = Routing.generate('wikipedale_report_change', {_format: 'json'});
                $.ajax({
                   type: 'POST',
                   data: {entity: entity_string},
