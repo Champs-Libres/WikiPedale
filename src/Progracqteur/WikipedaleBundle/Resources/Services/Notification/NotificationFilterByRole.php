@@ -42,7 +42,7 @@ class NotificationFilterByRole {
             return false;
         }
         
-        if ($changeset->getPlace()->isAccepted() === false)
+        if ($changeset->getReport()->isAccepted() === false)
         {
             echo "FILTER BY ROLE place not accepted \n";
             return false;
@@ -66,7 +66,7 @@ class NotificationFilterByRole {
         
         foreach($changeset as $change)
         {
-            if ($change->getType() === ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD) {
+            if ($change->getType() === ChangeService::REPORT_COMMENT_MODERATOR_MANAGER_ADD) {
                 if (!in_array(User::ROLE_COMMENT_MODERATOR_MANAGER, 
                         $this->cacheRoles[$subscription->getOwner()->getId()])
                         ){

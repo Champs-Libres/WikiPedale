@@ -67,9 +67,9 @@ class LoadPhotoData extends AbstractFixture implements OrderedFixtureInterface, 
             
             if ($this->hasReference($strRef))
             {
-                $photo->setPlace($this->getReference($strRef));
+                $photo->setReport($this->getReference($strRef));
                 $photo->setCreator($this->getReference('user'));
-                $photo->getPlace()->getChangeset()->setAuthor($photo->getCreator());
+                $photo->getReport()->getChangeset()->setAuthor($photo->getCreator());
                 
                 $errors = $this->container->get('validator')->validate($photo);
                 if (count($errors) > 0)

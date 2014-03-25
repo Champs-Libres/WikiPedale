@@ -1,8 +1,8 @@
 ## YAML Template.
 ---
-Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking:
+Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking:
   type: entity
-  repositoryClass: Progracqteur\WikipedaleBundle\EntityRepositories\Model\Place\PlaceTrackingRepository
+  repositoryClass: Progracqteur\WikipedaleBundle\EntityRepositories\Model\Report\ReportTrackingRepository
   readOnly: ~
   table: placeTracking
   id:
@@ -22,6 +22,9 @@ Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\User
       nullable: true
       mappedBy: PlaceChanges
-    place:
-      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place
+    report:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Report
       inversedBy: changesets
+      joinColumn:
+        name: place_id
+        referencedColumnName: id

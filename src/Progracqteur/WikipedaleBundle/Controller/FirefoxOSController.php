@@ -100,7 +100,7 @@ class FirefoxOsController extends Controller
         $paramsToView = array(
             'categories' => $categories,
             'terms_allowed' => $terms_allowed_array,
-            'placeTypes' => $placeTypes,
+            'reportTypes' => $reportTypes,
             'managers' => $managers
         );
 

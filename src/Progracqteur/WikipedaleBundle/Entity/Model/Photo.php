@@ -37,10 +37,10 @@ class Photo
     private $creator;
 
     /**
-     * Référence vers un emplacement
-     * @var Progracqteur\WikipedaleBundle\Entity\Model\Place
+     * Référence vers un signaement
+     * @var Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
-    private $place;
+    private $report;
     
      /**
      * hauteur en pixels. Calculé par le système avant l'enregistrement (pre-persist)
@@ -93,14 +93,14 @@ class Photo
     
     /**
      *
-     * @var int une des constantes privées _ADD_PHOTO, _DELETE_PHOTO, _CHANGE_PLACE
+     * @var int une des constantes privées _ADD_PHOTO, _DELETE_PHOTO, _CHANGE_REPORT
      */
-    private $mustInformPlace = null;
+    private $mustInformReport = null;
     
     const _ADD_PHOTO = 0;
     const _DELETE_PHOTO = 1;
-    const _CHANGE_PLACE = 2;
-    private $oldPlace = null;
+    const _CHANGE_REPORT = 2;
+    private $oldReport = null;
     
     const MAXIMUM_SIZE = 800;
     const COMPRESSION = 98;
@@ -187,20 +187,20 @@ class Photo
     
     /**
      * exécutée durant la phase de prePersist de Doctrine2
-     * Informe les places du changement de photo
+     * Informe les signalement du changement de photo
      */
-    public function informPlace()
+    public function informReport()
     {
-        switch ($this->mustInformPlace) {
+        switch ($this->mustInformReport) {
             //dans le cas d'un changement (le increase est répété ensuite)
-            case self::_CHANGE_PLACE :
-                $this->oldPlace->removePhotos();
+            case self::_CHANGE_REPORT :
+                $this->oldReport->removePhotos();
             //dans le cas d'un ajout, seul le increase est modifié
             case self::_ADD_PHOTO :
-                $this->place->addPhotos($this);
+                $this->report->addPhotos($this);
                 break;
             case self::_DELETE_PHOTO :
-                $this->place->decreasePhoto();
+                $this->report->decreasePhoto();
             
         }
     }
@@ -301,37 +301,37 @@ class Photo
     }
 
     /**
-     * Set place
+     * Set report
      *
-     * @param Progracqteur\WikipedaleBundle\Entity\Model\Place $place
+     * @param Progracqteur\WikipedaleBundle\Entity\Model\Report $report
      */
-    public function setPlace(\Progracqteur\WikipedaleBundle\Entity\Model\Place $place)
+    public function setReport(\Progracqteur\WikipedaleBundle\Entity\Model\Report $report)
     {
-        //suis le changement de place
-        //dans le cas d'un changmetn de place
-        if ($this->place !== null && $this->place->getId() != $place->getId())
+        //suis le changement de signalement
+        //dans le cas d'un changmetn de signalement
+        if ($this->report !== null && $this->report->getId() != $report->getId())
         {
-            //vérifie qu'il n'y a pas eu plusieurs changements de place
-            //seule la place lors du retrait de l'instance de la BD doit être informée
-            if ($this->oldPlace !== null)
-                $this->oldPlace = $this->place;
-            $this->mustInformPlace = self::_CHANGE_PLACE;
+            //vérifie qu'il n'y a pas eu plusieurs changements de signalement
+            //seule le signalement lors du retrait de l'instance de la BD doit être informée
+            if ($this->oldReport !== null)
+                $this->oldReport = $this->report;
+            $this->mustInformReport = self::_CHANGE_REPORT;
         } else {
-            $this->mustInformPlace = self::_ADD_PHOTO;
+            $this->mustInformReport = self::_ADD_PHOTO;
         }
         
-        $this->place = $place;
+        $this->report = $report;
         
     }
 
     /**
-     * Get place
+     * Get report
      *
-     * @return Progracqteur\WikipedaleBundle\Entity\Model\Place 
+     * @return Progracqteur\WikipedaleBundle\Entity\Model\Report 
      */
-    public function getPlace()
+    public function getReport()
     {
-        return $this->place;
+        return $this->report;
     }
 
     /**
@@ -410,10 +410,10 @@ class Photo
     {
         if ($this->published == true && $published == false)
         {
-            $this->mustInformPlace = self::_DELETE_PHOTO;
+            $this->mustInformReport = self::_DELETE_PHOTO;
         } elseif ($this->published == false && $published == true)
         {
-            $this->mustInformPlace = self::_ADD_PHOTO;
+            $this->mustInformReport = self::_ADD_PHOTO;
         }
         
         $this->published = $published;

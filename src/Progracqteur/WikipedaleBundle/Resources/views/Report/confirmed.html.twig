@@ -6,8 +6,8 @@
 {% block body %} 
 {# TODO: traduction et mise en forme #}
 <p>Votre adresse de courriel a été confirmée. Votre signalement 
-    <span class="">{{place}}</span> est enregistré. 
-    <a href="{{ url('wikipedale_homepage', { 'id' : place.id }) }}">Voir votre signalement</a></p>
+    <span class="">{{report}}</span> est enregistré. 
+    <a href="{{ url('wikipedale_homepage', { 'id' : report.id }) }}">Voir votre signalement</a></p>
 
 
 {% endblock %}

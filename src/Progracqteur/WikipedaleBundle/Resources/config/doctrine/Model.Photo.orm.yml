@@ -26,12 +26,15 @@ Progracqteur\WikipedaleBundle\Entity\Model\Photo:
   manyToOne:
     creator:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\User
-    place:
-      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place
+    report:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Report
       inversedBy: photos
       cascade: [persist, remove]
+      joinColumn:
+        name: place_id
+        referencedColumnName: id
   lifecycleCallbacks:
-    prePersist: [ preUpload, informPlace ]
-    preUpdate: [ preUpload, informPlace ]
+    prePersist: [ preUpload, informReport ]
+    preUpdate: [ preUpload, informReport ]
     postPersist: [ upload ]
     postUpdate: [ upload ]

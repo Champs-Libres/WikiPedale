@@ -48,7 +48,7 @@ class UserNormalizer implements NormalizerInterface
         {
             if ($data['id'] === null)
             {          
-                $u = $this->service->getPlaceNormalizer()->getCurrentPlace()->getCreator();
+                $u = $this->service->getReportNormalizer()->getCurrentReport()->getCreator();
                 if ($u === null) {
                     $u = new UnregisteredUser();
                     if (isset($data['label']))

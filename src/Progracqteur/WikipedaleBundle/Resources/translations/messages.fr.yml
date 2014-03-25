@@ -125,8 +125,8 @@ filter:
 
 errors:
   404:
-    place:
-      not_found: L'emplacement demandé n'existe pas.
+    report:
+      not_found: Le signalement demandé n'existe pas.
 
 # Form field labels
 fos_user_group_form_name: "Nom du groupe :"
@@ -152,7 +152,7 @@ fos_user_registration_form_phonenumber: "Téléphone"
 
 #message lié à la validation des données
 validation:
-  place:
+  report:
     category:
       have_children: Les catégories indiquées sont parentes d'autres catégories. Seules des catégories filles peuvent être indiquées.
     manager:
@@ -207,7 +207,7 @@ notification_subscriptions:
       stopped: Suspendre
 
 csv:
-    place:
+    report:
         list:
             statuses: '{-1} Rejeté (gris)|{0}Non traité (blanc) | {1} Pris en compte (rouge) | {2} En cours de résolution (orange) | {3} Résolu (vert)'
             id: Identifiant

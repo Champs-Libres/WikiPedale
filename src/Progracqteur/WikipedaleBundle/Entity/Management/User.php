@@ -70,7 +70,7 @@ class User extends BaseUser
     const ROLE_ADMIN = 'ROLE_ADMIN';
     
     /**
-     * indicate if the user may create or alter categories on a place
+     * indicate if the user may create or alter categories on a report
      * 
      * @var string
      */
@@ -110,7 +110,7 @@ class User extends BaseUser
     
     /**
      * 
-     * indicate if the user may publish/unpublish a place
+     * indicate if the user may publish/unpublish a report
      * 
      * @var string 
      */
@@ -126,40 +126,40 @@ class User extends BaseUser
     
     /**
      * indicate if the user may alter or modify the manager
-     * of a place
+     * of a report
      * 
      * @var string
      */
     const ROLE_MANAGER_ALTER = 'ROLE_MANAGER_ALTER';
     
     /**
-     * indicate if the user may alter the place type
+     * indicate if the user may alter the report type
      */
-    const ROLE_PLACETYPE_ALTER = 'ROLE_PLACETYPE_ALTER';
+    const ROLE_REPORTTYPE_ALTER = 'ROLE_PLACETYPE_ALTER';
     
     /**
-     * indicate if the user may see unaccepted entities (like places,
+     * indicate if the user may see unaccepted entities (like reports,
      *  photos, comments, etc.)
      */
     const ROLE_SEE_UNACCEPTED = 'ROLE_SEE_UNACCEPTED';
     
     /**
      * indicate if the user may alter the moderator's comment
-     * the moderator's comment is inside a place: this is not a comment entity
+     * the moderator's comment is inside a report: this is not a comment entity
      */
     const ROLE_MODERATOR_COMMENT_ALTER = 'ROLE_MODERATOR_COMMENT_ALTER';
     
     /**
      * indicate if the user may add and see private comments between
      * moderators and manager. This concern comment entity and not 
-     * place's moderator comment
+     * report's moderator comment
      */
     const ROLE_COMMENT_MODERATOR_MANAGER = 'ROLE_COMMENT_MODERATOR_MANAGER';
     
     /**
      * indicate if the user may alter the term.
      */
-    const ROLE_PLACE_TERM = 'ROLE_PLACE_TERM';
+    const ROLE_REPORT_TERM = 'ROLE_PLACE_TERM';
     
     
     

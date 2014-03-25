@@ -16,20 +16,20 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
  */
 class PhotoController extends Controller 
 {
-    public function getPhotoByPlaceAction($_format, $placeId, Request $request)
+    public function getPhotoByReportAction($_format, $reportId, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $place = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Place")->find($placeId);
+        $report = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report")->find($reportId);
         
-        if ($place === null)
+        if ($report === null)
         {
-            throw $this->createNotFoundException("La place $placeId n'a pas été trouvée");
+            throw $this->createNotFoundException("Le signalement $reportId n'a pas été trouvée");
         }
         
         $q = $em->createQuery("SELECT ph from ProgracqteurWikipedaleBundle:Model\\Photo ph 
-            where ph.place = :place and ph.published = true")
-                ->setParameter('place', $place);
+            where ph.report = :report and ph.published = true")
+                ->setParameter('report', $report);
         
         $photos = $q->getResult();
         
@@ -49,7 +49,7 @@ class PhotoController extends Controller
         }
     }
     
-    public function newAction($placeId, $_format, Request $request)
+    public function newAction($reportId, $_format, Request $request)
     {
         if (!$this->get('security.context')->getToken()->getUser() instanceof User)
         {
@@ -58,15 +58,15 @@ class PhotoController extends Controller
         
         $em = $this->getDoctrine()->getManager();
         
-        $place = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Place")->find($placeId);
+        $report = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report")->find($reportId);
         
-        if ($place === null)
+        if ($report === null)
         {
-            throw $this->createNotFoundException("La place $placeId n'a pas été trouvée");
+            throw $this->createNotFoundException("Le signalement $reportId n'a pas été trouvée");
         }
         
         $photo = $this->get('progracqteurWikipedalePhotoService')->createPhoto();
-        $photo->setPlace($place);
+        $photo->setReport($report);
         
         $security = $this->get('security.context');
         
@@ -98,8 +98,8 @@ class PhotoController extends Controller
             
             if ($form->isValid()) //TODO créer une formulaire de validation
             {
-                //enregistre l'utilisateur courant dans le tracking policy de la place
-                $photo->getPlace()->getChangeset()->setAuthor(
+                //enregistre l'utilisateur courant dans le tracking policy du signalement
+                $photo->getReport()->getChangeset()->setAuthor(
                             $this->get('security.context')->getToken()->getUser()
                         );
                 

@@ -10,20 +10,20 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 
 /**
- * Description of ImportCategories
+ * Import categories into the application. These categories are used for bike report.
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class ImportCategoriesCommand extends ContainerAwareCommand {
-    
+class ImportCategoriesCommand extends ContainerAwareCommand
+{    
     protected function configure()
     {
         $this->setName('uello:categories')
-                ->setDescription("Importe les catégories telle que définies par la RW");
+            ->setDescription("Importe les catégories telle que définies par la RW");
     }
     
-    protected function execute(InputInterface $input, OutputInterface $output) {
-        
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {    
         $array = array(
             'revetement' =>
                 array(
@@ -95,13 +95,11 @@ class ImportCategoriesCommand extends ContainerAwareCommand {
                     'l' => "Des objets créent des obstacles sur le cheminement cyclable (poubelle, encombrant)",
                     'p' => 'obstacle'
                 ),
-            
             'vehicule stationnement illegal' =>
                 array(
                     'l' => "Des véhicules sont régulièrement stationnés sur le cheminement cyclable"
                     , "p" => "obstacle"
                 ),
-            
             'securite' =>
                 array(
                     'l' => "Sécurité",
@@ -161,25 +159,19 @@ class ImportCategoriesCommand extends ContainerAwareCommand {
         $categories = array();
         $i = 0;
         
-        foreach ($array as $key => $catdef)
-        {
+        foreach ($array as $key => $catdef) {
             $existingCategory = $manager
                     ->getRepository('ProgracqteurWikipedaleBundle:Model\Category')
                     ->findOneByLabel($catdef['l']);
             
-            if ($existingCategory === null) 
-            {
-                echo "Ajout de al catégorie ".$catdef['l']." \n";
+            if ($existingCategory === null)  {
+                echo "Ajout de la catégorie ".$catdef['l']." \n";
                 $cat = new Category();
                 $categories[$key] = $cat;
 
                 $cat->setLabel($catdef['l']);
-                if ($catdef['p'] !== null)
-                {
+                if ($catdef['p'] !== null) {
                     $cat->setParent($categories[$catdef['p']]);
-
-
-
                     $i++;
                 }
                 $manager->persist($cat);
@@ -188,10 +180,7 @@ class ImportCategoriesCommand extends ContainerAwareCommand {
                 echo "Catégorie ".$existingCategory->getLabel()." existe déjà ! \n";
             }
         }
-        
         $manager->flush();
-        
     }
-    
 }
 

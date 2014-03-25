@@ -6,12 +6,12 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
 use Progracqteur\WikipedaleBundle\Entity\Model\Photo;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking;
 use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 use Progracqteur\WikipedaleBundle\Entity\Management\Zone;
 
@@ -94,9 +94,9 @@ class NormalizedResponseNormalizer implements NormalizerInterface
      */
     private function getNormalizedForm($object)
     {
-        if ($object instanceof Place)
+        if ($object instanceof Report)
         {
-            return $this->service->getPlaceNormalizer()->normalize($object);
+            return $this->service->getReportNormalizer()->normalize($object);
         } elseif ($object instanceof User)
         {
             return $this->service->getUserNormalizer()->normalize($object);
@@ -106,9 +106,9 @@ class NormalizedResponseNormalizer implements NormalizerInterface
         } elseif ($object instanceof Photo)
         {
             return $this->service->getPhotoNormalizer()->normalize($object);
-        } elseif ($object instanceof PlaceTracking)
+        } elseif ($object instanceof ReportTracking)
         {
-            return $this->service->getPlaceTrackingNormalizer()->normalize($object);
+            return $this->service->getReportTrackingNormalizer()->normalize($object);
         } elseif  ($object instanceof Category) 
         {
             return $this->service->getCategoryNormalizer()->normalize($object);

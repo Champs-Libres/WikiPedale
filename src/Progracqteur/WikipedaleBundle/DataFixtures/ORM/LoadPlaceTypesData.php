@@ -5,7 +5,7 @@ namespace Progracqteur\WikipedaleBundle\DataFixtures\ORM;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportType;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class LoadPlaceTypesData extends AbstractFixture implements ContainerAwareInterface, OrderedFixtureInterface {
+class LoadReportTypesData extends AbstractFixture implements ContainerAwareInterface, OrderedFixtureInterface {
     
     private $container ;
     
@@ -30,7 +30,7 @@ class LoadPlaceTypesData extends AbstractFixture implements ContainerAwareInterf
         
         foreach ($types as $key => $t )
         {
-            $a = new PlaceType();
+            $a = new ReportType();
             $a->setLabel($t);
             $manager->persist($a);
             

@@ -14,14 +14,15 @@ use Progracqteur\WikipedaleBundle\Resources\Security\ChangeableInterface;
 use Doctrine\Common\NotifyPropertyChanged;
 use Doctrine\Common\PropertyChangedListener;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportStatus;
 use Symfony\Component\Validator\ExecutionContext;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 use Progracqteur\WikipedaleBundle\Entity\Management\Group;
+
 /**
- * Progracqteur\WikipedaleBundle\Entity\Model\Place
+ * Progracqteur\WikipedaleBundle\Entity\Model\Report
  */
-class Place implements ChangeableInterface, NotifyPropertyChanged
+class Report implements ChangeableInterface, NotifyPropertyChanged
 {
     /**
      * @var integer $id
@@ -92,7 +93,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     
     /**
      *
-     * @var Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking 
+     * @var Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking 
      */
     private $changeset = null;
     
@@ -115,7 +116,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     
     /**
      *
-     * @var \Progracqteur\WikipedaleBundle\Entity\Place\PlaceType 
+     * @var \Progracqteur\WikipedaleBundle\Entity\Report\ReportType 
      */
     private $type;
     
@@ -150,11 +151,11 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         $this->infos = new Hash();
         $this->address = new Address();
         $this->changesets = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->getChangeset()->addChange(ChangeService::PLACE_CREATION, null);
+        $this->getChangeset()->addChange(ChangeService::REPORT_CREATION, null);
         $this->category = new \Doctrine\Common\Collections\ArrayCollection();
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
         
-        //initialize the placeStatuses
+        //initialize the placeStatuses (tel quel dans la db)
         $this->infos->placeStatuses = new Hash();
     }
 
@@ -204,7 +205,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         {
             $this->change('address', $this->address, $address);
             $this->address = $address;
-            $this->getChangeset()->addChange(ChangeService::PLACE_ADDRESS, $address);
+            $this->getChangeset()->addChange(ChangeService::REPORT_ADDRESS, $address);
         }
         
     }
@@ -246,7 +247,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         {
             $this->change('geom', $this->geom, $geom);
             $this->geom = $geom;
-            $this->getChangeset()->addChange(ChangeService::PLACE_GEOM, $geom );
+            $this->getChangeset()->addChange(ChangeService::REPORT_GEOM, $geom );
         }
     }
 
@@ -270,7 +271,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
             $this->term = $term;
             $this->change('term', $this->term, $term);
             
-            $this->getChangeset()->addChange(ChangeService::PLACE_TERM, $term);
+            $this->getChangeset()->addChange(ChangeService::REPORT_TERM, $term);
             
         }   
     }
@@ -369,12 +370,12 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
                 $this->creatorUnregisteredProxy = $creator;
 
                 $this->change('infos', $old, $this->getInfos());
-                $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, $creator);
+                $this->getChangeset()->addChange(ChangeService::REPORT_CREATOR, $creator);
 
             } else {
                 $this->change('creator', $this->creator, $creator);
                 $this->creator = $creator;
-                $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, $creator);
+                $this->getChangeset()->addChange(ChangeService::REPORT_CREATOR, $creator);
                 //TODO : si un unregistreredCreator existe, il faut l'enlever
             }
         }
@@ -382,10 +383,10 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     
     /**
      * 
-     * this is a proxy method to set a confirmed creator to the place
-     * and set the place as accepted.
+     * this is a proxy method to set a confirmed creator to the report
+     * and set the report as accepted.
      * 
-     * a placetracking instance is also set with code ChangeService::PLACE_CREATOR_CONFIRMATIN
+     * a reporttracking instance is also set with code ChangeService::REPORT_CREATOR_CONFIRMATIN
      * 
      * 
      * @param \Progracqteur\WikipedaleBundle\Entity\Model\Unregistereduser $creator
@@ -393,7 +394,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     public function setConfirmedCreator(Unregistereduser $creator)
     {
         $this->forceSetCreator($creator);
-        $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR_CONFIRMATION, 1);
+        $this->getChangeset()->addChange(ChangeService::REPORT_CREATOR_CONFIRMATION, 1);
         $this->getChangeset()->setAuthor($creator);
         $this->getChangeset()->setCreation(true);
         $this->setAccepted(true);
@@ -415,13 +416,13 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
                 $this->creatorUnregisteredProxy = $creator;
 
                 $this->change('infos', $old, $this->getInfos());
-                //$this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, $creator);
+                //$this->getChangeset()->addChange(ChangeService::REPORT_CREATOR, $creator);
                 //normalement le creator ne doit pas être modifié
 
             } else {
                 $this->change('creator', $this->creator, $creator);
                 $this->creator = $creator;
-                $this->getChangeset()->addChange(ChangeService::PLACE_CREATOR, $creator);
+                $this->getChangeset()->addChange(ChangeService::REPORT_CREATOR, $creator);
                 //TODO : si un unregistreredCreator existe, il faut l'enlever
             }
     }
@@ -462,7 +463,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
             
             foreach ($this->infos->placeStatuses->toArray() as $type => $value)
             {
-                $status = new PlaceStatus();
+                $status = new ReportStatus();
                 $status->setType($type)->setValue($value);
                 $this->proxyStatuses->add($status);
             }
@@ -490,10 +491,10 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
      * Add a new status to the class, and retrieve old status 
      * with same type.
      * 
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus $status
-     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportStatus $status
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
-    public function addStatus(PlaceStatus $status)
+    public function addStatus(ReportStatus $status)
     {
         $this->initializeProxyStatuses(); 
         
@@ -520,7 +521,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         
         $this->change('infos', $old, $this->infos);
         
-        $this->getChangeset()->addChange(ChangeService::PLACE_STATUS, $status);
+        $this->getChangeset()->addChange(ChangeService::REPORT_STATUS, $status);
         
         $this->proxyCountStatusChanges++;
 
@@ -530,10 +531,10 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     /**
      * Remove completely the statuses equals of the given status
      * 
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus $status
-     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportStatus $status
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
-    public function removeStatus(PlaceStatus $status)
+    public function removeStatus(ReportStatus $status)
     {
         $this->initializeProxyStatuses();
         
@@ -579,14 +580,8 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     {
         $this->initializeProxyStatuses();
 
-        foreach($this->getStatuses() as $status)
-        {
-            
-            if ($status->getValue() >= -1 && $status->getValue() <= 3)
-            {
-                
-            } else 
-            {
+        foreach($this->getStatuses() as $status) {
+            if (!($status->getValue() >= -1 && $status->getValue() <= 3)) {
                 $propertyPath = $context->getPropertyPath() . '.status';
                 $context->setPropertyPath($propertyPath);
                 $context->addViolation('place.validation.message.status.valueNotCorrect', array(), null);
@@ -594,7 +589,6 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         }
         
         return true;
-        
     }
     
     /**
@@ -608,20 +602,15 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
      */
     public function hasOnlyOneChange(ExecutionContext $context)
     {
-        if ($this->proxyCountStatusChanges <= 1)
+        if ($this->proxyCountStatusChanges <= 1) {
             return true;
-        else
-        {
+        } else {
             $context->addViolationAtSubPath('status', 'place.validation.message.onlyOneStatusAtATime', array(), null);
         }
-            
-    }
-
-    
-    
+    }    
     
     /**
-     * return the common way to name a place
+     * return the common way to name a report
      * (currently the name of the street)
      * 
      * @return string
@@ -630,8 +619,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     {
         $l =  $this->getAddress()->getRoad();
         
-        if (strlen($l) < 2)
-        {
+        if (strlen($l) < 2) {
             $l = "Sans label";
         }
         
@@ -639,7 +627,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     }
     
     /**
-     * transform the place into a string displayable on UI
+     * transform the report into a string displayable on UI
      * @return string
      */
     public function __toString() {
@@ -656,22 +644,15 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
      */
     private function _getCreator()
     {
-        if (!is_null($this->creator))
-        {
+        if (!is_null($this->creator)) {
             return $this->creator;
-        } 
-        elseif (!is_null($this->creatorUnregisteredProxy))
-        {
+        } elseif (!is_null($this->creatorUnregisteredProxy)) {
             return $this->creatorUnregisteredProxy;
-        } 
-        elseif ($this->infos->has('creator'))
-        {
+        } elseif ($this->infos->has('creator')) {
             $u = UnregisteredUser::fromHash($this->infos->creator);
             $this->creatorUnregisteredProxy = $u;
             return $u;
-        } 
-        else 
-        {
+        } else {
             return null;
         }
     }
@@ -695,14 +676,14 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     {
         $this->nbComm++;
         $this->change('nbComm', ($this->nbComm -1 ), $this->nbComm);
-        $this->getChangeset()->addChange(ChangeService::PLACE_ADD_COMMENT, 1);
+        $this->getChangeset()->addChange(ChangeService::REPORT_ADD_COMMENT, 1);
     }
     
     public function increaseVote()
     {
         $this->nbVote++;
         $this->change('nbVote', ($this->nbVote - 1), $this->nbVote);
-        $this->getChangeset()->addChange(ChangeService::PLACE_ADD_VOTE, 1);
+        $this->getChangeset()->addChange(ChangeService::REPORT_ADD_VOTE, 1);
     }
     
     private function increasePhoto()
@@ -731,14 +712,14 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         //TODO: implémenter le tracking policy pour les photos
         $this->photos[] = $photos;
         $this->increasePhoto();
-        $this->getChangeset()->addChange(ChangeService::PLACE_ADD_PHOTO, $photos);
+        $this->getChangeset()->addChange(ChangeService::REPORT_ADD_PHOTO, $photos);
     }
     
     public function removePhotos(\Progracqteur\WikipedaleBundle\Entity\Model\Photo $photo)
     {
         //TODO: compléter la fonction removePhoto
         $this->decreasePhoto();
-        $this->getChangeset()->addChange(ChangeService::PLACE_REMOVE_PHOTO, $photo->getFileName());
+        $this->getChangeset()->addChange(ChangeService::REPORT_REMOVE_PHOTO, $photo->getFileName());
     }
     
 
@@ -751,13 +732,11 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     public function setDescription($description)
     {
         $description = trim($description);
-        if ($this->description !== $description )
-        {
+        if ($this->description !== $description) {
             $this->change('description', $this->description, $description);
             $this->description = $description;
-            $this->getChangeset()->addChange(ChangeService::PLACE_DESCRIPTION, $description);
+            $this->getChangeset()->addChange(ChangeService::REPORT_DESCRIPTION, $description);
         }
-        
     }
 
     /**
@@ -782,13 +761,12 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     
     public function setModeratorComment($comment) 
     {
-        if ($this->moderatorComment !== $comment)
-        {
+        if ($this->moderatorComment !== $comment) {
             $this->change('moderatorComment', $this->moderatorComment, $comment);
             $this->moderatorComment = $comment;
             $this->getChangeset()->addChange(
-                    ChangeService::PLACE_MODERATOR_COMMENT_ALTER, 
-                    $comment);
+                ChangeService::REPORT_MODERATOR_COMMENT_ALTER, 
+                $comment);
         }
         
         return $this;
@@ -801,13 +779,12 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     
     public function setAccepted($accepted)
     {
-        if ($this->accepted != $accepted)
-        {
+        if ($this->accepted != $accepted) {
             $this->change('accepted', $this->accepted, $accepted);
             $this->accepted = $accepted;
             $this->getChangeset()->addChange(
-                    ChangeService::PLACE_ACCEPTED, 
-                    $accepted);
+                ChangeService::REPORT_ACCEPTED, 
+                $accepted);
         }
     }
     
@@ -818,21 +795,19 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     
     public function setStatusBicycle($status)
     {
-        if ($this->statusBicycle != $status)
-        {
+        if ($this->statusBicycle != $status) {
             $this->change('statusBicycle', $this->statusBicycle, $status);
             $this->statusBicycle = $status;
-            $this->getChangeset()->addChange(ChangeService::PLACE_STATUS_BICYCLE, $status);
+            $this->getChangeset()->addChange(ChangeService::REPORT_STATUS_BICYCLE, $status);
         }
     }
     
     public function setStatusZone($status)
     {
-        if ($this->statusZone != $status)
-        {
+        if ($this->statusZone != $status) {
             $this->change('statusZone', $this->statusZone, $status);
             $this->statusZone = $status;
-            $this->getChangeset()->addChange(ChangeService::PLACE_STATUS_Zone, $status);
+            $this->getChangeset()->addChange(ChangeService::REPORT_STATUS_Zone, $status);
         }
     }
     
@@ -845,8 +820,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     
     private function setLastUpdateNow()
     {
-        if ($this->proxyLastUpdate === false)
-        {
+        if ($this->proxyLastUpdate === false) {
             $this->lastUpdate = new \DateTime();
             $this->proxyLastUpdate = true;
         }
@@ -863,26 +837,22 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     public function setManager(Group $manager = null)
     {
         
-        if ($manager === null)
-        {
+        if ($manager === null) {
             return $this->removeManager();
         }
         
-        if ($this->getManager() === null)
-        {
-            if ($this->getChangeset()->isCreation())
-            {
+        if ($this->getManager() === null) {
+            if ($this->getChangeset()->isCreation()) {
                 $this->manager = $manager;
                 $this->getChangeset()
-                        ->addChange(ChangeService::PLACE_MANAGER_ADD, $manager);
+                        ->addChange(ChangeService::REPORT_MANAGER_ADD, $manager);
             } else {
                 $this->change('manager', $this->manager, $manager);
-                $this->getChangeset()->addChange(ChangeService::PLACE_MANAGER_ALTER, $manager);
+                $this->getChangeset()->addChange(ChangeService::REPORT_MANAGER_ALTER, $manager);
             } 
-        } elseif ($this->getManager()->getId() !== $manager->getId())
-        {
+        } elseif ($this->getManager()->getId() !== $manager->getId()) {
             $this->change('manager', $this->manager, $manager);
-            $this->getChangeset()->addChange(ChangeService::PLACE_MANAGER_ALTER, $manager);
+            $this->getChangeset()->addChange(ChangeService::REPORT_MANAGER_ALTER, $manager);
         }
         
         return $this;
@@ -890,8 +860,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     
     public function removeManager()
     {
-        if ($this->getManager() !== null)
-        {
+        if ($this->getManager() !== null) {
             $oldManager = -1;
         } else {
             $oldManager = $this->getManager();
@@ -899,7 +868,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
             
         $this->change('manager', $this->manager, null);
         $this->getChangeset()
-                ->addChange(ChangeService::PLACE_MANAGER_REMOVE, $oldManager);
+                ->addChange(ChangeService::REPORT_MANAGER_REMOVE, $oldManager);
         
         
         return $this;
@@ -917,20 +886,18 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     
     /**
      * 
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType $type
-     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportType $type
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
-    public function setType(Place\PlaceType $type)
+    public function setType(Report\ReportType $type)
     {
-        if ($this->getType() === null)
-        {
+        if ($this->getType() === null) {
             $this->type = $type;
-            $this->getChangeset()->addChange(ChangeService::PLACE_PLACETYPE_ALTER, $type);
+            $this->getChangeset()->addChange(ChangeService::REPORT_REPORTTYPE_ALTER, $type);
             
-        } elseif ($this->getType()->getId() !== $type->getId())
-        {
+        } elseif ($this->getType()->getId() !== $type->getId()) {
             $this->change('type', $this->type, $type);
-            $this->getChangeset()->addChange(ChangeService::PLACE_PLACETYPE_ALTER, $type);
+            $this->getChangeset()->addChange(ChangeService::REPORT_REPORTTYPE_ALTER, $type);
         }
         
         
@@ -939,7 +906,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     
     /**
      * 
-     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportType
      */
     public function getType()
     {
@@ -948,19 +915,17 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     
     public function registerComment(Comment $comment)
     {
-        //$this->getChangeset()->addChange(ChangeService::PLACE_COMMENT_ADD, $comment);
+        //$this->getChangeset()->addChange(ChangeService::REPORT_COMMENT_ADD, $comment);
         
         $type = $comment->getType();
         $oldInfos = clone($this->getInfos());
         
         //create the entry in the hash, update it if necessary
-        if (! $this->infos->has('nbComments'))
-        {
+        if (! $this->infos->has('nbComments')) {
             $this->infos->nbComments = new Hash();
         }
         
-        if (! $this->infos->nbComments->has($type))
-        {
+        if (! $this->infos->nbComments->has($type)) {
             $this->infos->nbComments->{$type} = 1;
         } else {
             $this->infos->nbComments->{$type} ++;
@@ -971,7 +936,7 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
         $this->change('infos', $oldInfos, $this->infos);
         
         $this->getChangeset()->addChange(
-                ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD, $comment
+                ChangeService::REPORT_COMMENT_MODERATOR_MANAGER_ADD, $comment
                 );
     }
     
@@ -979,13 +944,11 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     public function getNbComments($type)
     {
         //create the entry in the hash, update it if necessary
-        if (! $this->infos->has('nbComments'))
-        {
+        if (! $this->infos->has('nbComments')) {
             return 0;
         }
         
-        if (! $this->infos->nbComments->has($type))
-        {
+        if (! $this->infos->nbComments->has($type)) {
             return 0;
         } else {
             return (int) $this->infos->nbComments->{$type};
@@ -994,19 +957,18 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     
     public function setChecked()
     {
-        $this->getChangeset()->addChange(ChangeService::PLACE_CHECK, true);
+        $this->getChangeset()->addChange(ChangeService::REPORT_CHECK, true);
     }
     /**
      * return the changeset made since the entity was created or 
      * retrieved from the database.
      * 
-     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking
      */
     public function getChangeset() {
         
-        if ($this->changeset === null)
-        {
-            $this->changeset = new Place\PlaceTracking($this);
+        if ($this->changeset === null) {
+            $this->changeset = new Report\ReportTracking($this);
             //$this->changesets->add($this->changeset);
         }
         
@@ -1045,19 +1007,18 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
      * Add category
      *
      * @param Progracqteur\WikipedaleBundle\Entity\Model\Category $category
-     * @return Place
+     * @return Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
     public function addCategory(Category $category)
     {
         $this->category[] = $category;
-        if ($this->proxyAddCategory === null)
-        {
+        if ($this->proxyAddCategory === null) {
             $this->proxyAddCategory = new \Doctrine\Common\Collections\ArrayCollection();
         }
         
         $this->proxyAddCategory->add($category);
         
-        $this->getChangeset()->addChange(ChangeService::PLACE_ADD_CATEGORY, $this->proxyAddCategory);
+        $this->getChangeset()->addChange(ChangeService::REPORT_ADD_CATEGORY, $this->proxyAddCategory);
         
         return $this;
     }
@@ -1078,23 +1039,21 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     /**
      * 
      * @param \Progracqteur\WikipedaleBundle\Entity\Model\Category $category
-     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Place
+     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
     public function removeCategory(Category $category)
     {
         foreach ($this->category as $key => $categoryRecorded)
         {
-            if ($categoryRecorded->getId() === $category->getId())
-            {
+            if ($categoryRecorded->getId() === $category->getId()) {
                 $this->category->remove($key);
-                if ($this->proxyRemoveCagory === null)
-                {
+                if ($this->proxyRemoveCagory === null) {
                     $this->proxyRemoveCagory = new \Doctrine\Common\Collections\ArrayCollection();
                 }
                 $this->proxyRemoveCagory->add($category);
                 
                 $this->getChangeset()
-                        ->addChange(ChangeService::PLACE_REMOVE_CATEGORY, 
+                        ->addChange(ChangeService::REPORT_REMOVE_CATEGORY, 
                                 $this->proxyRemoveCagory);
             }
         }
@@ -1109,16 +1068,16 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
      */
     public function hasCategory(Category $category)
     {
-        foreach($this->category as $cat)
-        {
-            if ($cat->getId() == $category->getId())
+        foreach($this->category as $cat) {
+            if ($cat->getId() == $category->getId()) {
                 return true;
+            }
         }
         return false;
     }
     
     /**
-     * check if the categories added to the place are valid. 
+     * check if the categories added to the report are valid. 
      * 
      * Until now: no categories with children are accepted !
      * 
@@ -1126,11 +1085,9 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
      */
     public function isCategoriesValid(ExecutionContext $context)
     {
-        foreach($this->getCategory() as $cat)
-        {
-            if ($cat->hasChildren())
-            {
-                $context->addViolationAtSubPath('category', 'validation.place.category.have_children', array(), null);
+        foreach($this->getCategory() as $cat) {
+            if ($cat->hasChildren()) {
+                $context->addViolationAtSubPath('category', 'validation.report.category.have_children', array(), null);
                 return;
             }
         }
@@ -1139,17 +1096,16 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     public function isManagerValid(ExecutionContext $context)
     {
         if ($this->getManager() !== null 
-                && $this->getManager()->getType() !== Group::TYPE_MANAGER )
-        {
-            $context->addViolationAtSubPath('manager', 'validation.place.manager.group_is_not_type_manager', 
+                && $this->getManager()->getType() !== Group::TYPE_MANAGER ) {
+            $context->addViolationAtSubPath('manager', 'validation.report.manager.group_is_not_type_manager', 
                     array(), $this->getManager());
         }
     }
     
-    public function checkEmptyPlaceTracking() {
-        $placeTracking = $this->getChangeset();
+    public function checkEmptyReportTracking() {
+        $reportTracking = $this->getChangeset();
         
-        $changes = $placeTracking->getChanges();
+        $changes = $reportTracking->getChanges();
         
         
         if (count($changes) === 0) {
@@ -1158,13 +1114,13 @@ class Place implements ChangeableInterface, NotifyPropertyChanged
     }
     
     public function registerCurrentChangeset() {
-        $placeTracking = $this->getChangeset();
+        $reportTracking = $this->getChangeset();
         
-        $changes = $placeTracking->getChanges();
+        $changes = $reportTracking->getChanges();
         
         
         if (count($changes) > 0) {
-            $this->changesets->add($placeTracking);
+            $this->changesets->add($reportTracking);
         }
     }
 }

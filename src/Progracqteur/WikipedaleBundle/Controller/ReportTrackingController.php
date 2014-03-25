@@ -15,7 +15,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class PlaceTrackingController extends Controller {
+class ReportTrackingController extends Controller {
     
     public function byCityAction($citySlug, $_format, Request $request)
     {
@@ -60,7 +60,7 @@ class PlaceTrackingController extends Controller {
         } 
         
         
-        $tracks = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Place\PlaceTracking')
+        $tracks = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Report\ReportTracking')
                 ->getLastEvents($first, $max, $city, $private);
         
         

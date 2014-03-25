@@ -3,7 +3,7 @@
 namespace Progracqteur\WikipedaleBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -17,36 +17,36 @@ use Progracqteur\WikipedaleBundle\Resources\Security\ChangeException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseUserToken;
-use Progracqteur\WikipedaleBundle\Form\Model\PlaceType;
+use Progracqteur\WikipedaleBundle\Form\Model\ReportType;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 
 /**
- * Description of PlaceController
+ * Description of ReportController
  *
  * @author Julien Fastré
  */
-class PlaceController extends Controller
+class ReportController extends Controller
 {
     /**
-     * Return a given place
+     * Return a given report
      *
-     * @param int $id The id of the asked place
+     * @param int $id The id of the asked report
      *
-     * @return Symfony\Component\HttpFoundation\Response A json that contains the details of the place of id $id.
+     * @return Symfony\Component\HttpFoundation\Response A json that contains the details of the report of id $id.
      */
     public function viewAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $place = $em->getRepository('ProgracqteurWikipedaleBundle:Model\\Place')->find($id);
+        $report = $em->getRepository('ProgracqteurWikipedaleBundle:Model\\Report')->find($id);
         
-        if ($place === null) {
+        if ($report === null) {
             throw $this->createNotFoundException("L'endroit n'a pas été trouvé dans la base de donnée");
         }
         
-        if ($place->isAccepted() === false 
+        if ($report->isAccepted() === false 
                 && ! $this->get('security.context')->isGranted(User::ROLE_SEE_UNACCEPTED)) {
             $hash = $this->getRequest()->query->get('checkcode');
-            $code = $place->getCreator()->getCheckCode();
+            $code = $report->getCreator()->getCheckCode();
             
 
             if ($hash !== hash('sha512', $code)) { /* sha512 -> is the used hashing algorithm */
@@ -56,19 +56,19 @@ class PlaceController extends Controller
         }
         
         $normalizer = $this->get('progracqteurWikipedaleSerializer');
-        $rep = new NormalizedResponse($place);
+        $rep = new NormalizedResponse($report);
         $ret = $normalizer->serialize($rep, 'json');
 
         return new Response($ret);
     }
     
     /**
-     * Return all the places for a given city
+     * Return all the reports for a given city
      *
      * @param String $_format the format of the output (csv or json)
      * @param Symfony\Component\HttpFoundation\Request $request the request that must contain a city param
      *
-     * @return Symfony\Component\HttpFoundation\Response A csv or json file that contains an array of all the place of the city
+     * @return Symfony\Component\HttpFoundation\Response A csv or json file that contains an array of all the report of the city
      */
     public function listByCityAction($_format, Request $request)
     {
@@ -103,13 +103,13 @@ class PlaceController extends Controller
         }
         
         $p = $em->createQuery('SELECT p 
-            from ProgracqteurWikipedaleBundle:Model\\Place p 
+            from ProgracqteurWikipedaleBundle:Model\\Report p 
             where covers(:polygon, p.geom) = true and p.accepted = true ORDER BY p.id')
                 ->setParameter('polygon', $city->getPolygon());
 
 
         $p = $em->createQueryBuilder()
-            ->from('ProgracqteurWikipedaleBundle:Model\\Place','p')
+            ->from('ProgracqteurWikipedaleBundle:Model\\Report','p')
             ->select('p')
             ->join('p.category', 'c')
             ->where('covers(:polygon, p.geom) = true AND p.accepted = true');
@@ -157,12 +157,12 @@ class PlaceController extends Controller
                 return new Response('Pas encore implémenté');
 
             case 'csv' :
-                $response = $this->render('ProgracqteurWikipedaleBundle:Place:list.csv.twig', 
-                    array('places' => $r));
+                $response = $this->render('ProgracqteurWikipedaleBundle:Report:list.csv.twig', 
+                    array('reports' => $r));
                 
                 $response->setStatusCode(200);
                 $response->headers->set('Content-Type', 'text/csv');
-                $response->headers->set('Content-Description', 'List of places');
+                $response->headers->set('Content-Description', 'List of reports');
                 $response->headers->set('Content-Disposition', 'attachment; filename=list.csv');
                 $response->headers->set('Content-Transfer-Encoding', 'binary');
                 $response->headers->set('Pragma', 'no-cache');
@@ -173,11 +173,11 @@ class PlaceController extends Controller
     }
 
     /**
-     * Update a given place (post method and json objec)
+     * Update a given report (post method and json objec)
      *
      * @param Symfony\Component\HttpFoundation\Request $request The request containing the changes
      *
-     * @return Symfony\Component\HttpFoundation\Response An error (400, 401, 403 or 404) if there is a problem. If not redirect to the viewAction : the JSON of the updated place
+     * @return Symfony\Component\HttpFoundation\Response An error (400, 401, 403 or 404) if there is a problem. If not redirect to the viewAction : the JSON of the updated report
      */    
     public function changeAction(Request $request)
     {
@@ -201,18 +201,18 @@ class PlaceController extends Controller
                 /*TODO: when the token will be enabled into javascript, if there
                  * is no token, the script must reject request without tokens
                  */
-                $logger->warn('Wikipedale:PlaceController:ChangeAction change place without token');
+                $logger->warn('Wikipedale:ReportController:ChangeAction change report without token');
                 
                 //TODO: remove debug code below :
                 if ($this->get('security.context')->getToken() instanceof WsseUserToken) {
                     if (!$this->get('security.context')->getToken()->isFullyAuthenticated()) {
-                        $logger->debug('Wikipedale:PlaceController:ChangeAction connected with WSSE but not fully');
+                        $logger->debug('Wikipedale:ReportController:ChangeAction connected with WSSE but not fully');
                     }
                 }
             }
         } else {
             if (false === $this->get('progracqteur.wikipedale.token_provider')->isCsrfTokenValid($token)) {
-                $logger->warn('Wikipedale:PlaceController:ChangeAction use of invalid token');
+                $logger->warn('Wikipedale:ReportController:ChangeAction use of invalid token');
                 $response = new Response('invalid token provided');
                 $response->setStatusCode(400);
 
@@ -228,68 +228,68 @@ class PlaceController extends Controller
         }
         
         $serializer = $this->get('progracqteurWikipedaleSerializer');
-        $place = $serializer->deserialize($serializedJson, NormalizerSerializerService::PLACE_TYPE, 'json');
+        $report = $serializer->deserialize($serializedJson, NormalizerSerializerService::PLACE_TYPE, 'json');
         
-        $categories = $place->getCategory();
+        $categories = $report->getCategory();
         if(! $categories->isEmpty()) {
             $logger->warn('Ajout automatique du term selon la categorie ');
-            $place->setTerm($categories->first()->getTerm());
+            $report->setTerm($categories->first()->getTerm());
         }
         
-        //SECURITE: refuse la modification d'une place par un utilisateur anonyme
+        //SECURITE: refuse la modification d'une report par un utilisateur anonyme
         if (
                 ($this->get('security.context')->getToken()->getUser() instanceof User) == false 
                 && 
-                $place->getChangeset()->isCreation() == false
+                $report->getChangeset()->isCreation() == false
             ) {
-            $r = new Response("Il faut être enregistré pour modifier une place");
+            $r = new Response("Il faut être enregistré pour modifier un signalement");
             $r->setStatusCode(403);
 
             return $r;
         }
         
         //ajoute l'utilisateur courant comme créateur si connecté
-        if ($place->getId() == null && $this->get('security.context')->getToken()->getUser() instanceof User) {
+        if ($report->getId() == null && $this->get('security.context')->getToken()->getUser() instanceof User) {
             $u = $this->get('security.context')->getToken()->getUser();
-            $place->setCreator($u);
+            $report->setCreator($u);
         }
         
         //ajoute l'utilisateur courant au changeset
-        if ($place->getChangeset()->isCreation()) { // si création 
+        if ($report->getChangeset()->isCreation()) { // si création 
             if ($this->get('security.context')->getToken()->getUser() instanceof User) { //si utilisateur connecté
-                $place->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
+                $report->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
             } else { 
-                $user = $place->getCreator();
+                $user = $report->getCreator();
                 
-                $place->getChangeset()->setAuthor($user);
+                $report->getChangeset()->setAuthor($user);
             }
-        } else { //si modification d'une place
+        } else { //si modification d'un signalement
             //les vérifications de sécurité ayant eu lieu, il suffit d'ajouter l'utilisateur courant
-            $place->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
+            $report->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
         }
         
         $waitingForConfirmation = false;
         //if user = unregistered and creation, prepare the user for checking
-        //and set the place as not accepted, and send an email to the user
-        if ($place->getChangeset()->isCreation() === true 
-                && $place->getCreator()->isRegistered() === false) {
-            $place->setAccepted(false);
-            $checkCode = $place->getCreator()->getCheckCode();
-            $place->getChangeset()->setCreation(null);
-            //register the place to the EntityManager, for getting the Id
-            $this->getDoctrine()->getManager()->persist($place);
+        //and set the report as not accepted, and send an email to the user
+        if ($report->getChangeset()->isCreation() === true 
+                && $report->getCreator()->isRegistered() === false) {
+            $report->setAccepted(false);
+            $checkCode = $report->getCreator()->getCheckCode();
+            $report->getChangeset()->setCreation(null);
+            //register the report to the EntityManager, for getting the Id
+            $this->getDoctrine()->getManager()->persist($report);
             
             $t = $this->get('translator');
             $message = \Swift_Message::newInstance()
                     ->setSubject($t->trans('email_confirmation_message.subject'))
                     ->setFrom('no-reply@uello.be') //TODO insert into parameters.yml
-                    ->setTo($place->getCreator()->getEmail())
+                    ->setTo($report->getCreator()->getEmail())
                     ->setBody(
                         $this->renderView('ProgracqteurWikipedaleBundle:Emails:confirmation.txt.twig',
                             array(
                                 'code' => $checkCode,
-                                'user' => $place->getCreator(),
-                                'place' => $place
+                                'user' => $report->getCreator(),
+                                'place' => $report
                             )), 'text/plain'
                     );
 
@@ -304,7 +304,7 @@ class PlaceController extends Controller
         
         try {
         //TODO implémenter une réponse avec code d'erreur en JSON
-            $return = $securityController->checkChangesAreAllowed($place);
+            $return = $securityController->checkChangesAreAllowed($report);
         } catch (ChangeException $exc) {
             $r = new Response($exc->getMessage());
             $r->setStatusCode(403);
@@ -321,12 +321,12 @@ class PlaceController extends Controller
         
         $validator = $this->get('validator');
         
-        if ($place->getId() === null)
+        if ($report->getId() === null)
             $arrayValidation = array('Default', 'creation');
         else
             $arrayValidation = array('Default');
         
-        $errors = $validator->validate($place, $arrayValidation);
+        $errors = $validator->validate($report, $arrayValidation);
         
         if ($errors->count() > 0) {
             $stringErrors = ''; $k = 0;
@@ -339,18 +339,18 @@ class PlaceController extends Controller
         
         
         $em = $this->getDoctrine()->getManager();
-        $em->persist($place);
+        $em->persist($report);
         
         
         //If the change is a creation, suscribe the creator to notification
         //only for registered users - a notificaiton will be suscribe at email confirmation for unregistered
-        if ($place->getChangeset()->isCreation() === true
-            && $place->getCreator()->isRegistered() === true) {
+        if ($report->getChangeset()->isCreation() === true
+            && $report->getCreator()->isRegistered() === true) {
             $notification = new NotificationSubscription();
                   
-            $notification->setOwner($place->getCreator())
-                    ->setKind(NotificationSubscription::KIND_PUBLIC_PLACE)
-                    ->setPlace($place)
+            $notification->setOwner($report->getCreator())
+                    ->setKind(NotificationSubscription::KIND_PUBLIC_REPORT)
+                    ->setReport($report)
                     ->setTransporter(NotificationSubscription::TRANSPORTER_MAIL);
             
             $em->persist($notification);
@@ -359,13 +359,13 @@ class PlaceController extends Controller
         $em->flush();
         
         $params = array(
-            'id' => $place->getId(), 
+            'id' => $report->getId(), 
             '_format' => 'json',
             'return' => $return,
             'addUserInfo' => $request->get('addUserInfo', false));
         
         if ($waitingForConfirmation === true) {
-            $hashCheckCode = hash('sha512', $place->getCreator()->getCheckCode());
+            $hashCheckCode = hash('sha512', $report->getCreator()->getCheckCode());
             $params['checkcode'] = $hashCheckCode;
         }     
                
@@ -374,46 +374,46 @@ class PlaceController extends Controller
     }
     
     /**
-     * Validate a place for an unregister user (When an unregister user add a place, the added
-     * place is not displayed on the map and an email
+     * Validate a report for an unregister user (When an unregister user add a report, the added
+     * report is not displayed on the map and an email
      * is send to user with a confimation code. This controller check this confirmation code.
-     * If the confirmation code is correct the place is validate and shown on the map).
+     * If the confirmation code is correct the report is validate and shown on the map).
      *
      * @param Symfony\Component\HttpFoundation\Request $request the request
      * @param string $token The confirmation code
-     * @param int $placeId The id of the related place
+     * @param int $placeId The id of the related report
      *
      * @return Symfony\Component\HttpFoundation\Response Error 401 if problems. If not a confrmation page.
      */
     public function confirmUserAction(Request $request, $token, $placeId) 
     {
-        $place = $this->getDoctrine()->getManager()
-            ->getRepository('ProgracqteurWikipedaleBundle:Model\Place')
+        $report = $this->getDoctrine()->getManager()
+            ->getRepository('ProgracqteurWikipedaleBundle:Model\Report')
             ->find($placeId);
         
-        if ($place === null) {
-            throw $this->createNotFoundException('Place not found');
+        if ($report === null) {
+            throw $this->createNotFoundException('Report not found');
         }
         
-        if ($place->getCreator() instanceof \Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser
-                && $place->getCreator()->checkCode($token)) {
-            $creator = $place->getCreator();
+        if ($report->getCreator() instanceof \Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser
+                && $report->getCreator()->checkCode($token)) {
+            $creator = $report->getCreator();
             
             //if the creator is already confirmed, stop the script
             if ($creator->isChecked()) {
-                $r = new Response('Place already confirmed');
+                $r = new Response('Report already confirmed');
                 $r->setStatusCode(401);
 
                 return $r;
             }
             
             $creator->setChecked(true);
-            $place->setConfirmedCreator($creator);
-            $this->getDoctrine()->getManager()->flush($place);
+            $report->setConfirmedCreator($creator);
+            $this->getDoctrine()->getManager()->flush($report);
             
-            return $this->render('ProgracqteurWikipedaleBundle:Place:confirmed.html.twig',
+            return $this->render('ProgracqteurWikipedaleBundle:Report:confirmed.html.twig',
                 array(
-                    'place' => $place
+                    'report' => $report
                 ));
         } else {
             $r = new Response('check code does not match');

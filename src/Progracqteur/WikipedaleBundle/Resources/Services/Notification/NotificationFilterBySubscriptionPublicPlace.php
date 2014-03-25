@@ -16,16 +16,16 @@ class NotificationFilterBySubscriptionPublicPlace implements NotificationFilter 
     
     
     public static $authorizedChangesToBeNotified = array(
-        ChangeService::PLACE_ADDRESS,
-        ChangeService::PLACE_ACCEPTED,
-        ChangeService::PLACE_ADD_PHOTO,
-        ChangeService::PLACE_ADD_VOTE,
-        ChangeService::PLACE_DESCRIPTION,
-        ChangeService::PLACE_GEOM,
-        ChangeService::PLACE_MANAGER_ADD,
-        ChangeService::PLACE_MANAGER_ALTER,
-        ChangeService::PLACE_MODERATOR_COMMENT_ALTER,
-        ChangeService::PLACE_STATUS
+        ChangeService::REPORT_ADDRESS,
+        ChangeService::REPORT_ACCEPTED,
+        ChangeService::REPORT_ADD_PHOTO,
+        ChangeService::REPORT_ADD_VOTE,
+        ChangeService::REPORT_DESCRIPTION,
+        ChangeService::REPORT_GEOM,
+        ChangeService::REPORT_MANAGER_ADD,
+        ChangeService::REPORT_MANAGER_ALTER,
+        ChangeService::REPORT_MODERATOR_COMMENT_ALTER,
+        ChangeService::REPORT_STATUS
     );
     
     

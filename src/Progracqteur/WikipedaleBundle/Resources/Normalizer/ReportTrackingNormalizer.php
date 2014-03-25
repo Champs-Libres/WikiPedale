@@ -3,17 +3,17 @@
 namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 /**
- * normalizer PlaceTracking elements to an array, and back. 
+ * normalizer ReportTracking elements to an array, and back. 
  * Used with Serializer.
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class PlaceTrackingNormalizer implements NormalizerInterface {
+class ReportTrackingNormalizer implements NormalizerInterface {
     
     /**
      *
@@ -33,7 +33,7 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
 
     /**
      * 
-     * @param Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking $object
+     * @param Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking $object
      * @param string $format
      */
     public function normalize($object, $format = null, array $context = array()) {
@@ -46,7 +46,7 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
           'date' => $this->service->getDateNormalizer()->normalize($object->getDate(), $format),
           'isCreation' => $object->isCreation(),
           'author' => $userNormalizer->normalize($object->getAuthor()),
-          'placeId' => $object->getPlace()->getId()
+          'placeId' => $object->getReport()->getId()
         );
         
         $changes = array();
@@ -57,7 +57,7 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
             {
                 switch($change->getType())
                 {
-                    case ChangeService::PLACE_ADDRESS :
+                    case ChangeService::REPORT_ADDRESS :
                         
                         $value = $this->service->getAddressNormalizer()->normalize($change->getNewValue());
                         /*$h = $change->getNewValue();
@@ -66,10 +66,10 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
                         */
                         break;
                         
-                    case ChangeService::PLACE_ADD_PHOTO : 
+                    case ChangeService::REPORT_ADD_PHOTO : 
                         $value = $change->getNewValue(); //on garde le filename de la photo
                         break;
-                    case ChangeService::PLACE_GEOM :
+                    case ChangeService::REPORT_GEOM :
                         $value = $change->getNewValue()->toArrayGeoJson();
                         break;
                     default:
@@ -97,7 +97,7 @@ class PlaceTrackingNormalizer implements NormalizerInterface {
     }
 
     public function supportsNormalization($data, $format = null) {
-        if ($data instanceof PlaceTracking)
+        if ($data instanceof ReportTracking)
         {
             return true;
         }

@@ -56,28 +56,28 @@ class NotificationProcessorModerator extends NotificationProcessor {
                 ->setParameter('frequency', $frequency)
                 ->setParameter('subscription_kind', NotificationSubscription::KIND_MODERATOR)
                 ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'subscription', ClassMetadata::FETCH_EAGER)
-                ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'placeTracking', ClassMetadata::FETCH_EAGER)
-                ->setFetchMode('ProgracqteurWikipedaleBundle:Model\Place\PlaceTracking', 'place', ClassMetadata::FETCH_EAGER)
+                ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'reportTracking', ClassMetadata::FETCH_EAGER)
+                ->setFetchMode('ProgracqteurWikipedaleBundle:Model\Report\ReportTracking', 'place', ClassMetadata::FETCH_EAGER)
                 ->getResult();
         
         
         //filter notifications
         foreach ($pendingNotifications as $key => $notification) {
-            if ($this->filterByRole->mayBeSend($notification->getPlaceTracking(), $notification->getSubscription()))
+            if ($this->filterByRole->mayBeSend($notification->getReportTracking(), $notification->getSubscription()))
             {
                 if ($this->filterBySubscription
-                        ->mayBeSend($notification->getPlaceTracking(), $notification->getSubscription())) {
+                        ->mayBeSend($notification->getReportTracking(), $notification->getSubscription())) {
 
-                    echo "NPM: Notification de la placeTracking ". 
-                            $notification->getPlaceTracking()->getId() .
-                            " (placeid) ".$notification->getPlaceTracking()->getPlace()->getId().
+                    echo "NPM: Notification de la reportTracking ". 
+                            $notification->getReportTracking()->getId() .
+                            " (placeid) ".$notification->getReportTracking()->getReport()->getId().
                             " à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                             "\n";
 
                 } else {
-                    echo "NPM: Refus DE Notification de la placeTracking par FilterBySubscription ". 
-                            $notification->getPlaceTracking()->getId() .
-                            " (placeid ".$notification->getPlaceTracking()->getPlace()->getId().
+                    echo "NPM: Refus DE Notification de la reportTracking par FilterBySubscription ". 
+                            $notification->getReportTracking()->getId() .
+                            " (placeid ".$notification->getReportTracking()->getReport()->getId().
                             ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                             "\n";
                     
@@ -88,9 +88,9 @@ class NotificationProcessorModerator extends NotificationProcessor {
 
 
             } else {
-                echo "NPM: Interdiction De Notification de la placeTracking par FilterByRole ". 
-                        $notification->getPlaceTracking()->getId() .
-                        " (placeid ".$notification->getPlaceTracking()->getPlace()->getId().
+                echo "NPM: Interdiction De Notification de la reportTracking par FilterByRole ". 
+                        $notification->getReportTracking()->getId() .
+                        " (placeid ".$notification->getReportTracking()->getReport()->getId().
                         ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                         "\n";
                 $this->om->remove($notification);
@@ -115,8 +115,8 @@ class NotificationProcessorModerator extends NotificationProcessor {
         if ($exception === null) {
             
             echo "NPM : traitement de pendingNotification ".$notification->getId().
-                    " (placetracking ".
-                    $notification->getPlaceTracking()->getId().
+                    " (reporttracking ".
+                    $notification->getReportTracking()->getId().
                     ") terminé \n";
             $this->om->remove($notification);
             

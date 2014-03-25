@@ -3,7 +3,7 @@
 namespace Progracqteur\WikipedaleBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
@@ -13,17 +13,17 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 require_once __DIR__.'/../../../../../app/AppKernel.php';
 
 /**
- * Description of PlaceControllerTest
+ * Description of ReportControllerTest
  *
  * @author julien
  */
-class PlaceControllerTest extends WebTestCase {
-    
-    private $_kernel;
-    
+class ReportControllerTest extends WebTestCase
+{
+    private $_kernel;  
+
     public function testValidationCorrect() 
     {
-        $p = $this->getPlace();
+        $p = $this->getReport();
         
         $validator = $this->getValidator();
         
@@ -31,10 +31,10 @@ class PlaceControllerTest extends WebTestCase {
         
         $this->assertEquals(0, $errors->count());
     }
-    
+
     public function testValidationUser()
     {
-        $p = $this->getPlace(false);
+        $p = $this->getReport(false);
         
         $validator = $this->getValidator();
         
@@ -45,7 +45,7 @@ class PlaceControllerTest extends WebTestCase {
     
     public function testValidationDescriptionMoreThan10000()
     {
-        $p = $this->getPlace();
+        $p = $this->getReport();
         
         //ce texte contient 463 caractères
         $string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent volutpat consectetur ligula, venenatis tincidunt dui commodo et. Curabitur eleifend justo dolor. Maecenas vel ipsum sit amet odio vehicula commodo eget sit amet sem. Curabitur sagittis pulvinar mauris. Fusce ut augue vitae nulla semper malesuada eu vel massa. Suspendisse vel justo mauris. Sed mattis ipsum sed mi dapibus vestibulum. Cras vitae lorem eget tortor fringilla ornare ut vel sapien. ";
@@ -64,6 +64,7 @@ class PlaceControllerTest extends WebTestCase {
         $this->assertEquals(1, $errors->count());
     }
     
+<<<<<<< HEAD:src/Progracqteur/WikipedaleBundle/Tests/Controller/PlaceControllerTest.php
     public function testValidationStatusBicycleOnCreation()
     {
         $p = $this->getPlace();
@@ -90,6 +91,8 @@ class PlaceControllerTest extends WebTestCase {
         $this->assertEquals(1, $errors->count());
     }    
     
+=======
+>>>>>>> fcce9b42bfcc14c46b40da6f3bb6b7aca1b3960a:src/Progracqteur/WikipedaleBundle/Tests/Controller/ReportControllerTest.php
     public function getValidator()
     {
         if ($this->_kernel === null) {
@@ -97,27 +100,38 @@ class PlaceControllerTest extends WebTestCase {
             $this->_kernel->boot(); 
         }
         
+<<<<<<< HEAD:src/Progracqteur/WikipedaleBundle/Tests/Controller/PlaceControllerTest.php
         return $this->_kernel->getContainer()->get('validator');        
+=======
+        return $this->_kernel->getContainer()->get('validator');
+>>>>>>> fcce9b42bfcc14c46b40da6f3bb6b7aca1b3960a:src/Progracqteur/WikipedaleBundle/Tests/Controller/ReportControllerTest.php
     }
     
     /**
-     * @return  Progracqteur\WikipedaleBundle\Entity\Model\Place
+     * @return  Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
-    private function getPlace($user = true)
+    private function getReport($user = true)
     {
-        $p = new Place();
+        $p = new Report();
         $p->setGeom($this->getRandomPoint());
+
+        $p->setTerm('short');
         
         $p->setAddress($this->geolocate($p->getGeom()));
         
         if ($user == true) {
             $u = new UnregisteredUser();
             $u->setLabel('non enregistré '.$this->createId());
-            $u->setEmail('test@email');
+            $u->setEmail('test@email.com');
             $u->setIp('192.168.1.89');
 
             $p->setCreator($u);
+<<<<<<< HEAD:src/Progracqteur/WikipedaleBundle/Tests/Controller/PlaceControllerTest.php
         }
+=======
+        } 
+        
+>>>>>>> fcce9b42bfcc14c46b40da6f3bb6b7aca1b3960a:src/Progracqteur/WikipedaleBundle/Tests/Controller/ReportControllerTest.php
         return $p;
     }
     
@@ -139,7 +153,13 @@ class PlaceControllerTest extends WebTestCase {
 
     private $z = array(6);
 
+<<<<<<< HEAD:src/Progracqteur/WikipedaleBundle/Tests/Controller/PlaceControllerTest.php
     public function createId() {
+=======
+    public function createId()
+    {
+  
+>>>>>>> fcce9b42bfcc14c46b40da6f3bb6b7aca1b3960a:src/Progracqteur/WikipedaleBundle/Tests/Controller/ReportControllerTest.php
         $s = '';
         $d = array_rand($this->z);
         $dd = $this->z[$d];
@@ -156,22 +176,32 @@ class PlaceControllerTest extends WebTestCase {
     private function geolocate(Point $point)
     {
         $a = new Address();
+<<<<<<< HEAD:src/Progracqteur/WikipedaleBundle/Tests/Controller/PlaceControllerTest.php
             
+=======
+
+        //si la chaine est vide, retourne le hash
+        
+>>>>>>> fcce9b42bfcc14c46b40da6f3bb6b7aca1b3960a:src/Progracqteur/WikipedaleBundle/Tests/Controller/ReportControllerTest.php
         $dom = new \DOMDocument();
         $lat = $point->getLat();
         $lon = $point->getLon();
+<<<<<<< HEAD:src/Progracqteur/WikipedaleBundle/Tests/Controller/PlaceControllerTest.php
                 
         $url = "http://open.mapquestapi.com/nominatim/v1/reverse?format=xml&lat=$lat&lon=$lon";
 
+=======
+        
+        $url = "http://open.mapquestapi.com/nominatim/v1/reverse?format=xml&lat=$lat&lon=$lon";
+        
+>>>>>>> fcce9b42bfcc14c46b40da6f3bb6b7aca1b3960a:src/Progracqteur/WikipedaleBundle/Tests/Controller/ReportControllerTest.php
         $dom->load($url);
         $docs = $dom->getElementsByTagName('addressparts');
         
         $doc = $docs->item(0);
 
-        if ($dom->hasChildNodes())
-        {
-            foreach ($doc->childNodes as $node)
-            {
+        if ($dom->hasChildNodes()) {
+            foreach ($doc->childNodes as $node) {
                 $v = $node->nodeValue;
                 
                 switch ($node->nodeName) {
@@ -204,7 +234,15 @@ class PlaceControllerTest extends WebTestCase {
                         break;
                 }
             }
+<<<<<<< HEAD:src/Progracqteur/WikipedaleBundle/Tests/Controller/PlaceControllerTest.php
         }   
         return $a;
     }
 }
+=======
+        }
+        return $a;
+    }
+}
+
+>>>>>>> fcce9b42bfcc14c46b40da6f3bb6b7aca1b3960a:src/Progracqteur/WikipedaleBundle/Tests/Controller/ReportControllerTest.php

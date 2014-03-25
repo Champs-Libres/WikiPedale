@@ -3,10 +3,10 @@
 namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceStatus;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportStatus;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
@@ -16,11 +16,11 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 
 /**
- * Description of PlaceNormalizer
+ * Description of ReportNormalizer
  *
  * @author julien [at] fastre [point] info
  */
-class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
+class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
     
     /**
      *
@@ -29,11 +29,11 @@ class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
     private $service;
     
     /**
-     * Place being denormalized
+     * Report being denormalized
      * (useful for recursive denormalization)
-     * @var Progracqteur\WikipedaleBundle\Entity\Model\Place 
+     * @var Progracqteur\WikipedaleBundle\Entity\Model\Report 
      */
-    private $currentPlace;
+    private $currentReport;
     
     
     const PLACE_TYPE = 'placetype';
@@ -50,20 +50,20 @@ class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
     public function denormalize($data, $class, $format = null, array $context = array()) {
         
         if ($data['id'] === null){
-            $p = new Place();
+            $p = new Report();
         }
         else {
             $p = $this->service->getManager()
-                    ->getRepository('ProgracqteurWikipedaleBundle:Model\\Place')
+                    ->getRepository('ProgracqteurWikipedaleBundle:Model\\Report')
                     ->find($data['id']);
             
             if ($p === null)
             {
-                throw new \Exception("La place recherchée n'existe pas");
+                throw new \Exception("Le signalement recherchée n'existe pas");
             }
         }
         
-        $this->setCurrentPlace($p);
+        $this->setCurrentReport($p);
         
         if (isset($data['description']))
             $p->setDescription($data['description']);
@@ -126,7 +126,7 @@ class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
                         && isset($arrayStatus['v']) 
                         )
                 {
-                    $status = new PlaceStatus();
+                    $status = new ReportStatus();
                     $status->setType($arrayStatus['t'])
                             ->setValue($arrayStatus['v']);
                     $p->addStatus($status);
@@ -151,19 +151,19 @@ class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
             //at first, check if recorded categories match with a one existing 
             // in the json request. If yes, delete from the request's categories's array
             // if the category is not in the json's request, remove the category
-            // from the place.
+            // from the report.
             foreach ($p->getCategory() as $recordedCat)
             {
-                $categoryIsAssociatedWithPlace = false;
+                $categoryIsAssociatedWithReport = false;
                 foreach ($arrayCategories as $key => $newCat)
                 {
                     if ($newCat->getId() == $recordedCat->getId()) {
-                        $categoryIsAssociatedWithPlace = true;
+                        $categoryIsAssociatedWithReport = true;
                         unset($arrayCategories[$key]);
                         break;  
                     }
                 }
-                if ($categoryIsAssociatedWithPlace == false)
+                if ($categoryIsAssociatedWithReport == false)
                 {
                     $p->removeCategory($recordedCat);
                 } 
@@ -197,15 +197,15 @@ class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
         if (isset($data[self::PLACE_TYPE]))
         {
             if ($this->service
-                    ->getPlaceTypeNormalizer()
+                    ->getReportTypeNormalizer()
                     ->supportsDenormalization($data[self::PLACE_TYPE], $class))
             {
                 $type = $this->service
-                        ->getPlaceTypeNormalizer()
+                        ->getReportTypeNormalizer()
                         ->denormalize($data[self::PLACE_TYPE], $class);
                 $p->setType($type);
             } else {
-                throw new NormalizingException('could not denormalize placeType');
+                throw new NormalizingException('could not denormalize reportType');
             }
         }
         
@@ -223,7 +223,7 @@ class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
     
     /**
      * 
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Place $object
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report $object
      * @param string $format
      * @return array
      */
@@ -259,12 +259,12 @@ class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
         
         if ($object->getType() !== null)
         {
-            $placeType = $this->service
-                    ->getPlaceTypeNormalizer()
+            $reportType = $this->service
+                    ->getReportTypeNormalizer()
                     ->normalize($object->getType());
         } else
         {
-            $placeType = null;
+            $reportType = null;
         }
         
         $nbComments = array(
@@ -291,7 +291,7 @@ class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
             'categories' => $c,
             'manager' => $manager,
             self::TERM => $object->getTerm(),
-            self::PLACE_TYPE => $placeType,
+            self::PLACE_TYPE => $reportType,
             self::MODERATOR_COMMENT => $object->getModeratorComment(),
             self::COMMENTS => $nbComments,
         );
@@ -309,7 +309,7 @@ class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
         
     }
     public function supportsNormalization($data, $format = null) {
-        if ($data instanceof Place)
+        if ($data instanceof Report)
         {
             return true;
         } else
@@ -318,18 +318,18 @@ class PlaceNormalizer implements NormalizerInterface, DenormalizerInterface {
         }
     }
     
-    private function setCurrentPlace(Place $place)
+    private function setCurrentReport(Report $report)
     {
-        $this->currentPlace = $place;
+        $this->currentReport = $report;
     }
     
     /*
      * 
-     * @return Progracqteur\WikipedaleBundle\Entity\Model\Place
+     * @return Progracqteur\WikipedaleBundle\Entity\Model\Report
      */
-    public function getCurrentPlace()
+    public function getCurrentReport()
     {
-        return $this->currentPlace;
+        return $this->currentReport;
     }
 }
 

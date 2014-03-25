@@ -1,6 +1,6 @@
 <?php
 
-namespace Progracqteur\WikipedaleBundle\EntityRepositories\Model\Place;
+namespace Progracqteur\WikipedaleBundle\EntityRepositories\Model\Report;
 
 use Doctrine\ORM\EntityRepository;
 use Progracqteur\WikipedaleBundle\Entity\Management\Zone;
@@ -8,11 +8,11 @@ use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 /**
- * Description of PlaceTrackingRepository
+ * Description of ReportTrackingRepository
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class PlaceTrackingRepository extends EntityRepository {
+class ReportTrackingRepository extends EntityRepository {
     
     /**
      * 
@@ -41,7 +41,7 @@ class PlaceTrackingRepository extends EntityRepository {
         $sql.= " ORDER BY date DESC LIMIT :limit OFFSET :offset";
         
         $rsm = new ResultSetMappingBuilder($this->getEntityManager());
-        $rsm->addRootEntityFromClassMetadata('ProgracqteurWikipedaleBundle:Model\Place\PlaceTracking', 'pt');
+        $rsm->addRootEntityFromClassMetadata('ProgracqteurWikipedaleBundle:Model\Report\ReportTracking', 'pt');
         
         /*$rsm->addEntityResult('ProgracqteurWikipedaleBundle:Model\Place\PlaceTracking', 'pt')
                 ->addFieldResult('pt', 'id', 'id')

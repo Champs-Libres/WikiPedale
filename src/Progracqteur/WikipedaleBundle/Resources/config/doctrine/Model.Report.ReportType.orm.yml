@@ -1,4 +1,4 @@
-Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceType:
+Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportType:
   type: entity
   table: placetype
   readOnly: ~

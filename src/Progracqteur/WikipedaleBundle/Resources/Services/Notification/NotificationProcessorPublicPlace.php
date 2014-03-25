@@ -11,7 +11,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterBySubscriptionPublicPlace;
 
 /**
- * This class process the sending of change's subscription to individual place
+ * This class process the sending of change's subscription to individual report
  * 
  *
  * @author Julien Fastré <julien arobase fastre point info>
@@ -65,7 +65,7 @@ class NotificationProcessorPublicPlace extends NotificationProcessor {
     }
 
     public function getKey() {
-        return NotificationSubscription::KIND_PUBLIC_PLACE;
+        return NotificationSubscription::KIND_PUBLIC_REPORT;
     }
 
     public function mayBeCreated(User $user) {
@@ -76,8 +76,8 @@ class NotificationProcessorPublicPlace extends NotificationProcessor {
         if ($exception === null) {
             
             echo "NPPublicPlace : traitement de pendingNotification ".$notification->getId().
-                    " (placetracking ".
-                    $notification->getPlaceTracking()->getId().
+                    " (reporttracking ".
+                    $notification->getReportTracking()->getId().
                     ") terminé \n";
             $this->om->remove($notification);
             
@@ -114,31 +114,31 @@ class NotificationProcessorPublicPlace extends NotificationProcessor {
                 ->setParameter('frequency', $frequency)
                 ->setParameter('subscription_kind', $this->getKey())
                 ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'subscription', ClassMetadata::FETCH_EAGER)
-                ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'placeTracking', ClassMetadata::FETCH_EAGER)
-                ->setFetchMode('ProgracqteurWikipedaleBundle:Model\Place\PlaceTracking', 'place', ClassMetadata::FETCH_EAGER)
+                ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'reportTracking', ClassMetadata::FETCH_EAGER)
+                ->setFetchMode('ProgracqteurWikipedaleBundle:Model\Report\ReportTracking', 'report', ClassMetadata::FETCH_EAGER)
                 ->getResult();
         
         //filter notifications.
         //if the notification may NOT be sent, they are removed from pendingNotificaitons
         //and from the OM
         foreach ($pendingNotifications as $key => $notification) {
-            if ($this->filterByRole->mayBeSend($notification->getPlaceTracking(), 
+            if ($this->filterByRole->mayBeSend($notification->getReportTracking(), 
                     $notification->getSubscription()))
             {
                 if ($this->filterBySubscription
-                        ->mayBeSend($notification->getPlaceTracking(), 
+                        ->mayBeSend($notification->getReportTracking(), 
                                 $notification->getSubscription())) {
 
-                    echo "NPPublicPlace: Notification de la placeTracking ". 
-                            $notification->getPlaceTracking()->getId() .
-                            " (placeid) ".$notification->getPlaceTracking()->getPlace()->getId().
+                    echo "NPPublicPlace: Notification de la reportTracking ". 
+                            $notification->getReportTracking()->getId() .
+                            " (placeid) ".$notification->getReportTracking()->getReport()->getId().
                             " à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                             "\n";
 
                 } else {
-                    echo "NPPublicPlace: Refus DE Notification de la placeTracking par FilterBySubscriptionPublicPlace ". 
-                            $notification->getPlaceTracking()->getId() .
-                            " (placeid ".$notification->getPlaceTracking()->getPlace()->getId().
+                    echo "NPPublicPlace: Refus DE Notification de la reportTracking par FilterBySubscriptionPublicPlace ". 
+                            $notification->getReportTracking()->getId() .
+                            " (placeid ".$notification->getReportTracking()->getReport()->getId().
                             ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                             "\n";
                     
@@ -147,9 +147,9 @@ class NotificationProcessorPublicPlace extends NotificationProcessor {
                 }
                 
              } else {
-                echo "NPPublicPlace: Interdiction De Notification de la placeTracking par FilterByRole ". 
-                        $notification->getPlaceTracking()->getId() .
-                        " (placeid ".$notification->getPlaceTracking()->getPlace()->getId().
+                echo "NPPublicPlace: Interdiction De Notification de la reportTracking par FilterByRole ". 
+                        $notification->getReportTracking()->getId() .
+                        " (placeid ".$notification->getReportTracking()->getReport()->getId().
                         ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                         "\n";
                 $this->om->remove($notification);
