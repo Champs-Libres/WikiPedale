@@ -72,7 +72,7 @@
                     <abbr title="Progracqteur\WikipedaleBundle\Controller\Symfony\Component\HttpFoundation\Response">Response</abbr>
                 </td>
                 <td class="last">
-                    <a href="#method_confirmUserAction">confirmUserAction</a>(<abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, string $token, int $placeId)
+                    <a href="#method_confirmUserAction">confirmUserAction</a>(<abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, string $token, int $reportId)
                     <p>Validate a report for an unregister user (When an unregister user add a report, the added report is not displayed on the map and an email is send to user with a confimation code.</p>
                 </td>
                 <td></td>
@@ -195,7 +195,7 @@
                 <h3 id="method_confirmUserAction">
         <div class="location">at line 388</div>
         <code>            public            <abbr title="Progracqteur\WikipedaleBundle\Controller\Symfony\Component\HttpFoundation\Response">Response</abbr>
-    <strong>confirmUserAction</strong>(<abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, string $token, int $placeId)</code>
+    <strong>confirmUserAction</strong>(<abbr title="Symfony\Component\HttpFoundation\Request">Request</abbr> $request, string $token, int $reportId)</code>
     </h3>
     <div class="details">
         <p>Validate a report for an unregister user (When an unregister user add a report, the added report is not displayed on the map and an email is send to user with a confimation code.</p>
@@ -217,7 +217,7 @@ If the confirmation code is correct the report is validate and shown on the map)
             </tr>
                     <tr>
                 <td>int</td>
-                <td>$placeId</td>
+                <td>$reportId</td>
                 <td>The id of the related report</td>
             </tr>
             </table>
