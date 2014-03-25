@@ -8,7 +8,8 @@ use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 
 /**
- * Description of NotificationFilterBySubscriptionPublicPlace
+ * Filter notification which may be public, for user which are not MODERATOR and
+ * MANAGER
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
@@ -28,7 +29,14 @@ class NotificationFilterBySubscriptionPublicPlace implements NotificationFilter 
         ChangeService::REPORT_STATUS
     );
     
-    
+    /**
+     * Return true if the notification is within $authorizedChangesToBeNotified, 
+     * and may be send. Return false instead.
+     * 
+     * @param \Progracqteur\WikipedaleBundle\Resources\Security\ChangesetInterface $changeset
+     * @param \Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription $subscription
+     * @return boolean
+     */
     public function mayBeSend(ChangesetInterface $changeset, 
             NotificationSubscription $subscription) {
         

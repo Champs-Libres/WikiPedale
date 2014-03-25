@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 
 /**
- * Description of NotificationProcessorModerator
+ * Process notification for managers.
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
