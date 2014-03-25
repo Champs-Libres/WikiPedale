@@ -12,7 +12,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
       new_lat = null,
       new_lon = null,
       new_position = null,
-      url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
+      url_edit = Routing.generate('wikipedale_report_change', {_format: 'json'});
 
    function stop_position_edition() {
       /**

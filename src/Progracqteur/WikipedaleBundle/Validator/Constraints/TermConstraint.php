@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * Check if the field is valid. 
  * 
- * The validation is done against parameters.place_types, defined in 
+ * The validation is done against parameters.report_types, defined in 
  * parameters.yml (see parameters.yml.dist for an example)
  *
  * @author Julien Fastré <julien arobase fastre point info>

@@ -24,7 +24,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
       * (none if no marker to display)
       */
       townId = townId_param;
-      var jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId_param, addUserInfo: true});
+      var jsonUrlData  =  Routing.generate('wikipedale_report_list_by_city', {_format: 'json', city: townId_param, addUserInfo: true});
 
       map_display.init(townLon,townLat);
 
@@ -58,7 +58,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
       if (townId !== null) {
          descriptions.erase_all();
 
-         var jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId});
+         var jsonUrlData  =  Routing.generate('wikipedale_report_list_by_city', {_format: 'json', city: townId});
          $.ajax({
             dataType: 'json',
             url: jsonUrlData,
@@ -101,7 +101,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
       * It is the last displayed description.
       */
       var json_request = json_string.delete_place(last_description_selected);
-      var url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
+      var url_edit = Routing.generate('wikipedale_report_change', {_format: 'json'});
       $.ajax({
          type: 'POST',
          data: {entity: json_request},

@@ -338,7 +338,7 @@ class ChangeService {
                      {
                          continue;
                      } else {
-                         throw ChangeException::param('place_type');
+                         throw ChangeException::param('report_type');
                      }
                      break;
                 case self::REPORT_MODERATOR_COMMENT_ALTER:
