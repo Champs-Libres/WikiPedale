@@ -155,8 +155,8 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
         $this->category = new \Doctrine\Common\Collections\ArrayCollection();
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
         
-        //initialize the reportStatuses
-        $this->infos->reportStatuses = new Hash();
+        //initialize the placeStatuses (tel quel dans la db)
+        $this->infos->placeStatuses = new Hash();
     }
 
 
@@ -461,7 +461,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
         {
             $this->proxyStatuses = new \Doctrine\Common\Collections\ArrayCollection();
             
-            foreach ($this->infos->reportStatuses->toArray() as $type => $value)
+            foreach ($this->infos->placeStatuses->toArray() as $type => $value)
             {
                 $status = new ReportStatus();
                 $status->setType($type)->setValue($value);
@@ -469,9 +469,9 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
             }
         }
         
-        /*if (! $this->infos->has('reportStatuses'))
+        /*if (! $this->infos->has('placeStatuses'))
         {
-            $this->infos->reportStatuses = new Hash();
+            $this->infos->placeStatuses = new Hash();
         }*/
     }
     
@@ -507,7 +507,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
                 if ($status->getValue() !== $oldStatus->getValue())
                 {
                     $this->proxyStatuses->remove($key);
-                    $this->infos->reportStatuses->remove($status->getType());
+                    $this->infos->placeStatuses->remove($status->getType());
                 } else {
                     return $this;
                 }
@@ -517,7 +517,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
         }
         
         $this->proxyStatuses->add($status);
-        $this->infos->reportStatuses->__set($status->getType(), $status->getValue());
+        $this->infos->placeStatuses->__set($status->getType(), $status->getValue());
         
         $this->change('infos', $old, $this->infos);
         
@@ -544,7 +544,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
             {
                 $old = clone($this->infos);
                 $this->proxyStatuses->remove($key);
-                $this->infos->reportStatuses->remove($status->getType());
+                $this->infos->placeStatuses->remove($status->getType());
                 $this->change('infos', $old, $this->infos);
                 $this->proxyCountStatusChanges++;
                 break;
