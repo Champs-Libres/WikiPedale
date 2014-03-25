@@ -31,7 +31,7 @@ wikipedale_report_view:
     expose: true
 
 wikipedale_report_list_by_city:
-  pattern: /place/list/bycity.{_format}
+  pattern: /report/list/bycity.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Report:listByCity }
   requirements:
     _format: json|csv
