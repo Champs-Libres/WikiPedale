@@ -16,7 +16,7 @@ use Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFi
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class NotificationProcessorPublicPlace extends NotificationProcessor {
+class NotificationProcessorPublicReport extends NotificationProcessor {
     
     /**
      *
