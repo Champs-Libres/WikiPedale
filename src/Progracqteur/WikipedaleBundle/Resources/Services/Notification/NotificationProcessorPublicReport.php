@@ -41,9 +41,9 @@ class NotificationProcessorPublicReport extends NotificationProcessor {
     public function __construct(
             ObjectManager $om,             
             NotificationFilterByRole $filterByRole,
-            NotificationFilterBySubscriptionPublicReport $filterBySubscriptionPublicPlace) {
+            NotificationFilterBySubscriptionPublicReport $filterBySubscriptionPublicReport) {
         $this->filterByRole = $filterByRole;
-        $this->filterBySubscription = $filterBySubscriptionPublicPlace;
+        $this->filterBySubscription = $filterBySubscriptionPublicReport;
         $this->om = $om;
     }
 
@@ -75,14 +75,14 @@ class NotificationProcessorPublicReport extends NotificationProcessor {
     public function postSendingProcess(PendingNotification $notification, \Exception $exception = null) {
         if ($exception === null) {
             
-            echo "NPPublicPlace : traitement de pendingNotification ".$notification->getId().
+            echo "NPPublicReport : traitement de pendingNotification ".$notification->getId().
                     " (reporttracking ".
                     $notification->getReportTracking()->getId().
                     ") terminé \n";
             $this->om->remove($notification);
             
         } else {
-            echo "NPPublicPlace : problème pour pendingNotification ".$notification->getId()." \n";
+            echo "NPPublicReport : problème pour pendingNotification ".$notification->getId()." \n";
             echo $exception->getMessage()." \n";
             echo $exception->getCode()." \n";
             echo "file : ".$exception->getFile()." line : ".$exception->getLine()."\n";
@@ -129,14 +129,14 @@ class NotificationProcessorPublicReport extends NotificationProcessor {
                         ->mayBeSend($notification->getReportTracking(), 
                                 $notification->getSubscription())) {
 
-                    echo "NPPublicPlace: Notification de la reportTracking ". 
+                    echo "NPPublicReport : Notification de la reportTracking ". 
                             $notification->getReportTracking()->getId() .
                             " (reportId) ".$notification->getReportTracking()->getReport()->getId().
                             " à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                             "\n";
 
                 } else {
-                    echo "NPPublicPlace: Refus DE Notification de la reportTracking par FilterBySubscriptionPublicPlace ". 
+                    echo "NPPublicReport: Refus DE Notification de la reportTracking par FilterBySubscriptionPublicReport ". 
                             $notification->getReportTracking()->getId() .
                             " (reportId ".$notification->getReportTracking()->getReport()->getId().
                             ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
@@ -147,7 +147,7 @@ class NotificationProcessorPublicReport extends NotificationProcessor {
                 }
                 
              } else {
-                echo "NPPublicPlace: Interdiction De Notification de la reportTracking par FilterByRole ". 
+                echo "NPPublicReport: Interdiction De Notification de la reportTracking par FilterByRole ". 
                         $notification->getReportTracking()->getId() .
                         " (reportId ".$notification->getReportTracking()->getReport()->getId().
                         ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
