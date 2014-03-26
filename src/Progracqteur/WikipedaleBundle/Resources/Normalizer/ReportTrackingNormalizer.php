@@ -42,7 +42,7 @@ class ReportTrackingNormalizer implements NormalizerInterface {
         
         $a = array(
           'id' => $object->getId(),
-          'entity' => 'placeTracking',
+          'entity' => 'reportTracking',
           'date' => $this->service->getDateNormalizer()->normalize($object->getDate(), $format),
           'isCreation' => $object->isCreation(),
           'author' => $userNormalizer->normalize($object->getAuthor()),
