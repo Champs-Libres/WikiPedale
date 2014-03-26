@@ -20,7 +20,7 @@ class ReportTypeNormalizer implements NormalizerInterface, DenormalizerInterface
     const ID = 'id';
     const LABEL = 'label';
     const ENTITY = 'entity';
-    const ENTITY_VALUE = 'placetype';
+    const ENTITY_VALUE = 'reporttype';
     
     public function __construct(NormalizerSerializerService $service)
     {
