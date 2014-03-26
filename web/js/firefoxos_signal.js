@@ -52,9 +52,9 @@ require(['jQuery','user','description_create'],
             map.on('click', onMapClick);
 
             if(user.isRegistered()) {
-                $("#div_new_place_form_user_mail").hide();
+                $("#div_new_report_form_user_mail").hide();
             } else {
-                $("#div_new_place_form_user_mail").show();
+                $("#div_new_report_form_user_mail").show();
             }
 
             $("#put_marker_on_the_map_fieldset").hide();

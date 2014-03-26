@@ -146,9 +146,9 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
          });
 
          if(user.isRegistered()) {
-            $('#div_new_place_form_user_mail').hide();
+            $('#div_new_report_form_user_mail').hide();
          } else {
-            $('#div_new_place_form_user_mail').show();
+            $('#div_new_report_form_user_mail').show();
          }
          $('#form__add_new_description').show();
          $('#div_place_description_display').hide();
