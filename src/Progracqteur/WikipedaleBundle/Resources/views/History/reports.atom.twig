@@ -7,7 +7,7 @@
 * subtitle descrption of the feed
 * urlFeed : url of the feed
 * tracks: the reportTracking instances 
-* toTextService : the service which transforme reportTracking into text. See in service config : progracqteur.wikipedale.place.tracking.toText
+* toTextService : the service which transforme reportTracking into text. See in service config : progracqteur.wikipedale.report.tracking.toText
 
 
 #}
@@ -23,9 +23,9 @@
 {% block entries %}
     {% for track in tracks %}
       <entry>
-       <title>{{track.place.label}}</title>
+       <title>{{track.report.label}}</title>
        <id>tag:wikipedale.org,{{track.date|date("Y-m-d")}}:/{{track.id}}</id>
-       <link href="{{ url('wikipedale_homepage', {id : track.place.id}) }}" title="Voir l'emplacement dans sa forme actuelle" />
+       <link href="{{ url('wikipedale_homepage', {id : track.report.id}) }}" title="Voir l'emplacement dans sa forme actuelle" />
        <updated>{{ track.date|date("Y-m-d\\TH:i:sP" ) }}</updated>
        {# every track should have an author... FIXME #}
        {% if track.author.label is defined %}
@@ -33,7 +33,7 @@
            <name>{{track.author.label}}</name>
        </author>
        {% endif %}
-       <georss:point>{{ track.place.geom.lat }} {{track.place.geom.lon}}</georss:point>
+       <georss:point>{{ track.report.geom.lat }} {{track.report.geom.lon}}</georss:point>
        <content type="html">{{ toTextService.toText(track)}}</content>
      </entry>
     {% endfor %}
