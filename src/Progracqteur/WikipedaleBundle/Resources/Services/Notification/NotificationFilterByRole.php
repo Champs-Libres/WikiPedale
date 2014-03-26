@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * 
- * @internal is this action duplicated with NotificationFilterBySubscriptionPublicPlace ?
+ * @internal is this action duplicated with NotificationFilterBySubscriptionPublicReport ?
  * @author Julien Fastré <julien arobase fastre point info>
  */
 class NotificationFilterByRole {

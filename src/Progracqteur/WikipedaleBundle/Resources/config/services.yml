@@ -105,7 +105,7 @@ services:
     arguments: [%notifications_subscription_manager_events%]
     
   progracqteur.wikipedale.notification.filter.public_place:
-    class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterBySubscriptionPublicPlace
+    class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterBySubscriptionPublicReport
   
   progracqteur.wikipedale.notification.processor.moderator:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationProcessorModerator
@@ -130,7 +130,7 @@ services:
     arguments:
       om: "@doctrine.orm.entity_manager"
       filterByRole: "@progracqteur.wikipedale.notification.filter.role"
-      NotificationFilterBySubscriptionPublicPlace: "@progracqteur.wikipedale.notification.filter.public_place"
+      NotificationFilterBySubscriptionPublicReport: "@progracqteur.wikipedale.notification.filter.public_place"
     tags:
       - { name: progracqteur.wikipedale.notification.processor }
     

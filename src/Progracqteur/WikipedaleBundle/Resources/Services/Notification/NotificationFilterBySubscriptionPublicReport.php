@@ -13,7 +13,7 @@ use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class NotificationFilterBySubscriptionPublicPlace implements NotificationFilter {
+class NotificationFilterBySubscriptionPublicReport implements NotificationFilter {
     
     
     public static $authorizedChangesToBeNotified = array(

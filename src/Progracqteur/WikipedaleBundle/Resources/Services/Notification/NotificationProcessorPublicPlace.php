@@ -8,7 +8,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 use Progracqteur\WikipedaleBundle\Entity\Management\Notification\PendingNotification;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
-use Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterBySubscriptionPublicPlace;
+use Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterBySubscriptionPublicReport;
 
 /**
  * This class process the sending of change's subscription to individual reporters.
@@ -41,7 +41,7 @@ class NotificationProcessorPublicPlace extends NotificationProcessor {
     public function __construct(
             ObjectManager $om,             
             NotificationFilterByRole $filterByRole,
-            NotificationFilterBySubscriptionPublicPlace $filterBySubscriptionPublicPlace) {
+            NotificationFilterBySubscriptionPublicReport $filterBySubscriptionPublicPlace) {
         $this->filterByRole = $filterByRole;
         $this->filterBySubscription = $filterBySubscriptionPublicPlace;
         $this->om = $om;
