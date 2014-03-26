@@ -66,7 +66,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
                descriptions.update(data.results,null);
             },
             complete: function() {
-               var signalement_id = $('#input_place_description_id').val();
+               var signalement_id = $('#input_report_description_id').val();
                if (typeof signalement_id !== 'undefined' && signalement_id !== '') {
                   // be sure that a place is selected
                   description_text_display.display_regarding_to_user_role();
@@ -111,14 +111,14 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
             if(! output_json.query.error) {
                map_display.get_marker_for(last_description_selected).erase();
                descriptions.erase(last_description_selected);
-               $('#div_place_description_display').hide();
+               $('#div_report_description_display').hide();
                last_description_selected = null;
             } else {
-               $('#span_place_description_delete_error').show();
+               $('#span_report_description_delete_error').show();
             }
          },
          error: function() {
-            $('#span_place_description_delete_error').show();
+            $('#span_report_description_delete_error').show();
          }
       });
    }
@@ -151,7 +151,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
             $('#div_new_report_form_user_mail').show();
          }
          $('#form__add_new_description').show();
-         $('#div_place_description_display').hide();
+         $('#div_report_description_display').hide();
       }
       else {
          $('#div_add_new_description_button').show();
@@ -167,7 +167,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
 
          /*
          if(last_description_selected !== null ) {
-            $("#div_place_description_display").show();
+            $("#div_report_description_display").show();
             map_display.select_marker(last_description_selected);
          }
          */

@@ -9,21 +9,21 @@
 
 <div class="right_menu">
    <img src="{{ asset('img/menu/oeil.png') }}">
-   <span class="class_span_place_description_loc"></span>
-   (#<span class="class_span_place_description_id"></span>)
+   <span class="class_span_report_description_loc"></span>
+   (#<span class="class_span_report_description_id"></span>)
 </div>  
 <div class="lateral_content">
    <div id="map_little" style="float:left;display:none;width:190px;height:190px;padding-right:1em;padding-left:1em"></div>
 
-   <input type ="hidden" value="" id="input_place_description_id" />
+   <input type ="hidden" value="" id="input_report_description_id" />
 
    <div class="description_element">
       {{ 'DisplayPoint.author'|trans({}, 'pointMessages') }}
       <strong>
-         <span id="span_place_description_signaleur"></span>
+         <span id="span_report_description_signaleur"></span>
       </strong>
-      <span id="span_place_description_signaleur_contact"></span>, 
-      le <strong><span id="span_place_description_creation_date"></span></strong>
+      <span id="span_report_description_signaleur_contact"></span>, 
+      le <strong><span id="span_report_description_creation_date"></span></strong>
    </div>
 
    <div class="description_element">
@@ -38,46 +38,46 @@
 
       {{ 'DisplayPoint.localisation'|trans({}, 'pointMessages') }} :
       <strong>
-         <span id="span_place_description_loc"></span>
+         <span id="span_report_description_loc"></span>
       </strong>
-      <div id="div_place_description_loc_edit" style="display: none;">
-         <input type="text" id="span_place_description_loc_edit"> 
+      <div id="div_report_description_loc_edit" style="display: none;">
+         <input type="text" id="span_report_description_loc_edit"> 
       </div>
-      <span id="span_place_description_loc_error" style="background:red; display: none;">
+      <span id="span_report_description_loc_error" style="background:red; display: none;">
          {{ 'DisplayPoint.error'|trans({}, 'pointMessages') }}
       </span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_loc_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_report_description_loc_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
    </div>
 
    <div class="description_element">
       {{ 'DisplayPoint.description'|trans({}, 'pointMessages') }} :
-      <strong><span id="span_place_description_desc"></span></strong>
-      <div id="div_place_description_desc_edit" style="display: none;">
-         <textarea id="span_place_description_desc_edit"></textarea>
+      <strong><span id="span_report_description_desc"></span></strong>
+      <div id="div_report_description_desc_edit" style="display: none;">
+         <textarea id="span_report_description_desc_edit"></textarea>
       </div>
-      <span id="span_place_description_desc_error" style="background:red; display: none;">
+      <span id="span_report_description_desc_error" style="background:red; display: none;">
          {{ 'DisplayPoint.error'|trans({}, 'pointMessages') }} 
       </span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_desc_button"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_report_description_desc_button"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
    </div>
 
-   <div class="description_element" id="div_container_place_description_commentaireCeM">
+   <div class="description_element" id="div_container_report_description_commentaireCeM">
       {{ 'DisplayPoint.cem_comment'|trans({}, 'pointMessages') }} :
-      <strong><span id="span_place_description_commentaireCeM"></span></strong>
-      <div id="div_place_description_commentaireCeM_edit" style="display: none;">
-         <textarea id="span_place_description_commentaireCeM_edit"></textarea>
+      <strong><span id="span_report_description_commentaireCeM"></span></strong>
+      <div id="div_report_description_commentaireCeM_edit" style="display: none;">
+         <textarea id="span_report_description_commentaireCeM_edit"></textarea>
       </div>
-      <span id="span_place_description_commentaireCeM_error" style="background:red; display: none;">
+      <span id="span_report_description_commentaireCeM_error" style="background:red; display: none;">
          {{ 'DisplayPoint.error'|trans({}, 'pointMessages') }}
       </span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_commentaireCeM_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_report_description_commentaireCeM_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
    </div>
 
    <div class="description_element">
       {{ 'DisplayPoint.category'|trans({}, 'pointMessages') }} :
-      <strong><span id="span_place_description_cat"></span></strong>
-      <div id="div_place_description_cat_edit" style="display: none;">
-         <select id="span_place_description_cat_edit" style="width:100%;">
+      <strong><span id="span_report_description_cat"></span></strong>
+      <div id="div_report_description_cat_edit" style="display: none;">
+         <select id="span_report_description_cat_edit" style="width:100%;">
             {% for category in categories %}
                {% if category.hasChildren %}
                   <optgroup label="{{ category.label }}" >
@@ -94,17 +94,17 @@
             </optgroup>
          </select>
       </div>
-      <span id="span_place_description_cat_error" style="background:red; display: none;">
+      <span id="span_report_description_cat_error" style="background:red; display: none;">
          {{ 'DisplayPoint.error'|trans({}, 'pointMessages') }}
       </span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_cat_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_report_description_cat_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
    </div>
 
    <div class="description_element">
       {{ 'DisplayPoint.cem_notation'|trans({}, 'pointMessages') }} :
-      <strong><span id="span_place_description_status"></span></strong>
-      <div id="div_place_description_status_edit" style="display: none;">
-         <select id="span_place_description_status_edit">
+      <strong><span id="span_report_description_status"></span></strong>
+      <div id="div_report_description_status_edit" style="display: none;">
+         <select id="span_report_description_status_edit">
             <option class="option_grey" value="-1">{{ 'DisplayPoint.gray_notation'|trans({}, 'pointMessages') }}</option>
             <option class="option_white" value="0">{{ 'DisplayPoint.white_notation'|trans({}, 'pointMessages') }}</option>
             <option class="option_red" value="1">{{ 'DisplayPoint.red_notation'|trans({}, 'pointMessages') }}</option>
@@ -112,11 +112,11 @@
             <option class="option_green" value="3">{{ 'DisplayPoint.green_notation'|trans({}, 'pointMessages') }}</option>
          </select>
       </div>
-      <span id="span_place_description_status_error" style="background:red; display: none;">
+      <span id="span_report_description_status_error" style="background:red; display: none;">
          {{ 'DisplayPoint.error'|trans({}, 'pointMessages') }}
       </span>
       <span class="ButtonEdit">
-         <a href="#" id="span_place_description_status_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}">
+         <a href="#" id="span_report_description_status_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}">
             <img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/>
          </a>
       </span>
@@ -125,42 +125,42 @@
    <div class="description_element" style="display:none;">
       {{ 'DisplayPoint.type'|trans({}, 'pointMessages') }} :
       <strong>
-         <span id="span_place_description_type"></span>
+         <span id="span_report_description_type"></span>
       </strong>
-      <div id="div_place_description_type_edit" style="display: none;">
-         <select data-placeholder="" id="span_place_description_type_edit">
+      <div id="div_report_description_type_edit" style="display: none;">
+         <select data-placeholder="" id="span_report_description_type_edit">
             {% for reportType in reportTypes %}
                <option value="{{reportType.id}}">{{reportType.label}}</option>
             {% endfor %}
          </select>
       </div>
-      <span id="span_place_description_type_error" style="background:red; display: none;">
+      <span id="span_report_description_type_error" style="background:red; display: none;">
          {{ 'DisplayPoint.error'|trans({}, 'pointMessages') }}
       </span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_type_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_report_description_type_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
    </div>
 
    <div class="description_element">
       {{ 'DisplayPoint.manager'|trans({}, 'pointMessages') }} :
-      <strong><span id="span_place_description_gestionnaire"></span></strong>
-      <div id="div_place_description_gestionnaire_edit" style="display: none;">
-         <select style="width:100%" data-placeholder="" id="span_place_description_gestionnaire_edit">
+      <strong><span id="span_report_description_gestionnaire"></span></strong>
+      <div id="div_report_description_gestionnaire_edit" style="display: none;">
+         <select style="width:100%" data-placeholder="" id="span_report_description_gestionnaire_edit">
             {% for mng in managers %}
                <option value="{{mng.id}}">{{mng.name}}</option>
             {% endfor %}
          </select>
       </div>
-      <span id="span_place_description_gestionnaire_error" style="background:red; display: none;">
+      <span id="span_report_description_gestionnaire_error" style="background:red; display: none;">
          {{ 'DisplayPoint.error'|trans({}, 'pointMessages') }}
       </span>
-      <span class="ButtonEdit"><a href="#" id="span_place_description_gestionnaire_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
+      <span class="ButtonEdit"><a href="#" id="span_report_description_gestionnaire_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
    </div>
 
    <div class="description_element">
-      <span id="span_place_description_delete_error" style="background:red; display: none;">
+      <span id="span_report_description_delete_error" style="background:red; display: none;">
          {{ 'DisplayPoint.error'|trans({}, 'pointMessages') }}
       </span>
-      <button id="span_place_description_delete_button" type="button">{{ 'DisplayPoint.delete'|trans({}, 'pointMessages') }}</button> 
+      <button id="span_report_description_delete_button" type="button">{{ 'DisplayPoint.delete'|trans({}, 'pointMessages') }}</button> 
    </div>
 
    <div>

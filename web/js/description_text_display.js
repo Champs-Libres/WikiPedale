@@ -45,49 +45,49 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
          categories_list = categories_list + c.label + ' ';
       });
 
-      $('.class_span_place_description_id').each(function() { this.innerHTML = desc_data.id; });
-      $('.class_span_place_description_loc').each(function() { this.innerHTML = desc_data.addressParts.road; });
-      $('#input_place_description_id').val(desc_data.id);
-      $('#span_place_description_signaleur').text(desc_data.creator.label);
-      $('#span_place_description_creation_date').text(basic_data_and_functions.timestamp2date(desc_data.createDate.u));
-      $('#span_place_description_loc').text(desc_data.addressParts.road);
-      $('#span_place_description_desc').text(desc_data.description);
+      $('.class_span_report_description_id').each(function() { this.innerHTML = desc_data.id; });
+      $('.class_span_report_description_loc').each(function() { this.innerHTML = desc_data.addressParts.road; });
+      $('#input_report_description_id').val(desc_data.id);
+      $('#span_report_description_signaleur').text(desc_data.creator.label);
+      $('#span_report_description_creation_date').text(basic_data_and_functions.timestamp2date(desc_data.createDate.u));
+      $('#span_report_description_loc').text(desc_data.addressParts.road);
+      $('#span_report_description_desc').text(desc_data.description);
 
 
       if (desc_data.moderatorComment != '' || user.isCeM() || user.isAdmin()) {
-         $('#span_place_description_commentaireCeM').text(desc_data.moderatorComment);
-         $('#div_container_place_description_commentaireCeM').show();
+         $('#span_report_description_commentaireCeM').text(desc_data.moderatorComment);
+         $('#div_container_report_description_commentaireCeM').show();
       } else {
-         $('#span_place_description_commentaireCeM').text('');
-         $('#div_container_place_description_commentaireCeM').hide();
+         $('#span_report_description_commentaireCeM').text('');
+         $('#div_container_report_description_commentaireCeM').hide();
       }
 
-      $('#span_place_description_cat').text(categories_list);
+      $('#span_report_description_cat').text(categories_list);
 
       if (desc_data.placetype == null) {
-         $('#span_place_description_type').text('pas encore de type assigné');
+         $('#span_report_description_type').text('pas encore de type assigné');
       } else {
-         $('#span_place_description_type').text(desc_data.placetype.label);
+         $('#span_report_description_type').text(desc_data.placetype.label);
       }
       
       if (desc_data.manager == null) {
-         $('#span_place_description_gestionnaire').text('pas encore de gestionnaire assigné');
+         $('#span_report_description_gestionnaire').text('pas encore de gestionnaire assigné');
       } else {
-         $('#span_place_description_gestionnaire').text(desc_data.manager.label);
+         $('#span_report_description_gestionnaire').text(desc_data.manager.label);
       }
 
-      $('#span_place_description_status').text(color_trad_text[0]);
+      $('#span_report_description_status').text(color_trad_text[0]);
 
       for (var i = 0; i < desc_data.statuses.length; i++) {
          if (desc_data.statuses[i].t == params.manager_color) {
-            $('#span_place_description_status').text(color_trad_text[desc_data.statuses[i].v]);
+            $('#span_report_description_status').text(color_trad_text[desc_data.statuses[i].v]);
          }
       }
 
       description_edit.stop_edition(); // si l'utilisateur a commencé à éditer , il faut cacher les formulaires
       display_regarding_to_user_role();
       
-      $('#div__place_description_display').show();
+      $('#div__report_description_display').show();
    }
 
    function display_editing_button() {
@@ -97,45 +97,45 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
       * information
       */
       if (user.canModifyCategories() || user.isAdmin()) {
-         $('#span_place_description_cat_button').show();
+         $('#span_report_description_cat_button').show();
       } else {
-         $('#span_place_description_cat_button').hide();
+         $('#span_report_description_cat_button').hide();
       }
 
       if (user.canModifyLittleDetails() || user.isAdmin()) {
-         $('#span_place_description_loc_button').show();
-         $('#span_place_description_desc_button').show();
+         $('#span_report_description_loc_button').show();
+         $('#span_report_description_desc_button').show();
       } else {
-         $('#span_place_description_loc_button').hide();
-         $('#span_place_description_desc_button').hide();
+         $('#span_report_description_loc_button').hide();
+         $('#span_report_description_desc_button').hide();
       }
 
       if (user.canModifyPlacetype() || user.isAdmin()) {
-         $('#span_place_description_type_button').show();
+         $('#span_report_description_type_button').show();
       } else {
-         $('#span_place_description_type_button').hide();
+         $('#span_report_description_type_button').hide();
       }
 
       if (user.canModifyManager() || user.isAdmin()) {
-         $('#span_place_description_gestionnaire_button').show();
+         $('#span_report_description_gestionnaire_button').show();
       } else {
-         $('#span_place_description_gestionnaire_button').hide();
+         $('#span_report_description_gestionnaire_button').hide();
       }
 
       if (user.canUnpublishADescription() || user.isAdmin()) {
-         $('#span_place_description_delete_button').show();
+         $('#span_report_description_delete_button').show();
       } else {
-         $('#span_place_description_delete_button').hide();
+         $('#span_report_description_delete_button').hide();
       }
 
       if (user.isCeM() || user.isAdmin()) {
-         $('#span_place_description_commentaireCeM_button').show();
-         $('#span_place_description_status_button').show();
-         $('#div_container_place_description_commentaireCeM').show();
+         $('#span_report_description_commentaireCeM_button').show();
+         $('#span_report_description_status_button').show();
+         $('#div_container_report_description_commentaireCeM').show();
          $('#button_edit_lon_lat').show();
       } else {
-         $('#span_place_description_commentaireCeM_button').hide();
-         $('#span_place_description_status_button').hide();
+         $('#span_report_description_commentaireCeM_button').hide();
+         $('#span_report_description_status_button').hide();
          $('#button_edit_lon_lat').hide();
       }
 
@@ -171,10 +171,10 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
 
       if (user.canVieuwUsersDetails() || user.isAdmin()) {
          var desc_data = descriptions.get_by_id(current_description_id);
-         $('#span_place_description_signaleur_contact').html(' (email : <a href="mailto:'+ desc_data.creator.email +'">'+
+         $('#span_report_description_signaleur_contact').html(' (email : <a href="mailto:'+ desc_data.creator.email +'">'+
          desc_data.creator.email +'</a>, téléphone : '+ desc_data.creator.phonenumber + ')');
       } else {
-         $('#span_place_description_signaleur_contact').text('');
+         $('#span_report_description_signaleur_contact').text('');
       }
 
       display_editing_button();
