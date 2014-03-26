@@ -48,7 +48,7 @@ class NotificationFilterBySubscriptionManager implements NotificationFilter {
             }
             
             
-            //check if the subscriber is the manager of the place
+            //check if the subscriber is the manager of the report
             
             if ($changeset->getReport()->getManager() === null){
                 return false;
