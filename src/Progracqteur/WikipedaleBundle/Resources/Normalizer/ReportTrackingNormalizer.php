@@ -86,7 +86,7 @@ class ReportTrackingNormalizer implements NormalizerInterface {
         
         $a['changes'] = $changes;
         $a['text'] = $this->service->getContainer()
-                ->get('progracqteur.wikipedale.place.tracking.toText')
+                ->get('progracqteur.wikipedale.report.tracking.toText')
                 ->toText($object);
         
         return $a;
