@@ -35,8 +35,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
      */
     private $currentReport;
     
-    
-    const REPORT_TYPE = 'placetype';
+    const REPORT_TYPE = 'reporttype';
     const MODERATOR_COMMENT = 'moderatorComment';
     const COMMENTS = 'comments';
     const TERM = 'term';
