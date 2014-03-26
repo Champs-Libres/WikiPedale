@@ -96,7 +96,7 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
 
                         if($('#map').attr('class') !== 'olMap') {
                            $('#form__add_new_description').hide();
-                           $('#new_place_form_submit_button').hide();
+                           $('#new_report_form_submit_button').hide();
                            $('#show_map_button').hide();
                            $('#new_place_form_menu_return_button').show();
                         }

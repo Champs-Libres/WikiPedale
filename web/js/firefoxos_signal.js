@@ -60,8 +60,8 @@ require(['jQuery','user','description_create'],
             $("#put_marker_on_the_map_fieldset").hide();
             $('#show_new_description_form_button').click(function() { 
                 $("#add_new_description_div").show();
-                $("#new_place_form_submit_button").show();
-                $("#new_place_form_submit_button").click(function() { description_create.catch_creating_form($("#add_new_description_form")); });
+                $("#new_report_form_submit_button").show();
+                $("#new_report_form_submit_button").click(function() { description_create.catch_creating_form($("#add_new_description_form")); });
                 $("#show_new_description_form_button").hide();
                 $("#map").hide();
                 $("#map_instruction").hide();
@@ -70,7 +70,7 @@ require(['jQuery','user','description_create'],
 
             $('#show_map_button').click(function() { 
                 $("#add_new_description_div").hide();
-                $("#new_place_form_submit_button").hide();
+                $("#new_report_form_submit_button").hide();
                 $("#show_new_description_form_button").show();
                 $("#map").show();
                 $("#map_instruction").show();
