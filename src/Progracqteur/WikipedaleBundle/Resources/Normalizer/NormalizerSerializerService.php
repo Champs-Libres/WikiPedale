@@ -28,7 +28,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 class NormalizerSerializerService {
     
     const JSON_FORMAT = 'json';
-    const REPORT_TYPE = 'place';
+    const REPORT_TYPE = 'report';
     const ADDRESS_TYPE = 'address';
     const USER_TYPE = 'user';
     const COMMENT_TYPE = 'comment';
