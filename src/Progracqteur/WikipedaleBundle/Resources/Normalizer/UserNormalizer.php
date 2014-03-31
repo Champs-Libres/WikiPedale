@@ -44,7 +44,7 @@ class UserNormalizer implements NormalizerInterface
     public function denormalize($data, $class, $format = null, array $context = array()) {
         //si la classe demandée n'est pas USER, il faut uniquement renvoyer un objet User existant,
         // ou un objet Unregistereduser
-        if ($class === NormalizerSerializerService::REPORTs_TYPE)
+        if ($class === NormalizerSerializerService::REPORT_TYPE)
         {
             if ($data['id'] === null)
             {          
