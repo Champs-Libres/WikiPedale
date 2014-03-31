@@ -102,11 +102,14 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
                         }
                         $(messages_div).addClass('successMessage');
                      } else {
-                        alert('Mince, il y a un problème. Veuillez nous le signaler. Merci');
+                        console.log(output_json);
+                        alert('Mince, il y a un problème. Veuillez nous le signaler. Merci.');
                      }
                   },
-                  error: function() {
-                     alert('Mince, il y a un problème. Veuillez nous le signaler. Merci');
+                  error: function(error_message) {
+                     alert('Mince, il y a un problème : '
+                        + error_message.responseText 
+                        + '. Si le problème persiste, veuilllez nous le signaler. Merci.');
                   }
                });
             }
