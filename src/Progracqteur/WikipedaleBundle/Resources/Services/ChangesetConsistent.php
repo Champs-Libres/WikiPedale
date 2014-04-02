@@ -4,7 +4,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangesetInterface;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 
 /**
@@ -30,7 +30,7 @@ class ChangesetConsistent {
      * @return array
      */
     public function getChanges(ChangesetInterface $changeset) {
-        if ($changeset instanceof PlaceTracking) {
+        if ($changeset instanceof ReportTracking) {
             $changes = $changeset->getChanges();
             
             $correctedChanges = array();
@@ -40,13 +40,13 @@ class ChangesetConsistent {
                     default: 
                         $correctedChanges[$value->getType()] = $value->getNewValue();
                         break;
-                    case ChangeService::PLACE_ADD_PHOTO:
+                    case ChangeService::REPORT_ADD_PHOTO:
                         $correctedChanges[$value->getType()] = $this->om->
                             getRepository('ProgracqteurWikipedaleBundle:Model\Photo')
                                 ->findBy(array('filename' => $value->getNewValue()));
                         break;
-                    case ChangeService::PLACE_ADD_CATEGORY:
-                    case ChangeService::PLACE_REMOVE_CATEGORY:
+                    case ChangeService::REPORT_ADD_CATEGORY:
+                    case ChangeService::REPORT_REMOVE_CATEGORY:
                         //foreach category in array
                         $a = $value->getNewValue(); 
                         $b = array();
@@ -57,12 +57,12 @@ class ChangesetConsistent {
                         }
                         $correctedChanges[$value->getType()] = $b;
                         break;
-                    case ChangeService::PLACE_PLACETYPE_ALTER:
+                    case ChangeService::REPORT_REPORTTYPE_ALTER:
                         $correctedChanges[$value->getType()] = $this->om
-                            ->getRepository('ProgracqteurWikipedaleBundle:Model\Place\PlaceType')
+                            ->getRepository('ProgracqteurWikipedaleBundle:Model\Report\ReportType')
                                 ->find($value->getNewValue());
                         break;
-                    case ChangeService::PLACE_COMMENT_ADD:
+                    case ChangeService::REPORT_COMMENT_ADD:
                         $correctedChanges[$value->getType()] = $this->om
                             ->getRepository('ProgracqteurWikipedaleBundle:Model\Comment')
                             ->find($value->getNewValue());

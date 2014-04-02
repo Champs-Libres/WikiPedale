@@ -28,7 +28,7 @@ AddPoint:
 
 DisplayPoint:
   author: Constat effectué par
-  position_change: Changer l'emplacement sur la carte
+  position_change: Changer le signalement sur la carte
   save: Sauvegarder
   error: Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq
   localisation: Localisation

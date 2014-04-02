@@ -31,7 +31,7 @@ class LoadCommentData extends AbstractFixture implements OrderedFixtureInterface
                 $this->getReference('monsieur_travaux')
             );
 
-            //create 1,2 or 3 random comment for 1/3 place
+            //create 1,2 or 3 random comment for 1/3 report
             if ($i%3 === 0)
             {
                 $nb = rand(1,3);
@@ -41,7 +41,7 @@ class LoadCommentData extends AbstractFixture implements OrderedFixtureInterface
                 //if a place exist with this id...
                 try 
                 {
-                    $place = $this->getReference('PLACE_FOR_REGISTERED_USER'.$i);
+                    $report = $this->getReference('PLACE_FOR_REGISTERED_USER'.$i);
                     
                 } catch (\Exception $e) 
                 {
@@ -57,7 +57,7 @@ class LoadCommentData extends AbstractFixture implements OrderedFixtureInterface
                     
                     $c->setContent($this->getLipsum(rand(10,40)))
                             ->setCreator($creators[array_rand($creators)])
-                            ->setPlace($place)
+                            ->setReport($report)
                             ->setType(Comment::TYPE_MODERATOR_MANAGER);
                     
                     $manager->persist($c);
@@ -71,11 +71,11 @@ class LoadCommentData extends AbstractFixture implements OrderedFixtureInterface
                 //if a place exist with this id...
                 try 
                 {
-                    $place = $this->getReference('PLACE_FOR_UNREGISTERED_USER'.$i);
+                    $report = $this->getReference('PLACE_FOR_UNREGISTERED_USER'.$i);
                     
                 } catch (\Exception $e) 
                 {
-                    echo "No place recorded with index $i \n";
+                    echo "No report recorded with index $i \n";
                     continue;
                 }
                 
@@ -86,7 +86,7 @@ class LoadCommentData extends AbstractFixture implements OrderedFixtureInterface
                     $c = new Comment();
                     $c->setContent($this->getLipsum(rand(10,40)))
                             ->setCreator($creators[array_rand($creators)])
-                            ->setPlace($place)
+                            ->setReport($report)
                             ->setType(Comment::TYPE_MODERATOR_MANAGER);
                     $manager->persist($c);
                 }

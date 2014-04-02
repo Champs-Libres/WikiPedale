@@ -14,7 +14,7 @@ define(['jQuery','basic_data_and_functions'], function($, basic_data_and_functio
       * Update display the last posted comment in the div element having #div_last_private_comment_container as id
       * @param {string} aPlaceId is the id of the town selected.
       */
-      var jsonUrlData  =  Routing.generate('wikiedale_comment_last_by_place', {_format: 'json', placeId: aPlaceId});
+      var jsonUrlData  =  Routing.generate('wikiedale_comment_last_by_report', {_format: 'json', reportId: aPlaceId});
       $.ajax({
          dataType: 'json',
          url: jsonUrlData,
@@ -41,7 +41,7 @@ define(['jQuery','basic_data_and_functions'], function($, basic_data_and_functio
       /**
       
       */
-      var jsonUrlData  =  Routing.generate('wikiedale_comment_list_by_place', {_format: 'json', placeId: aPlaceId});
+      var jsonUrlData  =  Routing.generate('wikiedale_comment_list_by_report', {_format: 'json', reportId: aPlaceId});
       $.ajax({
          dataType: 'json',
          url: jsonUrlData,

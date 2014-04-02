@@ -24,7 +24,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
       * (none if no marker to display)
       */
       townId = townId_param;
-      var jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId_param, addUserInfo: true});
+      var jsonUrlData  =  Routing.generate('wikipedale_report_list_by_city', {_format: 'json', city: townId_param, addUserInfo: true});
 
       map_display.init(townLon,townLat);
 
@@ -58,7 +58,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
       if (townId !== null) {
          descriptions.erase_all();
 
-         var jsonUrlData  =  Routing.generate('wikipedale_place_list_by_city', {_format: 'json', city: townId});
+         var jsonUrlData  =  Routing.generate('wikipedale_report_list_by_city', {_format: 'json', city: townId});
          $.ajax({
             dataType: 'json',
             url: jsonUrlData,
@@ -66,7 +66,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
                descriptions.update(data.results,null);
             },
             complete: function() {
-               var signalement_id = $('#input_place_description_id').val();
+               var signalement_id = $('#input_report_description_id').val();
                if (typeof signalement_id !== 'undefined' && signalement_id !== '') {
                   // be sure that a place is selected
                   description_text_display.display_regarding_to_user_role();
@@ -101,7 +101,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
       * It is the last displayed description.
       */
       var json_request = json_string.delete_place(last_description_selected);
-      var url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
+      var url_edit = Routing.generate('wikipedale_report_change', {_format: 'json'});
       $.ajax({
          type: 'POST',
          data: {entity: json_request},
@@ -111,14 +111,14 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
             if(! output_json.query.error) {
                map_display.get_marker_for(last_description_selected).erase();
                descriptions.erase(last_description_selected);
-               $('#div_place_description_display').hide();
+               $('#div_report_description_display').hide();
                last_description_selected = null;
             } else {
-               $('#span_place_description_delete_error').show();
+               $('#span_report_description_delete_error').show();
             }
          },
          error: function() {
-            $('#span_place_description_delete_error').show();
+            $('#span_report_description_delete_error').show();
          }
       });
    }
@@ -146,12 +146,12 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
          });
 
          if(user.isRegistered()) {
-            $('#div_new_place_form_user_mail').hide();
+            $('#div_new_report_form_user_mail').hide();
          } else {
-            $('#div_new_place_form_user_mail').show();
+            $('#div_new_report_form_user_mail').show();
          }
          $('#form__add_new_description').show();
-         $('#div_place_description_display').hide();
+         $('#div_report_description_display').hide();
       }
       else {
          $('#div_add_new_description_button').show();
@@ -167,7 +167,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
 
          /*
          if(last_description_selected !== null ) {
-            $("#div_place_description_display").show();
+            $("#div_report_description_display").show();
             map_display.select_marker(last_description_selected);
          }
          */

@@ -4,16 +4,16 @@ namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\CategoryNormalizer;
-use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\ReportNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\PhotoNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\GroupNormalizer;
-use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceTypeNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\ReportTypeNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedExceptionResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\DateNormalizer;
-use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceTrackingNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\ReportTrackingNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\CommentNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
@@ -28,7 +28,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 class NormalizerSerializerService {
     
     const JSON_FORMAT = 'json';
-    const PLACE_TYPE = 'place';
+    const REPORT_TYPE = 'report';
     const ADDRESS_TYPE = 'address';
     const USER_TYPE = 'user';
     const COMMENT_TYPE = 'comment';
@@ -43,16 +43,16 @@ class NormalizerSerializerService {
     
     //Normalizers
     private $addressNormalizer = null;
-    private $placeNormalizer = null;
+    private $reportNormalizer = null;
     private $userNormalizer = null;
     private $photoNormalizer = null;
     private $normalizedResponseNormalizer = null;
     private $normalizedResponseExceptionNormalizer = null;
-    private $placeTrackingNormalizer = null;
+    private $reportTrackingNormalizer = null;
     private $dateNormalizer = null;
     private $groupNormalizer = null;
     private $zoneNormalizer = null;
-    private $placeTypeNormalizer = null;
+    private $reportTypeNormalizer = null;
     private $commentNormalizer = null;
     
     /**
@@ -116,16 +116,16 @@ class NormalizerSerializerService {
     
     /**
      *
-     * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer 
+     * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\ReportNormalizer 
      */
-    public function getPlaceNormalizer()
+    public function getReportNormalizer()
     {
-        if ($this->placeNormalizer === null)
+        if ($this->reportNormalizer === null)
         {
-            $this->placeNormalizer = new PlaceNormalizer($this);
+            $this->reportNormalizer = new ReportNormalizer($this);
         }
         
-        return $this->placeNormalizer;
+        return $this->reportNormalizer;
     }
     
     /**
@@ -152,14 +152,14 @@ class NormalizerSerializerService {
         return $this->photoNormalizer;
     }
     
-    public function getPlaceTrackingNormalizer()
+    public function getReportTrackingNormalizer()
     {
-        if ($this->placeTrackingNormalizer === null)
+        if ($this->reportTrackingNormalizer === null)
         {
-            $this->placeTrackingNormalizer = new PlaceTrackingNormalizer($this);
+            $this->reportTrackingNormalizer = new ReportTrackingNormalizer($this);
         }
         
-        return $this->placeTrackingNormalizer;
+        return $this->reportTrackingNormalizer;
     }
     
     /**
@@ -207,14 +207,14 @@ class NormalizerSerializerService {
      * 
      * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\ZoneNormalizer
      */
-    public function getPlaceTypeNormalizer()
+    public function getReportTypeNormalizer()
     {
-        if ($this->placeTypeNormalizer === null)
+        if ($this->reportTypeNormalizer === null)
         {
-            $this->placeTypeNormalizer = new PlaceTypeNormalizer($this);
+            $this->reportTypeNormalizer = new ReportTypeNormalizer($this);
         }
         
-        return $this->placeTypeNormalizer;
+        return $this->reportTypeNormalizer;
     }
     
     /**
@@ -302,8 +302,8 @@ class NormalizerSerializerService {
     {
         switch($short_class)
         {
-            case self::PLACE_TYPE :
-                return 'Progracqteur\\WikipedaleBundle\\Entity\\Model\\Place';
+            case self::REPORT_TYPE :
+                return 'Progracqteur\\WikipedaleBundle\\Entity\\Model\\Report';
             case self::ADDRESS_TYPE : 
                 return 'Progracqteur\\WikipedaleBundle\\Resources\\Container\\Address';
             case self::USER_TYPE : 
@@ -360,8 +360,8 @@ class NormalizerSerializerService {
         
         switch($type)
         {
-            case self::PLACE_TYPE :
-                $array = array($this->getPlaceNormalizer());
+            case self::REPORT_TYPE :
+                $array = array($this->getReportNormalizer());
                 break;
             case self::COMMENT_TYPE :
                 $array = array($this->getCommentNormalizer());

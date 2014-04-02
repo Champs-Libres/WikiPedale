@@ -8,16 +8,16 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizingException;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
-use Progracqteur\WikipedaleBundle\Resources\Normalizer\PlaceNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\ReportNormalizer;
 
 /**
- * Description of PlaceNormalizer
+ * Description of CommentNormalizer
  *
  * @author julien [at] fastre [point] info & marcducobu [at] gmail [point] com
  */
 
-class CommentNormalizer implements NormalizerInterface, DenormalizerInterface {
-    
+class CommentNormalizer implements NormalizerInterface, DenormalizerInterface
+{    
     /**
      *
      * @var Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService 
@@ -35,13 +35,13 @@ class CommentNormalizer implements NormalizerInterface, DenormalizerInterface {
     {
         $this->service = $service;
     }
-
     
-    public function denormalize($data, $class, $format = null, array $context = array()) {
+    public function denormalize($data, $class, $format = null, array $context = array()) 
+    {
         //TODO à adapter lorsque le json envoyé sera corrigé
-   	/*if ($data['id'] === null)
+    	/*if ($data['id'] === null)
         {*/
-            $p = new Comment();
+        $p = new Comment();
         /*}
         else 
             {
@@ -55,59 +55,51 @@ class CommentNormalizer implements NormalizerInterface, DenormalizerInterface {
                 }
             }*/
 
-    if (isset($data['placeId']))
-    {
-        $place = $this->service->getManager()
-                ->getRepository('ProgracqteurWikipedaleBundle:Model\\Place')
-                ->find($data['placeId']);
-        
-        if ($place === null)
-        {
-            throw new \Exception("place with id ".$data['placeId']." not found");
+        if (isset($data['reportId'])) {
+            $report = $this->service->getManager()
+                ->getRepository('ProgracqteurWikipedaleBundle:Model\\Report')
+                ->find($data['reportId']);
+            
+            if ($report === null) {
+                throw new \Exception("report with id ".$data['reportId']." not found");
+            }
+            
+            $p->setReport($report);
         }
-        
-        $p->setPlace($place);
-    }
 
-    if (isset($data['text']))
+        if (isset($data['text'])) {
             $p->setContent($data['text']);
+        }
 
-    if (isset($data['creator']))
-        {
-            $userNormalizer = $this->service->getUserNormalizer();
-            if ($userNormalizer->supportsDenormalization($data['creator'], 
-                    $class, 
-                    $format))
-            {
-                $u = $userNormalizer->denormalize($data['creator'], 
+        if (isset($data['creator'])) {
+                $userNormalizer = $this->service->getUserNormalizer();
+                if ($userNormalizer->supportsDenormalization($data['creator'], 
                         $class, 
-                        $format);
-                $p->setCreator($u);
+                        $format)) {
+                    $u = $userNormalizer->denormalize($data['creator'], 
+                            $class, 
+                            $format);
+                    $p->setCreator($u);
+                }
+            }
+
+        if (isset($data['published'])) {
+            $p->setPublished($data['published']);
+        }
+            
+        if (isset($data['type'])) {
+            switch($data['type']) {
+                case 'moderator_manager' :
+                    $p->setType(Comment::TYPE_MODERATOR_MANAGER);
+                    break;
+                default :
+                    $p->setType(Comment::TYPE_PUBLIC);
+                    break;
             }
         }
 
-    if (isset($data['published']))
-        {
-            $p->setPublished($data['published']);
-        }
-        
-    if (isset($data['type']))
-    {
-        switch($data['type'])
-        {
-            case 'moderator_manager' :
-                $p->setType(Comment::TYPE_MODERATOR_MANAGER);
-                break;
-            default :
-                $p->setType(Comment::TYPE_PUBLIC);
-                break;
-        }
+        return $p;
     }
-
-    return $p;
-    }
-  	
-
 
   	/**
      * 
@@ -124,29 +116,24 @@ class CommentNormalizer implements NormalizerInterface, DenormalizerInterface {
             'creationDate' => $this->service->getDateNormalizer()->normalize($object->getCreationDate(), $format),
             'createDate' => $this->service->getDateNormalizer()->normalize($object->getCreationDate(), $format),
             'creator' => $this->service->getUserNormalizer()->normalize($object->getCreator(), $format),
-            //'place' => $this->service->getPlaceNormalizer()->normalize($object->getPlace(), $format),
-            'placeId' => $object->getPlace()->getId(),
+            'reportId' => $object->getReport()->getId(),
             'type' => $object->getType() 
         );
     }
     
     public function supportsNormalization($data, $format = null) {
-        if ($data instanceof Comment)
-        {
+        if ($data instanceof Comment) {
             return true;
-        } else
-        {
+        } else {
             return false;
         }
     }
 
     public function supportsDenormalization($data, $type, $format = null) 
     {
-        if ($data['entity'] === 'comment')
-        {
-            return true; //true;
-        } else 
-        {
+        if ($data['entity'] === 'comment') {
+            return true;
+        } else  {
             return false;
         }
         
@@ -164,8 +151,5 @@ class CommentNormalizer implements NormalizerInterface, DenormalizerInterface {
     public function getCurrentComment()
     {
         return $this->currentComment;
-    }
-
-    
+    }   
 }
-

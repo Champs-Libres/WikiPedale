@@ -5,7 +5,7 @@ namespace Progracqteur\WikipedaleBundle\Resources\Services\Notification;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 use Symfony\Component\Translation\Translator;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
-use Progracqteur\WikipedaleBundle\Entity\Model\Place;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\RouterInterface;
@@ -57,7 +57,7 @@ class ToTextMailSenderService {
         $this->t = $translator;
         $this->array[NotificationSubscription::KIND_MODERATOR] = $moderatorArray;
         $this->array[NotificationSubscription::KIND_MANAGER] = $managerArray;
-        $this->array[NotificationSubscription::KIND_PUBLIC_PLACE] = NotificationFilterBySubscriptionPublicPlace::$authorizedChangesToBeNotified;
+        $this->array[NotificationSubscription::KIND_PUBLIC_REPORT] = NotificationFilterBySubscriptionPublicReport::$authorizedChangesToBeNotified;
         $this->date_format = $date_format;
         $this->om = $om;
         $this->router = $router;
@@ -123,11 +123,11 @@ class ToTextMailSenderService {
                         );
 
                 } else {
-                    if ($notificationSubscription->getPlace() !== null) {
+                    if ($notificationSubscription->getReport() !== null) {
                         
-                        $subText .= $this->t->trans('mail.subscriptions.place',
-                            array('%place%' => $notificationSubscription
-                                    ->getPlace()->getLabel()
+                        $subText .= $this->t->trans('mail.subscriptions.report',
+                            array('%report%' => $notificationSubscription
+                                    ->getReport()->getLabel()
                         ),
                         self::DOMAIN
                         );
@@ -158,10 +158,10 @@ class ToTextMailSenderService {
         }
         $t.= "\n \n";
         
-        //sort by place
+        //sort by report
         
         /**
-         * array to sort placetrackings by place and date
+         * array to sort reporttrackings by report and date
          */
         $a = array();
         
@@ -169,17 +169,17 @@ class ToTextMailSenderService {
         
         foreach ($notifications as $notification)
         {
-            $u = (int) $notification->getPlaceTracking()->getDate()->format('U');
-            $a[$notification->getPlaceTracking()->getPlace()->getId()][$u] = $notification;
+            $u = (int) $notification->getReportTracking()->getDate()->format('U');
+            $a[$notification->getReportTracking()->getReport()->getId()][$u] = $notification;
         }
         
         //prefix for changes items :
         $p = '- ';
         
-        //create a string for each place
-        foreach ($a as $placeId => $notifications_)
+        //create a string for each report
+        foreach ($a as $reportId => $notifications_)
         {
-            echo "TOTEXTMAIL : traitement de la place ".$placeId."\n";
+            echo "TOTEXTMAIL : traitement du signalement ".$reportId."\n";
             
             $headerShow = false;
             
@@ -187,12 +187,12 @@ class ToTextMailSenderService {
             foreach($notifications_ as $timestamp => $notification) {
                 try {
                 
-                $placetracking = $notification->getPlaceTracking();
+                $reporttracking = $notification->getReportTracking();
                 
-                //show the header if this is the first element of the place
+                //show the header if this is the first element of the report
                 if ($headerShow === false) {
-                    $t .= "**".$this->t->trans('mail.place.header', 
-                    array('%label%' => $placetracking->getPlace()->getLabel()), 
+                    $t .= "**".$this->t->trans('mail.report.header', 
+                    array('%label%' => $reporttracking->getReport()->getLabel()), 
                         self::DOMAIN).
                         "** \n \n";
 
@@ -202,16 +202,16 @@ class ToTextMailSenderService {
 
 
 
-                    echo "TOTEXTMAIL : traitement de la placeteracking ".$placetracking->getId()."\n";
+                    echo "TOTEXTMAIL : traitement de la reporttracking ".$reporttracking->getId()."\n";
                     $args = array(
-                                    '%author%' => $placetracking->getAuthor()->getLabel(),
-                                    '%label%' => $placetracking->getPlace()->getLabel(),
-                                    '%date%' => $placetracking->getDate()->format($this->date_format)
+                                    '%author%' => $reporttracking->getAuthor()->getLabel(),
+                                    '%label%' => $reporttracking->getReport()->getLabel(),
+                                    '%date%' => $reporttracking->getDate()->format($this->date_format)
                                 );
 
-                    if ($placetracking->isCreation())
+                    if ($reporttracking->isCreation())
                     {
-                        $t .= $p.$this->t->trans('mail.place.creation', 
+                        $t .= $p.$this->t->trans('mail.report.creation', 
                                 $args,
                                 self::DOMAIN
                                 );
@@ -221,25 +221,25 @@ class ToTextMailSenderService {
 
 
                     $keyChanges = array();
-                    foreach ($placetracking as $change)
+                    foreach ($reporttracking as $change)
                     {
                         $keyChanges[$change->getType()] = $change;
                     }
                     
                     //if the change is add a photo (do not consider other changes)
-                    if (isset($keyChanges[ChangeService::PLACE_ADD_PHOTO]))
+                    if (isset($keyChanges[ChangeService::REPORT_ADD_PHOTO]))
                     {
-                        $t .= $p.$this->t->trans('mail.place.add_photo', $args, self::DOMAIN);
+                        $t .= $p.$this->t->trans('mail.report.add_photo', $args, self::DOMAIN);
                         $t .= "\n";
                         continue;
                     }
 
 
 
-                    //if the change concern the status of the place
-                    if (isset($keyChanges[ChangeService::PLACE_STATUS]))
+                    //if the change concern the status of the report
+                    if (isset($keyChanges[ChangeService::REPORT_STATUS]))
                     {
-                        $status = $keyChanges[ChangeService::PLACE_STATUS]->getNewValue();
+                        $status = $keyChanges[ChangeService::REPORT_STATUS]->getNewValue();
                         $args['%notation%'] = $this->om
                                 ->getRepository('ProgracqteurWikipedaleBundle:Management\Notation')
                                 ->find($status->getType());
@@ -249,23 +249,23 @@ class ToTextMailSenderService {
                         switch ($status->getValue())
                         {
                             case -1 : 
-                                $t .=  $this->t->trans('mail.place.status.rejected', 
+                                $t .=  $this->t->trans('mail.report.status.rejected', 
                                         $args, self::DOMAIN);
                                 break;
                             case 0 :
-                                $t .=  $this->t->trans('mail.place.status.notReviewed', 
+                                $t .=  $this->t->trans('mail.report.status.notReviewed', 
                                         $args, self::DOMAIN);
                                 break;
                             case 1 :
-                                $t .=  $this->t->trans('mail.place.status.takenIntoAccount', 
+                                $t .=  $this->t->trans('mail.report.status.takenIntoAccount', 
                                         $args, self::DOMAIN);
                                 break;
                             case 2 :
-                                $t .=  $this->t->trans('mail.place.status.inChange', 
+                                $t .=  $this->t->trans('mail.report.status.inChange', 
                                         $args, self::DOMAIN);
                                 break;
                             case 3 :
-                                $t .=  $this->t->trans('mail.place.status.success', 
+                                $t .=  $this->t->trans('mail.report.status.success', 
                                         $args, self::DOMAIN);
                                 break;
                         }
@@ -274,15 +274,15 @@ class ToTextMailSenderService {
                     }
 
                     //if the author added a private comment
-                    if (isset($keyChanges[ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD])) {
-                        $t .= $p. $this->t->trans('mail.place.comment.private_add',
+                    if (isset($keyChanges[ChangeService::REPORT_COMMENT_MODERATOR_MANAGER_ADD])) {
+                        $t .= $p. $this->t->trans('mail.report.comment.private_add',
                                 $args, self::DOMAIN);
                         $t .= "\n";
 
                         //retrieve the comment
                         $comment = $this->om
                                 ->getRepository('ProgracqteurWikipedaleBundle:Model\Comment')
-                                ->find($keyChanges[ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD]
+                                ->find($keyChanges[ChangeService::REPORT_COMMENT_MODERATOR_MANAGER_ADD]
                                         ->getNewValue());
 
                         if ($comment !== null) {
@@ -295,13 +295,13 @@ class ToTextMailSenderService {
 
 
                     //if a manager was assigned
-                    if (isset($keyChanges[ChangeService::PLACE_MANAGER_ADD])
-                            OR isset($keyChanges[ChangeService::PLACE_MANAGER_ALTER])) {
+                    if (isset($keyChanges[ChangeService::REPORT_MANAGER_ADD])
+                            OR isset($keyChanges[ChangeService::REPORT_MANAGER_ALTER])) {
 
-                        if (isset($keyChanges[ChangeService::PLACE_MANAGER_ADD]))
-                            $temp_ch = $keyChanges[ChangeService::PLACE_MANAGER_ADD];
-                        elseif (isset($keyChanges[ChangeService::PLACE_MANAGER_ALTER])) 
-                            $temp_ch = $keyChanges[ChangeService::PLACE_MANAGER_ALTER];
+                        if (isset($keyChanges[ChangeService::REPORT_MANAGER_ADD]))
+                            $temp_ch = $keyChanges[ChangeService::REPORT_MANAGER_ADD];
+                        elseif (isset($keyChanges[ChangeService::REPORT_MANAGER_ALTER])) 
+                            $temp_ch = $keyChanges[ChangeService::REPORT_MANAGER_ALTER];
 
                         $manager = $this->om
                                 ->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
@@ -318,10 +318,10 @@ class ToTextMailSenderService {
 
 
                         if (in_array($manager->getId(), $groupIds)){
-                            $t.= $p. $this->t->trans('mail.place.manager.you', $args, self::DOMAIN);
+                            $t.= $p. $this->t->trans('mail.report.manager.you', $args, self::DOMAIN);
                         } else {
                             $args['%manager%'] = $manager->getName();
-                            $t.= $p . $this->t->trans('mail.place.manager.add', $args, self::DOMAIN);
+                            $t.= $p . $this->t->trans('mail.report.manager.add', $args, self::DOMAIN);
                         }
 
 
@@ -330,8 +330,8 @@ class ToTextMailSenderService {
                         $t.= "\n";
                     }
 
-                    if (isset($keyChanges[ChangeService::PLACE_MANAGER_REMOVE])) {
-                        $t.= $p . $this->t->trans('mail.place.manager.remove', $args, self::DOMAIN);
+                    if (isset($keyChanges[ChangeService::REPORT_MANAGER_REMOVE])) {
+                        $t.= $p . $this->t->trans('mail.report.manager.remove', $args, self::DOMAIN);
                         $t.="\n";
                     }
 
@@ -341,11 +341,11 @@ class ToTextMailSenderService {
 
                     //count the changes
                     $nb = 0;
-                    $key_not_to_track = array(ChangeService::PLACE_CREATION, 
-                        ChangeService::PLACE_STATUS, ChangeService::PLACE_ADD_PHOTO,
-                        ChangeService::PLACE_MANAGER_ADD, ChangeService::PLACE_MANAGER_ALTER,
-                        ChangeService::PLACE_MANAGER_REMOVE, 
-                        ChangeService::PLACE_COMMENT_MODERATOR_MANAGER_ADD);
+                    $key_not_to_track = array(ChangeService::REPORT_CREATION, 
+                        ChangeService::REPORT_STATUS, ChangeService::REPORT_ADD_PHOTO,
+                        ChangeService::REPORT_MANAGER_ADD, ChangeService::REPORT_MANAGER_ALTER,
+                        ChangeService::REPORT_MANAGER_REMOVE, 
+                        ChangeService::REPORT_COMMENT_MODERATOR_MANAGER_ADD);
                     $changes = array();
 
 
@@ -369,7 +369,7 @@ class ToTextMailSenderService {
                     {
                         $args['%change%'] = 
                              $this->getStringFromChangeType($changes[0]->getType());
-                        $t .= $p.$this->t->trans('mail.place.change.one', $args, self::DOMAIN);
+                        $t .= $p.$this->t->trans('mail.report.change.one', $args, self::DOMAIN);
                         $t .= "\n";
                     }
 
@@ -379,7 +379,7 @@ class ToTextMailSenderService {
                              $this->getStringFromChangeType($changes[0]->getType());
                         $args['%change__%'] = 
                              $this->getStringFromChangeType($changes[1]->getType());
-                        $t .= $p.$this->t->trans('mail.place.change.two', $args, self::DOMAIN);
+                        $t .= $p.$this->t->trans('mail.report.change.two', $args, self::DOMAIN);
                         $t .= "\n";
                     }
 
@@ -391,13 +391,13 @@ class ToTextMailSenderService {
                              $this->getStringFromChangeType($changes[1]->getType());
                         $more = $nb - 2;
                         $args['%more%'] = $more;
-                        $t .=  $p.$this->t->transChoice('mail.place.change.more', $more, $args, self::DOMAIN);
+                        $t .=  $p.$this->t->transChoice('mail.report.change.more', $more, $args, self::DOMAIN);
                         $t .= "\n";
                     }
                 } catch (\Exception $e) {
                     $exception = new SendPendingNotificationException(
                             $notification, 
-                            'error during transformation to text of the placetracking',
+                            'error during transformation to text of the reporttracking',
                             0,
                             $e);
                     $this->exceptions[] = $exception;
@@ -406,7 +406,7 @@ class ToTextMailSenderService {
             
             $t .= "\n\n";
             
-            $t .= $this->addPlacePresentation($placetracking->getPlace());
+            $t .= $this->addReportPresentation($reporttracking->getReport());
             
             $t .= "\n\n\n\n\n\n\n\n";
         }
@@ -424,74 +424,74 @@ class ToTextMailSenderService {
         
         switch ($type)
         {
-            case ChangeService::PLACE_ADDRESS :
-                return $this->t->trans('mail.place.change.item.address' , array(), $d);
+            case ChangeService::REPORT_ADDRESS :
+                return $this->t->trans('mail.report.change.item.address' , array(), $d);
                 break;
-            case ChangeService::PLACE_DESCRIPTION:
-                return $this->t->trans('mail.place.change.item.description', array(), $d);
+            case ChangeService::REPORT_DESCRIPTION:
+                return $this->t->trans('mail.report.change.item.description', array(), $d);
                 break;
-            case ChangeService::PLACE_GEOM:
-                return $this->t->trans('mail.place.change.item.geom', array(), $d);
+            case ChangeService::REPORT_GEOM:
+                return $this->t->trans('mail.report.change.item.geom', array(), $d);
                 break;
-            case ChangeService::PLACE_ADD_CATEGORY:
-            case ChangeService::PLACE_REMOVE_CATEGORY:
-                return $this->t->trans('mail.place.change.item.category', array(), $d);
+            case ChangeService::REPORT_ADD_CATEGORY:
+            case ChangeService::REPORT_REMOVE_CATEGORY:
+                return $this->t->trans('mail.report.change.item.category', array(), $d);
                 break;
-            case ChangeService::PLACE_PLACETYPE_ALTER:
-                return $this->t->trans('mail.place.change.item.place_type', array(), $d);
-            case ChangeService::PLACE_MODERATOR_COMMENT_ALTER:
-                return $this->t->trans('mail.place.change.item.moderator_comment', array(), $d);
+            case ChangeService::REPORT_REPORTTYPE_ALTER:
+                return $this->t->trans('mail.report.change.item.report_type', array(), $d);
+            case ChangeService::REPORT_MODERATOR_COMMENT_ALTER:
+                return $this->t->trans('mail.report.change.item.moderator_comment', array(), $d);
             default:
-                return $this->t->trans('mail.place.change.item.other', array(), $d);
+                return $this->t->trans('mail.report.change.item.other', array(), $d);
         }
     }
     
     
-    private function addPlacePresentation(Place $place) {
+    private function addReportPresentation(Report $report) {
         $t = '';
         
-        $t.= $this->t->trans('mail.place.presentation.actual',
+        $t.= $this->t->trans('mail.report.presentation.actual',
                 array(
-                    '%label%' => $place->getLabel(),
-                    '%id%' => $place->getId()
+                    '%label%' => $report->getLabel(),
+                    '%id%' => $report->getId()
                 ), self::DOMAIN);
         
         $t.="\n\n";
         
-        $t.= $this->t->trans('mail.place.presentation.description_header', array(), self::DOMAIN);
+        $t.= $this->t->trans('mail.report.presentation.description_header', array(), self::DOMAIN);
         
         $t.="\n";
         
-        $t.= '>'.$place->getDescription();
+        $t.= '>'.$report->getDescription();
         
         $t.="\n";
         
-        $t.= $this->t->trans('mail.place.presentation.introduced_by_when', 
+        $t.= $this->t->trans('mail.report.presentation.introduced_by_when', 
                 array(
-                    '%creator%' => $place->getCreator()->getLabel(),
-                    '%create_date%' => $place->getCreateDate()->format($this->date_format)
+                    '%creator%' => $report->getCreator()->getLabel(),
+                    '%create_date%' => $report->getCreateDate()->format($this->date_format)
                 ), self::DOMAIN);
         
         $t.="\n";
         
-        if ($place->getModeratorComment() != '') {
-            $t.= $this->t->trans('mail.place.presentation.moderator_comment_header',
+        if ($report->getModeratorComment() != '') {
+            $t.= $this->t->trans('mail.report.presentation.moderator_comment_header',
                     array(
 
                     ), self::DOMAIN);
 
             $t.= "\n";
 
-            $t.= '>'.$place->getModeratorComment();
+            $t.= '>'.$report->getModeratorComment();
 
             $t.= "\n";
         }
         
         //anonymous function to show categories label
-        $func = function() use ($place) {
+        $func = function() use ($report) {
                     $string = '';
                     $i = 0;
-                    foreach ($place->getCategory() as $cat) {
+                    foreach ($report->getCategory() as $cat) {
                         if ($i !== 0) {
                             $string .= ', ';
                         }
@@ -503,31 +503,31 @@ class ToTextMailSenderService {
                     return $string;
                 };
         
-        $t.= $this->t->trans('mail.place.presentation.categories', array(
+        $t.= $this->t->trans('mail.report.presentation.categories', array(
                 '%categories%' => $func()
             ), self::DOMAIN);
         
         $t.="\n";
         
-        if ($place->getManager() === null) {
+        if ($report->getManager() === null) {
             $managerLabel = $this->t->trans(
-                    'mail.place.presentation.no_manager', 
+                    'mail.report.presentation.no_manager', 
                     array(),
                     self::DOMAIN
                     );
         } else {
-            $managerLabel = $place->getManager()->getName();
+            $managerLabel = $report->getManager()->getName();
         }
         
-        $t.= $this->t->trans('mail.place.presentation.manager', array(
+        $t.= $this->t->trans('mail.report.presentation.manager', array(
             '%manager_label%' => $managerLabel
         ), self::DOMAIN);
                 
         $t.="\n";
         
-        $t.= $this->t->trans('mail.place.presentation.link', array(
+        $t.= $this->t->trans('mail.report.presentation.link', array(
             '%url%' => $this->router->generate('wikipedale_homepage', array(
-                    'id' => $place->getId()
+                    'id' => $report->getId()
                 ), true)
         ), self::DOMAIN);
         

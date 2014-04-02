@@ -45,7 +45,7 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
       * @param{int} id The id of the description.
       * @param{string} changement A json string representing the changement to do.
       */
-      var ret = '{"entity":"place"';
+      var ret = '{"entity":"report"';
       ret = ret + ',"id":' + JSON.stringify(id) + ',';
       ret = ret + changement;
       return ret + '}';
@@ -168,7 +168,7 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
       * @param {string} user_phonenumber The phonenumber given by the user : if the user is register and logged this field is not considered
       * @param {array of string} caterogies The ids of categories selected
       */
-      var ret = '{"entity":"place"';
+      var ret = '{"entity":"report"';
 
       if (typeof id === 'undefined' || id==null) {
          ret = ret + ',"id":null';

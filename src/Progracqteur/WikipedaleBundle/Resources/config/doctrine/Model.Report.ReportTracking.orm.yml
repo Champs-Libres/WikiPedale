@@ -1,0 +1,30 @@
+## YAML Template.
+---
+Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking:
+  type: entity
+  repositoryClass: Progracqteur\WikipedaleBundle\EntityRepositories\Model\Report\ReportTrackingRepository
+  readOnly: ~
+  table: placeTracking
+  id:
+    id:
+      type: integer
+      generator: {strategy: AUTO}
+  fields:
+    isCreation:
+      type: boolean
+      nullable: true
+    details:
+      type: hash
+    date:
+      type: datetime
+  manyToOne:
+    author:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\User
+      nullable: true
+      mappedBy: PlaceChanges
+    report:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Report
+      inversedBy: changesets
+      joinColumn:
+        name: place_id
+        referencedColumnName: id

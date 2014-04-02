@@ -25,9 +25,12 @@ Progracqteur\WikipedaleBundle\Entity\Model\Comment:
     creator:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\User
       mappedBy: comments
-    place:
-      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place
+    report:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Report
       mappedBy: comments
       cascade: [persist]
+      joinColumn:
+        name: place_id
+        referencedColumnName: id
   lifecycleCallbacks:
-    preFlush: [registerToPlace]
+    preFlush: [registerToReport]

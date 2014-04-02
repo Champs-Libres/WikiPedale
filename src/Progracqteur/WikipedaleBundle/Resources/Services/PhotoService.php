@@ -6,7 +6,7 @@ use \SplFileInfo;
 use Progracqteur\WikipedaleBundle\Entity\Model\Photo;
 
 /**
- * Description of PhotoResizer
+ * Resize pictures.
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */

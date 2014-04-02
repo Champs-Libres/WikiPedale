@@ -18,7 +18,7 @@ Il reçoit deux arguments :
     
     {% if photo is defined %}
        <img src="{{asset(photo.getWebPath)}}" alt="{{ photo.legend }}" />
-       <p>Liée à l'emplacement {{photo.place.address.road}}</p>
+       <p>Liée à au signalement {{photo.report.address.road}}</p>
        <p>Envoyée par {{photo.creator.username}}</p>
     
     {% endif %}

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportChange | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../../Progracqteur/WikipedaleBundle/Entity/Model/Report.html">Progracqteur\WikipedaleBundle\Entity\Model\Report</a>\ReportChange</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>ReportChange</strong>        implements
+        <a href="../../../../../Progracqteur/WikipedaleBundle/Resources/Security/ChangeInterface.html"><abbr title="Progracqteur\WikipedaleBundle\Resources\Security\ChangeInterface">ChangeInterface</abbr></a></p>
+
+            <div class="description">
+            <p>The elements of the report which has been changed, with the type and the new values.</p>
+            <p>Types are stored in instances of
+   Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>($type, $newValue = null)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    int
+                </td>
+                <td class="last">
+                    <a href="#method_getType">getType</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_getNewValue">getNewValue</a>()
+                    <p>The type of getValue is : if type is .....</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 22</div>
+        <code>            public            
+    <strong>__construct</strong>($type, $newValue = null)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$type</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$newValue</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getType">
+        <div class="location">at line 35</div>
+        <code>            public            int
+    <strong>getType</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>int</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getNewValue">
+        <div class="location">at line 66</div>
+        <code>            public            mixed
+    <strong>getNewValue</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>The type of getValue is : if type is .....</p>
+        <p>type of getValue is ....</p>
+
+<p>If the type is :
+- REPORT<em>STATUS : the new value is an instance of Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportStatus
+- REPORT</em>PHOTO: a string which represent the filename of the new picture
+- REPORT<em>ADDRESS : Progracqteur\WikipedaleBundle\Resources\Container\Address
+- REPORT</em>DESCRIPTION = string
+- REPORT<em>GEOM = Progracqteur\WikipedaleBundle\Resources\Geo\Point;
+- REPORT</em>ADD<em>COMMENT = not implemented;
+- REPORT</em>ADD<em>VOTE = not implemented;
+- REPORT</em>ADD<em>PHOTO = string of the filename;
+- REPORT</em>REMOVE<em>PHOTO = not implemented;
+- REPORT</em>STATUS<em>BICYCLE = deprecated;
+- REPORT</em>STATUS<em>Zone = deprecated;
+- REPORT</em>CREATOR = this should not happen;
+- REPORT<em>ACCEPTED = boolean;
+- REPORT</em>ADD<em>CATEGORY = array of id of categories after the changes were made;
+- REPORT</em>REMOVE<em>CATEGORY = array of id of categories afther the changes were made;
+- REPORT</em>REPORTTYPE<em>ALTER = id of the new reporttype
+-REPORT</em>MANAGER<em>ADD ou REPORT</em>MANAGER<em>ALTER ou REPORT</em>MANAGER_REMOVE: id of the manager's group</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

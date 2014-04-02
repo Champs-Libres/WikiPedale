@@ -5,7 +5,7 @@
 
 define(['jQuery'], function($) {
    function filling(aCitySlug,nbr_max){
-      var jsonUrlData  =  Routing.generate('wikipedale_history_place_by_city', {_format: 'json', citySlug: aCitySlug, max:nbr_max});
+      var jsonUrlData  =  Routing.generate('wikipedale_history_report_by_city', {_format: 'json', citySlug: aCitySlug, max:nbr_max});
       $.ajax({
          dataType: 'json',
          url: jsonUrlData,
@@ -14,7 +14,7 @@ define(['jQuery'], function($) {
                $('#div_content_dernieres_modifs').append(aLastModif.text);
                var lien_voir = $(document.createElement('a'))
                   .text('(voir)')
-                  .attr('href', '?id=' + aLastModif.placeId);
+                  .attr('href', '?id=' + aLastModif.reportId);
                $('#div_content_dernieres_modifs').append(lien_voir);
                $('#div_content_dernieres_modifs').append('<br>');
             });

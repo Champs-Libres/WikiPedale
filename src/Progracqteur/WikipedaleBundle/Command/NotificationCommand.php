@@ -11,66 +11,64 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 
 /**
- * Description of NotificationCommand
+ * This command send all notifications for wikipedale, which should be sent
+ * on the given "frequency" parameter.
+ * 
+ * This command use the notification corner.
+ * 
+ * @see \Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationCorner
  *
  * @author Julien Fastré <julien arobase fastre point info>
+ * @author Julien Fastré <julien.fastre@champs-libres.coop>
  */
 class NotificationCommand extends ContainerAwareCommand {
     
+    const ARGUMENT_FREQUENCY = 'frequency';
+    
     public function configure() {
         $this->setName('wikipedale:notification:send')
-                ->setDescription('Send notifications of wikipedale')
-                ->addArgument('frequency', InputArgument::REQUIRED, "Frequency")
+                ->setDescription('Send notifications for wikipedale. The Frequency parameter select the '
+                        . 'message which should be sent. This command should be run by the OS on a cron job executed regularly.'
+                        . ' ')
+                ->addArgument(self::ARGUMENT_FREQUENCY, InputArgument::REQUIRED, "Frequency")
                 ;
     }
     
     public function execute(InputInterface $input, OutputInterface $output) {
-        echo "This command is deprecated. Use wikipedale:notication:send2 instead \n";
-        exit();
         
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        
-        $pendingNotifications = $em->createQuery(
-                'SELECT pn 
-                    FROM ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification pn
-                    JOIN pn.subscription s
-                    WHERE s.frequency = :frequency'
-                )
-                ->setParameter('frequency', $input->getArgument('frequency'))
-                ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'subscription', ClassMetadata::FETCH_EAGER)
-                ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'placeTracking', ClassMetadata::FETCH_EAGER)
-                ->setFetchMode('ProgracqteurWikipedaleBundle:Model\Place\PlaceTracking', 'place', ClassMetadata::FETCH_EAGER)
-                ->getResult();
-        
-        $notifier = $this->getContainer()
-                ->get('progracqteur.wikipedale.notification.sender.mail');
         
         //set the locale to FR:
         $this->getContainer()->get('translator')->setLocale('fr');
+        //set the URL and scheme
         $context = $this->getContainer()->get('router')->getContext();
         $context->setHost('uello.be');
         $context->setScheme('http');
         
-        foreach ($pendingNotifications as $pn)
-        {
-            echo "Traitement de la pendingNotification ".$pn->getId()."\n";
-            $notifier->addNotification($pn);
-            $em->remove($pn);
+        $nc = $this->getContainer()->get('progracqteur.wikipedale.notification.corner');
+        
+        $processors = $nc->getProcessors();
+        
+        foreach ($processors as $processor) {
+            echo "NotificationBisCommand: process on ".$processor->getKey().get_class($processor)." \n";
+            echo $processor->process($input->getArgument(self::ARGUMENT_FREQUENCY));
         }
         
-        $notifier->send();
+        $transporters = $nc->getTransporters();
         
-        //send email in the spool in dev environement
-        //if ($this->getContainer()->get('kernel')->getEnvironment() === 'dev') {
-            $container = $this->getContainer();
-            $mailer = $container->get('mailer');
-            $spool = $mailer->getTransport()->getSpool();
-            $transport = $container->get('swiftmailer.transport.real');
+        foreach ($transporters as $transporter) {
+            echo "NotificationBisCommand: Traitement du transporter ".get_class($transporter)." \n";
+            $transporter->send();
+        }
+        
+        $mailer = $this->getContainer()->get('mailer');
+        $spool = $mailer->getTransport()->getSpool();
+        $transport = $this->getContainer()->get('swiftmailer.transport.real');
 
-            $spool->flushQueue($transport);
-        //}
+        $spool->flushQueue($transport);
         
-        $em->flush();
+        foreach($processors as $processor) {
+           $processor->finishProcess();
+        }
         
         echo "ok ! \n";
         

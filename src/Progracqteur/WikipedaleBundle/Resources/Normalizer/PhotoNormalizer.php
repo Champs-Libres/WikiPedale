@@ -39,7 +39,7 @@ class PhotoNormalizer implements NormalizerInterface {
             'height' => $object->getHeight(),
             'legend' => $object->getLegend(),
             'creator'=> $this->normalizerService->getUserNormalizer()->normalize($object->getCreator(), $format),
-            'placeId' => $object->getPlace()->getId(),
+            'reportId' => $object->getReport()->getId(),
             'published' => $object->getPublished(),
             'filename' => $object->getFileName(),
             'photoType' => $object->getPhotoType(),

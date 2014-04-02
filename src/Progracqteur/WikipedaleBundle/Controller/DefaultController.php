@@ -33,14 +33,14 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         if ($id != null) {
-            $place = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Place')
+            $report = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Report')
                 ->find($id);
             
-            if ($place === null OR $place->isAccepted() == FALSE) {
-                throw $this->createNotFoundException('errors.404.place.not_found');
+            if ($report === null OR $report->isAccepted() == FALSE) {
+                throw $this->createNotFoundException('errors.404.report.not_found');
             }
             
-            $stringGeo = $this->get('progracqteur.wikipedale.geoservice')->toString($place->getGeom());
+            $stringGeo = $this->get('progracqteur.wikipedale.geoservice')->toString($report->getGeom());
             
             $city = $em->createQuery('select c 
                     from ProgracqteurWikipedaleBundle:Management\Zone c
@@ -71,13 +71,13 @@ class DefaultController extends Controller
         $terms_allowed = ' ';
         $terms_allowed_array = array();
         $iTerm = 0;
-        foreach ($this->get('service_container')->getParameter('place_types') 
+        foreach ($this->get('service_container')->getParameter('report_types') 
                 as $target => $array) {
             //TODO extendds to other transports
             if ($target === 'bike') {
                 foreach ($array["terms"] as $term) {
                     if ($this->get('security.context')->isGranted(
-                            $term['mayAddToPlace'])){
+                            $term['mayAddToReport'])){
                         if ($iTerm > 0) {
                             $terms_allowed .= ', ';
                         }
@@ -101,8 +101,8 @@ class DefaultController extends Controller
                 ->getResult();
         //Todo: cachable query
         
-        $placeTypes = $this->getDoctrine()->getManager()
-                ->getRepository('ProgracqteurWikipedaleBundle:Model\Place\PlaceType')
+        $reportTypes = $this->getDoctrine()->getManager()
+                ->getRepository('ProgracqteurWikipedaleBundle:Model\Report\ReportType')
                 ->findAll();
         //TODO : cachable query
         
@@ -119,13 +119,13 @@ class DefaultController extends Controller
             'mainCities' => $mainCities, 
             'cities' => $cities,
             'categories' => $categories,
-            'placeTypes' => $placeTypes,
+            'reportTypes' => $reportTypes,
             'managers' => $managers,
             'terms_allowed' => $terms_allowed_array
         );
 
         if ($id != null) {
-            $paramsToView['goToPlaceId'] = $id;
+            $paramsToView['selectedReportId'] = $id;
         }
         
         return $this->render('ProgracqteurWikipedaleBundle:Default:homepage.html.twig', 

@@ -1,0 +1,12 @@
+Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportType:
+  type: entity
+  table: placetype
+  readOnly: ~
+  id:
+    id:
+      type: integer
+      generator: {strategy: AUTO}
+  fields:
+    label:
+      type: string
+      length: 255

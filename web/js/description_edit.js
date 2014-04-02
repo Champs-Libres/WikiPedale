@@ -12,7 +12,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
       new_lat = null,
       new_lon = null,
       new_position = null,
-      url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
+      url_edit = Routing.generate('wikipedale_report_change', {_format: 'json'});
 
    function stop_position_edition() {
       /**
@@ -38,7 +38,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
       * Hides all the forms that were opened (and display the data in text) and
       * stops the postion description edition.
       */
-      $('#div__place_description_display div').each(function(i,e) {
+      $('#div__report_description_display div').each(function(i,e) {
          var id_e = $(e).attr('id');
          if(id_e !== undefined && id_e.indexOf('_edit') !== -1 &&  id_e.indexOf('div_') !== -1) {
             $(e).hide();
@@ -50,7 +50,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
          .attr('title', 'Editer');
       });
 
-      $('#div__place_description_display span').each(function(i,e) {
+      $('#div__report_description_display span').each(function(i,e) {
          // show span element except error 
          var id_e = $(e).attr('id');
          if(id_e !== undefined && id_e.indexOf('_error') === -1) {
@@ -88,7 +88,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
          mode_edit['lon_lat'] = true;
       } else {
          if (new_lat !== null) {
-            var signalement_id = parseInt($('#input_place_description_id').val()),
+            var signalement_id = parseInt($('#input_report_description_id').val()),
                json_request = json_string.edit_place_position(signalement_id,new_lon,new_lat);
             $.ajax({
                type: 'POST',
@@ -123,8 +123,8 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
       either the data given by the edition form relative 'element_type' is saved
       The choice between the two comportements is in function of the variable 'mode_edit'
       */
-      var element_id = '#span_place_description_' + element_type,
-         signalement_id = parseInt($('#input_place_description_id').val()),
+      var element_id = '#span_report_description_' + element_type,
+         signalement_id = parseInt($('#input_report_description_id').val()),
          signalement = descriptions.get_by_id(signalement_id),
          json_request;
 
@@ -143,7 +143,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
          }
 
          $(element_id).hide();
-         $('#div_place_description_' + element_type + '_edit').show();
+         $('#div_report_description_' + element_type + '_edit').show();
          $(element_id + '_button').html(
             $(document.createElement('img'))
                .attr('src', basic_data_and_functions.web_dir + 'img/sauver.png')
@@ -193,7 +193,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
                   }
                   markers_filtering.display_markers_regarding_to_filtering();
                   $(element_id +  '_error').hide();
-                  $('#div_place_description_' + element_type + '_edit').hide();
+                  $('#div_report_description_' + element_type + '_edit').hide();
                   $(element_id).show();
                   $(element_id + '_button').html(
                      $(document.createElement('img'))

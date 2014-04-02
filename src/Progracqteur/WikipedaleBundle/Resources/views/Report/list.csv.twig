@@ -1,0 +1,7 @@
+"{{ 'csv.report.list.id'|trans}}","{{ 'csv.report.list.address'|trans }}","{{ 'csv.report.list.lat'|trans }}", "{{ 'csv.report.list.lon'|trans }}", "{{ 'csv.report.list.description'|trans }}", "{{ 'csv.report.list.createDate'|trans }}", "{{ 'csv.report.list.category'|trans }}", "{{ 'csv.report.list.term.title'|trans }}", "{{ 'csv.report.list.moderator_status'|trans }}", "{{ 'csv.report.list.moderator_comment'| trans }}", "{{ 'csv.report.list.creator'|trans }}", {% spaceless %}{% if is_granted('ROLE_SEE_USER_DETAILS') %} "{{ 'csv.report.list.creator_email'|trans }}", "{{ 'csv.report.list.creator_phone'|trans }}", {% endif %} {% endspaceless %} 
+{% for report in reports %}
+{% spaceless %}
+{{ report.id }},                  "{{ report.address.road|raw }}",         {{ report.geom.lat|raw }},           {{ report.geom.lon|raw }},           "{{ report.description|raw }}",             "{{ report.createDate|date(date_format) }}", "{{ report.category[0].hierarchicalLabel|default('')|raw }}", "{{ ('csv.report.list.term.' ~ report.term)|trans }}", "{{ 'csv.report.list.statuses'|transchoice(report.statuses[0].value|default(0)) }}"   , "{{ report.moderatorComment|raw }}",   "{{ report.creator.label|raw }}",                           {% if is_granted('ROLE_SEE_USER_DETAILS') %} "{{ report.creator.email|raw }}",                  "{{ report.creator.phoneNumber|raw }}",            {% endif %}
+{% endspaceless %}
+
+{% endfor %}

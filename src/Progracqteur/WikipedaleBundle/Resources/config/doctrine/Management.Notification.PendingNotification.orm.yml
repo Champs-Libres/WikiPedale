@@ -10,7 +10,10 @@ Progracqteur\WikipedaleBundle\Entity\Management\Notification\PendingNotification
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription
       mappedBy: pendingNotifications
       fetch: EAGER
-    placeTracking:
-      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Place\PlaceTracking
+    reportTracking:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking
       mappedBy: pendingNotifications
       fetch: EAGER
+      joinColumn:
+        name: placetracking_id
+        referencedColumnName: id

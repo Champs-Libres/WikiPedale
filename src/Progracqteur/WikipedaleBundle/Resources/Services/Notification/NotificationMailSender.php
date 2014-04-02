@@ -12,7 +12,10 @@ use Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationSe
 use Progracqteur\WikipedaleBundle\Resources\Services\Notification\SendPendingNotificationException;
 
 /**
- * Description of NotificationSender
+ * This is the sender for email.
+ * 
+ * To compose the email, this class use the class 
+ * Progracqteur\WikipedaleBundle\Resources\Services\Notification\ToTextMailSenderService
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
