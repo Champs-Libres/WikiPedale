@@ -125,20 +125,6 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
                 }
             }
             
-            //at first, check if recorded categories match with a one existing 
-            // in the json request. If yes, delete from the request's categories's array
-            // if the category is not in the json's request, remove the category
-            // from the report.
-            foreach ($p->getCategory() as $recordedCat) {
-                $categoryIsAssociatedWithReport = false;
-                foreach ($arrayCategories as $key => $newCat) {
-                    if ($newCat->getId() == $recordedCat->getId()) {
-                        $categoryIsAssociatedWithReport = true;
-                        unset($arrayCategories[$key]);
-                        break;  
-                    }
-                }
-            }
             //add category remaining in json's request: those are new categories
             foreach ($arrayCategories as $newCat) {
                 $p->setCategory($newCat);
