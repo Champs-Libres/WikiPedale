@@ -22,7 +22,6 @@ class TermValidator extends ConstraintValidator {
     
     private $message = "validators.term.not_valid_term";
     
-    
     public function __construct($report_type) {
         $this->report_type = $report_type;
     }
@@ -34,9 +33,7 @@ class TermValidator extends ConstraintValidator {
      */
     public function validate($report, Constraint $constraint) {
         //TODO term is now used in categories. This should be adapted.
-        
         $valid_terms = array();
-        
         foreach ($this->report_type as $target => $array) {
             //TODO : we work only for bike report now
             var_dump($target);
@@ -47,25 +44,12 @@ class TermValidator extends ConstraintValidator {
                 }
             }
         }
-
-        echo "-------------\n";
-        var_dump($valid_terms);
-        echo "-------------\n";
-        echo $report->getTerm();
-        echo "--------------\n";
-        //var_dump($report->getCategory());
-        echo $report->getCategory()->getTerm();
-        echo "-------------\n";
         
-        if (in_array($report->getCategory()->getTerm(), $valid_terms)) {
-            //this is ok !
-        } else {
+        if (! in_array($report->getCategory()->getTerm(), $valid_terms)) {
             //we have a problem :-)
             $this->context->addViolationAt('term', $this->message, 
                     array('%term%' => $report->getTerm()), null);
         }
-        
     }
-   
 }
 
