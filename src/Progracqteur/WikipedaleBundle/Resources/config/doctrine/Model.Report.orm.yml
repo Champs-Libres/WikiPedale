@@ -40,9 +40,9 @@ Progracqteur\WikipedaleBundle\Entity\Model\Report:
 #    prePersist: [registerCurrentChangeset]
     preFlush: [registerCurrentChangeset]
   manyToOne:
-#    category:
-#      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category
-#      nullable: true
+    category:
+      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category
+      nullable: true
     creator:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\User
       nullable: true
@@ -67,17 +67,3 @@ Progracqteur\WikipedaleBundle\Entity\Model\Report:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Comment
       mappedBy: place
       cascade: [persist]
-  manyToMany:
-    category:
-      targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Category
-      nullable: true
-      joinTable:
-        name: place_category
-        joinColumns:
-          place_id:
-            referencedColumnName: id
-        inverseJoinColumns:
-          category_id:
-            referencedColumnName: id
-
-

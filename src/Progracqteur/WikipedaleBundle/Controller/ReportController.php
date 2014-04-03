@@ -230,12 +230,6 @@ class ReportController extends Controller
         $serializer = $this->get('progracqteurWikipedaleSerializer');
         $report = $serializer->deserialize($serializedJson, NormalizerSerializerService::REPORT_TYPE, 'json');
         
-        $categories = $report->getCategory();
-        if(! $categories->isEmpty()) {
-            $logger->warn('Ajout automatique du term selon la categorie ');
-            $report->setTerm($categories->first()->getTerm());
-        }
-        
         //SECURITE: refuse la modification d'une report par un utilisateur anonyme
         if (
                 ($this->get('security.context')->getToken()->getUser() instanceof User) == false 

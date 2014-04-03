@@ -148,9 +148,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
         $this->address = new Address();
         $this->changesets = new \Doctrine\Common\Collections\ArrayCollection();
         $this->getChangeset()->addChange(ChangeService::REPORT_CREATION, null);
-        $this->category = new \Doctrine\Common\Collections\ArrayCollection();
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
-        
         //initialize the placeStatuses (tel quel dans la db)
         $this->infos->placeStatuses = new Hash();
     }
@@ -257,23 +255,23 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
         return $this->geom;
     }
     
-    
     /**
      * 
      * @param string $term
      */
-    public function setTerm($term) {
+    public function setTerm($term)
+    {
         if ($term !== $this->term) {
             $this->term = $term;
             $this->change('term', $this->term, $term);
             
             $this->getChangeset()->addChange(ChangeService::REPORT_TERM, $term);
-            
-        }   
+        }
     }
     
-    public function getTerm() {
-        return $this->term;
+    public function getTerm()
+    {
+        return $this->category->getTerm();
     }
 
     /**
@@ -307,8 +305,6 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     {
         return $this->nbVote;
     }
-
-
 
     /**
      * Get nbComm
@@ -967,85 +963,27 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     public function addPropertyChangedListener(PropertyChangedListener $listener) {
         $this->_listeners[] = $listener;
     }
-   
-    
-    /**
-     *
-     * @var \Doctrine\Common\Collections\ArrayCollection 
-     */
-    private $proxyAddCategory = null;
 
     /**
-     * Add category
+     * Assign a new category to the Report
      *
-     * @param Progracqteur\WikipedaleBundle\Entity\Model\Category $category
-     * @return Progracqteur\WikipedaleBundle\Entity\Model\Report
+     * Until now: no categories with children are accepted
+     *
+     * @param Progracqteur\WikipedaleBundle\Entity\Model\Category $category The new category
      */
-    public function addCategory(Category $category)
+    public function setCategory(Category $category)
     {
-        $this->category[] = $category;
-        if ($this->proxyAddCategory === null) {
-            $this->proxyAddCategory = new \Doctrine\Common\Collections\ArrayCollection();
-        }
-        
-        $this->proxyAddCategory->add($category);
-        
-        $this->getChangeset()->addChange(ChangeService::REPORT_ADD_CATEGORY, $this->proxyAddCategory);
-        
-        return $this;
+        $this->category = $category;
     }
 
     /**
      * Get category
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Progracqteur\WikipedaleBundle\Entity\Model\Category  The category of the report
      */
     public function getCategory()
     {
         return $this->category;
-    }
-    
-    
-    private $proxyRemoveCagory = null;
-    
-    /**
-     * 
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Category $category
-     * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report
-     */
-    public function removeCategory(Category $category)
-    {
-        foreach ($this->category as $key => $categoryRecorded)
-        {
-            if ($categoryRecorded->getId() === $category->getId()) {
-                $this->category->remove($key);
-                if ($this->proxyRemoveCagory === null) {
-                    $this->proxyRemoveCagory = new \Doctrine\Common\Collections\ArrayCollection();
-                }
-                $this->proxyRemoveCagory->add($category);
-                
-                $this->getChangeset()
-                        ->addChange(ChangeService::REPORT_REMOVE_CATEGORY, 
-                                $this->proxyRemoveCagory);
-            }
-        }
-        
-        return $this;
-    }
-    
-    /**
-     * 
-     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Category\Progracqteur\WikipedaleBundle\Entity\Model\Category $category
-     * @return boolean
-     */
-    public function hasCategory(Category $category)
-    {
-        foreach($this->category as $cat) {
-            if ($cat->getId() == $category->getId()) {
-                return true;
-            }
-        }
-        return false;
     }
     
     /**
@@ -1057,12 +995,8 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
      */
     public function isCategoriesValid(ExecutionContext $context)
     {
-        echo "isCategoriesValid \n";
-        foreach($this->getCategory() as $cat) {
-            if ($cat->hasChildren()) {
-                $context->addViolationAtSubPath('category', 'validation.report.category.have_children', array(), null);
-                return;
-            }
+        if ($this->category->hasChildren()) {
+            $context->addViolationAtSubPath('category', 'validation.report.category.have_children', array(), null);
         }
     }
     

@@ -60,7 +60,7 @@ class LoadReportData extends AbstractFixture implements OrderedFixtureInterface,
             $rand = array_rand($cat_array);
             $cat_string_ref = 'cat'.$cat_array[$rand];
             echo "add $cat_string_ref \n";
-            $report->addCategory($this->getReference('cat'.$cat_array[$rand]));
+            $report->setCategory($this->getReference('cat'.$cat_array[$rand]));
             
             //ajout un statut à toutes les report, sauf à quatre d'entre elles
             if ($i != 0 OR $i != 10 OR $i != 15 OR $i != 19)
@@ -166,7 +166,7 @@ class LoadReportData extends AbstractFixture implements OrderedFixtureInterface,
             {
                 $cat_string_ref = 'cat'.$cat_array[$rand];
                 echo "add $cat_string_ref \n";
-                $report->addCategory($this->getReference('cat'.$cat_array[$rand]));
+                $report->setCategory($this->getReference('cat'.$cat_array[$rand]));
             }
             
             //add a type (little 4 more frequently)

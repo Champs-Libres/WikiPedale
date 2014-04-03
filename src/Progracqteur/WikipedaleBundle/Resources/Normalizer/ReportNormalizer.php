@@ -114,6 +114,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             }
         }
         
+        //TODO simplifier
         if (isset($data['categories'])) {
             $arrayCategories = array();
             foreach($data['categories'] as $cat) {
@@ -137,13 +138,10 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
                         break;  
                     }
                 }
-                if ($categoryIsAssociatedWithReport == false) {
-                    $p->removeCategory($recordedCat);
-                } 
             }
             //add category remaining in json's request: those are new categories
             foreach ($arrayCategories as $newCat) {
-                $p->addCategory($newCat);
+                $p->setCategory($newCat);
             }
         }
         
@@ -205,12 +203,10 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
         }
         
         //create an array with categories
-        $categories = $object->getCategory();
+        $category = $object->getCategory();
         $c = array();
         
-        foreach ($categories as $cat) {
-            $c[] = $this->service->getCategoryNormalizer()->normalize($cat, $format);
-        }
+        $c[] = $this->service->getCategoryNormalizer()->normalize($category, $format);
         
         if ($object->getManager() !== null) {
             $manager = $this->service->getGroupNormalizer()->normalize($object->getManager());
