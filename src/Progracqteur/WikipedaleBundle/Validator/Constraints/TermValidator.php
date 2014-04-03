@@ -54,7 +54,7 @@ class TermValidator extends ConstraintValidator {
         echo $report->getTerm();
         echo "--------------\n";
         //var_dump($report->getCategory());
-        echo $report->getCategory()[0]->getTerm();
+        echo $report->getCategory()->getTerm();
         echo "-------------\n";
         
         if (in_array($report->getCategory()->getTerm(), $valid_terms)) {
