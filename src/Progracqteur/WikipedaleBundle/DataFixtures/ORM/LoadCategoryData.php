@@ -89,7 +89,6 @@ class LoadCategoryData extends AbstractFixture implements ContainerAwareInterfac
     */
    private function newCategory($label, $order,  $parent=null, $term='short')
    {
-      echo "$label - $order - $parent - $term \n";
       $cat = new Category();
       $cat->setLabel($label);
       $cat->setOrder($order);
@@ -106,7 +105,6 @@ class LoadCategoryData extends AbstractFixture implements ContainerAwareInterfac
    private function newParent($label)
    {
       echo "newParent : " . $label ."\n";
-      echo $this->nextParentOrder;
       $this->actualParent = $this->newCategory($label,$this->nextParentOrder);
       $this->nextChildrenOrder = $this->nextParentOrder + 0.01;
       $this->nextParentOrder = $this->nextParentOrder + 0.1;

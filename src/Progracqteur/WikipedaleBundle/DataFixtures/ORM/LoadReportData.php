@@ -13,6 +13,12 @@ use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 
+/*
+ * 1 seul status
+ * notation tjs cem
+ * tjs 1 manager
+ */
+
 class LoadReportData extends AbstractFixture implements OrderedFixtureInterface, \Symfony\Component\DependencyInjection\ContainerAwareInterface
 {
     public function getOrder()
@@ -50,14 +56,11 @@ class LoadReportData extends AbstractFixture implements OrderedFixtureInterface,
             $report->setAddress($add);
             
             //add a random category amongst the one loaded
-            $cat_array = array('1', '2', '3', null, null, null, null);
+            $cat_array = array('1', '2', '3');
             $rand = array_rand($cat_array);
-            if ($cat_array[$rand] !== null) 
-            {
-                $cat_string_ref = 'cat'.$cat_array[$rand];
-                echo "add $cat_string_ref \n";
-                $report->addCategory($this->getReference('cat'.$cat_array[$rand]));
-            }
+            $cat_string_ref = 'cat'.$cat_array[$rand];
+            echo "add $cat_string_ref \n";
+            $report->addCategory($this->getReference('cat'.$cat_array[$rand]));
             
             //ajout un statut à toutes les report, sauf à quatre d'entre elles
             if ($i != 0 OR $i != 10 OR $i != 15 OR $i != 19)
@@ -67,6 +70,7 @@ class LoadReportData extends AbstractFixture implements OrderedFixtureInterface,
                         ->setValue($valuesNotations[array_rand($valuesNotations)]);
                 $report->addStatus($p);
                 
+                /*
                 //ajoute un deuxième statut à une sur trois
                 if ($i%3 == 0)
                 {
@@ -75,13 +79,14 @@ class LoadReportData extends AbstractFixture implements OrderedFixtureInterface,
                         ->setValue($valuesNotations[array_rand($valuesNotations)]);
                 $report->addStatus($p);
                 }
+                */
             }
             
             //ajout d'un manager de voirie responsable à une report sur deux
-            if ((($i+2) % 2) === 0)
-            {
+            //if ((($i+2) % 2) === 0)
+            //{
                 $report->setManager($this->getReference('manager_mons'));
-            }
+            //}
             
             $report->getChangeset()->setAuthor($this->getReference('user'));
             
@@ -94,7 +99,6 @@ class LoadReportData extends AbstractFixture implements OrderedFixtureInterface,
             echo "type de le signalement est ".$report->getType()->getLabel()." \n";
             
             $errors = $this->container->get('validator')->validate($report);
-            var_dump($errors);
             if (count($errors) > 0)
             {
                 $m = "";

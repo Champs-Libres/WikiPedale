@@ -39,14 +39,25 @@ class TermValidator extends ConstraintValidator {
         
         foreach ($this->report_type as $target => $array) {
             //TODO : we work only for bike report now
+            var_dump($target);
+            var_dump($array);
             if ($target === "bike") {
                 foreach ($array["terms"] as $term) {
                     $valid_terms[] = $term['key'];
                 }
             }
         }
+
+        echo "-------------\n";
+        var_dump($valid_terms);
+        echo "-------------\n";
+        echo $report->getTerm();
+        echo "--------------\n";
+        //var_dump($report->getCategory());
+        echo $report->getCategory()[0]->getTerm();
+        echo "-------------\n";
         
-        if (in_array($report->getTerm(), $valid_terms)) {
+        if (in_array($report->getCategory()->getTerm(), $valid_terms)) {
             //this is ok !
         } else {
             //we have a problem :-)

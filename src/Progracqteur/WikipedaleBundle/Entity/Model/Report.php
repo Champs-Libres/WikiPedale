@@ -574,9 +574,11 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
      */
     public function isStatusesValid(ExecutionContext $context)
     {
+        echo "Is StatusesValid\n";
         $this->initializeProxyStatuses();
 
         foreach($this->getStatuses() as $status) {
+            echo $status->getValue() . "\n";
             if (!($status->getValue() >= -1 && $status->getValue() <= 3)) {
                 $propertyPath = $context->getPropertyPath() . '.status';
                 $context->setPropertyPath($propertyPath);
@@ -584,6 +586,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
             }
         }
         
+        echo "Is StatusesValid : True\n";
         return true;
     }
     
@@ -598,6 +601,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
      */
     public function hasOnlyOneChange(ExecutionContext $context)
     {
+        echo "hasOnlyOneChange \n";
         if ($this->proxyCountStatusChanges <= 1) {
             return true;
         } else {
@@ -1053,6 +1057,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
      */
     public function isCategoriesValid(ExecutionContext $context)
     {
+        echo "isCategoriesValid \n";
         foreach($this->getCategory() as $cat) {
             if ($cat->hasChildren()) {
                 $context->addViolationAtSubPath('category', 'validation.report.category.have_children', array(), null);
@@ -1063,11 +1068,15 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     
     public function isManagerValid(ExecutionContext $context)
     {
+        echo "isManagerValid \n";
         if ($this->getManager() !== null 
                 && $this->getManager()->getType() !== Group::TYPE_MANAGER ) {
+            echo $this->getManager()->getType(); echo "\n";
+            echo Group::TYPE_MANAGER; echo "\n";
             $context->addViolationAtSubPath('manager', 'validation.report.manager.group_is_not_type_manager', 
                     array(), $this->getManager());
         }
+        echo "fin\n ";
     }
     
     public function checkEmptyReportTracking() {
