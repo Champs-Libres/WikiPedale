@@ -229,7 +229,7 @@ class ReportController extends Controller
         
         $serializer = $this->get('progracqteurWikipedaleSerializer');
         $report = $serializer->deserialize($serializedJson, NormalizerSerializerService::REPORT_TYPE, 'json');
-        
+
         //SECURITE: refuse la modification d'une report par un utilisateur anonyme
         if (
                 ($this->get('security.context')->getToken()->getUser() instanceof User) == false 
@@ -362,7 +362,7 @@ class ReportController extends Controller
             $hashCheckCode = hash('sha512', $report->getCreator()->getCheckCode());
             $params['checkcode'] = $hashCheckCode;
         }     
-               
+
         return $this->redirect(
             $this->generateUrl('wikipedale_report_view', $params));
     }

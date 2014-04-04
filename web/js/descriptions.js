@@ -58,12 +58,10 @@ define(['jQuery','params'], function($,params) {
       }
 
         // Then adding the id in id_for regarding to the new_description
-      $.each(a_description.categories, function(i, c) {
-         if (typeof id_for['Categories'][parseInt(c.id)] === 'undefined') {
-            id_for['Categories'][parseInt(c.id)] = [];
-         }
-         id_for['Categories'][parseInt(c.id)].push(desc_id);
-      });
+      if (typeof id_for['Categories'][parseInt(a_description.category.id)] === 'undefined') {
+         id_for['Categories'][parseInt(a_description.category.id)] = [];
+      }
+      id_for['Categories'][parseInt(a_description.category.id)].push(desc_id);
 
       if (a_description.placetype != null) {
          if (typeof id_for['PlaceTypes'][parseInt(a_description.placetype.id)] === 'undefined') {
@@ -112,10 +110,8 @@ define(['jQuery','params'], function($,params) {
       var desc_id = parseInt(a_description.id);
       var index_sig;
 
-      $.each(a_description.categories, function(i,c) {
-         index_sig = id_for['Categories'][parseInt(c.id)].indexOf(desc_id);
-         id_for['Categories'][parseInt(c.id)].splice(index_sig,1);
-      });
+      index_sig = id_for['Categories'][parseInt(a_description.category.id)].indexOf(desc_id);
+      id_for['Categories'][parseInt(a_description.category.id)].splice(index_sig,1);
 
       $.each(a_description.statuses, function(i, stat) {
          if (stat.t == params.manager_color) {

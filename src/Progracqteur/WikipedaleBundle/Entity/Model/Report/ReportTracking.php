@@ -113,6 +113,9 @@ class ReportTracking implements ChangesetInterface {
                 case ChangeService::REPORT_REPORTTYPE_ALTER:
                     $newValue = $newValue->getId();
                     break;
+                case ChangeService::REPORT_CATEGORY:
+                    $newValue = $newValue->getId();
+                    break;
                 case ChangeService::REPORT_ADD_CATEGORY:
                 case ChangeService::REPORT_REMOVE_CATEGORY:
                     $ids = array();
@@ -269,16 +272,6 @@ class ReportTracking implements ChangesetInterface {
             
             switch ($key)
             {
-                case ChangeService::REPORT_CREATOR:
-                    //Il ne faut rien faire: report creator n'est normalement pas permis
-                    $newValue = $value;
-                    break;
-                case ChangeService::REPORT_ADD_PHOTO:
-                    $newValue = $value;
-                    break;
-                case ChangeService::REPORT_CREATION:
-                    $newValue = $value;
-                    break;
                 case ChangeService::REPORT_GEOM:
                     $newValue = Point::fromGeoJson($value);
                     break;
@@ -292,15 +285,13 @@ class ReportTracking implements ChangesetInterface {
                     $status->setType($a->type)->setValue($a->value);
                     $newValue = $status;
                     break;
-                case ChangeService::REPORT_REPORTTYPE_ALTER:
+                case ChangeService::REPORT_ADD_CATEGORY: //DEPRECIATE
+                case ChangeService::REPORT_REMOVE_CATEGORY: //DEPRECIATEs
+                    $newValue = $json_decode($value);
+                    break;
+                default: //REPORT_CATEGORY, REPORT_REPORTTYPE_ALTER, REPORT_CREATION, REPORT_ADD_PHOTO, REPORT_CREATOR
                     $newValue = $value;
                     break;
-                case ChangeService::REPORT_ADD_CATEGORY:
-                case ChangeService::REPORT_REMOVE_CATEGORY: 
-                    $a = json_decode($value);
-                    $newValue = $a;
-                default:
-                    $newValue = $value;
             }
 
             //for debugging in case of message "Notice: Undefined variable: 

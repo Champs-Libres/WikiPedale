@@ -31,9 +31,9 @@ define(['jQuery','params'], function($,params) {
       return (typeof u.roles !== 'undefined') && $.inArray('ROLE_ADMIN', u.roles) !== -1;
    }
 
-   function canModifyCategories() {
+   function canModifyCategory() {
       /**
-      * True if the user can create or alter categories on a place.
+      * True if the user can create or alter category of a report.
       */
       return (typeof u.roles !== 'undefined') && $.inArray('ROLE_CATEGORY', u.roles) !== -1;
    }
@@ -169,7 +169,7 @@ define(['jQuery','params'], function($,params) {
       update: update,
       reset: reset,
       isAdmin: isAdmin,
-      canModifyCategories: canModifyCategories,
+      canModifyCategory: canModifyCategory,
       canModifyLittleDetails: canModifyLittleDetails,
       canVieuwUsersDetails: canVieuwUsersDetails,
       canModifyPlacetype: canModifyPlacetype,

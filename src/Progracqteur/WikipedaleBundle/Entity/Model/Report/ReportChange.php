@@ -56,8 +56,9 @@ class ReportChange implements ChangeInterface{
      * - REPORT_STATUS_Zone = deprecated;
      * - REPORT_CREATOR = this should not happen;
      * - REPORT_ACCEPTED = boolean;
-     * - REPORT_ADD_CATEGORY = array of id of categories after the changes were made;
-     * - REPORT_REMOVE_CATEGORY = array of id of categories afther the changes were made;
+     * - REPORT_CATEGORY = the new id of the category
+     * - REPORT_ADD_CATEGORY = DEPRECIATE :  array of id of categories after the changes were made; 
+     * - REPORT_REMOVE_CATEGORY =  DEPRECIATE : array of id of categories afther the changes were made;
      * - REPORT_REPORTTYPE_ALTER = id of the new reporttype
      * -REPORT_MANAGER_ADD ou REPORT_MANAGER_ALTER ou REPORT_MANAGER_REMOVE: id of the manager's group
      * 

@@ -80,7 +80,7 @@ define(['jQuery', 'map_display', 'descriptions', 'description'], function ($, ma
          if (typeof desc_data !== undefined) {
             // desc_data does not have a status of type cem it has to be considered as 0 (not considered)
             if ($.inArray(parseInt(description.get_status('cem', desc_data, 0)),statusCeM_to_display) !== -1 &&
-               $.inArray(parseInt(description.get_category_id(desc_data, -1)),id_cat_to_display) !== -1) {
+               $.inArray(parseInt(desc_data.category.id),id_cat_to_display) !== -1) {
                map_display.display_marker(desc_id);
             } else {
                map_display.undisplay_marker(desc_id);

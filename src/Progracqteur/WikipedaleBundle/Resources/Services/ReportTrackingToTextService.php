@@ -164,10 +164,6 @@ class ReportTrackingToTextService {
             $args['%more%'] = $more;
             return $this->t->transChoice('report.change.more', $more, $args, $domain);
         }
-        
-        
-        
-        
     }
     
     
@@ -187,8 +183,9 @@ class ReportTrackingToTextService {
             case ChangeService::REPORT_GEOM:
                 return $this->t->trans('change.report.geom', array(), $d);
                 break;
-            case ChangeService::REPORT_ADD_CATEGORY:
-            case ChangeService::REPORT_REMOVE_CATEGORY:
+            case ChangeService::REPORT_CATEGORY: 
+            case ChangeService::REPORT_ADD_CATEGORY: //DEPRECIATE
+            case ChangeService::REPORT_REMOVE_CATEGORY: //DEPRECIATE
                 return $this->t->trans('change.report.category', array(), $d);
                 break;
             case ChangeService::REPORT_REPORTTYPE_ALTER:

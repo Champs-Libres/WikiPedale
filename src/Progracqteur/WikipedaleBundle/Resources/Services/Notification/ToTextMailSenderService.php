@@ -433,8 +433,9 @@ class ToTextMailSenderService {
             case ChangeService::REPORT_GEOM:
                 return $this->t->trans('mail.report.change.item.geom', array(), $d);
                 break;
-            case ChangeService::REPORT_ADD_CATEGORY:
-            case ChangeService::REPORT_REMOVE_CATEGORY:
+            case ChangeService::REPORT_CATEGORY:
+            case ChangeService::REPORT_ADD_CATEGORY: //depreciated
+            case ChangeService::REPORT_REMOVE_CATEGORY: //depreciate
                 return $this->t->trans('mail.report.change.item.category', array(), $d);
                 break;
             case ChangeService::REPORT_REPORTTYPE_ALTER:

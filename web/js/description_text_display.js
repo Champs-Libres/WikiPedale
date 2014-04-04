@@ -32,18 +32,12 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
       To be executed when the user click on a marker on the index page.
       * @param {int} id_desc The id of the description.
       */
-      var categories_list,
-         desc_data = descriptions.get_by_id(id_desc);
+      var desc_data = descriptions.get_by_id(id_desc);
 
       current_description_id = id_desc;
       photo.refresh_span_photo(id_desc);
       $('#link_add_photo').unbind('click');
       $('#link_add_photo').click(function() { photo.pop_up_add_photo(id_desc); });
-
-      categories_list = '';
-      $.each(desc_data.categories, function(i,c) {
-         categories_list = categories_list + c.label + ' ';
-      });
 
       $('.class_span_report_description_id').each(function() { this.innerHTML = desc_data.id; });
       $('.class_span_report_description_loc').each(function() { this.innerHTML = desc_data.addressParts.road; });
@@ -62,7 +56,7 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
          $('#div_container_report_description_commentaireCeM').hide();
       }
 
-      $('#span_report_description_cat').text(categories_list);
+      $('#span_report_description_cat').text(desc_data.category.label);
 
       if (desc_data.placetype == null) {
          $('#span_report_description_type').text('pas encore de type assigné');
@@ -96,7 +90,7 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
       * this function display or not the button with which we can edit the 
       * information
       */
-      if (user.canModifyCategories() || user.isAdmin()) {
+      if (user.canModifyCategory() || user.isAdmin()) {
          $('#span_report_description_cat_button').show();
       } else {
          $('#span_report_description_cat_button').hide();

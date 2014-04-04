@@ -32,8 +32,9 @@ class ChangeService {
     const REPORT_CREATOR = 160;
     const REPORT_ACCEPTED = 170;
     const REPORT_CHECK = 173;
-    const REPORT_ADD_CATEGORY = 180;
-    const REPORT_REMOVE_CATEGORY = 181;
+    const REPORT_ADD_CATEGORY = 180; //depreciate
+    const REPORT_REMOVE_CATEGORY = 181; //depreciate
+    const REPORT_CATEGORY = 182;
     const REPORT_MANAGER_ADD = 190;
     const REPORT_MANAGER_ALTER = 193;
     const REPORT_MANAGER_REMOVE = 198;
@@ -297,7 +298,22 @@ class ChangeService {
                      //la modification des photos est réglé dans le controleur PhotoController
                      continue;
                      break;
-                 case self::REPORT_ADD_CATEGORY:
+                 case self::REPORT_CATEGORY :
+                     //allowed for everybody on creation, only for group 
+                     //"ROLE_CATEGORY" later
+                     if ($object->getChangeset()->isCreation()) {
+                         continue;
+                     }
+                     
+                     if ($this->securityContext->isGranted(User::ROLE_CATEGORY)) {
+                         //TODO: wheen we will need it, check if the user may add the category
+                         //with specific term using report_type
+                         continue;
+                     } else {
+                         throw ChangeException::param('add category ');
+                     }
+                     break;
+                 case self::REPORT_ADD_CATEGORY: // DEPRECIATE
                      //allowed for everybody on creation, only for group 
                      //"ROLE_CATEGORY" later
                      if ($object->getChangeset()->isCreation())
@@ -314,7 +330,7 @@ class ChangeService {
                          throw ChangeException::param('add category ');
                      }
                      break;
-                 case self::REPORT_REMOVE_CATEGORY:
+                 case self::REPORT_REMOVE_CATEGORY: // DEPRECIATE
                      //allowed only for ROLE_CATEGORY
                      if ($this->securityContext->isGranted(User::ROLE_CATEGORY))
                      {

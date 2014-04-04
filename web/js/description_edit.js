@@ -131,9 +131,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
       if (! (element_type in mode_edit && mode_edit[element_type])) {
          // SHOW THE EDIT FORM
          if (element_type === 'cat'){
-            var categories_selected = [];
-            $.each(signalement.categories, function(i,c) { categories_selected.push(c.id); });
-            $(element_id + '_edit').select2('val', categories_selected);
+            $(element_id + '_edit').select2('val', signalement.category.id);
          } else if (element_type === 'status') {
             var color_selected = 0;
             $.each(signalement.statuses, function(i,s) { if(s.t === params.manager_color) color_selected = s.v; });
@@ -177,11 +175,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
                   var new_description = output_json.results[0];
                   descriptions.single_update(new_description);
                   if(element_type === 'cat'){
-                     var categories_list = '';
-                     $.each(new_description.categories, function(i,c) {
-                        categories_list = categories_list + c.label + ' ';
-                     });
-                     $(element_id).text(categories_list);
+                     $(element_id).text(new_description.category.label);
                   } else if (element_type === 'status'){
                      map_display.update_marker_for(signalement_id, 'selected');
                   } else if (element_type === 'gestionnaire') {

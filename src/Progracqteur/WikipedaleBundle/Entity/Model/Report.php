@@ -211,11 +211,9 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
      */
     public function getAddress()
     {
-        if ($this->address != null) 
-        {
+        if ($this->address != null) {
             return $this->address;
-        } else 
-        {
+        } else {
             $addr =  new Address();
             $addr->setRoad('Adresse inconnue');
             return $addr;
@@ -229,16 +227,13 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
      */
     public function setGeom(Point $geom)
     {
-        if ($this->getGeom() === null)
-        {
+        if ($this->getGeom() === null) {
             $this->geom = $geom;
             return;
         }
         
-        if (
-                $this->getGeom()->getLat() != $geom->getLat()
-                && $this->getGeom()->getLon() != $geom->getLon()) 
-        {
+        if ( $this->getGeom()->getLat() != $geom->getLat()
+            && $this->getGeom()->getLon() != $geom->getLon()) {
             $this->change('geom', $this->geom, $geom);
             $this->geom = $geom;
             $this->getChangeset()->addChange(ChangeService::REPORT_GEOM, $geom );
@@ -687,8 +682,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     {
         $this->nbPhoto--;
         $this->change('nbPhoto', ($this->nbPhoto +1), $this->nbPhoto);
-        //TODO: implémenter tracking policy
-                
+        //TODO: implémenter tracking policy        
     }
 
  
@@ -749,7 +743,6 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
                 ChangeService::REPORT_MODERATOR_COMMENT_ALTER, 
                 $comment);
         }
-        
         return $this;
     }
     
@@ -863,7 +856,6 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
             $this->getChangeset()->addChange(ChangeService::REPORT_REPORTTYPE_ALTER, $type);
         }
         
-        
         return $this;
     }
     
@@ -968,7 +960,11 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
      */
     public function setCategory(Category $category)
     {
-        $this->category = $category;
+        if ($this->category !== $category) {
+            $this->change('category', $this->category, $category);
+            $this->category = $category;
+            $this->getChangeset()->addChange(ChangeService::REPORT_CATEGORY, $category);
+        }        
     }
 
     /**

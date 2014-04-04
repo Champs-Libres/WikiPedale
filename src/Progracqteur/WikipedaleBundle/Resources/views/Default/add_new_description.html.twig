@@ -54,9 +54,9 @@
     </p>
 
     <p>
-      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__categories" alt="is the field ok">
+      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__category" alt="is the field ok">
       <label for="add_new_description_form__categories">{{ 'AddPoint.PointData.categories'|trans({}, 'pointMessages') }}</label>
-      <select id="add_new_description_form__categories" name="categories" style="width:250px;" data-placeholder="{{ 'AddPoint.PointData.categories_placeholder'|trans({}, 'pointMessages') }}">
+      <select id="add_new_description_form__categories" name="category" style="width:250px;" data-placeholder="{{ 'AddPoint.PointData.categories_placeholder'|trans({}, 'pointMessages') }}">
           {% for category in categories %}
               {% if category.hasChildren %}
                     <optgroup label="{{ category.label }}" >
@@ -80,7 +80,7 @@
     <p/>
 
     <p>
-      <span id="add_new_description_form_informer__categories_medium_warning" class="warningMessage">{{ 'AddPoint.medium_warning'|trans({}, 'pointMessages') }}</span>
+      <span id="add_new_description_form_informer__category_medium_warning" class="warningMessage">{{ 'AddPoint.medium_warning'|trans({}, 'pointMessages') }}</span>
     </p>
 
 

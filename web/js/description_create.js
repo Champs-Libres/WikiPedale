@@ -20,14 +20,8 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
          error_messages = '',
          messages_div = $('#add_new_description_form__message');
 
-      desc_data['categories'] = [];
-
       $.map($(the_form_to_catch).serializeArray(), function(n){
-         if (n['name'] === 'categories') {
-            desc_data['categories'].push(n['value']);
-         } else {
-            desc_data[n['name']] = n['value'];
-         }
+         desc_data[n['name']] = n['value'];
       });
 
       if(desc_data['description'] === '') {
@@ -63,7 +57,7 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
                $(messages_div).text('Traitement en cours');
                var entity_string = json_string.edit_place(desc_data['description'], desc_data['lon'],
                   desc_data['lat'], desc_data['lieu'], desc_data['id'], desc_data['couleur'],
-                  desc_data['user_label'], desc_data['email'], desc_data['user_phonenumber'],desc_data['categories']);
+                  desc_data['user_label'], desc_data['email'], desc_data['user_phonenumber'],desc_data['category']);
                var url_edit = Routing.generate('wikipedale_report_change', {_format: 'json'});
                $.ajax({
                   type: 'POST',

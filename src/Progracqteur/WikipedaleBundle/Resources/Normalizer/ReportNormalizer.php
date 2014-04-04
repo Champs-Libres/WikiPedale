@@ -113,21 +113,18 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
                 }
             }
         }
+
+        echo "-----BLOP";
         
         //TODO simplifier
-        if (isset($data['categories'])) {
-            $arrayCategories = array();
-            foreach($data['categories'] as $cat) {
-                if ($this->service->getCategoryNormalizer()->supportsDenormalization($cat, $class, $format)) {
-                    $arrayCategories[] = $this->service->getCategoryNormalizer()->denormalize($cat, null);
-                } else {
-                    throw new NormalizingException('Could not denormalize category '.print_r($cat, true));
-                }
-            }
-            
-            //add category remaining in json's request: those are new categories
-            foreach ($arrayCategories as $newCat) {
-                $p->setCategory($newCat);
+        if (isset($data['category'])) {
+            echo "CATEGORY";
+            if ($this->service->getCategoryNormalizer()->supportsDenormalization($data['category'], $class, $format)) {
+                $newCategory = $this->service->getCategoryNormalizer()->denormalize($data['category'], null);
+                //var_dump($newCategory);
+                $p->setCategory($newCategory);
+            } else {
+                throw new NormalizingException('Could not denormalize category '.print_r($cat, true));
             }
         }
         
@@ -176,9 +173,9 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
      * @return array
      */
     public function normalize($object, $format = null, array $context = array()) {
-        $creator = $object->getCreator();
         $addrNormalizer = $this->service->getAddressNormalizer();
         $userNormalizer = $this->service->getUserNormalizer();
+        $categoryNomalizer = $this->service->getCategoryNormalizer();
         
         //create an array with statuses
         $statuses = $object->getStatuses();
@@ -187,12 +184,6 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
         foreach ($statuses as $status) {
             $s[] = array('t' => $status->getType(), 'v' => $status->getValue());
         }
-        
-        //create an array with categories
-        $category = $object->getCategory();
-        $c = array();
-        
-        $c[] = $this->service->getCategoryNormalizer()->normalize($category, $format);
         
         if ($object->getManager() !== null) {
             $manager = $this->service->getGroupNormalizer()->normalize($object->getManager());
@@ -220,14 +211,14 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             'id' => $object->getId(),
             'nbComm' => $object->getNbComm(),
             'nbVote' => $object->getNbVote(),
-            'creator' => $userNormalizer->normalize($creator, $format),
+            'creator' => $userNormalizer->normalize($object->getCreator(), $format),
             'addressParts' => $addrNormalizer->normalize($object->getAddress(), $format),
             'createDate' => $this->service->getDateNormalizer()->normalize($object->getCreateDate(), $format),
             'lastUpdate' => $this->service->getDateNormalizer()->normalize($object->getLastUpdate(), $format),
             'nbPhotos' => $object->getNbPhoto(),
             'accepted' => $object->isAccepted(),
             'statuses' => $s,
-            'categories' => $c,
+            'category' => $categoryNomalizer->normalize($object->getCategory(), $format),
             'manager' => $manager,
             self::TERM => $object->getTerm(),
             self::REPORT_TYPE => $reportType,

@@ -84,24 +84,7 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
       * @param{int} id The id of the description.
       * @param{int} new_category_id The new category id.
       */
-      return change_place(id,'"categories":[{"entity":"category","id":' + new_category_id + '}]');
-   }
-
-   function edit_categories(id, new_categories_id){
-      /**
-      * Returns a json for editing the categories of a place.
-      * @param{int} id The id of the description.
-      * @param{int array} new_categories_id The new categories id.
-      */
-      var categories_desc = '"categories":[';
-      for (var i = 0; i < new_categories_id.length; i++) {
-         categories_desc = categories_desc + '{"entity":"category","id":' + new_categories_id[i] + '}';
-         if (i < (new_categories_id.length - 1)) {
-            categories_desc = categories_desc + ',';
-         }
-      }
-      categories_desc = categories_desc + ']';
-      return change_place(id,categories_desc);
+      return change_place(id,'"category":{"entity":"category","id":' + new_category_id + '}');
    }
 
    function edit_status(id,status_type,new_status_value){
@@ -154,7 +137,7 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
       return change_place(id,'"accepted":false');
    }
 
-   function edit_place(description, lon, lat, address, id, color, user_label, user_email, user_phonenumber, categories) {
+   function edit_place(description, lon, lat, address, id, color, user_label, user_email, user_phonenumber, category) {
       /**
       * Returns a json string used for adding/editing a new description.
       * @param {string} description the description of the new place.
@@ -166,7 +149,7 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
       * @param {string} user_label The label given by the user : if the user is register and logged this field is not considered
       * @param {string} user_email The email given by the user : if the user is register and logged this field is not considered
       * @param {string} user_phonenumber The phonenumber given by the user : if the user is register and logged this field is not considered
-      * @param {array of string} caterogies The ids of categories selected
+      * @param {int} caterogy The id of the selected category
       */
       var ret = '{"entity":"report"';
 
@@ -187,14 +170,7 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
       ret = ret + ',"description":' + JSON.stringify(description) +
          ',"addressParts":{"entity":"address","road":' + JSON.stringify(address) + '}';
 
-      ret = ret + ',"categories":[';
-      for (var i = 0; i < categories.length; i++) {
-         ret = ret + '{"entity":"category","id":' + categories[i] + '}';
-         if (i < (categories.length - 1)) {
-            ret = ret + ',';
-         }
-      }
-      ret = ret + ']';
+      ret = ret + ',"category":{"entity":"category","id":' + category + '}';
       return ret + '}';
    }
    return {
@@ -204,7 +180,6 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
       edit_description: edit_description,
       edit_location: edit_location,
       edit_category: edit_category,
-      edit_categories: edit_categories,
       edit_status: edit_status,
       edit_manager: edit_manager,
       edit_place_type: edit_place_type,

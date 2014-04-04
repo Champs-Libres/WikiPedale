@@ -16,7 +16,7 @@ define(['jQuery','basic_data_and_functions'], function($,basic_data_and_function
          $(img_element).attr('src', basic_data_and_functions.web_dir + 'img/verif_rien.png');
       });
 
-      $('#add_new_description_form_informer__categories_medium_warning').hide();
+      $('#add_new_description_form_informer__category_medium_warning').hide();
    }
 
    function update_new_description_form(field_name) {
@@ -28,14 +28,14 @@ define(['jQuery','basic_data_and_functions'], function($,basic_data_and_function
       var value = $('#add_new_description_form__' + field_name).attr('value');
       var is_valid = 'oui';
 
-      if(field_name == 'categories') {
-         var term = $('#add_new_description_form__categories [value='+ value + ']').attr('data-term');
+      if(field_name == 'category') {
+         var term = $('#add_new_description_form__category [value='+ value + ']').attr('data-term');
 
          if(term == 'medium') {
-            $('#add_new_description_form_informer__categories_medium_warning').show();
+            $('#add_new_description_form_informer__category_medium_warning').show();
          }
          else {
-            $('#add_new_description_form_informer__categories_medium_warning').hide();
+            $('#add_new_description_form_informer__category_medium_warning').hide();
          }
       }
 

@@ -27,21 +27,7 @@ define([], function() {
       return notFoundValue;
    }
 
-   function get_category_id(desc,notFoundValue) {
-   /**
-    * Access to the category id of a description
-    * @param {Description} desc The description
-    * @param {AGivenData} notFoundValue The value to return if the description has not category (impossible)
-   */
-      if(desc.categories.length === 0) {
-         return notFoundValue;
-      } else {
-         return parseInt(desc.categories[0].id);
-      }
-   }
-
    return {
-      get_status: get_status,
-      get_category_id: get_category_id
+      get_status: get_status
    };
 });
