@@ -113,12 +113,9 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
                 }
             }
         }
-
-        echo "-----BLOP";
         
         //TODO simplifier
         if (isset($data['category'])) {
-            echo "CATEGORY";
             if ($this->service->getCategoryNormalizer()->supportsDenormalization($data['category'], $class, $format)) {
                 $newCategory = $this->service->getCategoryNormalizer()->denormalize($data['category'], null);
                 //var_dump($newCategory);

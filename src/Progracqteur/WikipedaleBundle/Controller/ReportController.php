@@ -331,10 +331,8 @@ class ReportController extends Controller
             throw new HttpException(403, 'Erreurs de validation : '.$stringErrors);
         }
         
-        
         $em = $this->getDoctrine()->getManager();
         $em->persist($report);
-        
         
         //If the change is a creation, suscribe the creator to notification
         //only for registered users - a notificaiton will be suscribe at email confirmation for unregistered
