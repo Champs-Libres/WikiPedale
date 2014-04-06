@@ -31,9 +31,6 @@ Progracqteur\WikipedaleBundle\Entity\Model\Report:
     accepted:
       type: boolean
       default: true
-    term:
-      type: text
-      length: 30
     moderatorComment:
       type: text
   lifecycleCallbacks:

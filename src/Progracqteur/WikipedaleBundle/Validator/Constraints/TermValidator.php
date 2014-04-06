@@ -46,7 +46,7 @@ class TermValidator extends ConstraintValidator {
         if (! in_array($report->getCategory()->getTerm(), $valid_terms)) {
             //we have a problem :-)
             $this->context->addViolationAt('term', $this->message, 
-                    array('%term%' => $report->getTerm()), null);
+                    array('%term%' => $report->getCategory()->getTerm()), null);
         }
     }
 }

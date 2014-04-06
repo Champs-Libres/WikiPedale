@@ -117,12 +117,6 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     private $type;
     
     /**
-     *
-     * @var string 
-     */
-    private $term ;
-    
-    /**
      * comment for moderators of the system
      * 
      * @var string
@@ -248,25 +242,6 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     public function getGeom()
     {
         return $this->geom;
-    }
-    
-    /**
-     * 
-     * @param string $term
-     */
-    public function setTerm($term)
-    {
-        if ($term !== $this->term) {
-            $this->term = $term;
-            $this->change('term', $this->term, $term);
-            
-            $this->getChangeset()->addChange(ChangeService::REPORT_TERM, $term);
-        }
-    }
-    
-    public function getTerm()
-    {
-        return $this->category->getTerm();
     }
 
     /**

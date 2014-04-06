@@ -325,21 +325,6 @@ class DebugController extends Controller {
         $place->setGeom($point);
         
         $report_type = $this->get('service_container')->getParameter('report_types');
-        $valid_terms = array();
-        
-        foreach ($report_type as $target => $array) {
-            //TODO : we work only for bike place now
-            if ($target === "bike") {
-                foreach ($array["terms"] as $term) {
-                    $valid_terms[] = $term['key'];
-                }
-            }
-        }
-        
-        $term = $valid_terms[array_rand($valid_terms)];
-
-        $place->setTerm($term);
-        
 
         $add = $this->geolocate($point);
 

@@ -156,10 +156,6 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             $p->setModeratorComment($data[self::MODERATOR_COMMENT]);
         }
         
-        if (isset($data[self::TERM])) {
-            $p->setTerm($data[self::TERM]);
-        }
-        
         return $p;
     }
     
@@ -217,7 +213,6 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             'statuses' => $s,
             'category' => $categoryNomalizer->normalize($object->getCategory(), $format),
             'manager' => $manager,
-            self::TERM => $object->getTerm(),
             self::REPORT_TYPE => $reportType,
             self::MODERATOR_COMMENT => $object->getModeratorComment(),
             self::COMMENTS => $nbComments,
