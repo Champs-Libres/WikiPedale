@@ -9,7 +9,7 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking;
 use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 
 /**
- * Description of NotificationFilterBySubscriptionKind
+ * This class filter all notification which may be send by Managers (ROLE_MANAGER).
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
@@ -21,6 +21,17 @@ class NotificationFilterBySubscriptionManager implements NotificationFilter {
         $this->listEvents = $listEvents;
     }
     
+    /**
+     * 
+     * Return true if the notification is only for manager, and the user associated
+     * with the notification is a manager, 
+     * 
+     * Return false instead.
+     * 
+     * @param \Progracqteur\WikipedaleBundle\Resources\Security\ChangesetInterface $changeset
+     * @param \Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription $subscription
+     * @return boolean
+     */
     public function mayBeSend(ChangesetInterface $changeset, NotificationSubscription $subscription) {
         
         if ($subscription->getKind() !== NotificationSubscription::KIND_MANAGER) {
@@ -37,7 +48,7 @@ class NotificationFilterBySubscriptionManager implements NotificationFilter {
             }
             
             
-            //check if the subscriber is the manager of the place
+            //check if the subscriber is the manager of the report
             
             if ($changeset->getReport()->getManager() === null){
                 return false;

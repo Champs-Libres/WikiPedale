@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Progracqteur\WikipedaleBundle\Resources\Services\GeoService | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../Progracqteur/WikipedaleBundle/Resources/Services.html">Progracqteur\WikipedaleBundle\Resources\Services</a>\GeoService</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>GeoService</strong></p>
+
+            <div class="description">
+            <p>This service is a tool for geographic operation where the database is needed.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(<abbr title="Doctrine\ORM\EntityManager">EntityManager</abbr> $em)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_toString">toString</a>(<a href="../../../../Progracqteur/WikipedaleBundle/Resources/Geo/Point.html"><abbr title="Progracqteur\WikipedaleBundle\Resources\Geo\Point">Point</abbr></a> $geog)
+                    <p>This function return the postgis'string of a Geographic Point.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_covers">covers</a>(string $polygon, <a href="../../../../Progracqteur/WikipedaleBundle/Resources/Geo/Point.html"><abbr title="Progracqteur\WikipedaleBundle\Resources\Geo\Point">Point</abbr></a> $point)
+                    <p>return whether the point is covered be (= inside a) polygon</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 23</div>
+        <code>            public            
+    <strong>__construct</strong>(<abbr title="Doctrine\ORM\EntityManager">EntityManager</abbr> $em)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Doctrine\ORM\EntityManager">EntityManager</abbr></td>
+                <td>$em</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_toString">
+        <div class="location">at line 36</div>
+        <code>            public            string
+    <strong>toString</strong>(<a href="../../../../Progracqteur/WikipedaleBundle/Resources/Geo/Point.html"><abbr title="Progracqteur\WikipedaleBundle\Resources\Geo\Point">Point</abbr></a> $geog)</code>
+    </h3>
+    <div class="details">
+        <p>This function return the postgis'string of a Geographic Point.</p>
+        <p>It use a postgis database request to convert the point to the postgis string</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../Progracqteur/WikipedaleBundle/Resources/Geo/Point.html"><abbr title="Progracqteur\WikipedaleBundle\Resources\Geo\Point">Point</abbr></a></td>
+                <td>$geog</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_covers">
+        <div class="location">at line 63</div>
+        <code>            public            boolean
+    <strong>covers</strong>(string $polygon, <a href="../../../../Progracqteur/WikipedaleBundle/Resources/Geo/Point.html"><abbr title="Progracqteur\WikipedaleBundle\Resources\Geo\Point">Point</abbr></a> $point)</code>
+    </h3>
+    <div class="details">
+        <p>return whether the point is covered be (= inside a) polygon</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$polygon</td>
+                <td>the postgis representation of the polygon</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../../Progracqteur/WikipedaleBundle/Resources/Geo/Point.html"><abbr title="Progracqteur\WikipedaleBundle\Resources\Geo\Point">Point</abbr></a></td>
+                <td>$point</td>
+                <td>the postgis representation of the point</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

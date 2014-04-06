@@ -8,8 +8,8 @@
     <script data-main="{{ asset('js/firefoxos_signal.js') }}" src="{{ asset('js/require.js') }}"></script>
     
     {% if (app.session.get('city') ) %}
-        {% if goToPlaceId is defined %}
-            <span id="data_for_init" data-city='{{ app.session.get('city').name }}' data-lon="{{app.session.get('city').center.lon}}" data-lat="{{app.session.get('city').center.lat}}" data-description_selected_id="{{goToPlaceId}}" data-firefoxos="true"></span>
+        {% if selectedReportId is defined %}
+            <span id="data_for_init" data-city='{{ app.session.get('city').name }}' data-lon="{{app.session.get('city').center.lon}}" data-lat="{{app.session.get('city').center.lat}}" data-description_selected_id="{{selectedReportId}}" data-firefoxos="true"></span>
         {% else %}
             <span id="data_for_init" data-city='{{ app.session.get('city').name }}' data-lon="{{app.session.get('city').center.lon}}" data-lat="{{app.session.get('city').center.lat}}" data-firefoxos="true"></span>
         {% endif %}

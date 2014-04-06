@@ -6,6 +6,21 @@ use Symfony\Component\DependencyInjection\Container;
 
 /**
  * This class receive all notifications processers ans senders
+ * 
+ * This is the main corner of the notification system.
+ * 
+ * This class gather :
+ * - services tagged with 'progracqteur.wikipedale.notification.processor'. Those
+ * should extends the abstract class NotificationProcessor. They are responsible of
+ * searching for notifications into the database and give them to the transporters, 
+ * which will be responsible, in turn, for sending them.
+ * - services tagged with 'progracqteur.wikipedale.notification.transport', aka
+ * the "transporters". Those should extend NotificationSender. 
+ * 
+ * NotificationCorner is executed into the wikipedale:notification:send command.
+ * 
+ * 
+ * 
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */

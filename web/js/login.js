@@ -65,7 +65,7 @@ define(['jQuery','data_map_glue','user'], function($,data_map_glue,user) {
       $('#menu_logout').css('display', 'inline-block');
       $('#menu_register').hide();
 
-      $('#div_new_place_form_user_mail').hide();
+      $('#div_new_report_form_user_mail').hide();
 
       $('a.connexion').colorbox.close('');
       $('.username').text(user.data().label);

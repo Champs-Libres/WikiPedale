@@ -28,11 +28,23 @@ abstract class NotificationSender {
                 ->postSendingProcess($notification, $exception);
     }
     
+    /**
+     * Register a notificaiton which will be send later, when the function "send"
+     * will be executed
+     * 
+     * @param PendingNotification $notification the notification to send
+     */
     abstract public function addNotification(PendingNotification $notification);
     
+    /**
+     * This command really send the notification.
+     */
     abstract public function send();
     
     /**
+     * A string which will be an unique identifier for the sender. This key is
+     * used by notificationCorner, NotificationProcessor, ...
+     * 
      * @return string
      */
     abstract public function getKey();

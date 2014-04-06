@@ -28,7 +28,7 @@ class ReportTrackingNormalizer implements NormalizerInterface {
     
     
     public function denormalize($data, $class, $format = null, array $context = array()) {
-        throw new \Exception("denormalization of a placeTracking is forbidden");
+        throw new \Exception("denormalization of a reportTracking is forbidden");
     }
 
     /**
@@ -42,11 +42,11 @@ class ReportTrackingNormalizer implements NormalizerInterface {
         
         $a = array(
           'id' => $object->getId(),
-          'entity' => 'placeTracking',
+          'entity' => 'reportTracking',
           'date' => $this->service->getDateNormalizer()->normalize($object->getDate(), $format),
           'isCreation' => $object->isCreation(),
           'author' => $userNormalizer->normalize($object->getAuthor()),
-          'placeId' => $object->getReport()->getId()
+          'reportId' => $object->getReport()->getId()
         );
         
         $changes = array();
@@ -86,7 +86,7 @@ class ReportTrackingNormalizer implements NormalizerInterface {
         
         $a['changes'] = $changes;
         $a['text'] = $this->service->getContainer()
-                ->get('progracqteur.wikipedale.place.tracking.toText')
+                ->get('progracqteur.wikipedale.report.tracking.toText')
                 ->toText($object);
         
         return $a;

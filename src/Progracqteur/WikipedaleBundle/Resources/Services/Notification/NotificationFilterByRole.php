@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * 
- *
+ * @internal is this action duplicated with NotificationFilterBySubscriptionPublicReport ?
  * @author Julien Fastré <julien arobase fastre point info>
  */
 class NotificationFilterByRole {
@@ -44,7 +44,7 @@ class NotificationFilterByRole {
         
         if ($changeset->getReport()->isAccepted() === false)
         {
-            echo "FILTER BY ROLE place not accepted \n";
+            echo "FILTER BY ROLE report not accepted \n";
             return false;
         } 
         

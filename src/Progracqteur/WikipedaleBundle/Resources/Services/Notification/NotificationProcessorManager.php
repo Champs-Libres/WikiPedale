@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 
 /**
- * Description of NotificationProcessorModerator
+ * Process notification for managers.
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
@@ -57,7 +57,7 @@ class NotificationProcessorManager extends NotificationProcessor {
                 ->setParameter('frequency', $frequency)
                 ->setParameter('subscription_kind', NotificationSubscription::KIND_MANAGER)
                 ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'subscription', ClassMetadata::FETCH_EAGER)
-                ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'placeTracking', ClassMetadata::FETCH_EAGER)
+                ->setFetchMode('ProgracqteurWikipedaleBundle:Management\Notification\PendingNotification', 'reportTracking', ClassMetadata::FETCH_EAGER)
                 ->setFetchMode('ProgracqteurWikipedaleBundle:Model\Report\ReportTracking', 'report', ClassMetadata::FETCH_EAGER)
                 ->getResult();
         
@@ -71,14 +71,14 @@ class NotificationProcessorManager extends NotificationProcessor {
 
                     echo "NPManager: Notification de la ReportTracking ". 
                             $notification->getReportTracking()->getId() .
-                            " (placeid) ".$notification->getReportTracking()->getReport()->getId().
+                            " (reportId) ".$notification->getReportTracking()->getReport()->getId().
                             " à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                             "\n";
 
                 } else {
                     echo "NPManager: Refus DE Notification de la ReportTracking par FilterBySubscription ". 
                             $notification->getReportTracking()->getId() .
-                            " (placeid ".$notification->getReportTracking()->getReport()->getId().
+                            " (reportId ".$notification->getReportTracking()->getReport()->getId().
                             ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                             "\n";
                     
@@ -91,7 +91,7 @@ class NotificationProcessorManager extends NotificationProcessor {
             } else {
                 echo "NPManager: Interdiction De Notification de la ReportTracking par FilterByRole ". 
                         $notification->getReportTracking()->getId() .
-                        " (placeid ".$notification->getReportTracking()->getReport()->getId().
+                        " (reportId ".$notification->getReportTracking()->getReport()->getId().
                         ") à l'utilisateur ".$notification->getSubscription()->getOwner()->getLabel().
                         "\n";
                 $this->om->remove($notification);

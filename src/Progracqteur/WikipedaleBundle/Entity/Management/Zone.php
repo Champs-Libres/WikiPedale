@@ -27,6 +27,7 @@ class Zone {
 
     /**
      * @var string $codeProvince
+     * TODO : remove this field: unused !
      */
     private $codeProvince;
 

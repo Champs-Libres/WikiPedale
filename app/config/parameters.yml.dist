@@ -20,14 +20,14 @@ parameters:
     
     #uello
     cities_in_front_page: [mons, tournai, liege, walhain, namur]
-    place_types       :
+    report_types       :
       bike :
             label : place_type.bike.label
             terms : 
-               - {key: short, label: place_type.bike.short.label, mayAddToPlace: IS_AUTHENTICATED_ANONYMOUSLY}
-               - {key: long, label: place_type.bike.long.label, mayAddToPlace: ROLE_PLACE_TERM }
-               - {key: medium, label: place_type.bike.medium.label, mayAddToPlace: IS_AUTHENTICATED_ANONYMOUSLY }     
-    place_type_default: 'bike.short'
+               - {key: short, label: place_type.bike.short.label, mayAddToReport: IS_AUTHENTICATED_ANONYMOUSLY}
+               - {key: long, label: place_type.bike.long.label, mayAddToReport: ROLE_PLACE_TERM }
+               - {key: medium, label: place_type.bike.medium.label, mayAddToReport: IS_AUTHENTICATED_ANONYMOUSLY }     
+    report_type_default: 'bike.short'
     user_manuel_url : 'url to the user manuel'
     contact_url : 'contact url or mailo'
 

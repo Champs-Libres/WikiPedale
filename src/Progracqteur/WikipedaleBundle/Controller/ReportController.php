@@ -228,7 +228,7 @@ class ReportController extends Controller
         }
         
         $serializer = $this->get('progracqteurWikipedaleSerializer');
-        $report = $serializer->deserialize($serializedJson, NormalizerSerializerService::PLACE_TYPE, 'json');
+        $report = $serializer->deserialize($serializedJson, NormalizerSerializerService::REPORT_TYPE, 'json');
         
         $categories = $report->getCategory();
         if(! $categories->isEmpty()) {
@@ -289,7 +289,7 @@ class ReportController extends Controller
                             array(
                                 'code' => $checkCode,
                                 'user' => $report->getCreator(),
-                                'place' => $report
+                                'report' => $report
                             )), 'text/plain'
                     );
 
@@ -370,7 +370,7 @@ class ReportController extends Controller
         }     
                
         return $this->redirect(
-            $this->generateUrl('wikipedale_place_view', $params));
+            $this->generateUrl('wikipedale_report_view', $params));
     }
     
     /**
@@ -381,15 +381,15 @@ class ReportController extends Controller
      *
      * @param Symfony\Component\HttpFoundation\Request $request the request
      * @param string $token The confirmation code
-     * @param int $placeId The id of the related report
+     * @param int $reportId The id of the related report
      *
      * @return Symfony\Component\HttpFoundation\Response Error 401 if problems. If not a confrmation page.
      */
-    public function confirmUserAction(Request $request, $token, $placeId) 
+    public function confirmUserAction(Request $request, $token, $reportId) 
     {
         $report = $this->getDoctrine()->getManager()
             ->getRepository('ProgracqteurWikipedaleBundle:Model\Report')
-            ->find($placeId);
+            ->find($reportId);
         
         if ($report === null) {
             throw $this->createNotFoundException('Report not found');

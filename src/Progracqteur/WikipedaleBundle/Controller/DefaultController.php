@@ -71,13 +71,13 @@ class DefaultController extends Controller
         $terms_allowed = ' ';
         $terms_allowed_array = array();
         $iTerm = 0;
-        foreach ($this->get('service_container')->getParameter('place_types') 
+        foreach ($this->get('service_container')->getParameter('report_types') 
                 as $target => $array) {
             //TODO extendds to other transports
             if ($target === 'bike') {
                 foreach ($array["terms"] as $term) {
                     if ($this->get('security.context')->isGranted(
-                            $term['mayAddToPlace'])){
+                            $term['mayAddToReport'])){
                         if ($iTerm > 0) {
                             $terms_allowed .= ', ';
                         }
@@ -125,7 +125,7 @@ class DefaultController extends Controller
         );
 
         if ($id != null) {
-            $paramsToView['goToPlaceId'] = $id;
+            $paramsToView['selectedReportId'] = $id;
         }
         
         return $this->render('ProgracqteurWikipedaleBundle:Default:homepage.html.twig', 

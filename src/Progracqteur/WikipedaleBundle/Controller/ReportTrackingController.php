@@ -77,13 +77,13 @@ class ReportTrackingController extends Controller {
                 break;
             case 'atom' :
 
-                $r = $this->render('ProgracqteurWikipedaleBundle:History:places.atom.twig', array(
+                $r = $this->render('ProgracqteurWikipedaleBundle:History:reports.atom.twig', array(
                    'title' => $city->getName(),
                    'subtitle' => "Dernières mises à jour de la ville de ".$city->getName(),
                    'tracks' => $tracks,
                    'citySlug' => $city->getSlug(),
-                   'toTextService' => $this->get('progracqteur.wikipedale.place.tracking.toText'),
-                   'urlFeed' => $this->generateUrl('wikipedale_history_place_by_city', 
+                   'toTextService' => $this->get('progracqteur.wikipedale.report.tracking.toText'),
+                   'urlFeed' => $this->generateUrl('wikipedale_history_report_by_city', 
                            array('_format' => 'atom',
                                'citySlug' => $citySlug), true)
                 ));

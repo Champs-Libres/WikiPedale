@@ -9,7 +9,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 use Progracqteur\WikipedaleBundle\Entity\Management\Notation;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjction\ContainerInterface;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 
 /**
@@ -17,232 +17,110 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Category;
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class LoadCategoryData extends AbstractFixture implements ContainerAwareInterface, OrderedFixtureInterface {
-    
-    /**
+class LoadCategoryData extends AbstractFixture implements ContainerAwareInterface, OrderedFixtureInterface
+{
+   private $nextParentOrder = 0.1;
+   private $nextChildrenOrder = 0.11;
+   private $actualParent;
+
+   /**
      *
-     * @var Symfony\Component\DependencyInjection\ContainerInterface 
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface 
      */
     private $container;
     
-    public function load(ObjectManager $manager) {
-        
-        
-        $array = array(
-            'revetement' =>
-                array(
-                    'l' => "Revêtement", "Revêtement dégradé (trous, soulèvement, mal réparé)",
-                    'p' => null
-                ),
-            'revet_degrade' => 
-                array(
-                    'l' => "Revêtement dégradé (trous, soulèvement, mal réparé)",
-                    'p' => 'revetement'
-                ),
-            'eau_en pluie' =>
-                array(
-                    'l' => "Accumulation d'eau en cas de pluie",
-                    'p' => 'revetement'
-                ),
-            'bordure saillante' =>
-                array(
-                    'l' => "Bordure saillante",
-                    'p' => 'revetement'
-                ),
-            'signalisation' =>
-                array(
-                    'l' => "Signalisation",
-                    'p' => null
-                ),
-            'signalisation manquante' =>
-                array(
-                    'l' => "Signalisation manquante ou peu claire (balisage, panneau disparu...)",
-                    'p' => 'signalisation'
-                ),
-            'signalisation erronée' =>
-                array(
-                    'l' => "Signalisation erronée",
-                    "p" => "signalisation"
-                ),
-            'feux en panne' => 
-                array(
-                    'l' =>"Feux en panne",
-                    "p" => "signalisation"
-                ),
-            'marquage sol effacé' =>
-                array(
-                    'l' => "Marquages au sol effacés",
-                    'p' => "signalisation"
-                ),
-            'marquage sol incorrect' =>
-                array(
-                    'l' => "Marquages au sol incorrects",
-                    'p' => "signalisation"
-                ),
-            'obstacle' =>
-                array(
-                    'l' => "Obstacles",
-                    'p' => null
-                ),
-            'vegetation' =>
-                array(
-                    'l' => "De la végétation envahit le cheminement cyclable",
-                    'p' => 'obstacle'
-                ),
-            'dechets' => 
-                array(
-                    'l' => "Des déchets jonchent la voirie (débris de verre, graviers, terre, ...)"
-                    ,'p' => 'obstacle'
-                ),
-            'objets' =>
-                array(
-                    'l' => "Des objets créent des obstacles sur le cheminement cyclable (poubelle, encombrant)",
-                    'p' => 'obstacle'
-                ),
-            
-            'vehicule stationnement illegal' =>
-                array(
-                    'l' => "Des véhicules sont régulièrement stationnés sur le cheminement cyclable"
-                    , "p" => "obstacle"
-                ),
-            
-            'securite' =>
-                array(
-                    'l' => "Sécurité",
-                    "p" => null
-                ),
-            'eclairage' =>
-                array(
-                    'l' => "Éclairage public défectueux",
-                    'p'=> 'securite'
-                ),
-            'chantiers' =>
-                array(
-                    "l" => "Chantiers",
-                    "p" => NULL
-                ),
-            'pas deviation ' =>
-                array(
-                    'l' => "Pas de prise en compte des cyclistes pour la durée du chantier (déviation, ...)",
-                    "p" => "chantiers"
-                ),
-            'lumiere chantier manquant' =>
-                array(
-                    'l' => "Signalisation ou balises lumineuses du chantier manquantes/insuffisantes",
-                    'p' => 'chantiers'
-                ),
-            'amenagements disparus apres travaux' =>
-                array(
-                    'l' => "Aménagements cyclables disparus ou endommagés après les travaux",
-                    'p' => "chantiers"
-                ),
-            'parking' =>
-                array(
-                    'l' => "Parkings",
-                    'p' => null
-                ),
-            'stationnement velo defectueux' =>
-                array(
-                    'l' => "Stationnement vélo défectueux, abîmé ou non replacé",
-                    'p' => null
-                ),
-            'autre' =>
-                array(
-                    'l' => "Autre",
-                    "p" => null
-                ),
-            "autre - select" =>
-                array(
-                    'l' => "Autre",
-                    'p' => 'autre'
-                )
-            
-        );
-        
-        $categories = array();
-        $i = 0;
-        
-        foreach ($array as $key => $catdef)
-        {
-            $cat = new Category();
-            $categories[$key] = $cat;
-            
-            $cat->setLabel($catdef['l']);
-            if ($catdef['p'] !== null)
-            {
-                $cat->setParent($categories[$catdef['p']]);
-                $this->addReference('cat'.$i, $cat);
-                $i++;
-            }
-            $manager->persist($cat);
-        }
-        
-        $manager->flush();
-        
-/*
-        
-        $petit = new Category();
-        $petit->setLabel("Petits problèmes");
-        $manager->persist($petit);
-        
-        
-        $revetement = new Category();
-        $revetement->setLabel("Revêtement");
-        $revetement->setParent($petit);
-        $manager->persist($revetement);
-        
-        $mv = new Category();
-        $mv->setLabel("Mauvais revêtement")
-                ->setParent($revetement);
-        $manager->persist($mv);
-        
-        $this->addReference('cat1', $mv);
-        
-        $deg = new Category();
-        $deg->setLabel("Revêtement dégradé (trous...)")
-                ->setParent($revetement);
-        $manager->persist($deg);
-        
-        $this->addReference('cat2', $deg);
-        
-        $signal = new Category();
-        $signal->setLabel("Signalisation");
-        $signal->setParent($petit);
-        $manager->persist($signal);
-        
-        $feu = new Category();
-        $feu->setLabel("Feu en panne")
-                ->setParent($signal);
-        $manager->persist($feu);
-        
-        $this->addReference('cat3', $feu);
-        
-        $gros = new Category();
-        $gros->setLabel('Point noir');
-        $manager->persist($gros);
-        
-        $carrefour = new Category();
-        $carrefour->setLabel("Carrefours dangereux")
-                ->setParent($gros);
-        $manager->persist($carrefour);
-        
-        $cycl = new Category();
-        $cycl->setLabel("Pas de place au cycliste")
-                ->setParent($carrefour);
-        $manager->persist($cycl);
-        
-        $manager->flush();
- * 
- */
-        
-    }
-
-    public function setContainer(ContainerInterface $container = null) {
+    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null) {
         $this->container = $container;
     }
 
-    public function getOrder() {
-        return 400;
-    }
-}
+   /**
+    * Loads the category
+    */
+   public function load(ObjectManager $manager) 
+   {
+      $manager->persist($this->newParent("Revêtement"));
+      $rd = $this->newChildren("Revêtement dégradé (trous, soulèvement, mal réparé)");
+      $manager->persist($rd);
+      $this->addReference('cat1', $rd);
+      $manager->persist($this->newChildren("Accumulation d'eau en cas de pluie",'medium'));
+      $manager->persist($this->newChildren("Bordure saillante",'medium'));
 
+      $manager->persist($this->newParent("Signalisation"));
+      $manager->persist($this->newChildren("Signalisation manquante ou peu claire (balisage, panneau disparu...)"));
+      $se = $this->newChildren("Signalisation erronée");
+      $manager->persist($se);
+      $this->addReference('cat2', $se);
+      $manager->persist($this->newChildren("Marquages au sol effacés",'medium'));
+      $manager->persist($this->newChildren("Marquages au sol incorrects",'medium'));
+      
+      $manager->persist($this->newParent("Obstacles"));
+      $manager->persist($this->newChildren("De la végétation envahit le cheminement cyclable"));
+      $manager->persist($this->newChildren("Des déchets jonchent la voirie (débris de verre, graviers, terre, ...)"));
+      $manager->persist($this->newChildren("Des objets créent des obstacles sur le cheminement cyclable (poubelle, encombrant)"));
+      $manager->persist($this->newChildren("Des véhicules sont régulièrement stationnés sur le cheminement cyclable"));
+      
+      $manager->persist($this->newParent("Sécurité"));
+      $ed = $this->newChildren("Éclairage public défectueux");
+      $manager->persist($ed);
+      $this->addReference('cat3', $ed);
+
+      $manager->persist($this->newParent("Chantiers"));
+      $manager->persist($this->newChildren("Pas de prise en compte des cyclistes pour la durée du chantier (déviation, ...)"));
+      $manager->persist($this->newChildren("Signalisation ou balises lumineuses du chantier manquantes/insuffisantes"));
+      $manager->persist($this->newChildren("Aménagements cyclables disparus ou endommagés après les travaux"));
+      
+      $manager->persist($this->newParent("Parkings"));
+
+      $manager->persist($this->newParent("Stationnement vélo défectueux, abîmé ou non replacé"));
+
+      $manager->persist($this->newParent("Autre"));
+      $manager->persist($this->newChildren("Autre"));
+     
+      $manager->flush(); 
+   }
+
+   public function getOrder()
+   {
+      return 400;
+   }
+
+      /**
+    * Create a new category
+    */
+   private function newCategory($label, $order,  $parent=null, $term='short')
+   {
+      echo "$label - $order - $parent - $term \n";
+      $cat = new Category();
+      $cat->setLabel($label);
+      $cat->setOrder($order);
+      if($parent) {
+         $cat->setParent($parent);
+      }
+      $cat->setTerm($term);
+      return $cat;
+   }
+
+   /**
+    * Create a new category (parent)
+    */
+   private function newParent($label)
+   {
+      echo "newParent : " . $label ."\n";
+      echo $this->nextParentOrder;
+      $this->actualParent = $this->newCategory($label,$this->nextParentOrder);
+      $this->nextChildrenOrder = $this->nextParentOrder + 0.01;
+      $this->nextParentOrder = $this->nextParentOrder + 0.1;
+      return $this->actualParent;
+   }
+
+   /**
+    * Create a new category (children)
+    */
+   private function newChildren($label,$term='short')
+   {
+      echo "newChildren : " . $label ."\n";
+      $ret = $this->newCategory($label, $this->nextChildrenOrder,  $this->actualParent, $term);
+      $this->nextChildrenOrder = $this->nextChildrenOrder + 0.01;
+      return $ret;
+   }
+}

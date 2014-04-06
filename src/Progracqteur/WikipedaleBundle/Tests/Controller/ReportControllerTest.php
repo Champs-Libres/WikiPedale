@@ -64,16 +64,14 @@ class ReportControllerTest extends WebTestCase
         $this->assertEquals(1, $errors->count());
     }
     
-
     public function getValidator()
     {
         if ($this->_kernel === null) {
             $this->_kernel = new \AppKernel('dev', true);
             $this->_kernel->boot(); 
-        }
-        
 
-        return $this->_kernel->getContainer()->get('validator');
+        return $this->_kernel->getContainer()->get('validator');        
+
     }
     
     /**
@@ -95,9 +93,7 @@ class ReportControllerTest extends WebTestCase
             $u->setIp('192.168.1.89');
 
             $p->setCreator($u);
-
         } 
-        
 
         return $p;
     }
@@ -123,7 +119,6 @@ class ReportControllerTest extends WebTestCase
 
     public function createId()
     {
-  
 
         $s = '';
         $d = array_rand($this->z);
@@ -142,16 +137,15 @@ class ReportControllerTest extends WebTestCase
     {
         $a = new Address();
 
-
         //si la chaine est vide, retourne le hash
 
         $dom = new \DOMDocument();
         $lat = $point->getLat();
         $lon = $point->getLon();
 
-        
+
         $url = "http://open.mapquestapi.com/nominatim/v1/reverse?format=xml&lat=$lat&lon=$lon";
-        
+
 
         $dom->load($url);
         $docs = $dom->getElementsByTagName('addressparts');
@@ -193,9 +187,8 @@ class ReportControllerTest extends WebTestCase
                 }
             }
 
-        }
+        }   
         return $a;
     }
 }
-
 

@@ -28,7 +28,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 class NormalizerSerializerService {
     
     const JSON_FORMAT = 'json';
-    const PLACE_TYPE = 'place';
+    const REPORT_TYPE = 'report';
     const ADDRESS_TYPE = 'address';
     const USER_TYPE = 'user';
     const COMMENT_TYPE = 'comment';
@@ -302,7 +302,7 @@ class NormalizerSerializerService {
     {
         switch($short_class)
         {
-            case self::PLACE_TYPE :
+            case self::REPORT_TYPE :
                 return 'Progracqteur\\WikipedaleBundle\\Entity\\Model\\Report';
             case self::ADDRESS_TYPE : 
                 return 'Progracqteur\\WikipedaleBundle\\Resources\\Container\\Address';
@@ -360,7 +360,7 @@ class NormalizerSerializerService {
         
         switch($type)
         {
-            case self::PLACE_TYPE :
+            case self::REPORT_TYPE :
                 $array = array($this->getReportNormalizer());
                 break;
             case self::COMMENT_TYPE :

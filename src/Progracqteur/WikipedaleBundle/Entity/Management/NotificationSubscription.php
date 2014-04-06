@@ -59,7 +59,7 @@ class NotificationSubscription
     const KIND_MODERATOR = 'moderator';
     const KIND_MANAGER = 'manager';
     const KIND_PUBLIC = 'public';
-    const KIND_PUBLIC_REPORT = 'publicplace';
+    const KIND_PUBLIC_REPORT = 'publicreport';
     
     const FREQUENCY_MINUTELY = 60;
     const FREQUENCY_DAILY = 86400;

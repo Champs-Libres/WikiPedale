@@ -4,7 +4,7 @@ parameters:
   progracqteur_wikipedale.security.controlList.class : Progracqteur\WikipedaleBundle\Resources\Security\ChangeService
   progracqteur_wikipedale.service.photo.class: Progracqteur\WikipedaleBundle\Resources\Services\PhotoService
   progracqteur_wikipedale.service.slug.class: Progracqteur\WikipedaleBundle\Resources\Services\SlugService
-  progracqteur.wikipedale.service.place.tracking.toText.class: Progracqteur\WikipedaleBundle\Resources\Services\ReportTrackingToTextService
+  progracqteur.wikipedale.service.report.tracking.toText.class: Progracqteur\WikipedaleBundle\Resources\Services\ReportTrackingToTextService
 services:
   progracqteurWikipedaleSerializer:
     class: %progracqteur_wikipedale.normalizer.class%
@@ -20,7 +20,7 @@ services:
       em: '@doctrine.orm.entity_manager'
       geoService: '@progracqteur.wikipedale.geoservice'
       reachableRoles: '@progracqteur.wikipedale.services.reachables_roles'
-      defaultTypeTerm: %place_type_default%
+      defaultTypeTerm: %report_type_default%
       
   progracqteurWikipedalePhotoService:
     class: %progracqteur_wikipedale.service.photo.class%
@@ -34,8 +34,8 @@ services:
   progracqteur.wikipedale.slug:
     class: %progracqteur_wikipedale.service.slug.class%
     
-  progracqteur.wikipedale.place.tracking.toText:
-    class: %progracqteur.wikipedale.service.place.tracking.toText.class%
+  progracqteur.wikipedale.report.tracking.toText:
+    class: %progracqteur.wikipedale.service.report.tracking.toText.class%
     arguments: ["@translator", "@doctrine.orm.entity_manager"]
     
   wsse.security.authentication.provider:
@@ -104,8 +104,8 @@ services:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterBySubscriptionManager
     arguments: [%notifications_subscription_manager_events%]
     
-  progracqteur.wikipedale.notification.filter.public_place:
-    class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterBySubscriptionPublicPlace
+  progracqteur.wikipedale.notification.filter.public_report:
+    class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationFilterBySubscriptionPublicReport
   
   progracqteur.wikipedale.notification.processor.moderator:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationProcessorModerator
@@ -125,12 +125,12 @@ services:
     tags:
       - { name: progracqteur.wikipedale.notification.processor }
   
-  progracqteur.wikipedale.notification.processor.public_place:
-    class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationProcessorPublicPlace
+  progracqteur.wikipedale.notification.processor.public_report:
+    class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationProcessorPublicReport
     arguments:
       om: "@doctrine.orm.entity_manager"
       filterByRole: "@progracqteur.wikipedale.notification.filter.role"
-      NotificationFilterBySubscriptionPublicPlace: "@progracqteur.wikipedale.notification.filter.public_place"
+      NotificationFilterBySubscriptionPublicReport: "@progracqteur.wikipedale.notification.filter.public_report"
     tags:
       - { name: progracqteur.wikipedale.notification.processor }
     
@@ -161,14 +161,14 @@ services:
   progracqteur.wikipedale.form.type.term:
       class: Progracqteur\WikipedaleBundle\Form\Type\TermType
       arguments:
-          place_type: %place_types%
+          report_type: %report_types%
       tags:
         - { name: form.type, alias: term }
       
   progracqteur.wikipedale.validators.term:
     class: Progracqteur\WikipedaleBundle\Validator\Constraints\TermValidator
     arguments:
-      place_type: %place_types%
+      report_type: %report_types%
     tags:
         - { name: validator.constraint_validator, alias: term }
       

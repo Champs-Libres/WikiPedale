@@ -12,6 +12,8 @@ use Doctrine\ORM\EntityManager;
  * an human. 
  * 
  * The texts were discussed there : https://github.com/progracqteur/WikiPedale/issues/27
+ * 
+ * This service is used with atom feeds.
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */

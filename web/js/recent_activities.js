@@ -14,7 +14,7 @@ define(['jQuery'], function($) {
                $('#div_content_dernieres_modifs').append(aLastModif.text);
                var lien_voir = $(document.createElement('a'))
                   .text('(voir)')
-                  .attr('href', '?id=' + aLastModif.placeId);
+                  .attr('href', '?id=' + aLastModif.reportId);
                $('#div_content_dernieres_modifs').append(lien_voir);
                $('#div_content_dernieres_modifs').append('<br>');
             });

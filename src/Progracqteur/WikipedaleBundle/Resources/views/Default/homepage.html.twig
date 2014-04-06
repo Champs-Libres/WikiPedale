@@ -13,7 +13,7 @@ Params passed by the controller to this template :
          array of Progracqteur\WikipedaleBundle\Entity\Management\Zone
  'categories' 
          array of Progracqteur\WikipedaleBundle\Entity\Model\Category
- 'reportTypes' (voir place_description)
+ 'reportTypes' (voir report_description)
          array of Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportType
  'managers' (empty if the user has NOT chosen a city)
          array of Progracqteur\WikipedaleBundle\Entity\Management\Group
@@ -37,8 +37,8 @@ Params passed by the controller to this template :
 
 {% block body %}
     {% if (app.session.get('city') ) %}
-        {% if goToPlaceId is defined %}
-            <span id="data_for_init" data-city='{{ app.session.get('city').name }}' data-lon="{{app.session.get('city').center.lon}}" data-lat="{{app.session.get('city').center.lat}}" data-description_selected_id="{{goToPlaceId}}"></span>
+        {% if selectedReportId is defined %}
+            <span id="data_for_init" data-city='{{ app.session.get('city').name }}' data-lon="{{app.session.get('city').center.lon}}" data-lat="{{app.session.get('city').center.lat}}" data-description_selected_id="{{selectedReportId}}"></span>
         {% else %}
             <span id="data_for_init" data-city='{{ app.session.get('city').name }}' data-lon="{{app.session.get('city').center.lon}}" data-lat="{{app.session.get('city').center.lat}}"></span>
         {% endif %}

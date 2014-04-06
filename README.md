@@ -61,11 +61,25 @@ You will also need some geographical information about the zone you want to surv
 
 *Prepare the database*
 
-Create a postgresql database and enable postgis:
+Create a postgresql database. If you want to call the db `uello_db` and the db user `uello_user` :
+
+```bash
+createuser -P uello_user 
+createdb uello_db -E UTF8 -O uello_user
+```
+
+Enable postgis:
 
 ```sql
-
 CREATE EXTENSION postgis;
+```
+
+Give the property of the tables `geometry_columns` and `spatial_ref_sys` to the user that will use the db. 
+If this user is `uello_user`:
+
+```sql
+ALTER TABLE geometry_columns OWNER TO uello_user;
+ALTER TABLE spatial_ref_sys OWNER TO uello_user;
 ```
 
 *Install the app and dependencies*
@@ -149,6 +163,8 @@ _create an admin user_
 php app/console fos:user:create admin --super-admin
 ```
 
+You can edit the name of the user, and its email at `http://your-installation/profile
+
 _add data for zones_
 
 Until now, we must introduce geographical zones to use the software. These zones are used :
@@ -175,6 +191,14 @@ CREATE TABLE zones
   CONSTRAINT zones_pkey PRIMARY KEY (id)
 )
 ```
+
+For instance :
+
+```sql
+INSERT INTO zones (id, name, slug, codeprovince, polygon, center, type, url, description) VALUES (1, 'Mons', 'mons', 7000, ST_GeomFromText('POLYGON((3.7 50.55, 4.3 50.55, 4.3 50.4, 3.7 50.4, 3.7 50.55))',4326), ST_GeomFromText('POINT(3.95117 50.45417)',4326), 'city', 'mons.be', 'Description de Mons');
+```
+
+The `type` must be `city`.
 
 Then you have to add the slug of the zones that you want to see in front page
 in the array `cities_in_front_page` contained in the file `app/config/parameters.yml`.

@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management.html">Progracqteur\WikipedaleBundle\Entity\Management</a>\NotificationSubscription</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>NotificationSubscription</strong></p>
+
+            <div class="description">
+            <p>NotificationSubscription  Used for a user to subscribe to the notifications (update of the report)</p>
+            <p>
+</p>
+        </div>
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>KIND_MODERATOR</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>KIND_MANAGER</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>KIND_PUBLIC</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>KIND_PUBLIC_REPORT</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>FREQUENCY_MINUTELY</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>FREQUENCY_DAILY</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>FREQUENCY_STOPPED</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TRANSPORTER_MAIL</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    integer
+                </td>
+                <td class="last">
+                    <a href="#method_getId">getId</a>()
+                    <p>Get id</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setKind">setKind</a>(string $kind)
+                    <p>Set kind</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getKind">getKind</a>()
+                    <p>Get kind</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setFrequency">setFrequency</a>(<abbr title="int">int</abbr> $frequency)
+                    <p>Set frequency</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="int">int</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_getFrequency">getFrequency</a>()
+                    <p>Get frequency</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_addZone">addZone</a>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Zone">Zone</abbr> $zone)
+                    <p>Add zone</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_removeZone">removeZone</a>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Zone">Zone</abbr> $zone)
+                    <p>Remove zone</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_getZone">getZone</a>()
+                    <p>Get zone</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_getOwner">getOwner</a>()
+                    <p>Get owner</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_addGroup">addGroup</a>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Group">Group</abbr> $group)
+                    <p>Add group</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_removeGroup">removeGroup</a>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Group">Group</abbr> $group)
+                    <p>Remove group</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_getGroup">getGroup</a>()
+                    <p>Get group</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setZone">setZone</a>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Zone">Zone</abbr> $zone = null)
+                    <p>Set zone</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setOwner">setOwner</a>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\User">User</abbr> $owner = null)
+                    <p>Set owner</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setGroup">setGroup</a>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Group">Group</abbr> $group = null)
+                    <p>Set group</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setTransporter">setTransporter</a>(string $transporter)
+                    <p>Set transporter</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getTransporter">getTransporter</a>()
+                    <p>Get transporter</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setGroupRef">setGroupRef</a>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Group">Group</abbr> $groupRef = null)
+                    <p>Set groupRef</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/Group.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Group">Group</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getGroupRef">getGroupRef</a>()
+                    <p>Get groupRef</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setReport">setReport</a>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Model\Report">Report</abbr> $report = null)
+                    <p>Set report</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Model/Report.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Report">Report</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getReport">getReport</a>()
+                    <p>Get report</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 70</div>
+        <code>            public            
+    <strong>__construct</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getId">
+        <div class="location">at line 80</div>
+        <code>            public            integer
+    <strong>getId</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get id</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>integer</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setKind">
+        <div class="location">at line 91</div>
+        <code>            public            <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+    <strong>setKind</strong>(string $kind)</code>
+    </h3>
+    <div class="details">
+        <p>Set kind</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$kind</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getKind">
+        <div class="location">at line 103</div>
+        <code>            public            string
+    <strong>getKind</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get kind</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setFrequency">
+        <div class="location">at line 114</div>
+        <code>            public            <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+    <strong>setFrequency</strong>(<abbr title="int">int</abbr> $frequency)</code>
+    </h3>
+    <div class="details">
+        <p>Set frequency</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="int">int</abbr></td>
+                <td>$frequency</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getFrequency">
+        <div class="location">at line 126</div>
+        <code>            public            <abbr title="int">int</abbr>
+    <strong>getFrequency</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get frequency</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="int">int</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addZone">
+        <div class="location">at line 137</div>
+        <code>            public            <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+    <strong>addZone</strong>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Zone">Zone</abbr> $zone)</code>
+    </h3>
+    <div class="details">
+        <p>Add zone</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Zone">Zone</abbr></td>
+                <td>$zone</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_removeZone">
+        <div class="location">at line 149</div>
+        <code>            public            
+    <strong>removeZone</strong>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Zone">Zone</abbr> $zone)</code>
+    </h3>
+    <div class="details">
+        <p>Remove zone</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Zone">Zone</abbr></td>
+                <td>$zone</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getZone">
+        <div class="location">at line 159</div>
+        <code>            public            <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+    <strong>getZone</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get zone</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Doctrine\Common\Collections\Collection">Collection</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getOwner">
+        <div class="location">at line 171</div>
+        <code>            public            <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+    <strong>getOwner</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get owner</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Doctrine\Common\Collections\Collection">Collection</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addGroup">
+        <div class="location">at line 182</div>
+        <code>            public            <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+    <strong>addGroup</strong>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Group">Group</abbr> $group)</code>
+    </h3>
+    <div class="details">
+        <p>Add group</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Group">Group</abbr></td>
+                <td>$group</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_removeGroup">
+        <div class="location">at line 194</div>
+        <code>            public            
+    <strong>removeGroup</strong>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Group">Group</abbr> $group)</code>
+    </h3>
+    <div class="details">
+        <p>Remove group</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Group">Group</abbr></td>
+                <td>$group</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getGroup">
+        <div class="location">at line 204</div>
+        <code>            public            <abbr title="Doctrine\Common\Collections\Collection">Collection</abbr>
+    <strong>getGroup</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get group</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="Doctrine\Common\Collections\Collection">Collection</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setZone">
+        <div class="location">at line 216</div>
+        <code>            public            <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+    <strong>setZone</strong>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Zone">Zone</abbr> $zone = null)</code>
+    </h3>
+    <div class="details">
+        <p>Set zone</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Zone">Zone</abbr></td>
+                <td>$zone</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setOwner">
+        <div class="location">at line 229</div>
+        <code>            public            <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+    <strong>setOwner</strong>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\User">User</abbr> $owner = null)</code>
+    </h3>
+    <div class="details">
+        <p>Set owner</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\User">User</abbr></td>
+                <td>$owner</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setGroup">
+        <div class="location">at line 242</div>
+        <code>            public            <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+    <strong>setGroup</strong>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Group">Group</abbr> $group = null)</code>
+    </h3>
+    <div class="details">
+        <p>Set group</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Group">Group</abbr></td>
+                <td>$group</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setTransporter">
+        <div class="location">at line 255</div>
+        <code>            public            <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+    <strong>setTransporter</strong>(string $transporter)</code>
+    </h3>
+    <div class="details">
+        <p>Set transporter</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$transporter</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getTransporter">
+        <div class="location">at line 267</div>
+        <code>            public            string
+    <strong>getTransporter</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get transporter</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setGroupRef">
+        <div class="location">at line 278</div>
+        <code>            public            <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+    <strong>setGroupRef</strong>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Group">Group</abbr> $groupRef = null)</code>
+    </h3>
+    <div class="details">
+        <p>Set groupRef</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Management\Group">Group</abbr></td>
+                <td>$groupRef</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getGroupRef">
+        <div class="location">at line 290</div>
+        <code>            public            <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/Group.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Group">Group</abbr></a>
+    <strong>getGroupRef</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get groupRef</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/Group.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Group">Group</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setReport">
+        <div class="location">at line 301</div>
+        <code>            public            <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a>
+    <strong>setReport</strong>(<abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Model\Report">Report</abbr> $report = null)</code>
+    </h3>
+    <div class="details">
+        <p>Set report</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\Progracqteur\WikipedaleBundle\Entity\Model\Report">Report</abbr></td>
+                <td>$report</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Management/NotificationSubscription.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription">NotificationSubscription</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getReport">
+        <div class="location">at line 313</div>
+        <code>            public            <a href="../../../../Progracqteur/WikipedaleBundle/Entity/Model/Report.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Report">Report</abbr></a>
+    <strong>getReport</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Get report</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../Progracqteur/WikipedaleBundle/Entity/Model/Report.html"><abbr title="Progracqteur\WikipedaleBundle\Entity\Model\Report">Report</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

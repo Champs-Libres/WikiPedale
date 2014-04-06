@@ -105,7 +105,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Comment:
       - Length: {min: 2, minMessage: validation.comment.message.min_length, max: 5000, maxMessage: validation.comment.message.max_length}
     report:
       - NotNull: 
-          message: validation.comment.place.not_null
+          message: validation.comment.report.not_null
     creator:
       - NotNull:
           message: validation.comment.creator.not_null

@@ -64,7 +64,7 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
                var entity_string = json_string.edit_place(desc_data['description'], desc_data['lon'],
                   desc_data['lat'], desc_data['lieu'], desc_data['id'], desc_data['couleur'],
                   desc_data['user_label'], desc_data['email'], desc_data['user_phonenumber'],desc_data['categories']);
-               var url_edit = Routing.generate('wikipedale_place_change', {_format: 'json'});
+               var url_edit = Routing.generate('wikipedale_report_change', {_format: 'json'});
                $.ajax({
                   type: 'POST',
                   data: {entity: entity_string},
@@ -96,17 +96,20 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
 
                         if($('#map').attr('class') !== 'olMap') {
                            $('#form__add_new_description').hide();
-                           $('#new_place_form_submit_button').hide();
+                           $('#new_report_form_submit_button').hide();
                            $('#show_map_button').hide();
                            $('#new_place_form_menu_return_button').show();
                         }
                         $(messages_div).addClass('successMessage');
                      } else {
-                        alert('Mince, il y a un problème. Veuillez nous le signaler. Merci');
+                        console.log(output_json);
+                        alert('Mince, il y a un problème. Veuillez nous le signaler. Merci.');
                      }
                   },
-                  error: function() {
-                     alert('Mince, il y a un problème. Veuillez nous le signaler. Merci');
+                  error: function(error_message) {
+                     alert('Mince, il y a un problème : '
+                        + error_message.responseText 
+                        + '. Si le problème persiste, veuilllez nous le signaler. Merci.');
                   }
                });
             }
