@@ -69,7 +69,8 @@ class ReportControllerTest extends WebTestCase
         if ($this->_kernel === null) {
             $this->_kernel = new \AppKernel('dev', true);
             $this->_kernel->boot(); 
-
+        }
+        
         return $this->_kernel->getContainer()->get('validator');        
 
     }
