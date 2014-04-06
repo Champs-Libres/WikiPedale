@@ -130,7 +130,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
       if (description_id !== 'new_description') {
          description_data = descriptions.get_by_id(description_id);
       }
-      markers[description_id].setUrl(marker_img_name(description_data.statuses,description_data.term,option));
+      markers[description_id].setUrl(marker_img_name(description_data.statuses,description_data.category.term,option));
    }
 
    function add_marker(description_id, an_event_function){
@@ -151,7 +151,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
             map.getProjectionObject()
          ));
       
-         icon = new OpenLayers.Icon(marker_img_name(description_data.statuses,description_data.term,null), size, offset);
+         icon = new OpenLayers.Icon(marker_img_name(description_data.statuses,description_data.category.term,null), size, offset);
          feature.data.icon = icon;
    
          var marker = feature.createMarker();
@@ -198,7 +198,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
             var description_data = descriptions.get_by_id(description_id);
             marker.events.remove('mousedown');
             marker.events.remove('touchstart');
-            marker.setUrl(marker_img_name(description_data.statuses,description_data.term,'no_active'));
+            marker.setUrl(marker_img_name(description_data.statuses,description_data.category.term,'no_active'));
          }
       });
    }
@@ -257,7 +257,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
       * @param {int} an_id The id of the signalement
       */
       var description_data = descriptions.get_by_id(an_id);
-      markers[an_id].setUrl(marker_img_name(description_data.statuses,description_data.term,'selected'));
+      markers[an_id].setUrl(marker_img_name(description_data.statuses,description_data.category.term,'selected'));
       markers['edit_description'].lonlat = markers[an_id].lonlat;
    }
 
@@ -267,7 +267,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
       * @param {int} an_id The id of the signalement
       */
       var description_data = descriptions.get_by_id(an_id);
-      markers[an_id].setUrl(marker_img_name(description_data.statuses,description_data.term,null));
+      markers[an_id].setUrl(marker_img_name(description_data.statuses,description_data.category.term,null));
    }
 
    function display_all_markers(){
