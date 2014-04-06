@@ -24,10 +24,6 @@ class DebugController extends Controller {
     
     public function debugOneAction()
     {
-        
-        
-        
-        
         $manager = $this->getDoctrine()->getManager();
         
         $p = $manager->getRepository('ProgracqteurWikipedaleBundle:Model\Place')->find(42);
@@ -55,8 +51,6 @@ class DebugController extends Controller {
         else 
             $t = 'false';
         
-        
-        
         return new Response($t);
         
         /*$u = $manager->getRepository('ProgracqteurWikipedaleBundle:Management\User')->find(17);
@@ -78,13 +72,6 @@ class DebugController extends Controller {
         
         $manager->persist($place);
         $manager->flush();
-        
-        
-        
-        
-       
-        
-        
         
         /*$point = $this->getRandomPoint();
         
@@ -127,13 +114,7 @@ class DebugController extends Controller {
         
         $r = $addrType->convertToDatabaseValue($add, $platform);*/
         
-        return new Response('ok');
-            
-            
-           
-            
-            
-            
+        return new Response('ok');            
     }
     
     public function debugTwoAction()
@@ -183,20 +164,9 @@ class DebugController extends Controller {
         /*
         $manager->persist($place);
         $manager->flush();
-        
-        
-        
-        
-        
-        
-        
-        return new Response('<html><head><title>debug</title></head><body>'.$r.'</body></html>');*/
-            
-            
+
+        return new Response('<html><head><title>debug</title></head><body>'.$r.'</body></html>');*/      
     }
-    
-    
-    
     
     /**
      * La fonction renvoie un point aléatoire dans la région de Mons
@@ -308,9 +278,8 @@ class DebugController extends Controller {
       
       $id = $request->get('id', null);
       
-      if ($id === null)
-      {
-      $point = $this->getRandomPoint();
+      if ($id === null) {
+        $point = $this->getRandomPoint();
         
         $str = $this->createId();
         
@@ -340,39 +309,33 @@ class DebugController extends Controller {
         
         $place->addCategory($cat);
         
+        } else {
+            
+        $orm = $this->getDoctrine()->getManager();
+        
+        $place = $orm->getRepository('ProgracqteurWikipedaleBundle:Model\Place')
+                ->find($id);
+        
+        if ($place === null)
+        {
+            return $this->createNotFoundException("place avec id $id non trouvée");
+            
         }
-        else {
-            
-            $orm = $this->getDoctrine()->getManager();
-            
-            $place = $orm->getRepository('ProgracqteurWikipedaleBundle:Model\Place')
-                    ->find($id);
-            
-            if ($place === null)
-            {
-                return $this->createNotFoundException("place avec id $id non trouvée");
-                
-            }
-            
-            
-      
-        }
+    }
         
-        /**
-         * @var Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService 
-         */
-        $normalizer = $this->get('progracqteurWikipedaleSerializer');
-        
-        $placeNormalizer = $normalizer->getPlaceNormalizer();
-        $a = $placeNormalizer->normalize($place);
-        $ret = json_encode($a);
-        
-        
-        return $this->render("ProgracqteurWikipedaleBundle:Dev:send_request.html.twig", array(
-            'action' => $this->generateUrl('wikipedale_report_change', array('_format' => 'json')),
-            'json' => $ret
-        ));
-        
+    /**
+     * @var Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService 
+     */
+    $normalizer = $this->get('progracqteurWikipedaleSerializer');
+    
+    $placeNormalizer = $normalizer->getPlaceNormalizer();
+    $a = $placeNormalizer->normalize($place);
+    $ret = json_encode($a);
+    
+    return $this->render("ProgracqteurWikipedaleBundle:Dev:send_request.html.twig", array(
+        'action' => $this->generateUrl('wikipedale_report_change', array('_format' => 'json')),
+        'json' => $ret
+    ));
   }
   
   public function devSendRequestWsseAction()
