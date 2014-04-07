@@ -1,0 +1,30 @@
+{
+  "name": "Uello Js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Champs-Libres/WikiPedale",
+  "authors": [
+    "Marc Ducobu <marc@champs-libres.coop>",
+    "Julien Fastré <julien@champs-libres.coop>"
+  ],
+  "description": "JS for Uello",
+  "main": "app.js",
+  "license": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "adapt": "*",
+    "casperjs": "~1.0.4",
+    "colorbox": "~1.5.5",
+    "jquery": "1.8.2",
+    "openlayers": "~2.13.1",
+    "select2": "~3.4.5"
+  }
+}
+
+
