@@ -225,8 +225,12 @@ wikipedale_notification_subscriptions_update:
     _controller: ProgracqteurWikipedaleBundle:Notifications:update
 
 ProgracqteurWikipedaleBundle_admin_category:
-  resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/model_category.yml"
+  resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/category_admin.yml"
   prefix:   /admin/category
+
+ProgracqteurWikipedaleBundle_public_category:
+  resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/category_public.yml"
+  prefix:   /category
 
 wikipedale_group_covers_zone:
   pattern: /groups/bytype/bycovering/{type}.{slugZone}.{_format}

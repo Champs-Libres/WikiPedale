@@ -5,15 +5,62 @@ namespace Progracqteur\WikipedaleBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 use Progracqteur\WikipedaleBundle\Form\Model\CategoryType;
+use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Model\Category controller.
+ * Category controller.
  *
  */
 class CategoryController extends Controller
 {
     /**
-     * Lists all Model\Category entities.
+     * 
+     * Lists all the Categories in a JSON array, respecting the Parent/Children specification :
+     * - first all the parents are given,
+     * - in every parents the variable "children" give the list of all its children
+     */
+    public function listParentChildrenAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $terms_allowed = ' ';
+        $terms_allowed_array = array();
+        $iTerm = 0;
+        foreach ($this->get('service_container')->getParameter('report_types') 
+                as $target => $array) {
+            //TODO extendds to other transports
+            if ($target === 'bike') {
+                foreach ($array["terms"] as $term) {
+                    if ($this->get('security.context')->isGranted(
+                            $term['mayAddToReport'])){
+                        if ($iTerm > 0) {
+                            $terms_allowed .= ', ';
+                        }
+                        $terms_allowed .= "'".$term['key']."'";
+                        $terms_allowed_array[] = $term['key'];
+                        $iTerm ++;
+                    }   
+                }
+            }
+        }
+        
+        $terms_allowed .= ' ';
+
+        $q = sprintf('SELECT c from 
+            ProgracqteurWikipedaleBundle:Model\Category c 
+            WHERE  c.used = true AND c.parent is null AND c.term IN (%s)
+            ORDER BY c.order, c.label', $terms_allowed);
+        $categories = $em->createQuery($q)->getResult();
+
+        $rep = new NormalizedResponse($categories);
+        $ret = $this->get('progracqteurWikipedaleSerializer')->serialize($rep, 'json');
+
+        return new Response($ret);
+    }
+
+    /**
+     * Lists all Category entities.
      *
      */
     public function indexAction()
@@ -28,7 +75,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Finds and displays a Model\Category entity.
+     * Finds and displays a Category entity.
      *
      */
     public function showAction($id)
@@ -51,7 +98,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Displays a form to create a new Model\Category entity.
+     * Displays a form to create a new Category entity.
      *
      */
     public function newAction()
@@ -67,7 +114,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Creates a new Model\Category entity.
+     * Creates a new Category entity.
      *
      */
     public function createAction()
@@ -94,7 +141,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Model\Category entity.
+     * Displays a form to edit an existing Category entity.
      *
      */
     public function editAction($id)
@@ -119,7 +166,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Edits an existing Model\Category entity.
+     * Edits an existing Category entity.
      *
      */
     public function updateAction($id)
@@ -155,7 +202,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Deletes a Model\Category entity.
+     * Deletes a Category entity.
      *
      */
     public function deleteAction($id)
