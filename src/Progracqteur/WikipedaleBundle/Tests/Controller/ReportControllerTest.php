@@ -72,6 +72,7 @@ class ReportControllerTest extends WebTestCase
         }
         
         return $this->_kernel->getContainer()->get('validator');        
+
     }
     
     /**
@@ -116,8 +117,10 @@ class ReportControllerTest extends WebTestCase
 
     private $z = array(6);
 
+
     public function createId()
     {
+
         $s = '';
         $d = array_rand($this->z);
         $dd = $this->z[$d];
@@ -134,13 +137,16 @@ class ReportControllerTest extends WebTestCase
     private function geolocate(Point $point)
     {
         $a = new Address();
+
         //si la chaine est vide, retourne le hash
 
         $dom = new \DOMDocument();
         $lat = $point->getLat();
         $lon = $point->getLon();
 
+
         $url = "http://open.mapquestapi.com/nominatim/v1/reverse?format=xml&lat=$lat&lon=$lon";
+
 
         $dom->load($url);
         $docs = $dom->getElementsByTagName('addressparts');
@@ -181,7 +187,9 @@ class ReportControllerTest extends WebTestCase
                         break;
                 }
             }
+
         }   
         return $a;
     }
 }
+
