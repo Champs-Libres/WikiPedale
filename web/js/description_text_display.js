@@ -3,8 +3,8 @@
 /* global define */
 'use strict';
 
-define(['jQuery','map_display','user','descriptions','photo','params','description_edit','comments','basic_data_and_functions'],
-      function($,map_display,user,descriptions,photo,params,description_edit,comments,basic_data_and_functions) {
+define(['jQuery','map_display','user','report','photo','params','description_edit','comments','basic_data_and_functions'],
+      function($,map_display,user,report,photo,params,description_edit,comments,basic_data_and_functions) {
    var color_trad_text = {};
    color_trad_text['0'] = 'pas encore pris en compte (blanc)';
    color_trad_text['-1'] = 'rejeté (gris)';
@@ -32,7 +32,7 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
       To be executed when the user click on a marker on the index page.
       * @param {int} id_desc The id of the description.
       */
-      var desc_data = descriptions.get_by_id(id_desc);
+      var desc_data = report.get(id_desc);
 
       current_description_id = id_desc;
       photo.refresh_span_photo(id_desc);
@@ -164,7 +164,7 @@ define(['jQuery','map_display','user','descriptions','photo','params','descripti
       }
 
       if (user.canVieuwUsersDetails() || user.isAdmin()) {
-         var desc_data = descriptions.get_by_id(current_description_id);
+         var desc_data = report.get(current_description_id);
          $('#span_report_description_signaleur_contact').html(' (email : <a href="mailto:'+ desc_data.creator.email +'">'+
          desc_data.creator.email +'</a>, téléphone : '+ desc_data.creator.phonenumber + ')');
       } else {

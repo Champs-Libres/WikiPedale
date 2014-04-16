@@ -6,8 +6,8 @@
 /**
 * This module is used when the user wants to edit a description
 */
-define(['jQuery','map_display','descriptions','basic_data_and_functions','json_string','markers_filtering','params'],
-      function($,map_display,descriptions,basic_data_and_functions,json_string,markers_filtering,params) {
+define(['jQuery','map_display','report','basic_data_and_functions','json_string','markers_filtering','params'],
+      function($,map_display,report,basic_data_and_functions,json_string,markers_filtering,params) {
    var mode_edit = {},
       new_lat = null,
       new_lon = null,
@@ -98,7 +98,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
                success: function(output_json) {
                   if(! output_json.query.error) {
                      var new_description = output_json.results[0];
-                     descriptions.single_update(new_description);
+                     report.update(new_description);
                      map_display.marker_change_position(new_description.id, new_position);
                      stop_position_edition();
                   } else {
@@ -125,7 +125,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
       */
       var element_id = '#span_report_description_' + element_type,
          signalement_id = parseInt($('#input_report_description_id').val()),
-         signalement = descriptions.get_by_id(signalement_id),
+         signalement = report.get(signalement_id),
          json_request;
 
       if (! (element_type in mode_edit && mode_edit[element_type])) {
@@ -173,7 +173,7 @@ define(['jQuery','map_display','descriptions','basic_data_and_functions','json_s
             success: function(output_json) {
                if(! output_json.query.error) {
                   var new_description = output_json.results[0];
-                  descriptions.single_update(new_description);
+                  report.update(new_description);
                   if(element_type === 'cat'){
                      $(element_id).text(new_description.category.label);
                   } else if (element_type === 'status'){

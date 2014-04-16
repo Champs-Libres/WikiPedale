@@ -7,8 +7,8 @@
 * This is for all the action for the display of the map
 */
 
-define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'],
-      function($,basic_data_and_functions,descriptions,OpenLayers,params) {
+define(['jQuery','basic_data_and_functions','report','OpenLayers','params'],
+      function($,basic_data_and_functions,report,OpenLayers,params) {
    var old_center; // To re-center the map after displaying the tiny map
    var map; // Variable to acces to the map
    var osm;
@@ -128,7 +128,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
       */
       var description_data  = {statuses : []};
       if (description_id !== 'new_description') {
-         description_data = descriptions.get_by_id(description_id);
+         description_data = report.get(description_id);
       }
       markers[description_id].setUrl(marker_img_name(description_data.statuses,description_data.category.term,option));
    }
@@ -143,7 +143,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
       * @param {function} anEventFunction A function to execute when the user click on the marker
       * (enEventFunction is optinal)
       */
-      var description_data = descriptions.get_by_id(description_id);
+      var description_data = report.get(description_id);
 
       if(description_data) { //not undefined
          var feature = new OpenLayers.Feature(osm, new OpenLayers.LonLat(description_data.geom.coordinates[0], description_data.geom.coordinates[1]).transform(
@@ -195,7 +195,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
       */
       $.each(markers, function(description_id, marker) {
          if (typeof marker !== 'undefined') {
-            var description_data = descriptions.get_by_id(description_id);
+            var description_data = report.get(description_id);
             marker.events.remove('mousedown');
             marker.events.remove('touchstart');
             marker.setUrl(marker_img_name(description_data.statuses,description_data.category.term,'no_active'));
@@ -256,7 +256,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
       * Sets the marker of a given signalement to 'selected' (in pink)
       * @param {int} an_id The id of the signalement
       */
-      var description_data = descriptions.get_by_id(an_id);
+      var description_data = report.get(an_id);
       markers[an_id].setUrl(marker_img_name(description_data.statuses,description_data.category.term,'selected'));
       markers['edit_description'].lonlat = markers[an_id].lonlat;
    }
@@ -266,7 +266,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
       * Sets the marker of a given signalement to 'unselected' (in pink)
       * @param {int} an_id The id of the signalement
       */
-      var description_data = descriptions.get_by_id(an_id);
+      var description_data = report.get(an_id);
       markers[an_id].setUrl(marker_img_name(description_data.statuses,description_data.category.term,null));
    }
 
@@ -344,7 +344,7 @@ define(['jQuery','basic_data_and_functions','descriptions','OpenLayers','params'
       */
       var marker;
 
-      $.each(descriptions.get_all(), function(index, description) {
+      $.each(report.getAll(), function(index, description) {
          marker = get_marker_for(description.id);
 
          var markerMouseDownFunction = ( function(iid) {

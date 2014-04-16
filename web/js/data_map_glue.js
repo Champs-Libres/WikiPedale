@@ -8,8 +8,8 @@
 * for the application.
 */
 
-define(['jQuery','map_display','descriptions','description_text_display','user','informer','json_string','markers_filtering'],
-      function($,map_display,descriptions,description_text_display,user,informer,json_string,markers_filtering) {
+define(['jQuery','map_display','report','description_text_display','user','informer','json_string','markers_filtering'],
+      function($,map_display,report,description_text_display,user,informer,json_string,markers_filtering) {
    var townId = null;
    var last_description_selected = null;
    var add_new_place_mode = false; // true when the user is in a mode for adding new place
@@ -37,7 +37,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
       $.when(
       $.getJSON(jsonUrlData, function(data) {
          user.update(data.user);
-         descriptions.update(data.results, function () {
+         report.updateAll(data.results, function () {
             $.each(data.results, function(index, aPlaceData) {
                map_display.add_marker(aPlaceData.id, focus_on_place_of);
             });
@@ -52,18 +52,18 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
 
    function update_data_and_map(){
       /**
-      * Update the data of the app contained in descriptions.js and re-draw the map
+      * Update the data of the app contained in report.js and re-draw the map
       * (regarding to the updated informations)
       */
       if (townId !== null) {
-         descriptions.erase_all();
+         report.eraseAll();
 
          var jsonUrlData  =  Routing.generate('wikipedale_report_list_by_city', {_format: 'json', city: townId});
          $.ajax({
             dataType: 'json',
             url: jsonUrlData,
             success: function(data) {
-               descriptions.update(data.results,null);
+               report.updateAll(data.results,null);
             },
             complete: function() {
                var signalement_id = $('#input_report_description_id').val();
@@ -82,7 +82,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
       * @param {object} aDescription The data describing the new description to add on the map.
       * @param {function} anEventFunction The function to execute when the user click on the marker
       */
-      descriptions.single_update(aDescription);
+      report.singleUpdate(aDescription);
       map_display.add_marker(aDescription.id, anEventFunction);
    }
 
@@ -110,7 +110,7 @@ define(['jQuery','map_display','descriptions','description_text_display','user',
          success: function(output_json) {
             if(! output_json.query.error) {
                map_display.get_marker_for(last_description_selected).erase();
-               descriptions.erase(last_description_selected);
+               report.erase(last_description_selected);
                $('#div_report_description_display').hide();
                last_description_selected = null;
             } else {

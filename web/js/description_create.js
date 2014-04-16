@@ -7,8 +7,8 @@
 * This module is used when the user want to create a new description (used to catch the 
 creating form and to clear this form)
 */
-define(['jQuery','basic_data_and_functions','map_display','data_map_glue','informer','user','json_string','descriptions','login'],
-      function($, basic_data_and_functions,map_display,data_map_glue,informer,user,json_string,descriptions,login) {
+define(['jQuery','basic_data_and_functions','map_display','data_map_glue','informer','user','json_string','report','login'],
+      function($, basic_data_and_functions,map_display,data_map_glue,informer,user,json_string,report,login) {
    function catch_creating_form(the_form_to_catch) {
       /**
       * Catches the form used to create a new description.

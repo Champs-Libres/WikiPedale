@@ -10,7 +10,7 @@
 * This module is used to display the markers regarding to the filtering options.
 */
 
-define(['jQuery', 'map_display', 'descriptions', 'description'], function ($, map_display, descriptions, description) {
+define(['jQuery', 'map_display', 'report'], function ($, map_display, report) {
    var filtering_form_activated = false,  // true iff  displaying the div "div_options_affichage" and
    // the choice of the user (done in the filtering form) has to be considered.
       mode_activated = []; // to remember each option of the filtering form has been
@@ -76,10 +76,10 @@ define(['jQuery', 'map_display', 'descriptions', 'description'], function ($, ma
          statusCeM_to_display.push(-1);
       }
 
-      $.each(descriptions.get_all(), function (desc_id, desc_data) {
+      $.each(report.getAll(), function (desc_id, desc_data) {
          if (typeof desc_data !== undefined) {
             // desc_data does not have a status of type cem it has to be considered as 0 (not considered)
-            if ($.inArray(parseInt(description.get_status('cem', desc_data, 0)),statusCeM_to_display) !== -1 &&
+            if ($.inArray(parseInt(report.getStatus('cem', desc_data, 0)),statusCeM_to_display) !== -1 &&
                $.inArray(parseInt(desc_data.category.id),id_cat_to_display) !== -1) {
                map_display.display_marker(desc_id);
             } else {
