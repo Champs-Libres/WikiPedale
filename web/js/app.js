@@ -6,7 +6,7 @@
 require.config({
    paths: {
       'jQuery': 'bower_components/jquery/jquery',
-      'OpenLayers': 'bower_components/openlayers/OpenLayers',
+      'OpenLayers': 'bower_components/Openlayers/OpenLayers',
       'select2': 'bower_components/select2/select2',
       'colorbox': 'bower_components/colorbox/jquery.colorbox',
    },
