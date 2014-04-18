@@ -71,7 +71,7 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             $('#span_report_description_type_edit').select2();
             $('#span_report_description_gestionnaire_edit').select2();
 
-            $('#add_new_description_form__categories').select2().on('change', function() { informer.update_new_description_form('categories'); });
+            $('#add_new_description_form__category').select2().on('change', function() { informer.update_new_description_form('category'); });
 
             $('#optionsAffichageFilterCategories').on('change', function() { markers_filtering.display_markers_regarding_to_filtering(); });
             $('#optionsAffichageAddLongTermCategories').on('change', function() { markers_filtering.display_markers_regarding_to_filtering(); });

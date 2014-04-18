@@ -55,8 +55,8 @@
 
     <p>
       <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__category" alt="is the field ok">
-      <label for="add_new_description_form__categories">{{ 'AddPoint.PointData.categories'|trans({}, 'pointMessages') }}</label>
-      <select id="add_new_description_form__categories" name="category" style="width:250px;" data-placeholder="{{ 'AddPoint.PointData.categories_placeholder'|trans({}, 'pointMessages') }}">
+      <label for="add_new_description_form__category">{{ 'AddPoint.PointData.categories'|trans({}, 'pointMessages') }}</label>
+      <select id="add_new_description_form__category" name="category" style="width:250px;" data-placeholder="{{ 'AddPoint.PointData.categories_placeholder'|trans({}, 'pointMessages') }}">
           {% for category in categories %}
               {% if category.hasChildren %}
                     <optgroup label="{{ category.label }}" >
