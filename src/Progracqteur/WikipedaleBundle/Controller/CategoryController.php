@@ -55,7 +55,6 @@ class CategoryController extends Controller
 
         $rep = new NormalizedResponse($categories);
         $ret = $this->get('progracqteurWikipedaleSerializer')->serialize($rep, 'json');
-
         return new Response($ret);
     }
 
