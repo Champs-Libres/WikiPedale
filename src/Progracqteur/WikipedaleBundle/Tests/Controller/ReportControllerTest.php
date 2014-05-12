@@ -82,8 +82,6 @@ class ReportControllerTest extends WebTestCase
     {
         $p = new Report();
         $p->setGeom($this->getRandomPoint());
-
-        $p->setTerm('short');
         
         $p->setAddress($this->geolocate($p->getGeom()));
         

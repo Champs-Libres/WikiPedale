@@ -146,7 +146,8 @@ class LoadReportData extends AbstractFixture implements OrderedFixtureInterface,
                 $p->setType($notations[array_rand($notations)])
                         ->setValue($valuesNotations[array_rand($valuesNotations)]);
                 $report->addStatus($p);
-                
+
+                /*
                 //ajoute un deuxième statut à une sur trois
                 if ($i%3 == 0)
                 {
@@ -155,22 +156,29 @@ class LoadReportData extends AbstractFixture implements OrderedFixtureInterface,
                         ->setValue($valuesNotations[array_rand($valuesNotations)]);
                 $report->addStatus($p);
                 }
+                */
             }
+
+            print "jdsksdj - add";
             
             $report->getChangeset()->setAuthor($u);
             
+
             //add a random category amongst the one loaded
-            $cat_array = array('1', '2', '3', null, null, null, null);
+            $cat_array = array('1', '2', '3');
             $rand = array_rand($cat_array);
-            if ($cat_array[$rand] !== null) 
-            {
-                $cat_string_ref = 'cat'.$cat_array[$rand];
-                echo "add $cat_string_ref \n";
-                $report->setCategory($this->getReference('cat'.$cat_array[$rand]));
-            }
+            $cat_string_ref = 'cat'.$cat_array[$rand];
+            echo "add $cat_string_ref \n";
+            echo "\n";
+            echo "\n";
+            echo $this->getReference('cat'.$cat_array[$rand]);
+
+            $report->setCategory($this->getReference('cat'.$cat_array[$rand]));
+
+
             
             //add a type (little 4 more frequently)
-            $type_array = array('big', 'little', 'middle', 'little', 'little', 'little');
+            $type_array = array('short', 'medium', 'short', 'short', 'short');
             $rand = array_rand($type_array);
             $reportType = $this->getReference('type_'.$type_array[$rand]);
             $report->setType($reportType);
@@ -188,6 +196,8 @@ class LoadReportData extends AbstractFixture implements OrderedFixtureInterface,
                 if (!($m === "place.validation.message.onlyOneStatusAtATime"))
                     throw new \Exception("report invalide $m");
             }
+
+            print "jdsksdj - 4";
 
             $manager->persist($report);
             
