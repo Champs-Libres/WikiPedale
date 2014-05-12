@@ -169,9 +169,6 @@ class LoadReportData extends AbstractFixture implements OrderedFixtureInterface,
             $rand = array_rand($cat_array);
             $cat_string_ref = 'cat'.$cat_array[$rand];
             echo "add $cat_string_ref \n";
-            echo "\n";
-            echo "\n";
-            echo $this->getReference('cat'.$cat_array[$rand]);
 
             $report->setCategory($this->getReference('cat'.$cat_array[$rand]));
 
@@ -196,8 +193,6 @@ class LoadReportData extends AbstractFixture implements OrderedFixtureInterface,
                 if (!($m === "place.validation.message.onlyOneStatusAtATime"))
                     throw new \Exception("report invalide $m");
             }
-
-            print "jdsksdj - 4";
 
             $manager->persist($report);
             
