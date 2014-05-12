@@ -150,7 +150,6 @@ class ReportController extends Controller
                 $normalizer = $this->get('progracqteurWikipedaleSerializer');
                 $rep = new NormalizedResponse($r);
                 $ret = $normalizer->serialize($rep, $_format);
-                
                 return new Response($ret);
 
             case 'html':
