@@ -9,26 +9,36 @@
 */
 
 define(['jQuery'], function($) {
-   var buffer; // the known categories
+   var buffered_caterories; // the known categories
 
-   function updateAll(new_categories) {
-      /**
-      * Update the categories buffer
-      * @param {array of categories parent/children} new_categories The new categories
-      */
 
-      buffer = new_categories;
-   }
-
-   function getAll() {
+   function getAll(callback) {
       /**
       * Gets all the categories
       */
-      return buffer;
+
+      if (buffered_caterories) {
+         callback(buffered_caterories);
+      } else {
+         $.get(Routing.generate('public_category_list_all_parent_children', {_format: 'json'}), function( data ) {
+            console.log(data);
+            console.log(data.results);
+            if(! data.query.error) {
+               buffered_caterories = data.results;
+            } else {
+               console.log(data.query);
+               buffered_caterories = null;
+            }
+
+         console.log("--");
+         console.log(data.results);
+         console.log(buffered_caterories);
+         callback(buffered_caterories);
+         });
+      }
    }
 
    return {
-      updateAll: updateAll,
       getAll: getAll
    };
 });
