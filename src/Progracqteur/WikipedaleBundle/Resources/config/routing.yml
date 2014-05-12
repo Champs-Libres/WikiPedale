@@ -228,9 +228,11 @@ ProgracqteurWikipedaleBundle_admin_category:
   resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/category_admin.yml"
   prefix:   /admin/category
 
+
 ProgracqteurWikipedaleBundle_public_category:
   resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/category_public.yml"
   prefix:   /category
+
 
 wikipedale_group_covers_zone:
   pattern: /groups/bytype/bycovering/{type}.{slugZone}.{_format}
@@ -262,11 +264,5 @@ wikipedale_firefoxos_signal:
 wikipedale_firefoxos_view:
   pattern: /firefoxos/view
   defaults: {_controller: ProgracqteurWikipedaleBundle:FirefoxOS:view }
-  options:
-    expose: true
-
-wikipedale_firefoxos_to_city:
-  pattern: /firefoxos/city/{citySlug}
-  defaults: {_controller: ProgracqteurWikipedaleBundle:FirefoxOS:toCity }
   options:
     expose: true

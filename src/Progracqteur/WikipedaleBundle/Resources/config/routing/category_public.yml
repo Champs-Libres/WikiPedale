@@ -1,3 +1,7 @@
-public_category:
-    pattern:  /list/all/parent/children.{_format}
-    defaults: { _controller: "ProgracqteurWikipedaleBundle:Category:listParentChildren" }
+public_category_list_all_parent_children:
+   pattern:  /list/all/parent/children.{_format}
+   defaults: { _controller: "ProgracqteurWikipedaleBundle:Category:listParentChildren" }
+   requirements:
+      _format: json
+   options:
+      expose: true
