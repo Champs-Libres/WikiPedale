@@ -73,8 +73,8 @@ class LoadCategoryData extends AbstractFixture implements ContainerAwareInterfac
 
       $manager->persist($this->newParent("Stationnement vélo défectueux, abîmé ou non replacé"));
 
-      $manager->persist($this->newParent("Autre"));
-      $manager->persist($this->newChildren("Autre"));
+      $manager->persist($this->newParent("Autre",'long'));
+      $manager->persist($this->newChildren("Autre", 'long'));
      
       $manager->flush(); 
    }
