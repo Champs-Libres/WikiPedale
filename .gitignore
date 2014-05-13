@@ -20,3 +20,4 @@ parameters.yml
 app/config/parameters.yml
 .DS_Store
 *bower_components
+bin/*
