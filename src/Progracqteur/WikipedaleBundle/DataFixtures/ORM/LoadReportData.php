@@ -56,7 +56,7 @@ class LoadReportData extends AbstractFixture implements OrderedFixtureInterface,
             $report->setAddress($add);
             
             //add a random category amongst the one loaded
-            $cat_array = array('1', '2', '3');
+            $cat_array = array('1', '2', '3', '4', '5', '6');
             $rand = array_rand($cat_array);
             $cat_string_ref = 'cat'.$cat_array[$rand];
             echo "add $cat_string_ref \n";

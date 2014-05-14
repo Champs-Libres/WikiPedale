@@ -39,19 +39,32 @@ class LoadCategoryData extends AbstractFixture implements ContainerAwareInterfac
    public function load(ObjectManager $manager) 
    {
       $manager->persist($this->newParent("Revêtement"));
+
       $rd = $this->newChildren("Revêtement dégradé (trous, soulèvement, mal réparé)");
       $manager->persist($rd);
       $this->addReference('cat1', $rd);
-      $manager->persist($this->newChildren("Accumulation d'eau en cas de pluie",'medium'));
+
+      $rd = $this->newChildren("Accumulation d'eau en cas de pluie",'medium');
+      $manager->persist($rd);
+      $this->addReference('cat2', $rd);
+      
       $manager->persist($this->newChildren("Bordure saillante",'medium'));
 
+      
       $manager->persist($this->newParent("Signalisation"));
+      
       $manager->persist($this->newChildren("Signalisation manquante ou peu claire (balisage, panneau disparu...)"));
+      
       $se = $this->newChildren("Signalisation erronée");
+      $this->addReference('cat3', $se);
       $manager->persist($se);
-      $this->addReference('cat2', $se);
-      $manager->persist($this->newChildren("Marquages au sol effacés",'medium'));
+      
+      $se = $this->newChildren("Marquages au sol effacés",'medium');
+      $this->addReference('cat4', $se);
+      $manager->persist($se); 
+
       $manager->persist($this->newChildren("Marquages au sol incorrects",'medium'));
+
       
       $manager->persist($this->newParent("Obstacles"));
       $manager->persist($this->newChildren("De la végétation envahit le cheminement cyclable"));
@@ -62,7 +75,7 @@ class LoadCategoryData extends AbstractFixture implements ContainerAwareInterfac
       $manager->persist($this->newParent("Sécurité"));
       $ed = $this->newChildren("Éclairage public défectueux");
       $manager->persist($ed);
-      $this->addReference('cat3', $ed);
+      $this->addReference('cat5', $ed);
 
       $manager->persist($this->newParent("Chantiers"));
       $manager->persist($this->newChildren("Pas de prise en compte des cyclistes pour la durée du chantier (déviation, ...)"));
@@ -74,7 +87,9 @@ class LoadCategoryData extends AbstractFixture implements ContainerAwareInterfac
       $manager->persist($this->newParent("Stationnement vélo défectueux, abîmé ou non replacé"));
 
       $manager->persist($this->newParent("Autre",'long'));
-      $manager->persist($this->newChildren("Autre", 'long'));
+      $ed = $this->newChildren("Autre", 'long');
+      $manager->persist($ed);
+      $this->addReference('cat6', $ed);
      
       $manager->flush(); 
    }
