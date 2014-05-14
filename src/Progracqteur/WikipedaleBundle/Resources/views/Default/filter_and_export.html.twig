@@ -31,39 +31,23 @@
       <input type="checkbox" name="affichage_tous_ou_filtre_categorie">
       {{ 'filter.by_categories'|trans({}, 'messages') }} :
       <div>
-         <select style="width:100%" data-placeholder="" id="optionsAffichageFilterCategories" multiple>
-            {% for category in categories %}
-               {% if category.hasChildren and  category.term != 'long' %}
-                  <optgroup label="{{ category.label }}" >
-                     {% for childCategory in category.children %}
-                        <option value="{{ childCategory.id }}">{{ childCategory.label  }}</option>
-                     {% endfor %}
-                  </optgroup>
-               {% elseif category.term != 'long' %}
-                  <option value="{{ category.id }}">{{ category.label }}</option>
-               {% endif %}
-            {% endfor %}
+         <select style="width:100%" data-placeholder="" id="optionsAffichageFilterCategoriesParent">
+         </select>
+
+         <select style="width:100%" data-placeholder="" id="optionsAffichageFilterCategoriesChildren" multiple>
          </select>
       </div>
 
       <input type="checkbox" name="affichage_tous_ou_filtre_pn_categorie">
       {{ 'filter.display_black_points'|trans({}, 'messages') }} :
-
       <div>
-         <select style="width:100%" data-placeholder="" id="optionsAffichageAddLongTermCategories" multiple>
-            {% for category in categories %}
-               {% if category.hasChildren  and  category.term == 'long' %}
-                  <optgroup label="{{ category.label }}" >
-                     {% for childCategory in category.children %}
-                        <option value="{{ childCategory.id }}" selected="selected">{{ childCategory.label }}</option>
-                     {% endfor %}
-                  </optgroup>
-               {% elseif category.term == 'long' %}
-                  <option value="{{ category.id }}" selected="selected">{{ category.label }}</option>
-               {% endif %}
-            {% endfor %}
+         <select style="width:100%" data-placeholder="" id="optionsAffichageAddLongTermCategoriesParent">
+         </select>
+
+         <select style="width:100%" data-placeholder="" id="optionsAffichageAddLongTermCategoriesChildren" multiple>
          </select>
       </div>
+
    </div>
 
    <div>

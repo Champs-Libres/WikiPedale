@@ -10,7 +10,7 @@
 * This module is used to display the markers regarding to the filtering options.
 */
 
-define(['jQuery', 'map_display', 'report'], function ($, map_display, report) {
+define(['jQuery', 'map_display', 'report', 'category'], function ($, map_display, report, category) {
    var filtering_form_activated = false,  // true iff  displaying the div "div_options_affichage" and
    // the choice of the user (done in the filtering form) has to be considered.
       mode_activated = []; // to remember each option of the filtering form has been
@@ -44,18 +44,29 @@ define(['jQuery', 'map_display', 'report'], function ($, map_display, report) {
 
       // Short term and medium categories
       if (mode_activated.FilterCategories && filtering_form_activated) {
-         $.each($('#optionsAffichageFilterCategories').select2('val'), function (index, id_cat) {
+         $.each($('#optionsAffichageFilterCategoriesChildren').select2('val'), function (index, id_cat) {
             id_cat_to_display.push(parseInt(id_cat));
          });
       } else {
-         $('#optionsAffichageFilterCategories option').each(
-            function (i, v) { id_cat_to_display.push(parseInt(v.value)); }
-            );
+         category.getAll(function(categories) {
+            $.each(categories, function(i,cat) {
+               if(cat.children.length > 0) {
+                  $.each(cat.children, function(i, child) {
+                     if(child.term !== 'long') {
+                        id_cat_to_display.push(child.id);
+                     }
+                  });
+               }
+               if(cat.children.length === 0 && cat.term !== 'long') {
+                  id_cat_to_display.push(cat.id);
+               }
+            });
+         });
       }
 
       // Long term categories
       if (mode_activated.AddLongTermCategories) {
-         $.each($('#optionsAffichageAddLongTermCategories').select2('val'), function (index, id_cat) {
+         $.each($('#optionsAffichageAddLongTermCategoriesChildren').select2('val'), function (index, id_cat) {
             id_cat_to_display.push(parseInt(id_cat));
          });
       }
@@ -117,8 +128,12 @@ define(['jQuery', 'map_display', 'report'], function ($, map_display, report) {
       */
       if (mode_activated[filtering_option]) {
          $('#optionsAffichage' + filtering_option).select2('disable');
+         $('#optionsAffichage' + filtering_option + 'Parent').select2('disable');
+         $('#optionsAffichage' + filtering_option + 'Children').select2('disable');
       } else {
          $('#optionsAffichage' + filtering_option).select2('enable');
+         $('#optionsAffichage' + filtering_option + 'Parent').select2('enable');
+         $('#optionsAffichage' + filtering_option + 'Children').select2('enable');
       }
       mode_activated[filtering_option] = !mode_activated[filtering_option];
       display_markers_regarding_to_filtering();

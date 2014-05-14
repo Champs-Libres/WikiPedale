@@ -28,8 +28,8 @@ require.config({
    }
 });
 
-require(['jQuery','recent_activities','data_map_glue','informer','markers_filtering','select2','colorbox','description_create','map_display','login','description_text_display','description_edit'],
-   function($,recent_activities,data_map_glue,informer,markers_filtering,select2,colorbox,description_create,map_display,login,description_text_display,description_edit){
+require(['jQuery','recent_activities','data_map_glue','informer','markers_filtering','select2','colorbox','description_create','map_display','login','description_text_display','description_edit', 'category'],
+   function($,recent_activities,data_map_glue,informer,markers_filtering,select2,colorbox,description_create,map_display,login,description_text_display,description_edit, category){
       $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
       $(document).ready(function(){
          $('a.connexion').colorbox({
@@ -57,12 +57,35 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             recent_activities.filling(city_name,5);
             data_map_glue.init_app(city_name, city_lon, city_lat,description_selected_id);
 
-            $('#optionsAffichageFilterCategories').select2();
-            $('#optionsAffichageFilterCategories').select2('disable');
+            //Category
+            category.init();
 
-            $('#optionsAffichageAddLongTermCategories').select2();
-            $('#optionsAffichageAddLongTermCategories').select2('disable');
+            //Category Filtering
+            category.insertParentCategoryToSelectField('#optionsAffichageFilterCategoriesParent', ['short','medium']);
+            $('#optionsAffichageFilterCategoriesParent').select2();
+            $('#optionsAffichageFilterCategoriesChildren').select2();
+            $('#optionsAffichageFilterCategoriesParent').on('select2-selecting', function(e) {
+               category.setChildrenToSelect2Filed('#optionsAffichageFilterCategoriesChildren',e.val, ['short','medium']);
+               $('#optionsAffichageFilterCategoriesChildren').on('change', function() { markers_filtering.display_markers_regarding_to_filtering(); });
+               markers_filtering.display_markers_regarding_to_filtering();
+            });
 
+            $('#optionsAffichageFilterCategoriesParent').select2('disable');
+            $('#optionsAffichageFilterCategoriesChildren').select2('disable');
+
+            category.insertParentCategoryToSelectField('#optionsAffichageAddLongTermCategoriesParent', ['long']);
+            $('#optionsAffichageAddLongTermCategoriesParent').select2();
+            $('#optionsAffichageAddLongTermCategoriesChildren').select2();
+            $('#optionsAffichageAddLongTermCategoriesParent').on('select2-selecting', function(e) {
+               category.setChildrenToSelect2Filed('#optionsAffichageAddLongTermCategoriesChildren',e.val, ['long']);
+               $('#optionsAffichageAddLongTermCategoriesChildren').on('change', function() { markers_filtering.display_markers_regarding_to_filtering(); });
+               markers_filtering.display_markers_regarding_to_filtering();
+            });
+
+            $('#optionsAffichageAddLongTermCategoriesParent').select2('disable');
+            $('#optionsAffichageAddLongTermCategoriesChildren').select2('disable');
+
+             //Cem Filtering
             $('#optionsAffichageFilterStatusCeM').select2();
             $('#optionsAffichageFilterStatusCeM').select2('disable');
 
@@ -73,8 +96,6 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
 
             $('#add_new_description_form__category').select2().on('change', function() { informer.update_new_description_form('category'); });
 
-            $('#optionsAffichageFilterCategories').on('change', function() { markers_filtering.display_markers_regarding_to_filtering(); });
-            $('#optionsAffichageAddLongTermCategories').on('change', function() { markers_filtering.display_markers_regarding_to_filtering(); });
             $('#optionsAffichageFilterStatusCeM').on('change', function() { markers_filtering.display_markers_regarding_to_filtering(); });
 
             $('#div_returnNormalMode').hide();
