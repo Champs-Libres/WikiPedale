@@ -38,8 +38,8 @@ define(['jQuery','map_display','report','description_text_display','user','infor
          $.getJSON(jsonUrlData, function(data) {
             user.update(data.user);
             report.updateAll(data.results, function () {
-               $.each(data.results, function(index, aPlaceData) {
-                  map_display.add_marker(aPlaceData.id, focus_on_place_of);
+               $.each(data.results, function(index, a_report) {
+                  map_display.add_marker(a_report.id, focus_on_place_of);
                });
             });
          })
