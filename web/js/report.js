@@ -12,6 +12,8 @@
 // mettre des parseInt
 define(['jQuery','params'], function($,params) {
    var r = {}; //all the reports
+   var min_timestamp = new Date().getTime(); //the minimal timestamp over all the reports
+   var max_timestamp = 0; //the maximal timestamp over all the reports
 
    function updateAll(new_reports_in_json, action_after_update) {
       /**
@@ -40,6 +42,14 @@ define(['jQuery','params'], function($,params) {
       json object containing all the information about the report
       */
       r[parseInt(a_report.id)] = a_report;
+
+      if (min_timestamp > a_report.createDate.u) {
+         min_timestamp = a_report.createDate.u;
+      }
+
+      if (max_timestamp < a_report.createDate.u) {
+         max_timestamp = a_report.createDate.u;
+      }
    }
 
    function get(an_id) {
@@ -57,11 +67,27 @@ define(['jQuery','params'], function($,params) {
       return r;
    }
 
+   function getMinTimestamp() {
+      /**
+      * Gets the minimal timestamp over all the reports
+      */
+      return min_timestamp;
+   }
+
+   function getMaxTimestamp() {
+      /**
+      * Gets the maximal timestamp over all the reports
+      */
+      return max_timestamp;
+   }
+
    function eraseAll(){
       /**
       * Remove all the reports
       */
-      init();
+      r = {};
+      min_timestamp = new Date().getTime();
+      max_timestamp = 0;
    }
 
    function erase(report_id) {
@@ -93,6 +119,8 @@ define(['jQuery','params'], function($,params) {
       updateAll: updateAll,
       update: update,
       get: get,
+      getMinTimestamp: getMinTimestamp,
+      getMaxTimestamp: getMaxTimestamp,
       getAll: getAll,
       eraseAll: eraseAll,
       erase: erase,
