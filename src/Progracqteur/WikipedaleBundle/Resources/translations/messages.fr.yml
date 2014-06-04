@@ -222,3 +222,4 @@ csv:
             creator: Créateur
             creator_email: Email du créateur
             creator_phone: Téléphone du créateur
+            moderator_comment: Commentaire du CeM
