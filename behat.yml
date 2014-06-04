@@ -1,4 +1,8 @@
 default:
+   paths:
+      features: features
+   context:
+      class:  FeatureContext
    extensions:
       Behat\Symfony2Extension\Extension: 
          mink_driver: true
