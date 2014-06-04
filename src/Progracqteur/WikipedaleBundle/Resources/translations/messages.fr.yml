@@ -218,12 +218,8 @@ csv:
             description: Description
             createDate: Date de création
             category: Catégorie
-            term:
-                title: Type de point
-                short: Petit problème
-                medium: Résolution à moyen terme
-                long: Point noir
             moderator_status: Statut
             creator: Créateur
             creator_email: Email du créateur
             creator_phone: Téléphone du créateur
+            moderator_comment: Commentaire du CeM

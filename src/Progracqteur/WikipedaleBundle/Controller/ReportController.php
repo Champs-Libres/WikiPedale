@@ -101,18 +101,24 @@ class ReportController extends Controller
         if ($NotationString !== null && $NotationString !== "") {
             $NotationArray = explode (',',$NotationString);
         }
-        
-        $p = $em->createQuery('SELECT p 
-            from ProgracqteurWikipedaleBundle:Model\\Report p 
-            where covers(:polygon, p.geom) = true and p.accepted = true ORDER BY p.id')
-                ->setParameter('polygon', $city->getPolygon());
 
+        $filterCondition = "";
+
+        $timestampBeginString = $request->get('timestamp_begin');
+        if($timestampBeginString) {
+            $filterCondition = $filterCondition . " AND p.createDate >= :timestampB";
+        }
+
+        $timestampEndString = $request->get('timestamp_end');
+        if($timestampEndString) {
+            $filterCondition = $filterCondition . " AND p.createDate <= :timestampE";
+        }
 
         $p = $em->createQueryBuilder()
             ->from('ProgracqteurWikipedaleBundle:Model\\Report','p')
             ->select('p')
             ->join('p.category', 'c')
-            ->where('covers(:polygon, p.geom) = true AND p.accepted = true');
+            ->where(('covers(:polygon, p.geom) = true AND p.accepted = true' . $filterCondition));
 
         if($CategoriesArray) {
             $p = $p->andWhere('c.id IN (:cat)');
@@ -124,6 +130,19 @@ class ReportController extends Controller
         if($CategoriesArray) {
             $p = $p->setParameter('cat', $CategoriesArray);
         }          
+
+        if($timestampBeginString) {
+            $dateB = new \DateTime();
+            $dateB->setTimestamp(intval($timestampBeginString));
+            $p = $p->setParameter('timestampB', $dateB);
+        }
+
+        if($timestampEndString) {
+            $dateE = new \DateTime();
+            $dateE->setTimestamp(intval($timestampEndString));
+            $p = $p->setParameter('timestampE', $dateE);
+        }
+
 
         $r = $p->getQuery()->getResult();
 
