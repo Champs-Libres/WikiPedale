@@ -22,6 +22,8 @@ define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions
    mode_activated.AddStatusCeMRejete = false; // true iff  adding signalements with CeM Status Rejected
    mode_activated.timestamp = false; // true iff filtering on timestamp (creation date)
 
+   var timestamp_min, timestamp_max;
+
    function change_export_link_regarding_to_filtering(statusCeM_to_display, id_cat_to_display) {
       /**
       * Change the csv export link regarding to the filtering options checked
@@ -32,6 +34,12 @@ define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions
          csv_export_link;
       csv_export_link = csv_basic_export_link + '&categories=' + id_cat_to_display.join(',');
       csv_export_link = csv_export_link + '&notations=' + statusCeM_to_display.join(',');
+
+      if(mode_activated.timestamp) {
+         csv_export_link = csv_export_link + '&timestamp_begin=' + timestamp_min;
+         csv_export_link = csv_export_link + '&timestamp_end=' + timestamp_max;
+      }
+
       $('#csv_export_link').attr('href', csv_export_link);
    }
 
@@ -41,9 +49,7 @@ define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions
       * via the filtering form (or not if not activated).
       */
       var id_cat_to_display = [], //the id of the categories that will be displayed on the map
-         statusCeM_to_display = [], //the statusCeM that will be displayed on the map
-         timestamp_min = 0,
-         timestamp_max = ((new Date()).getTime() / 1000);
+         statusCeM_to_display = []; //the statusCeM that will be displayed on the map
 
       // Short term and medium categories
       if (mode_activated.FilterCategories && filtering_form_activated) {
@@ -92,6 +98,9 @@ define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions
 
       //timestamp filtering
       if (mode_activated.timestamp) {
+         timestamp_min = 0;
+         timestamp_max = ((new Date()).getTime() / 1000);
+
          timestamp_min = basic_data_and_functions.stringDate2UnixTimestamp($('#optionsAffichageFilterTimestampFrom').val(),timestamp_min);
          timestamp_max = basic_data_and_functions.stringDate2UnixTimestamp($('#optionsAffichageFilterTimestampTo').val(),timestamp_max,true);
       }
@@ -101,8 +110,7 @@ define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions
             // desc_data does not have a status of type cem it has to be considered as 0 (not considered)
             if ($.inArray(parseInt(report.getStatus('cem', desc_data, 0)),statusCeM_to_display) !== -1 &&
                $.inArray(parseInt(desc_data.category.id),id_cat_to_display) !== -1 &&
-                  desc_data.createDate.u > timestamp_min &&
-                  desc_data.createDate.u < timestamp_max
+               (!mode_activated.timestamp || (desc_data.createDate.u > timestamp_min && desc_data.createDate.u < timestamp_max))
                ) {
                map_display.display_marker(desc_id);
             } else {
