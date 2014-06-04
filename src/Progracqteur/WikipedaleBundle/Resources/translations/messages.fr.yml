@@ -112,6 +112,7 @@ tools_panel:
   color_legend: Légende des couleurs
 
 filter:
+  by_timestamp: Filtrer selon la date
   by_states: Filtrer par états
   display_rejected_signalement: Afficher les signalements rejetés
   by_categories: Filtrer par catégories

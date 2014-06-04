@@ -10,7 +10,7 @@
 * This module is used to display the markers regarding to the filtering options.
 */
 
-define(['jQuery', 'map_display', 'report', 'category'], function ($, map_display, report, category) {
+define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions'], function ($, map_display, report, category, basic_data_and_functions) {
    var filtering_form_activated = false,  // true iff  displaying the div "div_options_affichage" and
    // the choice of the user (done in the filtering form) has to be considered.
       mode_activated = []; // to remember each option of the filtering form has been
@@ -20,6 +20,7 @@ define(['jQuery', 'map_display', 'report', 'category'], function ($, map_display
    mode_activated.AddLongTermCategories = false; // true iff  adding (with filtering) signalement with PN Categories (ie Categories with long term)
    mode_activated.FilterStatusCeM = false; // true iff filtering CeM Status
    mode_activated.AddStatusCeMRejete = false; // true iff  adding signalements with CeM Status Rejected
+   mode_activated.timestamp = false; // true iff filtering on timestamp (creation date)
 
    function change_export_link_regarding_to_filtering(statusCeM_to_display, id_cat_to_display) {
       /**
@@ -40,7 +41,9 @@ define(['jQuery', 'map_display', 'report', 'category'], function ($, map_display
       * via the filtering form (or not if not activated).
       */
       var id_cat_to_display = [], //the id of the categories that will be displayed on the map
-         statusCeM_to_display = []; //the statusCeM that will be displayed on the map
+         statusCeM_to_display = [], //the statusCeM that will be displayed on the map
+         timestamp_min = 0,
+         timestamp_max = ((new Date()).getTime() / 1000);
 
       // Short term and medium categories
       if (mode_activated.FilterCategories && filtering_form_activated) {
@@ -87,11 +90,20 @@ define(['jQuery', 'map_display', 'report', 'category'], function ($, map_display
          statusCeM_to_display.push(-1);
       }
 
+      //timestamp filtering
+      if (mode_activated.timestamp) {
+         timestamp_min = basic_data_and_functions.stringDate2UnixTimestamp($('#optionsAffichageFilterTimestampFrom').val(),timestamp_min);
+         timestamp_max = basic_data_and_functions.stringDate2UnixTimestamp($('#optionsAffichageFilterTimestampTo').val(),timestamp_max,true);
+      }
+
       $.each(report.getAll(), function (desc_id, desc_data) {
          if (typeof desc_data !== undefined) {
             // desc_data does not have a status of type cem it has to be considered as 0 (not considered)
             if ($.inArray(parseInt(report.getStatus('cem', desc_data, 0)),statusCeM_to_display) !== -1 &&
-               $.inArray(parseInt(desc_data.category.id),id_cat_to_display) !== -1) {
+               $.inArray(parseInt(desc_data.category.id),id_cat_to_display) !== -1 &&
+                  desc_data.createDate.u > timestamp_min &&
+                  desc_data.createDate.u < timestamp_max
+               ) {
                map_display.display_marker(desc_id);
             } else {
                map_display.undisplay_marker(desc_id);
@@ -127,13 +139,15 @@ define(['jQuery', 'map_display', 'report', 'category'], function ($, map_display
       * @param {string } typesOrCategories either 'Placetypes' either 'Categories'
       */
       if (mode_activated[filtering_option]) {
-         $('#optionsAffichage' + filtering_option).select2('disable');
-         $('#optionsAffichage' + filtering_option + 'Parent').select2('disable');
-         $('#optionsAffichage' + filtering_option + 'Children').select2('disable');
+         $('#' + filtering_option + ' select.filter').each(function() { $(this).select2('disable'); });
+         $('#' + filtering_option + ' input.filter').each(function() { $(this).attr('disabled', 'disabled'); });
+         $('#' + filtering_option + 'Filter select.filter').each(function() { $(this).select2('disable'); });
+         $('#' + filtering_option + 'Filter input.filter').each(function() { $(this).attr('disabled', 'disabled'); });
       } else {
-         $('#optionsAffichage' + filtering_option).select2('enable');
-         $('#optionsAffichage' + filtering_option + 'Parent').select2('enable');
-         $('#optionsAffichage' + filtering_option + 'Children').select2('enable');
+         $('#' + filtering_option + ' select.filter').each(function() { $(this).select2('enable'); });
+         $('#' + filtering_option + ' input.filter').each(function() { $(this).removeAttr('disabled'); });
+         $('#' + filtering_option + 'Filter select.filter').each(function() { $(this).select2('enable'); });
+         $('#' + filtering_option + 'Filter input.filter').each(function() { $(this).removeAttr('disabled'); });
       }
       mode_activated[filtering_option] = !mode_activated[filtering_option];
       display_markers_regarding_to_filtering();

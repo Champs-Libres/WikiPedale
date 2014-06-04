@@ -28,12 +28,6 @@ define(['jQuery','map_display','report','description_text_display','user','infor
 
       map_display.init(townLon,townLat);
 
-      $(document).ready(function(){
-         $('.olControlButtonAddPlaceItemActive')
-            .addClass('buttonPlus')
-            .each(function(index, value){ value.innerHTML = 'Ajouter un signalement'; });
-      });
-
       $.when(
          $.getJSON(jsonUrlData, function(data) {
             user.update(data.user);

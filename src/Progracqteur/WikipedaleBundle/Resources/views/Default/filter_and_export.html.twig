@@ -14,40 +14,52 @@
 
 <div id="div_options_affichage" class="lateral_content">
    <div class="padding_bottom_small">
-      <input type="checkbox" name="affichage_tous_ou_filtre_statusCeM">
-      {{ 'filter.by_states'|trans({}, 'messages') }}
-      <select style="width:100%" data-placeholder="" id="optionsAffichageFilterStatusCeM" multiple>
-         <option class="option_white" value="0">{{ 'filter.white_state'|trans({}, 'messages') }}</option>
-         <option class="option_red" value="1">{{ 'filter.red_state'|trans({}, 'messages') }}</option>
-         <option class="option_orange" value="2">{{ 'filter.orange_state'|trans({}, 'messages') }}</option>
-         <option class="option_green" value="3">{{ 'filter.green_state'|trans({}, 'messages') }}</option>
-      </select>
+      <div id="FilterStatusCeM">
+         <input type="checkbox" name="affichage_tous_ou_filtre_statusCeM">
+         {{ 'filter.by_states'|trans({}, 'messages') }}
+         <select style="width:100%" data-placeholder="" id="optionsAffichageFilterStatusCeM" class="filter" multiple>
+            <option class="option_white" value="0">{{ 'filter.white_state'|trans({}, 'messages') }}</option>
+            <option class="option_red" value="1">{{ 'filter.red_state'|trans({}, 'messages') }}</option>
+            <option class="option_orange" value="2">{{ 'filter.orange_state'|trans({}, 'messages') }}</option>
+            <option class="option_green" value="3">{{ 'filter.green_state'|trans({}, 'messages') }}</option>
+         </select>
+      </div>
 
       <input type="checkbox" name="affichage_statusCeM_rejete">
       {{ 'filter.display_rejected_signalement'|trans({}, 'messages') }}
    </div>
 
+   <div class="padding_bottom_small" id="timestampFilter">
+      <input type="checkbox" id="timestampFilteringCheckbox">
+      {{ 'filter.by_timestamp'|trans({}, 'messages') }}
+      <input style="width:100%" type="text" id="optionsAffichageFilterTimestampFrom" class="filter" placeholder="De (JJ/MM/AAAA, ex: 22/06/2001)" disabled>
+      <input style="width:100%" type="text" id="optionsAffichageFilterTimestampTo" class="filter" placeholder="à (JJ/MM/AAAA, ex: 06/11/2012)" disabled>
+   </div>
+
    <div class="padding_bottom_small">
-      <input type="checkbox" name="affichage_tous_ou_filtre_categorie">
-      {{ 'filter.by_categories'|trans({}, 'messages') }} :
-      <div>
-         <select style="width:100%" data-placeholder="" id="optionsAffichageFilterCategoriesParent">
-         </select>
+      <div id="FilterCategories">
+         <input type="checkbox" name="affichage_tous_ou_filtre_categorie">
+         {{ 'filter.by_categories'|trans({}, 'messages') }} :
+         <div>
+            <select style="width:100%" data-placeholder="" id="optionsAffichageFilterCategoriesParent" class="filter">
+            </select>
 
-         <select style="width:100%" data-placeholder="" id="optionsAffichageFilterCategoriesChildren" multiple>
-         </select>
+            <select style="width:100%" data-placeholder="" id="optionsAffichageFilterCategoriesChildren" class="filter" multiple>
+            </select>
+         </div>
       </div>
 
-      <input type="checkbox" name="affichage_tous_ou_filtre_pn_categorie">
-      {{ 'filter.display_black_points'|trans({}, 'messages') }} :
-      <div>
-         <select style="width:100%" data-placeholder="" id="optionsAffichageAddLongTermCategoriesParent">
-         </select>
+      <div id="AddLongTermCategories">
+         <input type="checkbox" name="affichage_tous_ou_filtre_pn_categorie">
+         {{ 'filter.display_black_points'|trans({}, 'messages') }} :
+         <div>
+            <select style="width:100%" data-placeholder="" id="optionsAffichageAddLongTermCategoriesParent" class="filter">
+            </select>
 
-         <select style="width:100%" data-placeholder="" id="optionsAffichageAddLongTermCategoriesChildren" multiple>
-         </select>
+            <select style="width:100%" data-placeholder="" id="optionsAffichageAddLongTermCategoriesChildren" class="filter" multiple>
+            </select>
+         </div>
       </div>
-
    </div>
 
    <div>

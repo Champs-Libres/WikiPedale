@@ -51,16 +51,49 @@ define([], function() {
 
    /**
    * Returns a human readable date form a timestamp
+   * @param{unix timestamp} t The unix timestamp (used in php)
    */
-   function timestamp2date(t) {
-      var d = new Date(t*1000);
+   function unixTimestamp2Date(t) {
+      var d = new Date(t * 1000);
       return '' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+   }
+
+   /**
+   * Returns the unix timestamp for a DD/MM/YYYY-format string (DD/MM/YY-format is supporter)
+   * @param{string} s The DD/MM/YYYY-format string that represents the date
+   * @param{?} error_value The value to return when the given string is not in the DD/MM/YYYY-format (DD/MM/YY-format is supporter)
+   * @param{boolean} end_of_day true if the timestamp must refer to the end of the day 23:59, otherwise the timestamp refers to 00:00
+   */
+   function stringDate2UnixTimestamp(s, error_value, end_of_day) {
+      var date, year, s_split = s.split('/');
+
+      if(s_split.length === 3 && !isNaN(s_split[0]) && !isNaN(s_split[1]) && !isNaN(s_split[2]))
+      {
+         year = s_split[2]; //support of DD/MM/YY-format
+         if(year.length == 2) {
+            if(parseInt(year) <= 15) {
+               year = parseInt('20' + year);
+            } else {
+               year = parseInt('19' + year);
+            }
+         }
+
+         if(end_of_day) {
+            date = new Date(year,parseInt(s_split[1]) - 1, parseInt(s_split[0]), 23, 59, 59, 999);
+         } else {
+            date = new Date(year,parseInt(s_split[1]) - 1, parseInt(s_split[0]), 0, 0, 0, 0);
+         }
+         return date.getTime() / 1000;
+      } else  {
+         return error_value;
+      }
    }
 
    return {
       web_dir: web_dir, // the URL where app.php is contained
       nl2br: nl2br,
       is_mail_valid: is_mail_valid,
-      timestamp2date: timestamp2date,
+      unixTimestamp2Date: unixTimestamp2Date,
+      stringDate2UnixTimestamp: stringDate2UnixTimestamp
    };
 });

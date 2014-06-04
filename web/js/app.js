@@ -66,7 +66,7 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             $('#optionsAffichageFilterCategoriesChildren').select2();
             $('#optionsAffichageFilterCategoriesParent').on('select2-selecting', function(e) {
                category.setChildrenToSelect2Filed('#optionsAffichageFilterCategoriesChildren',e.val, ['short','medium']);
-               $('#optionsAffichageFilterCategoriesChildren').on('change', function() { markers_filtering.display_markers_regarding_to_filtering(); });
+               $('#optionsAffichageFilterCategoriesChildren').on('change', markers_filtering.display_markers_regarding_to_filtering);
                markers_filtering.display_markers_regarding_to_filtering();
             });
 
@@ -78,14 +78,19 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             $('#optionsAffichageAddLongTermCategoriesChildren').select2();
             $('#optionsAffichageAddLongTermCategoriesParent').on('select2-selecting', function(e) {
                category.setChildrenToSelect2Filed('#optionsAffichageAddLongTermCategoriesChildren',e.val, ['long']);
-               $('#optionsAffichageAddLongTermCategoriesChildren').on('change', function() { markers_filtering.display_markers_regarding_to_filtering(); });
+               $('#optionsAffichageAddLongTermCategoriesChildren').on('change', markers_filtering.display_markers_regarding_to_filtering);
                markers_filtering.display_markers_regarding_to_filtering();
             });
 
             $('#optionsAffichageAddLongTermCategoriesParent').select2('disable');
             $('#optionsAffichageAddLongTermCategoriesChildren').select2('disable');
 
-             //Cem Filtering
+            $('input[name=affichage_tous_ou_filtre_categorie]').click(function() { markers_filtering.change_mode_for('FilterCategories'); } );
+            $('input[name=affichage_tous_ou_filtre_pn_categorie]').click(function() { markers_filtering.change_mode_for('AddLongTermCategories'); } );
+
+
+
+            //Cem Filtering
             $('#optionsAffichageFilterStatusCeM').select2();
             $('#optionsAffichageFilterStatusCeM').select2('disable');
 
@@ -96,9 +101,17 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
 
             $('#add_new_description_form__category').select2().on('change', function() { informer.update_new_description_form('category'); });
 
-            $('#optionsAffichageFilterStatusCeM').on('change', function() { markers_filtering.display_markers_regarding_to_filtering(); });
+            $('#optionsAffichageFilterStatusCeM').on('change', markers_filtering.display_markers_regarding_to_filtering);
 
             $('#div_returnNormalMode').hide();
+
+            $('input[name=affichage_tous_ou_filtre_statusCeM]').click(function() { markers_filtering.change_mode_for('FilterStatusCeM'); } );
+            $('input[name=affichage_statusCeM_rejete]').click(function() { markers_filtering.change_mode_for('AddStatusCeMRejete'); } );
+
+            //Timestamp Filtering
+            $('#timestampFilteringCheckbox').click(function() { markers_filtering.change_mode_for('timestamp'); } );
+            $('#optionsAffichageFilterTimestampFrom').on('change', markers_filtering.display_markers_regarding_to_filtering);
+            $('#optionsAffichageFilterTimestampTo').on('change', markers_filtering.display_markers_regarding_to_filtering);
 
             
             // Menu
@@ -108,11 +121,6 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             $('#buttonOptionsAffichage').click(function() { markers_filtering.activate_unactivate_filtering_form(); } );
             $('#buttonOptionsAffichage_cancel').click(function() { markers_filtering.activate_unactivate_filtering_form(); } );
 
-            // Filtring
-            $('input[name=affichage_tous_ou_filtre_statusCeM]').click(function() { markers_filtering.change_mode_for('FilterStatusCeM'); } );
-            $('input[name=affichage_statusCeM_rejete]').click(function() { markers_filtering.change_mode_for('AddStatusCeMRejete'); } );
-            $('input[name=affichage_tous_ou_filtre_categorie]').click(function() { markers_filtering.change_mode_for('FilterCategories'); } );
-            $('input[name=affichage_tous_ou_filtre_pn_categorie]').click(function() { markers_filtering.change_mode_for('AddLongTermCategories'); } );
 
             // Add New Description
             $('#add_new_description_form__user_label').blur(function() { informer.update_new_description_form('user_label'); });

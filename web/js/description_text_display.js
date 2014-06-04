@@ -43,7 +43,7 @@ define(['jQuery','map_display','user','report','photo','params','description_edi
       $('.class_span_report_description_loc').each(function() { this.innerHTML = desc_data.addressParts.road; });
       $('#input_report_description_id').val(desc_data.id);
       $('#span_report_description_signaleur').text(desc_data.creator.label);
-      $('#span_report_description_creation_date').text(basic_data_and_functions.timestamp2date(desc_data.createDate.u));
+      $('#span_report_description_creation_date').text(basic_data_and_functions.unixTimestamp2Date(desc_data.createDate.u));
       $('#span_report_description_loc').text(desc_data.addressParts.road);
       $('#span_report_description_desc').text(desc_data.description);
 
