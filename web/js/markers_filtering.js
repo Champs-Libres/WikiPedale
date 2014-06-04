@@ -13,7 +13,7 @@
 define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions'], function ($, map_display, report, category, basic_data_and_functions) {
    var filtering_form_activated = false,  // true iff  displaying the div "div_options_affichage" and
    // the choice of the user (done in the filtering form) has to be considered.
-      mode_activated = []; // to remember each option of the filtering form has been
+      mode_activated = {}; // to remember each option of the filtering form has been
    // choosed by the user
 
    mode_activated.FilterCategories = false; // true iff  filtering categories
