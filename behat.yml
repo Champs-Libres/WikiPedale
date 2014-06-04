@@ -5,3 +5,5 @@ default:
       Behat\MinkExtension\Extension: 
          default_session: 'symfony2'
          goutte: ~
+         selenium2: ~
+         base_url: 'http://localhost:8000'

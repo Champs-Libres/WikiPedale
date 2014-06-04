@@ -11,9 +11,9 @@ use Behat\Behat\Context\BehatContext,
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
-
-require_once 'PHPUnit/Autoload.php';
-require_once 'PHPUnit/Framework/Assert/Functions.php';
+//
+//require_once 'PHPUnit/Autoload.php';
+//require_once 'PHPUnit/Framework/Assert/Functions.php';
 
 
 /**
@@ -77,15 +77,17 @@ public function shouldBeVisible($selector) {
     if(!empty($el)){
         $style = preg_replace('/\s/', '', $el->getAttribute('style'));
     } else {
-        throw new Exception("Element ({$selector}) not found");
+        throw new \Exception("Element ({$selector}) not found");
     }
 
-    assertFalse(false !== strstr($style, 'display:none'));
+    if (false === strstr($style, 'display:none')) {
+       throw new \Exception("element $selector not found");
+    }
 }
 
 
 /**
- * @Then /^"([^"]*)" should be not visible$/
+ * @Then /^"([^"]*)" should not be visible$/
  */
 public function shouldBeNotVisible($selector) {
     // Semble ne pas marcher
@@ -94,10 +96,12 @@ public function shouldBeNotVisible($selector) {
     if(!empty($el)){
         $style = preg_replace('/\s/', '', $el->getAttribute('style'));
     } else {
-        throw new Exception("Element ({$selector}) not found");
+        throw new \Exception("Element ({$selector}) not found");
     }
 
-    assertTrue(false !== strstr($style, 'display:none'));
+    if (false !== strstr($style, 'display:none')) {
+       
+    }
 }
 
 //
