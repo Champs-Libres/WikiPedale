@@ -260,12 +260,15 @@ class ReportController extends Controller
             return $r;
         }
         
+        // Modification du report
         //ajoute l'utilisateur courant comme créateur si connecté
         if ($report->getId() == null && $this->get('security.context')->getToken()->getUser() instanceof User) {
             $u = $this->get('security.context')->getToken()->getUser();
             $report->setCreator($u);
         }
         
+        
+        // Modification du changeset
         //ajoute l'utilisateur courant au changeset
         if ($report->getChangeset()->isCreation()) { // si création 
             if ($this->get('security.context')->getToken()->getUser() instanceof User) { //si utilisateur connecté
