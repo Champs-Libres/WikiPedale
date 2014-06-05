@@ -11,3 +11,18 @@ default:
          goutte: ~
          selenium2: ~
          base_url: 'http://localhost:8000'
+         
+phantomjs:
+   paths:
+      features: features
+   context:
+      class:  FeatureContext
+   extensions:
+      Behat\Symfony2Extension\Extension: 
+         mink_driver: true
+      Behat\MinkExtension\Extension: 
+         default_session: 'symfony2'
+         goutte: ~
+         selenium2:
+            wd_host: "http://localhost:8643/wd/hub"
+         base_url: 'http://localhost:8000'
