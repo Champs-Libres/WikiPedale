@@ -39,13 +39,13 @@ class LoadCommentData extends AbstractFixture implements OrderedFixtureInterface
                 echo "Create $nb comments for index $i registered user \n";
                 
                 //if a place exist with this id...
-                try 
+                if ($this->hasReference('REPORT_FOR_REGISTERED_USER'.$i)) 
                 {
-                    $report = $this->getReference('PLACE_FOR_REGISTERED_USER'.$i);
+                    $report = $this->getReference('REPORT_FOR_REGISTERED_USER'.$i);
                     
-                } catch (\Exception $e) 
+                } else  
                 {
-                    echo "No place recorded with index $i \n";
+                    echo "No report recorded with index $i \n";
                     continue;
                 }
                 
@@ -71,7 +71,7 @@ class LoadCommentData extends AbstractFixture implements OrderedFixtureInterface
                 //if a place exist with this id...
                 try 
                 {
-                    $report = $this->getReference('PLACE_FOR_UNREGISTERED_USER'.$i);
+                    $report = $this->getReference('REPORT_FOR_UNREGISTERED_USER'.$i);
                     
                 } catch (\Exception $e) 
                 {
