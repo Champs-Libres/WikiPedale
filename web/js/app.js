@@ -31,6 +31,9 @@ require.config({
 require(['jQuery','recent_activities','data_map_glue','informer','markers_filtering','select2','colorbox','description_create','map_display','login','description_text_display','description_edit', 'category'],
    function($,recent_activities,data_map_glue,informer,markers_filtering,select2,colorbox,description_create,map_display,login,description_text_display,description_edit, category){
       $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
+      //Category
+      category.init();
+
       $(document).ready(function(){
          $('a.connexion').colorbox({
             inline:true,
@@ -56,9 +59,6 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
 
             recent_activities.filling(city_name,5);
             data_map_glue.init_app(city_name, city_lon, city_lat,description_selected_id);
-
-            //Category
-            category.init();
 
             //Category Filtering
             category.insertParentCategoryToSelectField('#optionsAffichageFilterCategoriesParent', ['short','medium']);
