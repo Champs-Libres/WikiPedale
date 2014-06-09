@@ -145,6 +145,8 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             $('span_plus_de_commenaitres_link a').click(function(e) { e.preventDefault(); description_text_display.activate_comments_mode(); });
             $('#button_edit_lon_lat').click(function(e) { e.preventDefault(); description_edit.position_edit_or_save(); });
             $('#button_save_lon_lat').click(function(e) { e.preventDefault(); description_edit.position_edit_or_save(); });
+         
+            markers_filtering.display_markers_regarding_to_filtering();
          }
       });
    });
