@@ -15,7 +15,7 @@ define(['jQuery'], function($) {
     * Load the categories
     * @return No return
     */
-   function init() {
+   function init(callback) {
       $.get(Routing.generate('public_category_list_all_parent_children', {_format: 'json'}), function( data ) {
          if(! data.query.error) {
             categories = data.results;
@@ -30,6 +30,10 @@ define(['jQuery'], function($) {
                   cat.by_term_children[child.term].push(child);
                });
             });
+
+            if(callback) {
+              callback();
+            }
          }
       });
    }
