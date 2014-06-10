@@ -19,9 +19,11 @@ Reports
 
 ```
 
-**Report**             **ReportStatus**       **Notation**
-   statuses 1 -----> *    report                   
-                          type   * ------------>  1 id (string)
+**Report**
+   statuses 1 -----> *   **ReportStatus**
+                          value (int)                   
+                          type   * ------------>  1 **Notation**
+                                                      id (string)
 
 ```
 
@@ -45,12 +47,45 @@ Users and Groups
 - a name, used for the UI ;
 - a zone : a polygon where the group may be active. This is mandatory.
 - a notation : the members of the group will be allowed to manipulate notation on report.
+- a type: either _NOTATION_, _MODERATOR_ or _MANAGER_
+
+Those three last parameters (zone, notation, type) are described below.
 
 ```
 
 **User**
-   groups * <------->  * *Groups*
-                          zone    -----------------> *Zone*
-                          notation  ---------------> *Notation*
+   groups * <------->  * **Groups**
+                          zone    -----------------> **Zone**
+                          notation  ---------------> **Notation**
+                          type: NOTATION | MODERATOR | MANAGER
 
 ```
+
+Group's Zone
+------------
+
+Members of the groups may only have an action on reports which are located within their zone.
+
+Group's types
+--------------
+
+**Big picture**
+
+- _NOTATION_ : allow members to manipulate notation on reports; 
+- _MODERATOR_ : allow members to moderate reports: fill in moderator's comment, assign a manager, see details of report's creator (phonenumber, email,...), update details (lat-lon position, street name, description, ...) ... AND manipulate the corresponding notation.
+- _MANAGER_ : allow members to see details of report's creator (phonenumber, email, ...), and change the corresponding notation.
+
+**In detail**
+
+Currently, the role are given in Progracqteur/WikiPedaleBundle/Entity/Management/Group::setType and security.yml (under the key 'security.role_hierarchy'). 
+
+They are described in Progracqteur/WikipedaleBundle/Entity/Management/User.
+
+Group's Notation
+-----------------
+
+When a Group's member want to update/create a notation, the notation he want to update/create MUST be attached to his group.
+
+
+
+
