@@ -22,7 +22,7 @@ define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions
    mode_activated.AddStatusCeMRejete = false; // true iff  adding signalements with CeM Status Rejected
    mode_activated.timestamp = false; // true iff filtering on timestamp (creation date)
 
-   var timestamp_min, timestamp_max;
+   var timestamp_begin, timestamp_end;
 
    function change_export_link_regarding_to_filtering(statusCeM_to_display, id_cat_to_display) {
       /**
@@ -36,8 +36,8 @@ define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions
       csv_export_link = csv_export_link + '&notations=' + statusCeM_to_display.join(',');
 
       if(mode_activated.timestamp) {
-         csv_export_link = csv_export_link + '&timestamp_begin=' + timestamp_min;
-         csv_export_link = csv_export_link + '&timestamp_end=' + timestamp_max;
+         csv_export_link = csv_export_link + '&timestamp_begin=' + timestamp_begin;
+         csv_export_link = csv_export_link + '&timestamp_end=' + timestamp_end;
       }
 
       $('#csv_export_link').attr('href', csv_export_link);
@@ -98,11 +98,8 @@ define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions
 
       //timestamp filtering
       if (mode_activated.timestamp) {
-         timestamp_min = 0;
-         timestamp_max = ((new Date()).getTime() / 1000);
-
-         timestamp_min = basic_data_and_functions.stringDate2UnixTimestamp($('#optionsAffichageFilterTimestampFrom').val(),timestamp_min);
-         timestamp_max = basic_data_and_functions.stringDate2UnixTimestamp($('#optionsAffichageFilterTimestampTo').val(),timestamp_max,true);
+         timestamp_begin = basic_data_and_functions.stringDate2UnixTimestamp($('#beginInputForTimestampFilter').val(),0); //0 is set if no value
+         timestamp_end = basic_data_and_functions.stringDate2UnixTimestamp($('#endInputForTimestampFilter').val(), (((new Date()).getTime() / 1000)) ,true); //((new Date()).getTime() / 1000) is set if no value
       }
 
       $.each(report.getAll(), function (desc_id, desc_data) {
@@ -110,7 +107,7 @@ define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions
             // desc_data does not have a status of type cem it has to be considered as 0 (not considered)
             if ($.inArray(parseInt(report.getStatus('cem', desc_data, 0)),statusCeM_to_display) !== -1 &&
                $.inArray(parseInt(desc_data.category.id),id_cat_to_display) !== -1 &&
-               (!mode_activated.timestamp || (desc_data.createDate.u > timestamp_min && desc_data.createDate.u < timestamp_max))
+               (!mode_activated.timestamp || (desc_data.createDate.u > timestamp_begin && desc_data.createDate.u < timestamp_end))
                ) {
                map_display.display_marker(desc_id);
             } else {

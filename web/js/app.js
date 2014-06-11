@@ -110,8 +110,8 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
 
             //Timestamp Filtering
             $('#timestampFilteringCheckbox').click(function() { markers_filtering.change_mode_for('timestamp'); } );
-            $('#optionsAffichageFilterTimestampFrom').on('change', markers_filtering.display_markers_regarding_to_filtering);
-            $('#optionsAffichageFilterTimestampTo').on('change', markers_filtering.display_markers_regarding_to_filtering);
+            $('#beginInputForTimestampFilter').on('change', markers_filtering.display_markers_regarding_to_filtering);
+            $('#endInputForTimestampFilter').on('change', markers_filtering.display_markers_regarding_to_filtering);
 
             
             // Menu
