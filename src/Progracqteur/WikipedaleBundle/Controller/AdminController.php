@@ -7,7 +7,7 @@ class AdminController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('ProgracqteurWikipedaleBundle:Admin:default.html.twig');
+        return $this->render('ProgracqteurWikipedaleBundle:Admin:index.html.twig');
     }
 }
 
