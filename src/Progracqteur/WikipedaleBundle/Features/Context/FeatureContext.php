@@ -132,4 +132,37 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
       file_put_contents('./tmp/'.$filename.'.png', $screenshot);
    }
 
+
+   /**
+    * @Then /^element "([^"]*)" should not be visible$/
+    */
+   public function shouldNotBeVisible($cssSelector)
+   {
+      $session = $this->getSession();
+      $element = $session->getPage()->find('css', $cssSelector);
+
+      if(! $element) {
+         throw new \Exception("Element $cssSelector not found");
+      }
+
+      if($element->isVisible()) {
+         throw new \Exception("Element $cssSelector is visible");
+      }
+   }
+
+
+   /**
+    * @When /^I click on the element "([^"]*)"$/
+    */
+   public function iClickOnTheElement($cssSelector)
+   {
+      $session = $this->getSession();
+      $element = $session->getPage()->find('css', $cssSelector);
+
+      if(! $element) {
+         throw new \Exception("Element with id $id not found");
+      }
+
+      $element->click();
+    }
 }
