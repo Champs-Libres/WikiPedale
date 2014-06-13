@@ -6,8 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
 use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
-use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeableInterface;
