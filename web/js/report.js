@@ -11,10 +11,10 @@
 
 // mettre des parseInt
 define(['jQuery','params'], function($,params) {
-   var r = []; //all the reports
+   var r = {}; //all the reports // object pour ne pas remplir le tableau de cellules vides
    var min_timestamp = new Date().getTime(); //the minimal timestamp over all the reports
    var max_timestamp = 0; //the maximal timestamp over all the reports
-   var managers_list = []; //list of the mangers
+   var managers_list = {}; //list of the mangers //all the reports // object pour ne pas remplir le tableau de cellules vides
 
 
    function setManagers(m) {
@@ -47,7 +47,7 @@ define(['jQuery','params'], function($,params) {
       * @param {function} action_after_update a function to be executed after updating the reports. can be null if not execute
       json object containing all the report
       */
-      r = [];
+      r = {};
       $.when(
          $.each(new_reports_in_json,
             function(index, a_report) {
@@ -135,14 +135,12 @@ define(['jQuery','params'], function($,params) {
        */
       var i, max;
 
-      if('manager' in report) {
-         for(i = 0, max = report.statuses.length; i < max; i++) {
-            if(report.statuses[i].t === statusType) {
+      for(i = 0, max = report.statuses.length; i < max; i++) {
+         if(report.statuses[i].t === statusType) {
             return parseInt(report.statuses[i].v);
          }
       }
       return notFoundValue;
-      }
    }
 
    return {
