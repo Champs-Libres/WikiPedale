@@ -33,7 +33,7 @@ define(['jQuery','map_display','report','description_text_display','user','infor
             user.update(data.user);
             report.updateAll(data.results, function () {
                $.each(data.results, function(index, a_report) {
-                  map_display.add_marker(a_report.id, focus_on_place_of);
+                  map_display.add_marker(a_report.id, focus_on_place_of); //focus_on_place_of is the event fct
                });
             });
          })

@@ -11,9 +11,34 @@
 
 // mettre des parseInt
 define(['jQuery','params'], function($,params) {
-   var r = {}; //all the reports
+   var r = []; //all the reports
    var min_timestamp = new Date().getTime(); //the minimal timestamp over all the reports
    var max_timestamp = 0; //the maximal timestamp over all the reports
+   var managers_list = []; //list of the mangers
+
+
+   function setManagers(m) {
+      /**
+       * Set the manager m in the managers_list
+       * @param {manager (group)} m The manager to add
+       */
+       var id_manager;
+
+       if(m.manager) {
+         var id_manager = parseInt(m.manager.id);
+         if(!(id_manager in managers_list)) {
+            managers_list[id_manager] = m;
+         }
+      }
+   }
+
+   function getAllManagers() {
+      /**
+       * Returns the list of the managers.
+       * @return {Array of group} The list of the managers.
+       */
+       return managers_list;
+   }
 
    function updateAll(new_reports_in_json, action_after_update) {
       /**
@@ -22,6 +47,7 @@ define(['jQuery','params'], function($,params) {
       * @param {function} action_after_update a function to be executed after updating the reports. can be null if not execute
       json object containing all the report
       */
+      r = [];
       $.when(
          $.each(new_reports_in_json,
             function(index, a_report) {
@@ -42,6 +68,7 @@ define(['jQuery','params'], function($,params) {
       json object containing all the information about the report
       */
       r[parseInt(a_report.id)] = a_report;
+      setManagers(a_report);
 
       if (min_timestamp > a_report.createDate.u) {
          min_timestamp = a_report.createDate.u;
@@ -104,15 +131,18 @@ define(['jQuery','params'], function($,params) {
        * @param {String} statusType The name of the status that we want to access
        * @param {Report} desc The report
        * @param {AGivenData} notFoundValue The value to return if the type is not founded
-      */
+       * @return {\{-1,0,1,2,3\}} The status : -1 (gray) = rejected, ... ,3 (green) resolved
+       */
       var i, max;
 
-      for(i = 0, max = report.statuses.length; i < max; i++) {
-         if(report.statuses[i].t === statusType) {
+      if('manager' in report) {
+         for(i = 0, max = report.statuses.length; i < max; i++) {
+            if(report.statuses[i].t === statusType) {
             return parseInt(report.statuses[i].v);
          }
       }
       return notFoundValue;
+      }
    }
 
    return {
@@ -124,6 +154,7 @@ define(['jQuery','params'], function($,params) {
       getAll: getAll,
       eraseAll: eraseAll,
       erase: erase,
-      getStatus: getStatus
+      getStatus: getStatus,
+      getAllManagers: getAllManagers
    };
 });
