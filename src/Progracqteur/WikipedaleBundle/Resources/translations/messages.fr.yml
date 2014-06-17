@@ -112,6 +112,8 @@ tools_panel:
   color_legend: Légende des couleurs
 
 filter:
+  placeholder_timestamp_begin: De (format: JJ/MM/AAAA, ex: 22/06/2001)
+  placeholder_timestamp_end: à (format: JJ/MM/AAAA, ex: 22/06/2001)
   by_timestamp: Filtrer selon la date
   by_states: Filtrer par états
   display_rejected_signalement: Afficher les signalements rejetés

@@ -32,8 +32,8 @@
    <div class="padding_bottom_small" id="timestampFilter">
       <input type="checkbox" id="timestampFilteringCheckbox">
       {{ 'filter.by_timestamp'|trans({}, 'messages') }}
-      <input style="width:100%" type="text" id="beginInputForTimestampFilter" class="filter" placeholder="De (JJ/MM/AAAA, ex: 22/06/2001)" disabled>
-      <input style="width:100%" type="text" id="endInputForTimestampFilter" class="filter" placeholder="à (JJ/MM/AAAA, ex: 06/11/2012)" disabled>
+      <input style="width:100%" type="text" id="beginInputForTimestampFilter" class="filter" placeholder="{{ 'filter.placeholder_timestamp_begin' | trans({}, 'messages') }}" disabled>
+      <input style="width:100%" type="text" id="endInputForTimestampFilter" class="filter" placeholder="{{ 'filter.placeholder_timestamp_end' | trans({}, 'messages') }}" disabled>
    </div>
 
    <div class="padding_bottom_small">
