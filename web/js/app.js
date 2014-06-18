@@ -57,42 +57,15 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             recent_activities.filling(city_name,5);
             data_map_glue.init_app(city_name, city_lon, city_lat,description_selected_id);
 
+            // Manager Filtering
+            category.insertParentCategoryToSelectField('#optionsAffichageFilterCategoriesParent', ['short','medium']);
+
             //Category
-            category.init(function() {markers_filtering.display_markers_regarding_to_filtering();});
+            category.init(function() {markers_filtering.displayMarkersRegardingToFiltering();});
 
             //Category Filtering
-            category.insertParentCategoryToSelectField('#optionsAffichageFilterCategoriesParent', ['short','medium']);
-            $('#optionsAffichageFilterCategoriesParent').select2();
-            $('#optionsAffichageFilterCategoriesChildren').select2();
-            $('#optionsAffichageFilterCategoriesParent').on('select2-selecting', function(e) {
-               category.setChildrenToSelect2Filed('#optionsAffichageFilterCategoriesChildren',e.val, ['short','medium']);
-               $('#optionsAffichageFilterCategoriesChildren').on('change', markers_filtering.display_markers_regarding_to_filtering);
-               markers_filtering.display_markers_regarding_to_filtering();
-            });
-
-            $('#optionsAffichageFilterCategoriesParent').select2('disable');
-            $('#optionsAffichageFilterCategoriesChildren').select2('disable');
-
-            category.insertParentCategoryToSelectField('#optionsAffichageAddLongTermCategoriesParent', ['long']);
-            $('#optionsAffichageAddLongTermCategoriesParent').select2();
-            $('#optionsAffichageAddLongTermCategoriesChildren').select2();
-            $('#optionsAffichageAddLongTermCategoriesParent').on('select2-selecting', function(e) {
-               category.setChildrenToSelect2Filed('#optionsAffichageAddLongTermCategoriesChildren',e.val, ['long']);
-               $('#optionsAffichageAddLongTermCategoriesChildren').on('change', markers_filtering.display_markers_regarding_to_filtering);
-               markers_filtering.display_markers_regarding_to_filtering();
-            });
-
-            $('#optionsAffichageAddLongTermCategoriesParent').select2('disable');
-            $('#optionsAffichageAddLongTermCategoriesChildren').select2('disable');
-
-            $('input[name=affichage_tous_ou_filtre_categorie]').click(function() { markers_filtering.change_mode_for('FilterCategories'); } );
-            $('input[name=affichage_tous_ou_filtre_pn_categorie]').click(function() { markers_filtering.change_mode_for('AddLongTermCategories'); } );
-
-
-
-            //Cem Filtering
-            $('#optionsAffichageFilterStatusCeM').select2();
-            $('#optionsAffichageFilterStatusCeM').select2('disable');
+            markers_filtering.initFor('category');
+            markers_filtering.initFor('long_term_category');
 
             $('#span_report_description_cat_edit').select2();
             $('#span_report_description_status_edit').select2();
@@ -101,25 +74,23 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
 
             $('#add_new_description_form__category').select2().on('change', function() { informer.update_new_description_form('category'); });
 
-            $('#optionsAffichageFilterStatusCeM').on('change', markers_filtering.display_markers_regarding_to_filtering);
 
             $('#div_returnNormalMode').hide();
 
-            $('input[name=affichage_tous_ou_filtre_statusCeM]').click(function() { markers_filtering.change_mode_for('FilterStatusCeM'); } );
-            $('input[name=affichage_statusCeM_rejete]').click(function() { markers_filtering.change_mode_for('AddStatusCeMRejete'); } );
+            //ModeratorStatus Filtering 
+            markers_filtering.initFor('moderator_status');
+            markers_filtering.initFor('moderator_rejected_status');
+
 
             //Timestamp Filtering
-            $('#timestampFilteringCheckbox').click(function() { markers_filtering.change_mode_for('timestamp'); } );
-            $('#beginInputForTimestampFilter').on('change', markers_filtering.display_markers_regarding_to_filtering);
-            $('#endInputForTimestampFilter').on('change', markers_filtering.display_markers_regarding_to_filtering);
-
+            markers_filtering.initFor('timestamp');
             
             // Menu
             $('#div_add_new_description_button').click(function() { data_map_glue.mode_change(); });
             $('#div_add_new_description_cancel_button').click(function() { data_map_glue.mode_change(); });
             $('#div_returnNormalMode').click(function() { map_display.normal_mode(); });
-            $('#buttonOptionsAffichage').click(function() { markers_filtering.activate_unactivate_filtering_form(); } );
-            $('#buttonOptionsAffichage_cancel').click(function() { markers_filtering.activate_unactivate_filtering_form(); } );
+            $('#filter_and_export_button').click(function() { markers_filtering.activateUnactivateFilteringForm(); } );
+            $('#stop_filter_and_export_button').click(function() { markers_filtering.activateUnactivateFilteringForm(); } );
 
 
             // Add New Description
@@ -146,7 +117,7 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             $('#button_edit_lon_lat').click(function(e) { e.preventDefault(); description_edit.position_edit_or_save(); });
             $('#button_save_lon_lat').click(function(e) { e.preventDefault(); description_edit.position_edit_or_save(); });
          
-            markers_filtering.display_markers_regarding_to_filtering();
+            markers_filtering.displayMarkersRegardingToFiltering();
          }
       });
    });

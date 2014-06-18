@@ -24,7 +24,9 @@ dt {
     font-weight: bold;
 }
 
-label { font-size: 0.9em; color:#2D2D2D; display:block; }s
+.hidden {
+    display: none;
+}
 
 #f_lieu, #f_description { width:95%; }
 

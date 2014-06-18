@@ -10,7 +10,7 @@
 */
 
 // mettre des parseInt
-define(['jQuery','params'], function($,params) {
+define(['jQuery'], function($) {
    var r = {}; //all the reports // object pour ne pas remplir le tableau de cellules vides
    var min_timestamp = new Date().getTime(); //the minimal timestamp over all the reports
    var max_timestamp = 0; //the maximal timestamp over all the reports
@@ -22,10 +22,10 @@ define(['jQuery','params'], function($,params) {
        * Set the manager m in the managers_list
        * @param {manager (group)} m The manager to add
        */
-       var id_manager;
+      var id_manager;
 
-       if(m.manager) {
-         var id_manager = parseInt(m.manager.id);
+      if(m.manager) {
+         id_manager = parseInt(m.manager.id);
          if(!(id_manager in managers_list)) {
             managers_list[id_manager] = m;
          }
@@ -37,7 +37,7 @@ define(['jQuery','params'], function($,params) {
        * Returns the list of the managers.
        * @return {Array of group} The list of the managers.
        */
-       return managers_list;
+      return managers_list;
    }
 
    function updateAll(new_reports_in_json, action_after_update) {
@@ -143,6 +143,15 @@ define(['jQuery','params'], function($,params) {
       return notFoundValue;
    }
 
+
+   function getManagerId(report,notFoundValue) {
+      if (! report.manager) {
+         return notFoundValue;
+      } else {
+         return report.manager.id;
+      }
+   }
+
    return {
       updateAll: updateAll,
       update: update,
@@ -153,6 +162,7 @@ define(['jQuery','params'], function($,params) {
       eraseAll: eraseAll,
       erase: erase,
       getStatus: getStatus,
-      getAllManagers: getAllManagers
+      getAllManagers: getAllManagers,
+      getManagerId: getManagerId
    };
 });

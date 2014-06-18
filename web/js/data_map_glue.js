@@ -41,7 +41,8 @@ define(['jQuery','map_display','report','description_text_display','user','infor
          if(marker_id_to_display) {
             focus_on_place_of(marker_id_to_display);
          }
-         markers_filtering.display_markers_regarding_to_filtering();
+         markers_filtering.initFor('manager');
+         markers_filtering.displayMarkersRegardingToFiltering();
       });
    }
 

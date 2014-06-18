@@ -11,23 +11,17 @@
 */
 
 define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions'], function ($, map_display, report, category, basic_data_and_functions) {
-   var filtering_form_activated = false,  // true iff  displaying the div "div_options_affichage" and
+   var filtering_form_activated = false,  // true iff  displaying the div "filter_and_export_menu" and
    // the choice of the user (done in the filtering form) has to be considered.
       mode_activated = {}; // to remember each option of the filtering form has been
    // choosed by the user
 
-   mode_activated.FilterCategories = false; // true iff  filtering categories
-   mode_activated.AddLongTermCategories = false; // true iff  adding (with filtering) signalement with PN Categories (ie Categories with long term)
-   mode_activated.FilterStatusCeM = false; // true iff filtering CeM Status
-   mode_activated.AddStatusCeMRejete = false; // true iff  adding signalements with CeM Status Rejected
-   mode_activated.timestamp = false; // true iff filtering on timestamp (creation date)
-
    var timestamp_begin, timestamp_end;
 
-   function change_export_link_regarding_to_filtering(statusCeM_to_display, id_cat_to_display) {
+   function changeExportLinkRegardingToFiltering(statusCeM_to_display, id_cat_to_display) {
       /**
       * Change the csv export link regarding to the filtering options checked
-      * @param {integer Array} statusCeM_to_display An array of the selected statusCeM  (select the signalements with its CeM notation in this array)
+      * @param {integer Array} statusCeM_to_display An array of the 2ted statusCeM  (select the signalements with its CeM notation in this array)
       * @param {integer Array} id_cat_to_display An array of the selected categories (select the signalements with its category in this array)
       */
       var csv_basic_export_link = $('#csv_basic_export_link').attr('href'),
@@ -43,19 +37,18 @@ define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions
       $('#csv_export_link').attr('href', csv_export_link);
    }
 
-   function display_markers_regarding_to_filtering() {
+   function displayMarkersRegardingToFiltering() {
       /**
       * Display on the map the markers regarding to the selection made by the user
       * via the filtering form (or not if not activated).
       */
       var id_cat_to_display = [], //the id of the categories that will be displayed on the map
-         statusCeM_to_display = []; //the statusCeM that will be displayed on the map
+         moderator_status_to_display = [], //the moderator status that will be displayed on the map
+         id_manager_to_display = [];
 
       // Short term and medium categories
-      if (mode_activated.FilterCategories && filtering_form_activated) {
-         $.each($('#optionsAffichageFilterCategoriesChildren').select2('val'), function (index, id_cat) {
-            id_cat_to_display.push(parseInt(id_cat));
-         });
+      if (mode_activated.category && filtering_form_activated) {
+         id_cat_to_display = $('#filtering__category__value_children').select2('val').map(function(s) {return parseInt(s);});
       } else {
          category.getAll(function(categories) {
             $.each(categories, function(i,cat) {
@@ -74,40 +67,45 @@ define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions
       }
 
       // Long term categories
-      if (mode_activated.AddLongTermCategories) {
-         $.each($('#optionsAffichageAddLongTermCategoriesChildren').select2('val'), function (index, id_cat) {
+      if (mode_activated.long_term_category && filtering_form_activated) {
+         $.each($('#filtering__long_term_category__value_children').select2('val'), function (index, id_cat) {
             id_cat_to_display.push(parseInt(id_cat));
          });
       }
 
-      // White, Red, Yellow, Green statuses
-      if (mode_activated.FilterStatusCeM && filtering_form_activated) {
-         $.each($('#optionsAffichageFilterStatusCeM').select2('val'), function (index, id_type) {
-            statusCeM_to_display.push(parseInt(id_type));
-         });
+      // White, Red, Yellow, Green statuses (Moderator status)
+      if (mode_activated.moderator_status && filtering_form_activated) {
+         moderator_status_to_display = $('#filtering__moderator_status__value').select2('val').map(function(s) {return parseInt(s);});
       } else {
-         $('#optionsAffichageFilterStatusCeM option').each(function (i, v) {
-            statusCeM_to_display.push(parseInt(v.value));
+         $('#filtering__moderator_status__value option').each(function (i, v) {
+            moderator_status_to_display.push(parseInt(v.value));
          });
       }
 
       // Gray (rejected) status
-      if (mode_activated.AddStatusCeMRejete) {
-         statusCeM_to_display.push(-1);
+      if (mode_activated.moderator_rejected_status && filtering_form_activated) {
+         moderator_status_to_display.push(-1);
+      }
+
+      // Manager
+      if (mode_activated.manager && filtering_form_activated) {
+         id_manager_to_display = $('#filtering__manager__value').select2('val').map(function(s) {return parseInt(s);});
       }
 
       //timestamp filtering
-      if (mode_activated.timestamp) {
-         timestamp_begin = basic_data_and_functions.stringDate2UnixTimestamp($('#beginInputForTimestampFilter').val(),0); //0 is set if no value
-         timestamp_end = basic_data_and_functions.stringDate2UnixTimestamp($('#endInputForTimestampFilter').val(), (((new Date()).getTime() / 1000)) ,true); //((new Date()).getTime() / 1000) is set if no value
+      if (mode_activated.timestamp && filtering_form_activated) {
+         timestamp_begin = basic_data_and_functions.stringDate2UnixTimestamp($('#filtering__timestamp__value_begin').val(),0); //0 is set if no value
+         timestamp_end = basic_data_and_functions.stringDate2UnixTimestamp($('#filtering__timestamp__value_end').val(), (((new Date()).getTime() / 1000)) ,true); //((new Date()).getTime() / 1000) is set if no value
       }
 
       $.each(report.getAll(), function (desc_id, desc_data) {
          if (typeof desc_data !== undefined) {
+
             // desc_data does not have a status of type cem it has to be considered as 0 (not considered)
-            if ($.inArray(parseInt(report.getStatus('cem', desc_data, 0)),statusCeM_to_display) !== -1 &&
+            if ($.inArray(parseInt(report.getStatus('cem', desc_data, 0)),moderator_status_to_display) !== -1 &&
                $.inArray(parseInt(desc_data.category.id),id_cat_to_display) !== -1 &&
-               (!mode_activated.timestamp || (desc_data.createDate.u > timestamp_begin && desc_data.createDate.u < timestamp_end))
+               (!mode_activated.timestamp || !filtering_form_activated || (desc_data.createDate.u > timestamp_begin && desc_data.createDate.u < timestamp_end)) &&
+               (!mode_activated.manager || !filtering_form_activated || $.inArray(report.getManagerId(desc_data,-1),id_manager_to_display) !== -1)
                ) {
                map_display.display_marker(desc_id);
             } else {
@@ -116,51 +114,80 @@ define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions
          }
       });
 
-      change_export_link_regarding_to_filtering(statusCeM_to_display, id_cat_to_display);
+      changeExportLinkRegardingToFiltering(moderator_status_to_display, id_cat_to_display);
    }
 
-   function activate_unactivate_filtering_form() {
+   function activateUnactivateFilteringForm() {
       /**
       * Function used to signal that the user wants to activate/unactivate the filtering mode.
       * This function will display/undisplay the filtering form.
       */
       if (filtering_form_activated) {
-         $('#buttonOptionsAffichage_cancel').hide();
-         $('#buttonOptionsAffichage').show();
-         $('#div_options_affichage').hide();
+         $('#stop_filter_and_export_button').hide();
+         $('#filter_and_export_button').show();
+         $('#filter_and_export_menu').hide();
       } else {
-         $('#buttonOptionsAffichage_cancel').show();
-         $('#buttonOptionsAffichage').hide();
-         $('#div_options_affichage').show();
+         $('#stop_filter_and_export_button').show();
+         $('#filter_and_export_button').hide();
+         $('#filter_and_export_menu').show();
       }
       filtering_form_activated = !filtering_form_activated;
-      display_markers_regarding_to_filtering();
+      displayMarkersRegardingToFiltering();
    }
 
-
-   function change_mode_for(filtering_option) {
-      /**
-      * To be used when the user activate/unactivate a filtering option in the filtering mode.
-      * @param {string } typesOrCategories either 'Placetypes' either 'Categories'
-      */
-      if (mode_activated[filtering_option]) {
-         $('#' + filtering_option + ' select.filter').each(function() { $(this).select2('disable'); });
-         $('#' + filtering_option + ' input.filter').each(function() { $(this).attr('disabled', 'disabled'); });
-         $('#' + filtering_option + 'Filter select.filter').each(function() { $(this).select2('disable'); });
-         $('#' + filtering_option + 'Filter input.filter').each(function() { $(this).attr('disabled', 'disabled'); });
-      } else {
-         $('#' + filtering_option + ' select.filter').each(function() { $(this).select2('enable'); });
-         $('#' + filtering_option + ' input.filter').each(function() { $(this).removeAttr('disabled'); });
-         $('#' + filtering_option + 'Filter select.filter').each(function() { $(this).select2('enable'); });
-         $('#' + filtering_option + 'Filter input.filter').each(function() { $(this).removeAttr('disabled'); });
+   function initFor(element) {
+      if(element === 'manager') {
+         $.each(report.getAllManagers(), function(i, e) {
+            $('#filtering__' + element + '__value').append(
+               '<option value="' +  e.manager.id +   '">' +  e.manager.label +   '</option>');
+         });
       }
-      mode_activated[filtering_option] = !mode_activated[filtering_option];
-      display_markers_regarding_to_filtering();
+
+      if(element === 'category') {
+         category.insertParentCategoryToSelectField('#filtering__category__value_parent', ['short','medium']);
+         $('#filtering__category__value_parent').on('select2-selecting', function(e) {
+            category.setChildrenToSelect2Filed('#filtering__category__value_children',e.val, ['short','medium']);
+            $('#filtering__category__value_children').on('select2-selecting', displayMarkersRegardingToFiltering);
+            displayMarkersRegardingToFiltering();
+         });
+      }
+
+      if(element === 'long_term_category') {
+         category.insertParentCategoryToSelectField('#filtering__long_term_category__value_parent', ['long']);
+         $('#filtering__long_term_category__value_parent').on('select2-selecting', function(e) {
+            category.setChildrenToSelect2Filed('#filtering__long_term_category__value_children',e.val, ['long']);
+            $('#filtering__long_term_category__value_children').on('select2-selecting', displayMarkersRegardingToFiltering);
+            displayMarkersRegardingToFiltering();
+         });
+      }
+
+      if($('#filtering__' + element + '__checkbox').attr('checked') === 'checked') {
+         $('#filtering__' + element + '__checkbox').removeAttr('checked');
+      }
+
+      mode_activated[element] = false;
+      $('#filtering__' + element + '__form_div select').select2();
+      $('#filtering__' + element + '__checkbox').on('change', function() { changeModeFor(element); });
+
+
+      $('#filtering__' + element + '__form_div .filter').on('change', function() { displayMarkersRegardingToFiltering(); });
    }
+
+   function changeModeFor(element) {
+      if (mode_activated[element]) {
+         $('#filtering__' + element + '__form_div').hide();
+      }
+      else {
+         $('#filtering__' + element + '__form_div').show();
+      }
+      mode_activated[element] = !mode_activated[element];
+      displayMarkersRegardingToFiltering();
+   }
+
 
    return {
-      activate_unactivate_filtering_form: activate_unactivate_filtering_form,
-      display_markers_regarding_to_filtering: display_markers_regarding_to_filtering,
-      change_mode_for: change_mode_for
+      displayMarkersRegardingToFiltering: displayMarkersRegardingToFiltering,
+      activateUnactivateFilteringForm: activateUnactivateFilteringForm,
+      initFor: initFor
    };
 });
