@@ -135,10 +135,6 @@ p.PointTitle .span_id {
 }
 
 /* Formulaire ajout point */
-#form__add_new_description {
-    display:none;
-}
-
 #add_new_description_div img.verif {
     float: left;
     width:16px;
