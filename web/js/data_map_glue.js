@@ -78,7 +78,7 @@ define(['jQuery','map_display','report','description_text_display','user','infor
       * @param {object} aDescription The data describing the new description to add on the map.
       * @param {function} anEventFunction The function to execute when the user click on the marker
       */
-      report.singleUpdate(aDescription);
+      report.update(aDescription);
       map_display.add_marker(aDescription.id, anEventFunction);
    }
 
