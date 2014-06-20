@@ -129,7 +129,7 @@ define(['jQuery'], function($) {
       /**
        * Access to the status of a report for a given type
        * @param {String} statusType The name of the status that we want to access
-       * @param {Report} desc The report
+       * @param {Report} report The report
        * @param {AGivenData} notFoundValue The value to return if the type is not founded
        * @return {\{-1,0,1,2,3\}} The status : -1 (gray) = rejected, ... ,3 (green) resolved
        */
@@ -145,6 +145,12 @@ define(['jQuery'], function($) {
 
 
    function getManagerId(report,notFoundValue) {
+      /**
+       * Returns the id of the manager of a given report.
+       * @param {Report} report The reort.
+       * @param {String} notFoundValue The value returned if the report has no manager assigned.
+       * @return {integer} The id of the manager.
+       */
       if (! report.manager) {
          return notFoundValue;
       } else {
