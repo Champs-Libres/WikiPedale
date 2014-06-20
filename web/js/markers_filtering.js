@@ -30,7 +30,7 @@ define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions
       */
       // no need to check if filter.enable -> otherwise not displayed
       var csv_export_link = $('#csv_basic_export_link').attr('href') + '&categories=' + filter.category.to_display.join(',') +
-         '&notations=' + filter.moderator_status.to_display.join(',');
+         '&moderator_status=' + filter.moderator_status.to_display.join(',');
 
       if(filter.manager.enable) {
          csv_export_link = csv_export_link + '&managers=' + filter.manager.to_display.join(',');
@@ -78,6 +78,7 @@ define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions
          });
       }
 
+      filter.moderator_status.to_display = [];
       // Moderator status (white, red, yellow or green)
       if (filter.moderator_status.enable && filter.enable) {
          filter.moderator_status.to_display = $('#filtering__moderator_status__value').select2('val').map(function(s) {return parseInt(s);});

@@ -88,18 +88,16 @@ class ReportController extends Controller
             throw $this->createNotFoundException("Aucune ville correspondant à $citySlug n'a pu être trouvée");
         }
 
-        $CategoriesArray = array();
-
-        $CategoriesString = $request->get('categories', null);
-        if ($CategoriesString !== null && $CategoriesString !== "") {
-            $CategoriesArray = explode (',',$CategoriesString);
+        $categoriesArray = array();
+        $categoriesString = $request->get('categories');
+        if ($categoriesString) {
+            $categoriesArray = explode (',',$categoriesString);
         }
 
-        $NotationArray = array();
-
-        $NotationString = $request->get('notations', null);
-        if ($NotationString !== null && $NotationString !== "") {
-            $NotationArray = explode (',',$NotationString);
+        $moderatorStatusArray = array();
+        $moderatorStatusString = $request->get('moderator_status');
+        if ($moderatorStatusString) {
+            $moderatorStatusArray = explode (',',$moderatorStatusString);
         }
 
         $filterCondition = "";
@@ -114,21 +112,32 @@ class ReportController extends Controller
             $filterCondition = $filterCondition . " AND p.createDate <= :timestampE";
         }
 
+        $managersString = $request->get('managers');
+        if($managersString) {
+            $managersArray = explode (',', $managersString);
+            $filterCondition = $filterCondition . " AND (";
+            if (in_array('-1', $managersArray)) {
+                $filterCondition = $filterCondition . " p.manager IS NULL OR";
+            }
+            $filterCondition = $filterCondition . " p.manager IN (:managers))";
+        }
+
+
         $p = $em->createQueryBuilder()
             ->from('ProgracqteurWikipedaleBundle:Model\\Report','p')
             ->select('p')
             ->join('p.category', 'c')
             ->where(('covers(:polygon, p.geom) = true AND p.accepted = true' . $filterCondition));
 
-        if($CategoriesArray) {
-            $p = $p->andWhere('c.id IN (:cat)');
+        if($categoriesArray) {
+            $p = $p->andWhere('c.id IN (:categories)');
         }
         
         $p = $p->orderBy('p.id')
             ->setParameter('polygon', $city->getPolygon());
 
-        if($CategoriesArray) {
-            $p = $p->setParameter('cat', $CategoriesArray);
+        if($categoriesArray) {
+            $p = $p->setParameter('categories', $categoriesArray);
         }          
 
         if($timestampBeginString) {
@@ -143,10 +152,14 @@ class ReportController extends Controller
             $p = $p->setParameter('timestampE', $dateE);
         }
 
+        if($managersString) {
+            $p = $p->setParameter('managers', $managersArray);
+        }
+
 
         $r = $p->getQuery()->getResult();
 
-        if($NotationArray) {
+        if($moderatorStatusArray) {
             $new_r = array();
 
             for($i = 0; $i < count($r); $i = $i + 1) {
@@ -157,7 +170,7 @@ class ReportController extends Controller
                         $cem_notation_row = $key->getValue();
                     }
                 }
-                if(in_array($cem_notation_row, $NotationArray)) {
+                if(in_array($cem_notation_row, $moderatorStatusArray)) {
                     array_push($new_r, $r[$i]);
                 }
             }
