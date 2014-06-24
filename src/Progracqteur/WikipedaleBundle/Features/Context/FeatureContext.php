@@ -136,7 +136,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
    /**
     * @Then /^element "([^"]*)" should not be visible$/
     */
-   public function shouldNotBeVisible($cssSelector)
+   public function elementShouldNotBeVisible($cssSelector)
    {
       $session = $this->getSession();
       $element = $session->getPage()->find('css', $cssSelector);
@@ -150,6 +150,23 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
       }
    }
 
+
+   /**
+    * @Then /^element "([^"]*)" should be visible$/
+    */
+   public function elementShouldBeVisible($cssSelector)
+   {
+      $session = $this->getSession();
+      $element = $session->getPage()->find('css', $cssSelector);
+
+      if(! $element) {
+         throw new \Exception("Element $cssSelector not found");
+      }
+
+      if(!$element->isVisible()) {
+         throw new \Exception("Element $cssSelector is not visible");
+      }
+   }
 
    /**
     * @When /^I click on the element "([^"]*)"$/
