@@ -37,7 +37,10 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
      */
     private $geom;
 
-
+    /**
+     * @var string $salt A salt 
+     */
+    private $salt
 
     /**
      * @var datetime $createDate
@@ -240,6 +243,13 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     public function getGeom()
     {
         return $this->geom;
+    }
+
+    /**
+     * Get salt
+     */
+    public function getSalt() {
+        return $this->salt;
     }
 
     /**
