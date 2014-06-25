@@ -18,173 +18,154 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
  */
 class CommentController extends Controller 
 {
+   const MAX_COMMENTS_BY_REQUEST = 40;
     
-    const MAX_COMMENTS_BY_REQUEST = 40;
-    
-    private function getCommentByReportLimit($_format, $reportId, $limit, Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        
-        $report = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report")->find($reportId);
-        
-        if ($report === null OR $report->isAccepted() === false)
-        {
-                                                    //TODO: i18n
-            throw $this->createNotFoundException("Le signalement $reportId n'a pas été trouvée");
-        }
-        
-        $qstring = "SELECT cm 
-            FROM ProgracqteurWikipedaleBundle:Model\\Comment cm 
-            WHERE 
-            cm.report = :report 
-            and cm.published = true 
-            ";
-        
-        $q = $em->createQuery()
-                ->setParameter('report',$report);
-        
-        $countQuery = $em->createQuery()
-                ->setParameter('report', $report);
-        
-        
-        //create a where clause depending on the user's roles
-        $strCommentTypeCondition = '';
-        
-        //add default type
-        $strCommentTypeCondition .= "cm.type = :public";
-        $q->setParameter('public', Comment::TYPE_PUBLIC);
-        $countQuery->setParameter('public', Comment::TYPE_PUBLIC);
-        
-        //add depending on roles
-        if ($this->get('security.context')->isGranted(User::ROLE_COMMENT_MODERATOR_MANAGER)) {
+   private function getCommentByReportLimit($_format, $reportId, $limit, Request $request)
+   {
+      $em = $this->getDoctrine()->getManager();
 
-            if ($strCommentTypeCondition !== '') {
-                $strCommentTypeCondition .= ' OR ';
-            }
+      $report = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report")->find($reportId);
 
-            $strCommentTypeCondition .= 'cm.type = :moderator_manager';
-            $q->setParameter('moderator_manager', Comment::TYPE_MODERATOR_MANAGER);
-            $countQuery->setParameter('moderator_manager', Comment::TYPE_MODERATOR_MANAGER);
-        }
+      if ($report === null OR $report->isAccepted() === false) { //TODO: i18n
+         throw $this->createNotFoundException("Le signalement $reportId n'a pas été trouvée");
+      }
 
-        
-        $qstring .= " AND (".$strCommentTypeCondition.") ";
-        
-        
-        $qstring .= " ORDER BY cm.creationDate DESC ";
-        
-        $q->setDql($qstring);
-        
-        $limit = $request->query->get('max', null);
+      $qstring = "SELECT cm 
+         FROM ProgracqteurWikipedaleBundle:Model\\Comment cm 
+         WHERE cm.report = :report 
+         AND cm.published = true ";
 
-        if($limit !== null)
-        {
-            if ($limit > self::MAX_COMMENTS_BY_REQUEST) {
-                $limit = self::MAX_COMMENTS_BY_REQUEST;
-            }
-            $q->setMaxResults($limit);
-            
-        } else {
-            
-            $q->setMaxResults(self::MAX_COMMENTS_BY_REQUEST);
-            
-        }
-        
-        $first = $request->query->get('first', null);
-        
-        if ($first < 0) {
-            $response = new Response('le paramètre first ne peut pas être négatif');
-            $response->setStatusCode(400);
-            return $response;
-        }
-        
-        if ($first !== null){
-            $q->setFirstResult($first);
-        }
-        
-        
-        $comments = $q->getResult();
-        
-        $countQueryDQLString = 'SELECT count(cm.id) 
-            FROM ProgracqteurWikipedaleBundle:Model\Comment cm
-            WHERE
-            cm.report = :report 
-            and cm.published = true AND ('.$strCommentTypeCondition.') ';
-                
-        
-        $count = $countQuery->setDql($countQueryDQLString)
-                ->getSingleScalarResult();
-        
-        switch($_format)
-        {
-            case 'json':
-                $response = new NormalizedResponse();
-                $response->setResults($comments);
-                $response->setLimit($limit);
-                $response->setTotal($count);
-                
-                $serializer = $this->get('progracqteurWikipedaleSerializer');
-                $string = $serializer->serialize($response, $_format);
-                
-                return new Response($string);
-                break;
-            default:
-                throw new \Exception("le format $_format est inconnu");
-        }
-    }
+      $q = $em->createQuery()->setParameter('report',$report);
 
-    public function getLastCommentByReportAction($_format, $reportId, Request $request)
-    {
-        return $this->getCommentByReportLimit($_format, $reportId, 1, $request);
-    }
+      $countQuery = $em->createQuery()->setParameter('report', $report);
 
-    public function getCommentByReportAction($_format, $reportId,Request $request)
-    {
-        return $this->getCommentByReportLimit($_format, $reportId, null, $request);
-    }
-    
-    public function newbisAction($reportId, $_format, Request $request)
-    {
-        if ($request->getMethod() != 'POST')
-        {
-            throw new \Exception("Only post method accepted");
-        }
+      //create a where clause depending on the user's roles
+      $strCommentTypeCondition = '';
 
-        if (!$this->get('security.context')->getToken()->getUser() instanceof User)
-        {
-            throw new AccessDeniedException('Vous devez être un enregistré pour ajouter un commentaire');
-        }
-        
-        $em = $this->getDoctrine()->getManager();
-        
-        $report = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report")
-                ->find($reportId);
-        
-        if ($report === null)
-        {
-            throw $this->createNotFoundException("La report $reportId n'a pas été trouvée");
-        }
+      //add default type
+      $strCommentTypeCondition .= "cm.type = :public";
+      $q->setParameter('public', Comment::TYPE_PUBLIC);
+      $countQuery->setParameter('public', Comment::TYPE_PUBLIC);
 
-        $serializedJson = $request->get('entity', null);
-        
-        if ($serializedJson === null)
-        {
-            throw new \Exception("Aucune entitée envoyée");
-        }
+      //add depending on roles
+      if ($this->get('security.context')->isGranted(User::ROLE_COMMENT_MODERATOR_MANAGER)) {
+         if ($strCommentTypeCondition !== '') {
+             $strCommentTypeCondition .= ' OR ';
+         }
 
-        $serializer = $this->get('progracqteurWikipedaleSerializer');
-        
-        $comment = $serializer->deserialize($serializedJson, 
-                NormalizerSerializerService::COMMENT_TYPE, 
-                $_format);
+         $strCommentTypeCondition .= 'cm.type = :moderator_manager';
+         $q->setParameter('moderator_manager', Comment::TYPE_MODERATOR_MANAGER);
+         $countQuery->setParameter('moderator_manager', Comment::TYPE_MODERATOR_MANAGER);
+      }
+  
+      $qstring .= " AND (".$strCommentTypeCondition.") ";
 
-        $user = $this->get('security.context')->getToken()->getUser();
-        if ($user instanceof User) { //si user is logger
-            $comment->setCreator($user);
-        }
-        else {
-            throw new \Exception("Il faut être connecté pour ajouter un commentaire");
-        }
+      $qstring .= " ORDER BY cm.creationDate DESC ";
+
+      $q->setDql($qstring);
+
+      $limit = $request->query->get('max', null);
+
+      if($limit !== null) {
+         if ($limit > self::MAX_COMMENTS_BY_REQUEST) {
+             $limit = self::MAX_COMMENTS_BY_REQUEST;
+         }
+         $q->setMaxResults($limit);
+         
+      } else {
+         $q->setMaxResults(self::MAX_COMMENTS_BY_REQUEST);
+      }
+
+      $first = $request->query->get('first', null);
+
+      if ($first < 0) {
+         $response = new Response('le paramètre first ne peut pas être négatif');
+         $response->setStatusCode(400);
+         return $response;
+      }
+
+      if ($first !== null) {
+         $q->setFirstResult($first);
+      }
+
+
+      $comments = $q->getResult();
+        
+      $countQueryDQLString = 'SELECT count(cm.id) 
+         FROM ProgracqteurWikipedaleBundle:Model\Comment cm
+         WHERE
+         cm.report = :report 
+         and cm.published = true AND ('.$strCommentTypeCondition.') ';
+             
+
+      $count = $countQuery->setDql($countQueryDQLString)
+         ->getSingleScalarResult();
+
+      switch($_format)
+      {
+         case 'json':
+             $response = new NormalizedResponse();
+             $response->setResults($comments);
+             $response->setLimit($limit);
+             $response->setTotal($count);
+             
+             $serializer = $this->get('progracqteurWikipedaleSerializer');
+             $string = $serializer->serialize($response, $_format);
+             
+             return new Response($string);
+             break;
+         default:
+             throw new \Exception("le format $_format est inconnu");
+      }
+   }
+
+   public function getLastCommentByReportAction($_format, $reportId, Request $request)
+   {
+     return $this->getCommentByReportLimit($_format, $reportId, 1, $request);
+   }
+
+   public function getCommentByReportAction($_format, $reportId,Request $request)
+   {
+     return $this->getCommentByReportLimit($_format, $reportId, null, $request);
+   }
+
+   public function newbisAction($reportId, $_format, Request $request)
+   {
+      if ($request->getMethod() != 'POST') {
+         throw new \Exception("Only post method accepted");
+      }
+
+      if (!$this->get('security.context')->getToken()->getUser() instanceof User) {
+         throw new AccessDeniedException('Vous devez être un enregistré pour ajouter un commentaire');
+      }
+
+      $em = $this->getDoctrine()->getManager();
+
+      $report = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report")
+         ->find($reportId);
+
+      if ($report === null) {
+         throw $this->createNotFoundException("La report $reportId n'a pas été trouvée");
+      }
+
+      $serializedJson = $request->get('entity', null);
+
+      if ($serializedJson === null) {
+         throw new \Exception("Aucune entitée envoyée");
+      }
+
+      $serializer = $this->get('progracqteurWikipedaleSerializer');
+
+      $comment = $serializer->deserialize($serializedJson, 
+             NormalizerSerializerService::COMMENT_TYPE, 
+             $_format);
+
+      $user = $this->get('security.context')->getToken()->getUser();
+      if ($user instanceof User) { //si user is logger
+         $comment->setCreator($user);
+      } else {
+         throw new \Exception("Il faut être connecté pour ajouter un commentaire");
+      }
 
         if (! $this->get('security.context')->isGranted(User::ROLE_NOTATION)) {
             throw new \Exception("Vous n'avez pas le droit d'ajouter un commentaire");
@@ -196,144 +177,128 @@ class CommentController extends Controller
         $em->flush();
         
         return $this->redirect(
-                $this->generateUrl('wikipedale_comment_view', array( 
-                    'commentId' => $comment->getId(),
-                    '_format' => $_format
-                ))
-             );
-    }
+            $this->generateUrl('wikipedale_comment_view',
+               array('commentId' => $comment->getId(),'_format' => $_format))
+         );
+   }
     
-    public function changeAction($_format, Request $request)
-    {
-        if ($request->getMethod() != 'POST')
-        {
-            throw new \Exception("Only post method accepted");
-        }
-        
-        //SECURITY CHECK
-        if (!$this->get('security.context')->getToken()->getUser() instanceof User)
-        {
-                                                //TODO: i18n
-            throw new AccessDeniedException('Vous devez être un enregistré pour ajouter un commentaire');
-        }
-        
-        $em = $this->getDoctrine()->getManager();
-        
-        $serializedJson = $request->get('entity', null);
-        
-        if ($serializedJson === null)
-        {
-            $r = new Response("Aucune entitée envoyée"); //TODO: i18n
-            $r->setStatusCode(406, 'bad json');
-            return $r;
-        }
+   public function changeAction($_format, Request $request)
+   {
+      if ($request->getMethod() != 'POST') {
+         throw new \Exception("Only post method accepted");
+      }
 
-        $serializer = $this->get('progracqteurWikipedaleSerializer');
-        
-        $comment = $serializer->deserialize($serializedJson, 
-                NormalizerSerializerService::COMMENT_TYPE, 
-                $_format);
-        
-        //SECURITY CHECK
-        if ($comment->getType() === Comment::TYPE_MODERATOR_MANAGER) {
-            if ($this->get('security.context')->isGranted(User::ROLE_COMMENT_MODERATOR_MANAGER)) {
-                //ok, may add a comment
-            } else {
-                return $this->getNotAuthorizedResponse("security.not_authorized.comment_of_type ".$comment->getType());
+      //SECURITY CHECK
+      if (!$this->get('security.context')->getToken()->getUser() instanceof User) { //TODO: i18n
+         throw new AccessDeniedException('Vous devez être un enregistré pour ajouter un commentaire');
+      }
+
+      $em = $this->getDoctrine()->getManager();
+
+      $serializedJson = $request->get('entity', null);
+
+      if ($serializedJson === null) {
+         $r = new Response("Aucune entitée envoyée"); //TODO: i18n
+         $r->setStatusCode(406, 'bad json');
+         return $r;
+      }
+
+      $serializer = $this->get('progracqteurWikipedaleSerializer');
+
+      $comment = $serializer->deserialize($serializedJson, 
+         NormalizerSerializerService::COMMENT_TYPE, $_format);
+
+      //SECURITY CHECK
+      if ($comment->getType() === Comment::TYPE_MODERATOR_MANAGER) {
+         if ($this->get('security.context')->isGranted(User::ROLE_COMMENT_MODERATOR_MANAGER)) {
+             //ok, may add a comment
+         } else {
+             return $this->getNotAuthorizedResponse("security.not_authorized.comment_of_type ".$comment->getType());
+         }
+      }
+
+      $user = $this->get('security.context')->getToken()->getUser();
+      if ($user instanceof User) { //si user is logger
+         $comment->setCreator($user);
+      } else {
+         throw new \Exception("Il faut être connecté pour ajouter un commentaire");
+      }
+
+      if (! $this->get('security.context')->isGranted(User::ROLE_NOTATION)) {
+         throw new \Exception("Vous n'avez pas le droit d'ajouter un commentaire");
+      }
+
+      $errors = $this->get('validator')->validate($comment);
+
+      if ($errors->count() > 0) {  
+         if ($_format === 'json') {
+            $str = array();
+         } else {
+            $str = '';
+         }
+         
+         foreach($errors as $error) {
+             if ($_format === 'json') {
+                 $str[] = $error->getMessage(); 
+             } else {
+                 $str .= $error->getMessage().' ';
             }
-        }
-        
-        $user = $this->get('security.context')->getToken()->getUser();
-        if ($user instanceof User) { //si user is logger
-            $comment->setCreator($user);
-        }
-        else {
-            throw new \Exception("Il faut être connecté pour ajouter un commentaire");
-        }
+         }
+         
+         if ($_format === 'json') {
+             $str = json_encode($str);
+         }
+         
+         $r = new Response($str);
+         $r->setStatusCode(400);
+         return $r;
+      }
 
-        if (! $this->get('security.context')->isGranted(User::ROLE_NOTATION)) {
-            throw new \Exception("Vous n'avez pas le droit d'ajouter un commentaire");
-        }
-        
-        
+      $em->persist($comment);
 
-        $errors = $this->get('validator')->validate($comment);
+      //add user to comment
+      $comment->getReport()->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
+
+      $em->flush();
         
-        if ($errors->count() > 0) {
-            
-            if ($_format === 'json')
-                $str = array();
-            else
-                $str = '';
-            
-            foreach($errors as $error) {
-                if ($_format === 'json')
-                    $str[] = $error->getMessage();
-                else
-                    $str .= $error->getMessage().' ';
+      return $this->redirect($this->generateUrl('wikipedale_comment_view',
+         array('commentId' => $comment->getId(), '_format' => $_format)));
+   }
+    
+   public function viewAction($commentId, $_format)
+   {
+      $em = $this->getDoctrine()->getManager();
+
+      $comment = $em->getRepository('ProgracqteurWikipedaleBundle:Model\\Comment')
+             ->find($commentId);
+
+      if ($comment === null) {
+         throw $this->createNotFoundException("comment with id $commentId not found");
+      }
+
+      switch ($comment->getType()) {
+         case Comment::TYPE_MODERATOR_MANAGER:
+            if ( ! $this->get('security.context')->isGranted(User::ROLE_COMMENT_MODERATOR_MANAGER)) {
+               throw new AccessDeniedException('security.comment.must_have_role '.User::ROLE_COMMENT_MODERATOR_MANAGER);
             }
-            
-            if ($_format === 'json')
-                $str = json_encode($str);
-            
-            $r = new Response($str);
+      }
+
+      $serializer = $this->get('progracqteurWikipedaleSerializer');
+
+      $rep = new NormalizedResponse(array($comment));
+
+      $text = $serializer->serialize($rep, $_format);
+
+      switch($_format) 
+      {
+         case 'json' : 
+            return new Response($text);
+            break;
+         default:
+            $r = new Response('format demandé indisponible');
             $r->setStatusCode(400);
             return $r;
-        }
-
-        $em->persist($comment);
-        
-        //add user to comment
-        $comment->getReport()->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
-        
-        $em->flush();
-        
-
-        
-        return $this->redirect(
-                $this->generateUrl('wikipedale_comment_view', array( 
-                    'commentId' => $comment->getId(),
-                    '_format' => $_format
-                ))
-             );
-    }
-    
-    public function viewAction($commentId, $_format)
-    {
-        $em = $this->getDoctrine()->getManager();
-        
-        $comment = $em->getRepository('ProgracqteurWikipedaleBundle:Model\\Comment')
-                ->find($commentId);
-        
-        if ($comment === null)
-        {
-            throw $this->createNotFoundException("comment with id $commentId not found");
-        }
-        
-        switch ($comment->getType()) {
-            case Comment::TYPE_MODERATOR_MANAGER:
-                if ( ! $this->get('security.context')->isGranted(User::ROLE_COMMENT_MODERATOR_MANAGER)) {
-                    throw new AccessDeniedException('security.comment.must_have_role '.User::ROLE_COMMENT_MODERATOR_MANAGER);
-                }
-        }
-        
-        $serializer = $this->get('progracqteurWikipedaleSerializer');
-        
-        $rep = new NormalizedResponse(array($comment));
-        
-        $text = $serializer->serialize($rep, $_format);
-        
-        switch($_format) 
-        {
-            case 'json' : 
-                return new Response($text);
-                break;
-            default:
-                $r = new Response('format demandé indisponible');
-                $r->setStatusCode(400);
-                return $r;
-        }
-        
+      }
     }
     
     private function getNotAuthorizedResponse($text = "security.not_allowed") {
@@ -341,8 +306,5 @@ class CommentController extends Controller
         $r->setStatusCode(403);
         return $r;
     }
-    
-    
-    
 }
 
