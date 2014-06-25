@@ -66,7 +66,7 @@ mail:
       description_header: "Description :"
       introduced_by_when: Créé par %creator% le %create_date%.
       moderator_comment_header: "Commentaire du Conseiller en Mobilité (CeM) :"
-      categories: "Catégorie : %categories%"
+      category: "Catégorie : %category%"
       manager: "Gestionnaire de voirie : %manager_label%"
       no_manager : Aucun
       link: "Voir sur le site : %url%"
