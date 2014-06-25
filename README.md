@@ -217,7 +217,7 @@ For moderators and manager, you may create some groups in the admin zone:
 
 *prepare cron jobs*
 
-you must execute cron jobs to send notifications email. This cronjob must execute `php app/console wikipedale:notification:send2 60 --env=prod` for minutely notification, and `php app/console wikipedale:notification:send2 86400 --env=prod` for daily notifications.
+you must execute cron jobs to send notifications email. This cronjob must execute `php app/console wikipedale:notification:send 60 --env=prod` for minutely notification, and `php app/console wikipedale:notification:send 86400 --env=prod` for daily notifications.
 
 *adapt the UI*
 
