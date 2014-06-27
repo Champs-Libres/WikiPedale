@@ -10,7 +10,6 @@ use Behat\Behat\Context\BehatContext,
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
-//
 //require_once 'PHPUnit/Autoload.php';
 //require_once 'PHPUnit/Framework/Assert/Functions.php';
 
@@ -19,7 +18,6 @@ use Behat\Gherkin\Node\PyStringNode,
  */
 class FeatureContext extends MinkContext implements KernelAwareInterface
 {
-
    private $kernel;
    private $parameters;
 
@@ -45,7 +43,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
    }
 
    /**
-    * Click some text
+    * Clicks on some text
     *
     * @When /^I click on the text "([^"]*)"$/
     */
@@ -53,8 +51,8 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
    {
       $session = $this->getSession();
       $element = $session->getPage()->find(
-              'xpath', $session->getSelectorsHandler()->selectorToXpath('xpath', '*//*[text()="' . $text . '"]')
-      );
+         'xpath',
+         $session->getSelectorsHandler()->selectorToXpath('xpath', '*//*[text()="' . $text . '"]'));
       if (null === $element) {
          throw new \InvalidArgumentException(sprintf('Cannot find text: "%s"', $text));
       }
@@ -63,6 +61,8 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
    }
    
    /**
+    * Clicks on an xpath selected element
+    *
     * @When /^I click on the element with xpath "([^"]*)"$/
     */
    public function iClickOnTheElementWithXpath($xpath)
@@ -71,14 +71,18 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
    }
 
    /**
-    * @When /^I wait for (\d+) seconds$/
+    * Waits for a given number of seconds (integer / float)
+    *
+    * @When /^I wait for (\d+|(\d+\.\d+)|(\.\d+)) seconds$/
     */
    public function iWaitForSeconds($seconds)
    {
-      $this->getSession()->getDriver()->wait($seconds*1000, '');
+      $this->getSession()->getDriver()->wait(floatval($seconds)*1000, '');
    }
 
    /**
+    * Checks that the xpath selected element is not visible
+    *
     * @Then /^Element with xpath "([^"]*)" should be visible$/
     */
    public function shouldBeVisibleXpath($xpath)
@@ -97,6 +101,8 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
    }
 
    /**
+    * Checks that the xpath selected element is not visible
+    *
     * @Then /^Element with xpath "([^"]*)" should not be visible$/
     */
    public function shouldBeNotVisibleXpath($xpath)
@@ -115,6 +121,8 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
    }
    
    /**
+    * Takes a screenshot that is saved with a given prefix
+    *
     * @Given /^I take a screenshot with prefix "([^"]*)"$/
     */
    public function iTakeAScreenshot($prefix)
@@ -134,6 +142,8 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
 
 
    /**
+    * Checks that the css selected element is visible
+    *
     * @Then /^element "([^"]*)" should not be visible$/
     */
    public function elementShouldNotBeVisible($cssSelector)
@@ -152,6 +162,8 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
 
 
    /**
+    * Checks that the css selected element is visible
+    *
     * @Then /^element "([^"]*)" should be visible$/
     */
    public function elementShouldBeVisible($cssSelector)
@@ -169,6 +181,8 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
    }
 
    /**
+    * Clicks on an css selected element
+    *
     * @When /^I click on the element "([^"]*)"$/
     */
    public function iClickOnTheElement($cssSelector)
@@ -181,5 +195,20 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
       }
 
       $element->click();
+   }
+
+   /**
+    * Fills in form field with specified id|name|label|value.
+    *
+    * @When /^(?:|I )randomly fill in "(?P<field>(?:[^"]|\\")*)" with "(?P<type>(?:[^"]|\\")*)"$/
+    */
+   public function fillField($field, $type)
+   {
+      $value = md5(uniqid(rand(0,1000), true)); 
+      if($type === 'email') {
+         $value = $value . '@' . md5(uniqid(rand(0,1000), true)) . '.com';
+      }
+      $field = $this->fixStepArgument($field);
+      $this->getSession()->getPage()->fillField($field, $value);
     }
 }
