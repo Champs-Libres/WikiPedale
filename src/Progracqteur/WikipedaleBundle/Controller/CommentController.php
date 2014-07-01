@@ -20,6 +20,13 @@ class CommentController extends Controller
 {
    const MAX_COMMENTS_BY_REQUEST = 40;
     
+   /**
+    * Returns the comments for a given report
+    * @param $_format The format of the output (actually only 'json')
+    * @param $reportId The id of the report
+    * @param $limit The max comment returned by the request (if null this value is self::MAX_COMMENTS_BY_REQUEST)
+    * @return The comments
+    */
    private function getCommentByReportLimit($_format, $reportId, $limit, Request $request)
    {
       $em = $this->getDoctrine()->getManager();
@@ -88,15 +95,13 @@ class CommentController extends Controller
          $q->setFirstResult($first);
       }
 
-
       $comments = $q->getResult();
         
       $countQueryDQLString = 'SELECT count(cm.id) 
          FROM ProgracqteurWikipedaleBundle:Model\Comment cm
          WHERE
          cm.report = :report 
-         and cm.published = true AND ('.$strCommentTypeCondition.') ';
-             
+         and cm.published = true AND ('.$strCommentTypeCondition.') ';   
 
       $count = $countQuery->setDql($countQueryDQLString)
          ->getSingleScalarResult();
