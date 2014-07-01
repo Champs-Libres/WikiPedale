@@ -43,8 +43,6 @@ class ToTextMailSenderService {
     
     private $exceptions = array();
     
-
-    
     const DOMAIN = 'notifications';
     
     public function __construct(
@@ -135,11 +133,9 @@ class ToTextMailSenderService {
                     }
                 }
             }
- 
         }
         
         $subText .= "\n";
-        
         
         if ($owner->isVirtual() == false ) {
             $t = $this->t->trans('mail.intro_text_registered', array(
@@ -165,10 +161,7 @@ class ToTextMailSenderService {
          */
         $a = array();
         
-        
-        
-        foreach ($notifications as $notification)
-        {
+        foreach ($notifications as $notification) {
             $u = (int) $notification->getReportTracking()->getDate()->format('U');
             $a[$notification->getReportTracking()->getReport()->getId()][$u] = $notification;
         }
@@ -177,8 +170,7 @@ class ToTextMailSenderService {
         $p = '- ';
         
         //create a string for each report
-        foreach ($a as $reportId => $notifications_)
-        {
+        foreach ($a as $reportId => $notifications_) {
             echo "TOTEXTMAIL : traitement du signalement ".$reportId."\n";
             
             $headerShow = false;
