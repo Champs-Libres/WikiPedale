@@ -23,9 +23,6 @@ class UnregisteredUser extends User{
     
     const ROLE_UNREGISTERED = "UNREGISTERED";
     
-    
-    
-    
     public function __construct($recreate = false)
     {
         parent::__construct();
@@ -51,7 +48,6 @@ class UnregisteredUser extends User{
     {
         $this->ip = $ip;
     }
-    
 
     /**
      * Get confirmed
@@ -167,7 +163,6 @@ class UnregisteredUser extends User{
         return $e;
     }
     
-    
     /**
      * return the checking code
      * 
@@ -204,7 +199,6 @@ class UnregisteredUser extends User{
         }
         
         return false;
-        
     }
     
     /**
@@ -216,7 +210,5 @@ class UnregisteredUser extends User{
     {
         return $this->check_checked;
     }
-       
-    
 }
 
