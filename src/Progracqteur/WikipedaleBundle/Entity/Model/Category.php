@@ -254,6 +254,7 @@ class Category
     public static function randomGenerate() {
         $c = new Category();
         $c->setLabel(StringGenerator::randomGenerate(20));
+        $c->setTerm('short');
         return($c);
     }
 }
