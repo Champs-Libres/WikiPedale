@@ -16,6 +16,7 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportStatus;
 use Symfony\Component\Validator\ExecutionContext;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 use Progracqteur\WikipedaleBundle\Entity\Management\Group;
+use Progracqteur\WikipedaleBundle\Resources\Generator\StringGenerator;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Model\Report
@@ -956,4 +957,31 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
          $this->changesets->add($reportTracking);
       }
    }
+
+   /**
+    * generates a 'Random' report
+    * @param array of parameters :
+    *  - 'noUser' => to not add an User to the report
+    * @return  Progracqteur\WikipedaleBundle\Entity\Model\Report
+    */
+   public static function randomGenerate($params = array())
+   //private function getReport($user = true)
+   {
+      $r = new self();
+      $r->setGeom(Point::randomGenerate());
+
+      $r->setAddress(Address::maquestGenerateFromPoint($r->getGeom()));
+      $r->setCategory(Category::randomGenerate());
+
+      if ((!array_key_exists('noUser', $params))|| !$params['noUser']) {
+         $u = new UnregisteredUser();
+         $u->setLabel('non enregistré '. (StringGenerator::randomGenerate(6)));
+         $u->setEmail('test@email.com');
+         $u->setIp('192.168.1.89');
+
+         $r->setCreator($u);
+      }
+        
+      return $r;
+   } 
 }

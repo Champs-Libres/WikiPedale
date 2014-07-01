@@ -96,7 +96,7 @@ class Point {
      */
     public static function randomGenerate()
     {
-        return fromLonLat((rand(39400, 39620)/10000), (rand(504500, 504570)/10000));
+        return self::fromLonLat((rand(39400, 39620)/10000), (rand(504500, 504570)/10000));
     }
 }
 

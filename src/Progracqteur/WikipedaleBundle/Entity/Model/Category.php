@@ -4,6 +4,7 @@ namespace Progracqteur\WikipedaleBundle\Entity\Model;
 
 use Symfony\Component\Validator\ExecutionContext;
 use \Doctrine\Common\Collections\ArrayCollection;
+use Progracqteur\WikipedaleBundle\Resources\Generator\StringGenerator;
 
 /**
  * Category for a report. The categories are used for classifying the report.
@@ -247,5 +248,12 @@ class Category
      */
     public function setTerm($term) {
         $this->term = $term;
+    }
+
+
+    public static function randomGenerate() {
+        $c = new Category();
+        $c->setLabel(StringGenerator::randomGenerate(20));
+        return($c);
     }
 }
