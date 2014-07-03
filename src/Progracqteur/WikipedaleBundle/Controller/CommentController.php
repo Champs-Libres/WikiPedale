@@ -134,59 +134,6 @@ class CommentController extends Controller
      return $this->getCommentByReportLimit($_format, $reportId, null, $request);
    }
 
-   public function newbisAction($reportId, $_format, Request $request)
-   {
-      if ($request->getMethod() != 'POST') {
-         throw new \Exception("Only post method accepted");
-      }
-
-      if (!$this->get('security.context')->getToken()->getUser() instanceof User) {
-         throw new AccessDeniedException('Vous devez être un enregistré pour ajouter un commentaire');
-      }
-
-      $em = $this->getDoctrine()->getManager();
-
-      $report = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report")
-         ->find($reportId);
-
-      if ($report === null) {
-         throw $this->createNotFoundException("La report $reportId n'a pas été trouvée");
-      }
-
-      $serializedJson = $request->get('entity', null);
-
-      if ($serializedJson === null) {
-         throw new \Exception("Aucune entitée envoyée");
-      }
-
-      $serializer = $this->get('progracqteurWikipedaleSerializer');
-
-      $comment = $serializer->deserialize($serializedJson, 
-             NormalizerSerializerService::COMMENT_TYPE, 
-             $_format);
-
-      $user = $this->get('security.context')->getToken()->getUser();
-      if ($user instanceof User) { //si user is logger
-         $comment->setCreator($user);
-      } else {
-         throw new \Exception("Il faut être connecté pour ajouter un commentaire");
-      }
-
-        if (! $this->get('security.context')->isGranted(User::ROLE_NOTATION)) {
-            throw new \Exception("Vous n'avez pas le droit d'ajouter un commentaire");
-        }
-
-        //print "plus de verif pour les droits";
-
-        $em->persist($comment);
-        $em->flush();
-        
-        return $this->redirect(
-            $this->generateUrl('wikipedale_comment_view',
-               array('commentId' => $comment->getId(),'_format' => $_format))
-         );
-   }
-
    /**
     * Handle the modify / creation form
     * @param $_format The format of the output (actually only 'json')
