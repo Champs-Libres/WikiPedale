@@ -1,6 +1,6 @@
 <?php
 
-namespace Progracqteur\WikipedaleBundle\Tests\Controller;
+namespace Progracqteur\WikipedaleBundle\Tests\Entity\Model;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Progracqteur\WikipedaleBundle\Entity\Model\Report;
@@ -9,11 +9,11 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 require_once __DIR__.'/../../../../../app/AppKernel.php';
 
 /**
- * Description of ReportControllerTest
+ * Test for Report
  *
  * @author julien
  */
-class ReportControllerTest extends WebTestCase
+class ReportTest extends WebTestCase
 {
     private $_kernel;  
 

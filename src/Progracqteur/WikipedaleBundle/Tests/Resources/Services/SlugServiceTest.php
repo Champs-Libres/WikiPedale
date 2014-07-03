@@ -1,6 +1,6 @@
 <?php
 
-namespace Progracqteur\WikipedaleBundle\Tests\Controller;
+namespace Progracqteur\WikipedaleBundle\Tests\Resources\Services;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -12,7 +12,7 @@ require_once __DIR__.'/../../../../../app/AppKernel.php';
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class SlugControllerTest extends WebTestCase{
+class SlugServiceTest extends WebTestCase{
     
     /**
      *
