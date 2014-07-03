@@ -28,4 +28,3 @@ class SlugService {
       return $string;
    }
 }
-
