@@ -322,7 +322,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
    */
    public function setCreator(\Progracqteur\WikipedaleBundle\Entity\Management\User $creator)
    {
-      if ($this->_getCreator() === null OR  !($creator->equals($this->_getCreator()))) {
+      if ($this->getCreator() === null OR  !($creator->equals($this->getCreator()))) {
          if ($creator instanceof UnregisteredUser) {
             if ($this->creator !== null) {
                $this->change('creator', $this->creator, null);
@@ -393,13 +393,16 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
    */
    public function getCreator()
    {
-      return $this->_getCreator();
-
-      //TODO : modifier les lignes suivantes, devenues inutiles
-      if ($creator === null) {
-         throw new \Exception('Aucun créateur enregistré');
+      if (!is_null($this->creator)) {
+         return $this->creator;
+      } elseif (!is_null($this->creatorUnregisteredProxy)) {
+         return $this->creatorUnregisteredProxy;
+      } elseif ($this->infos->has('creator')) {
+         $u = UnregisteredUser::fromHash($this->infos->creator);
+         $this->creatorUnregisteredProxy = $u;
+         return $u;
       } else {
-         return $creator;
+         return null;
       }
    }
 
@@ -571,29 +574,6 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
    */
    public function __toString() {
       return $this->getLabel();
-   }
-
-   /**
-   * REnvoie le créateur
-   * Méthode privée utilisée pour éviter l'exception de la méthode
-   * publique getCreator. Utilisée dans setCreator().
-   * 
-   * @return Progracqteur\WikipedaleBundle\Entity\Management\User 
-   * @deprecated
-   */
-   private function _getCreator()
-   {
-      if (!is_null($this->creator)) {
-         return $this->creator;
-      } elseif (!is_null($this->creatorUnregisteredProxy)) {
-         return $this->creatorUnregisteredProxy;
-      } elseif ($this->infos->has('creator')) {
-         $u = UnregisteredUser::fromHash($this->infos->creator);
-         $this->creatorUnregisteredProxy = $u;
-         return $u;
-      } else {
-         return null;
-      }
    }
 
    /**
