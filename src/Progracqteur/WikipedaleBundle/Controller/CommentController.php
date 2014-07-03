@@ -22,10 +22,11 @@ class CommentController extends Controller
     
    /**
     * Returns the comments for a given report
-    * @param $_format The format of the output (actually only 'json')
-    * @param $reportId The id of the report
-    * @param $limit The max comment returned by the request (if null this value is self::MAX_COMMENTS_BY_REQUEST)
-    * @return The comments
+    * @param string $_format The format of the output (actually only 'json')
+    * @param integer $reportId The id of the report
+    * @param integer $limit The max comment returned by the request (if null this value is self::MAX_COMMENTS_BY_REQUEST)
+    * @param Request $request The Request
+    * @return (Output format given by $_format) The comments
     */
    private function getCommentByReportLimit($_format, $reportId, $limit, Request $request)
    {
@@ -124,11 +125,27 @@ class CommentController extends Controller
       }
    }
 
+   /**
+    * Returns the lastest comment for a given report
+    * @param string $_format The format of the output (actually only 'json')
+    * @param integer $reportId The id of the report
+    * @param integer $limit The max comment returned by the request (if null this value is self::MAX_COMMENTS_BY_REQUEST)
+    * @param Request $request The Request
+    * @return Comment The comment
+    */
    public function getLastCommentByReportAction($_format, $reportId, Request $request)
    {
      return $this->getCommentByReportLimit($_format, $reportId, 1, $request);
    }
 
+   /**
+    * Returns the lastest comments for a given report. The number returned is given by the
+    * constant MAX_COMMENTS_BY_REQUEST
+    * @param string $_format The format of the output (actually only 'json')
+    * @param integer $reportId The id of the report
+    * @param Request $request The Request
+    * @return Comment[] The lastest comments
+    */
    public function getCommentByReportAction($_format, $reportId,Request $request)
    {
      return $this->getCommentByReportLimit($_format, $reportId, null, $request);
@@ -136,8 +153,8 @@ class CommentController extends Controller
 
    /**
     * Handle the modify / creation form
-    * @param $_format The format of the output (actually only 'json')
-    * @param $request The request
+    * @param string $_format The format of the output (actually only 'json')
+    * @param Request $request The request
     * @return No return : redirection to wikipedale_comment_view
     */
    public function changeAction($_format, Request $request)
@@ -244,7 +261,13 @@ class CommentController extends Controller
       return $this->redirect($this->generateUrl('wikipedale_comment_view',
          array('commentId' => $comment->getId(), '_format' => $_format)));
    }
-    
+   
+   /**
+    * Display a comment
+    * @param integer $commentId The id of the comment
+    * @param string $_format The format of the response (actually only json)
+    * @return (Output format given by $_format) The comment
+    */
    public function viewAction($commentId, $_format)
    {
       $em = $this->getDoctrine()->getManager();
@@ -279,12 +302,16 @@ class CommentController extends Controller
             $r->setStatusCode(400);
             return $r;
       }
-    }
-    
-    private function getNotAuthorizedResponse($text = "security.not_allowed") {
-        $r = new Response($text);
-        $r->setStatusCode(403);
-        return $r;
-    }
+   }
+
+   /**
+    * Get an error 403 response
+    * @return A 403 error
+    */
+   private function getNotAuthorizedResponse($text = "security.not_allowed") {
+      $r = new Response($text);
+      $r->setStatusCode(403);
+      return $r;
+   }
 }
 
