@@ -73,7 +73,7 @@ class CommentController extends Controller
 
       $limit = $request->query->get('max', null);
 
-      if($limit !== null) {
+      if ($limit !== null) {
          if ($limit > self::MAX_COMMENTS_BY_REQUEST) {
              $limit = self::MAX_COMMENTS_BY_REQUEST;
          }
@@ -186,21 +186,54 @@ class CommentController extends Controller
                array('commentId' => $comment->getId(),'_format' => $_format))
          );
    }
-    
+
+   /**
+    * Handle the modify / creation form
+    * @param $_format The format of the output (actually only 'json')
+    * @param $request The request
+    * @return No return : redirection to wikipedale_comment_view
+    */
    public function changeAction($_format, Request $request)
    {
       if ($request->getMethod() != 'POST') {
          throw new \Exception("Only post method accepted");
       }
 
-      //SECURITY CHECK
-      if (!$this->get('security.context')->getToken()->getUser() instanceof User) { //TODO: i18n
-         throw new AccessDeniedException('Vous devez être un enregistré pour ajouter un commentaire');
-      }
-
       $em = $this->getDoctrine()->getManager();
 
-      $serializedJson = $request->get('entity', null);
+      // Identification via APIKEY
+      if ($request->get('APIKey') && $request->get('userId') && $request->get('reportId')) {
+         $userId = $request->get('userId');
+         $reportId = $request->get('reportId');
+         $report = $em->getRepository('ProgracqteurWikipedaleBundle:Model\\Report')->find($reportId);
+
+         if (md5($report->getSalt() . $userId) ===  $request->get('APIKey')) {
+            $user = $em->getRepository('ProgracqteurWikipedaleBundle:Management\\User')->find($userId);
+         } else {
+            throw new AccessDeniedException("L'APIKey n'est pas valide");
+         }
+
+         $userRoles =  $this->get('security.role_hierarchy')->getReachableRoles($user->getRoles());
+         $userStringRoles = array_map("getRole", $userRoles);
+
+         $userHasRole = function ($role) use ($userStringRoles) {
+            return in_array($role, $userStringRoles);
+         }
+
+      // User must be identified
+      } else if ($this->get('security.context')->getToken()->getUser() instanceof User) {
+         $user = $this->get('security.context')->getToken()->getUser();
+
+         $userHasRole = function ($role) {
+            return $this->get('security.context')->isGranted(User::ROLE_COMMENT_MODERATOR_MANAGER);
+         }
+
+      // Otherwise error
+      } else {
+         throw new AccessDeniedException('Vous devez être un enregistré pour ajouter / modifier un commentaire');
+      }
+
+      $serializedJson = $request->get('entity');
 
       if ($serializedJson === null) {
          $r = new Response("Aucune entitée envoyée"); //TODO: i18n
@@ -213,23 +246,19 @@ class CommentController extends Controller
       $comment = $serializer->deserialize($serializedJson, 
          NormalizerSerializerService::COMMENT_TYPE, $_format);
 
-      //SECURITY CHECK
+      $comment->setCreator($user);
+
       if ($comment->getType() === Comment::TYPE_MODERATOR_MANAGER) {
-         if ($this->get('security.context')->isGranted(User::ROLE_COMMENT_MODERATOR_MANAGER)) {
+         if ($userHasRole(User::ROLE_COMMENT_MODERATOR_MANAGER)) {
+         //if ($this->get('security.context')->isGranted(User::ROLE_COMMENT_MODERATOR_MANAGER)) {
              //ok, may add a comment
          } else {
              return $this->getNotAuthorizedResponse("security.not_authorized.comment_of_type ".$comment->getType());
          }
       }
 
-      $user = $this->get('security.context')->getToken()->getUser();
-      if ($user instanceof User) { //si user is logger
-         $comment->setCreator($user);
-      } else {
-         throw new \Exception("Il faut être connecté pour ajouter un commentaire");
-      }
-
-      if (! $this->get('security.context')->isGranted(User::ROLE_NOTATION)) {
+      if (! $userHasRole(User::ROLE_NOTATION)) {
+      //if (! $this->get('security.context')->isGranted(User::ROLE_NOTATION)) {
          throw new \Exception("Vous n'avez pas le droit d'ajouter un commentaire");
       }
 
@@ -243,17 +272,17 @@ class CommentController extends Controller
          }
          
          foreach($errors as $error) {
-             if ($_format === 'json') {
-                 $str[] = $error->getMessage(); 
-             } else {
-                 $str .= $error->getMessage().' ';
+            if ($_format === 'json') {
+               $str[] = $error->getMessage(); 
+            } else {
+               $str .= $error->getMessage().' ';
             }
          }
          
          if ($_format === 'json') {
-             $str = json_encode($str);
+            $str = json_encode($str);
          }
-         
+
          $r = new Response($str);
          $r->setStatusCode(400);
          return $r;
@@ -261,8 +290,7 @@ class CommentController extends Controller
 
       $em->persist($comment);
 
-      //add user to comment
-      $comment->getReport()->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
+      $comment->getReport()->getChangeset()->setAuthor($user);
 
       $em->flush();
         
