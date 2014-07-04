@@ -78,13 +78,16 @@ wikipedale_comment_change:
     expose: true
 
 wikipedale_comment_view:
-  pattern: /comment/view/{commentId}.{_format}
+  pattern: /comment/view/{APIKey}.{userId}.html
   defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:view}
   requirements:
     _format: json
     commentId: \d+
   options:
     expose: true
+
+wikipedale_comment_add_with_api_key:
+  pattern: /comment/add/with/apikey/{}.{}
 
 wikipedale_photo_list_by_report:
   pattern: /photo/list/byreport/{reportId}.{_format}
