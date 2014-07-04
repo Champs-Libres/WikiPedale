@@ -145,6 +145,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
       $this->changesets = new \Doctrine\Common\Collections\ArrayCollection();
       $this->getChangeset()->addChange(ChangeService::REPORT_CREATION, null);
       $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+      $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
       //initialize the placeStatuses (tel quel dans la db)
       $this->infos->placeStatuses = new Hash();
    }
