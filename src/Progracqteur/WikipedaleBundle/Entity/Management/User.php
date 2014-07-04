@@ -162,8 +162,6 @@ class User extends BaseUser
       parent::__construct();
       $this->setCreationDate(new \DateTime());
       $this->infos = new Hash();
-      $salt = md5( uniqid(rand(0,1000), true) );
-      $this->setSalt($salt);
       $this->notificationSubscriptions = new ArrayCollection();
    }
 
@@ -194,21 +192,6 @@ class User extends BaseUser
    public function getLabel()
    {
       return $this->label;
-   }
-
-   /**
-    * Set salt
-    *
-    * @param string $salt
-    */
-   private function setSalt($salt)
-   {
-      $this->salt = $salt;
-   }
-
-   public function getSalt()
-   {
-      return '';
    }
 
    /**
