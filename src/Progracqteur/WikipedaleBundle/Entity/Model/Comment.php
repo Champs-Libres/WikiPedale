@@ -8,7 +8,6 @@ namespace Progracqteur\WikipedaleBundle\Entity\Model;
  */
 class Comment
 {
-    
     /**
      * @var integer
      */
@@ -78,7 +77,6 @@ class Comment
     public function setContent($text)
     {
         $this->content = $text;
-    
         return $this;
     }
 
@@ -124,7 +122,6 @@ class Comment
     private function setCreationDate($creationDate)
     {
         $this->creationDate = $creationDate;
-    
         return $this;
     }
 
@@ -147,7 +144,6 @@ class Comment
     public function setUpdateDate($updateDate)
     {
         $this->updateDate = $updateDate;
-    
         return $this;
     }
 
@@ -219,7 +215,6 @@ class Comment
     public function setType($type)
     {
         $this->type = $type;
-    
         return $this;
     }
 
