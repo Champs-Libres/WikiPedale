@@ -57,7 +57,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
          throw new \InvalidArgumentException(sprintf('Cannot find text: "%s"', $text));
       }
 
-      $element->click();
+      $element->doubleClick();
    }
    
    /**
@@ -168,8 +168,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     */
    public function elementShouldBeVisible($cssSelector)
    {
-      $session = $this->getSession();
-      $element = $session->getPage()->find('css', $cssSelector);
+      $element = $this->getSession()->getPage()->find('css', $cssSelector);
 
       if(! $element) {
          throw new \Exception("Element $cssSelector not found");
@@ -187,8 +186,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     */
    public function iClickOnTheElement($cssSelector)
    {
-      $session = $this->getSession();
-      $element = $session->getPage()->find('css', $cssSelector);
+      $element = $this->getSession()->getPage()->find('css', $cssSelector);
 
       if(! $element) {
          throw new \Exception("Element with id $id not found");

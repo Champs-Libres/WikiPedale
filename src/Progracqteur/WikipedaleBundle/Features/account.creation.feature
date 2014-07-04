@@ -23,12 +23,13 @@ Scenario: Good submission
    And I fill in "fos_user_registration_form_plainPassword_second" with "password"
    And I randomly fill in "fos_user_registration_form_label" with "string"
    And I randomly fill in "fos_user_registration_form_phonenumber" with "string"
+   And I press "Enregistrer"
    Then I am on "/register/check-email"
 
 @javascript @account_creation
 Scenario: Empty form is not submitted
    Given I am on "/register"
-   When I click on the element "form.fos_user_registration_register input.submit"
+   And I press "Enregistrer"
    Then I am on "/register"
 
 @javascript @account_creation
@@ -40,6 +41,7 @@ Scenario: Form with different password is not submitted
    And I fill in "fos_user_registration_form_plainPassword_second" with "anotherpwd"
    And I randomly fill in "fos_user_registration_form_label" with "string"
    And I randomly fill in "fos_user_registration_form_phonenumber" with "string"
+   And I press "Enregistrer"
    Then I am on "/register"
 
 @javascript @account_creation
@@ -51,6 +53,7 @@ Scenario: Form with invalid email is not submitted
    And I fill in "fos_user_registration_form_plainPassword_second" with "password"
    And I randomly fill in "fos_user_registration_form_label" with "string"
    And I randomly fill in "fos_user_registration_form_phonenumber" with "string"
+   And I press "Enregistrer"
    Then I am on "/register"
 
 @javascript @account_creation
@@ -61,6 +64,7 @@ Scenario: Form with empty username is not submitted
    And I fill in "fos_user_registration_form_plainPassword_second" with "password"
    And I randomly fill in "fos_user_registration_form_label" with "string"
    And I randomly fill in "fos_user_registration_form_phonenumber" with "string"
+   And I press "Enregistrer"
    Then I am on "/register"
 
 @javascript @account_creation
@@ -71,6 +75,7 @@ Scenario: Form with empty label is not submitted
    And I fill in "fos_user_registration_form_plainPassword_first" with "password"
    And I fill in "fos_user_registration_form_plainPassword_second" with "password"
    And I randomly fill in "fos_user_registration_form_phonenumber" with "string"
+   And I press "Enregistrer"
    Then I am on "/register"
 
 

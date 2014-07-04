@@ -11,11 +11,11 @@ Scenario: The connexion form is not displayed by default
 @javascript @account_connexion
 Scenario: See connexion form when click on #menu_connexion
    When I click on the element "#menu_connexion a"
+   And I wait for 0.5 seconds
    Then element "#login_form_div" should be visible
 
 @javascript @account_connexion
 Scenario: Connexion as admin
-   
    When I click on the element "#menu_connexion a"
    And I wait for 0.5 seconds
    And I fill in "login_input_username" with "admin"
