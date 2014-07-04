@@ -1,6 +1,5 @@
 {% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
 
-
 {% block title %} {% endblock %}
 
 {% block body %} 
@@ -8,6 +7,5 @@
 <p>Votre adresse de courriel a été confirmée. Votre signalement 
     <span class="">{{report}}</span> est enregistré. 
     <a href="{{ url('wikipedale_homepage', { 'id' : report.id }) }}">Voir votre signalement</a></p>
-
 
 {% endblock %}
