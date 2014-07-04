@@ -6,16 +6,18 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Progracqteur\WikipedaleBundle\Entity\Management\Notification\PendingNotification;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 
-//require Kernel
-// supprimer le kernet (depuis symfony)
-require_once __DIR__.'/../../../../../../app/AppKernel.php';
-
 /**
  * Unit test for Services\Notification\ToTextMailSenderService
  */
 class ToTextMailSenderServiceTest extends WebTestCase{
-
-   private $_kernel = null;
+   private static $container;
+   
+   public static function setUpBeforeClass()
+   {
+      $kernel = static::createKernel();
+      $kernel->boot();
+      static::$container = $kernel->getContainer();
+   }
 
    /**
     *
@@ -60,15 +62,5 @@ class ToTextMailSenderServiceTest extends WebTestCase{
 
       echo($ttss->transformToText(array($n1,$n2), $admin));
       */
-   }
-
-   public function getContainer()
-   {
-      if (! $this->_kernel) {
-         $this->_kernel = new \AppKernel('dev', true);
-         $this->_kernel->boot(); 
-      }
-        
-      return $this->_kernel->getContainer();     
    }
 }
