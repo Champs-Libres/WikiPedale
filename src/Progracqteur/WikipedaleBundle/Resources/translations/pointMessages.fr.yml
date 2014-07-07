@@ -48,20 +48,16 @@ DisplayPoint:
   more_comments: Plus de commentaires & ajout
   your_comment: Votre commentaire
 
-
-
 Controls:
   edit: Éditer
   save: Sauver
   delete: Supprimer le signalement
-
 
 display_black_points:
   blackpoint: Point noir
   author: Constat effectué par
   add_picture: Ajouter une photo
   comments: commentaires
-
 
   # Registration
 registration:
