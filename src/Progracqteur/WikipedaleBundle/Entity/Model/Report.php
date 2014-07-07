@@ -939,6 +939,17 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
       }
    }
 
+
+   /**
+    * Gives an APIKey for allow ther user $userId to adding 
+    * a comment to the report.
+    * @param int $userId the id of the user
+    * @return String The APIKey
+    */
+   public function getAddingCommentAPIKey($userId) {
+      return md5($this->getSalt() . $userId);
+   }
+
    /**
     * generates a 'Random' report
     * @param array of parameters :

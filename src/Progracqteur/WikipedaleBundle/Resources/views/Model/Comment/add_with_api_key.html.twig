@@ -1,0 +1,11 @@
+{% extends "ProgracqteurWikipedaleBundle::layout.html.twig" %}
+
+{% block title %} {% endblock %}
+
+{% block body %} 
+   <input type="hidden" id="add_comment_with_api_key__input_api_key" value="{{ APIKey }}">
+   <input type="hidden" id="add_comment_with_api_key__input_report_id" value="{{ reportId }}">
+   <input type="hidden" id="add_comment_with_api_key__input_user_id" value="{{ userId }}">
+   <textarea id="add_comment_with_api_key__textarea_comment"></textarea>
+   <input class="envoi" id="add_comment_with_api_key__submit_button" type="submit" value="Soumettre">
+{% endblock %}

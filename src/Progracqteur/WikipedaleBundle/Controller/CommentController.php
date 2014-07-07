@@ -5,10 +5,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Role\Role;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
+
 
 /**
  * Description of CommentController
@@ -171,18 +173,29 @@ class CommentController extends Controller
          $reportId = $request->get('reportId');
          $report = $em->getRepository('ProgracqteurWikipedaleBundle:Model\\Report')->find($reportId);
 
-         if (md5($report->getSalt() . $userId) ===  $request->get('APIKey')) {
+         if(! $report) {
+            throw new \Exception("The report " . $reportId . " does not exist.");
+         }
+
+         if ($report->getAddingCommentAPIKey($userId) ===  $request->get('APIKey')) {
             $user = $em->getRepository('ProgracqteurWikipedaleBundle:Management\\User')->find($userId);
+
+            if(! $user) {
+               throw new \Exception("The user " . $user . " does not exist.");
+            }
          } else {
             throw new AccessDeniedException("L'APIKey n'est pas valide");
          }
 
-         $userRoles =  $this->get('security.role_hierarchy')->getReachableRoles($user->getRoles());
-         $userStringRoles = array_map("getRole", $userRoles);
+         $user_getRoles = $user->getRoles();
+         $user_getRoles = array_map( function($r) { return new Role($r); }, $user_getRoles);
+         
+         $userRoles =  $this->get('security.role_hierarchy')->getReachableRoles($user_getRoles);
+         $userStringRoles = array_map(function($r) { return $r->getRole(); }, $userRoles);
 
          $userHasRole = function ($role) use ($userStringRoles) {
             return in_array($role, $userStringRoles);
-         }
+         };
 
       // User must be identified
       } else if ($this->get('security.context')->getToken()->getUser() instanceof User) {
@@ -190,7 +203,7 @@ class CommentController extends Controller
 
          $userHasRole = function ($role) {
             return $this->get('security.context')->isGranted(User::ROLE_COMMENT_MODERATOR_MANAGER);
-         }
+         };
 
       // Otherwise error
       } else {
@@ -302,6 +315,12 @@ class CommentController extends Controller
             $r->setStatusCode(400);
             return $r;
       }
+   }
+
+   public function addWithAPIKeyAction($APIKey, $reportId, $userId)
+   {
+      return $this->render('ProgracqteurWikipedaleBundle:Model/Comment:add_with_api_key.html.twig',
+         array('APIKey' => $APIKey, 'reportId' => $reportId, 'userId' => $userId));
    }
 
    /**

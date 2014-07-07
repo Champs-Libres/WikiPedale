@@ -1,0 +1,44 @@
+wikiedale_comment_last_by_report:
+  pattern: /last/byreport/{reportId}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:getLastCommentByReport}
+  requirements:
+    _format: json|html
+  options:
+    expose: true
+
+wikiedale_comment_list_by_report:
+  pattern: /list/byreport/{reportId}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:getCommentByReport}
+  requirements:
+    _format: json|html
+  options:
+    expose: true
+
+wikipedale_comment_change:
+  pattern: /change.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:change }
+  requirements:
+    _format: json
+    _method: POST
+  options:
+    expose: true
+
+wikipedale_comment_view:
+  pattern: /view/{commentId}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:view}
+  requirements:
+    _format: json
+    commentId: \d+
+  options:
+    expose: true
+
+wikipedale_comment_add_with_api_key:
+  pattern: /add/with/apikey/{APIKey}/{reportId}/{userId}.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:addWithAPIKey}
+  requirements:
+    APIKey: "[a-z0-9]+"
+    reportId: \d+
+    userId: \d+
+    _format: html
+  options:
+    expose: true

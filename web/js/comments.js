@@ -8,13 +8,13 @@
 *
 * @module comments
 */
-define(['jQuery','basic_data_and_functions'], function($, basic_data_and_functions) {
-   function update_last(aPlaceId) {
+define(['jQuery','basic_data_and_functions','json_string'], function($, basic_data_and_functions, json_string) {
+   function update_last(report_id) {
       /**
       * Update display the last posted comment in the div element having #div_last_private_comment_container as id
-      * @param {string} aPlaceId is the id of the town selected.
+      * @param {integer} report_id is the id of the report selected.
       */
-      var jsonUrlData  =  Routing.generate('wikiedale_comment_last_by_report', {_format: 'json', reportId: aPlaceId});
+      var jsonUrlData  =  Routing.generate('wikiedale_comment_last_by_report', {_format: 'json', reportId: report_id});
       $.ajax({
          dataType: 'json',
          url: jsonUrlData,
@@ -32,16 +32,35 @@ define(['jQuery','basic_data_and_functions'], function($, basic_data_and_functio
       });
    }
 
-   /**
-   * Update all the comments in the div element having #div_list_private_comment_container as id
-   * @method update_all
-   * @param {string} aPlaceId The id of the town selected.
-   */
-   function update_all(aPlaceId) {
+   function addWithApiKey() {
+      var report_id = $('#add_comment_with_api_key__input_report_id').val();
+      var comment_text = $('#add_comment_with_api_key__textarea_comment').val();
+
+      $.ajax({
+         type: 'POST',
+         data: { entity: json_string.moderatorManagerComment(report_id,comment_text),
+            APIKey: $('#add_comment_with_api_key__input_api_key').val(),
+            reportId: report_id,
+            userId:  $('#add_comment_with_api_key__input_user_id').val()
+         },
+         url: Routing.generate('wikipedale_comment_change', {_format: 'json'}),
+         cache: false,
+         success: function(output_json) {
+            console.log(output_json);
+         },
+         error: function(error_message) {
+            console.log(error_message);
+         }
+      });
+   }
+
+   function update_all(report_id) {
       /**
-      
-      */
-      var jsonUrlData  =  Routing.generate('wikiedale_comment_list_by_report', {_format: 'json', reportId: aPlaceId});
+       * Update all the comments in the div element having #div_list_private_comment_container as id
+       * @method update_all
+       * @param {integer} report_id The id of the report selected.
+       */
+      var jsonUrlData  =  Routing.generate('wikiedale_comment_list_by_report', {_format: 'json', reportId: report_id});
       $.ajax({
          dataType: 'json',
          url: jsonUrlData,
@@ -61,19 +80,20 @@ define(['jQuery','basic_data_and_functions'], function($, basic_data_and_functio
       });
    }
 
-   function submit_creation_form(aPlaceId){
+   function submit_creation_form(report_id){
       /**
       * To process when the comment creation form is submitted.
-      * @param {string} aPlaceId is the id of the town selected.
+      * @param {string} report_id is the id of the town selected.
       */
       var comment_text = $('#form_add_new_comment__text').val();
+      var entity_string = json_string.moderatorManagerComment(report_id,comment_text);
       if(comment_text === '') {
          $('#form_add_new_comment__message')
             .val('Veuillez entrer votre commentaire')
             .removeClass('successMessage')
             .addClass('errorMessage');
       } else {
-         var entity_string = '{"entity":"comment","placeId":' + JSON.stringify(aPlaceId) + ',"text":' + JSON.stringify(comment_text) + ',"type":"moderator_manager"}';
+         
          $.ajax({
             type: 'POST',
             data: {entity: entity_string},
@@ -86,8 +106,8 @@ define(['jQuery','basic_data_and_functions'], function($, basic_data_and_functio
                      .removeClass('errorMessage')
                      .addClass('successMessage');
                   $('#form_add_new_comment__text').val('');
-                  update_last(aPlaceId);
-                  update_all(aPlaceId);
+                  update_last(report_id);
+                  update_all(report_id);
                }
                else {
                   $('#form_add_new_comment__message')
@@ -109,6 +129,7 @@ define(['jQuery','basic_data_and_functions'], function($, basic_data_and_functio
    return {
       update_last: update_last,
       update_all: update_all,
-      submit_creation_form: submit_creation_form
+      submit_creation_form: submit_creation_form,
+      addWithApiKey: addWithApiKey
    };
 });
