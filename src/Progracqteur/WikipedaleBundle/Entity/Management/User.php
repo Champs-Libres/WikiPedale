@@ -10,6 +10,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 use Doctrine\Common\Collections\ArrayCollection;
+use Progracqteur\WikipedaleBundle\Resources\Generator\StringGenerator;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Management\User
@@ -157,12 +158,62 @@ class User extends BaseUser
     */
    const ROLE_REPORT_TERM = 'ROLE_PLACE_TERM';
 
-   public function __construct()
+   /**
+    * Creates a new user
+    * @param array of parameters :
+    * - 'label' => the label of the user (if equals to 'RANDOM' : generation of a random label)
+    * - 'username' => the username of the user (if equals to 'RANDOM' : generation of a random label)
+    * - 'password' => the  password of the user.
+    * - 'email' => the email of the user (if equals to 'RANDOM' : genration of a random email)
+    * - 'phonenumber' => the phonenumber of the user (if equals to 'RANDOM' : generation of a random phonumber)
+    * @return  Progracqteur\WikipedaleBundle\Entity\Model\User
+    */
+   public function __construct($params = array())
    {
       parent::__construct();
       $this->setCreationDate(new \DateTime());
       $this->infos = new Hash();
       $this->notificationSubscriptions = new ArrayCollection();
+
+      if (array_key_exists('label', $params)) {
+         if($params['label'] === 'RANDOM') {
+            $this->setLabel(StringGenerator::randomGenerate(10));
+         } else {
+            $this->setLabel($params['label']);
+         }
+      }
+
+      if (array_key_exists('username', $params)) {
+         if($params['username'] === 'RANDOM') {
+            $this->setUsername(StringGenerator::randomGenerate(10));
+         } else {
+            $this->setUsername($params['username']);
+         }
+      }
+
+      if (array_key_exists('password', $params)) {
+         $this->setPassword($params['password']);
+      }
+
+      if (array_key_exists('email', $params)) {
+         if($params['email'] === 'RANDOM') {
+            $this->setEmail(StringGenerator::randomGenerate(10) . '@blopblop.be');
+         } else {
+            $this->setEmail($params['email']);
+         }
+      }
+
+      if (array_key_exists('phonenumber', $params)) {
+         if($params['phonenumber'] === 'RANDOM') {
+            $this->setEmail(StringGenerator::randomGenerate(10));
+         } else {
+            $this->setEmail($params['phonenumber']);
+         }
+      }
+
+      if(array_key_exists('enable', $params)) {
+         $this->setEnabled($params['enable']);
+      }
    }
 
    /**
