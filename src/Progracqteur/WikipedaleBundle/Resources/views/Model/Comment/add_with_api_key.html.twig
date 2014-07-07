@@ -3,9 +3,15 @@
 {% block title %} {% endblock %}
 
 {% block body %} 
-   <input type="hidden" id="add_comment_with_api_key__input_api_key" value="{{ APIKey }}">
-   <input type="hidden" id="add_comment_with_api_key__input_report_id" value="{{ reportId }}">
-   <input type="hidden" id="add_comment_with_api_key__input_user_id" value="{{ userId }}">
-   <textarea id="add_comment_with_api_key__textarea_comment">{{ message | default("") }}</textarea>
-   <input class="envoi" id="add_comment_with_api_key__submit_button" type="submit" value="Soumettre">
+   <h1>{{ 'comment.add_with_api_key'|trans({'%reportId%': reportId}, 'changes') }}</h1>
+
+   <div id="add_comment_with_api_key__div">
+      <input type="hidden" id="add_comment_with_api_key__input_api_key" value="{{ APIKey }}">
+      <input type="hidden" id="add_comment_with_api_key__input_report_id" value="{{ reportId }}">
+      <input type="hidden" id="add_comment_with_api_key__input_user_id" value="{{ userId }}">
+      <textarea id="add_comment_with_api_key__textarea_comment" placeholder="{{ 'comment.add_with_api_key_placeholder'|trans({}, 'changes') }}" >{{ message | default("") }}</textarea>
+      <div>
+         <input class="envoi" id="add_comment_with_api_key__submit_button" type="submit" value="{{ 'comment.add_with_api_key_submit'|trans({}, 'changes') }}">
+      </div>
+   </div>
 {% endblock %}

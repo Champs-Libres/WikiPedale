@@ -37,6 +37,11 @@ instructions:
   add_point1: 1. Localisez votre point sur la carte ci-contre.
   add_point2: 2. Completez le formulaire ci-dessous.
 
+comment:
+  add_with_api_key: Ajout d'un commentaire pour le signalement %reportId%
+  add_with_api_key_submit: Ajouter le commentaire
+  add_with_api_key_placeholder: Inscrivez ici le commentaire
+
   # Registration
 registration:
     check_email: Un e-mail a été envoyé à l'adresse %email%. Veuillez suivre les instructions qui vous y sont indiquées.

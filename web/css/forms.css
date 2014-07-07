@@ -25,7 +25,7 @@ form input, form textarea, form select {
     width: 250px;
 }
 
-form input.envoi, form input.CancelButton {
+input.envoi, input.CancelButton {
     width: 150px;
     background: #76B82A;
     border: none;
@@ -40,15 +40,15 @@ form input.envoi, form input.CancelButton {
     text-shadow: 0 1px 1px #000000;
 }
 
-form input.envoi:hover {
+input.envoi:hover {
     background: #609522;
 }
 
-form input.CancelButton {
+input.CancelButton {
     background: #724648;
 }
 
-form input.CancelButton:hover {
+input.CancelButton:hover {
     background: #A74B50;
 }
 
