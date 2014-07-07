@@ -2,7 +2,6 @@ ProgracqteurWikipedaleBundle_admin_category:
   resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/category_admin.yml"
   prefix:   /admin/category
 
-
 ProgracqteurWikipedaleBundle_public_category:
   resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/category_public.yml"
   prefix:   /category

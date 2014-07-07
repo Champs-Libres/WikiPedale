@@ -33,12 +33,11 @@ wikipedale_comment_view:
     expose: true
 
 wikipedale_comment_add_with_api_key:
-  pattern: /add/with/apikey/{APIKey}/{reportId}/{userId}.{_format}
+  pattern: /add/with/apikey/{APIKey}/{reportId}/{userId}/
   defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:addWithAPIKey}
   requirements:
     APIKey: "[a-z0-9]+"
     reportId: \d+
     userId: \d+
-    _format: html
   options:
     expose: true

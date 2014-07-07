@@ -317,10 +317,11 @@ class CommentController extends Controller
       }
    }
 
-   public function addWithAPIKeyAction($APIKey, $reportId, $userId)
+   public function addWithAPIKeyAction($APIKey, $reportId, $userId, Request $request)
    {
+      $message = $this->getRequest()->get('message');
       return $this->render('ProgracqteurWikipedaleBundle:Model/Comment:add_with_api_key.html.twig',
-         array('APIKey' => $APIKey, 'reportId' => $reportId, 'userId' => $userId));
+         array('APIKey' => $APIKey, 'reportId' => $reportId, 'userId' => $userId, 'message' => $message));
    }
 
    /**
