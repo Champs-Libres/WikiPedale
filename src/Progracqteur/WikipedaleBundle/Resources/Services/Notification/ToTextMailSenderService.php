@@ -418,7 +418,7 @@ class ToTextMailSenderService {
       }
    }
 
-   private function addReportPresentation(Report $report) {
+   public function addReportPresentation(Report $report) {
       $t = '';
      
       $t.= $this->t->trans('mail.report.presentation.actual',

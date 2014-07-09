@@ -5,18 +5,47 @@ namespace Progracqteur\WikipedaleBundle\Tests\Resources\Services\Notification;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Progracqteur\WikipedaleBundle\Entity\Management\Notification\PendingNotification;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 
 /**
  * Unit test for Services\Notification\ToTextMailSenderService
  */
 class ToTextMailSenderServiceTest extends WebTestCase{
    private static $container;
+   private static $ttss; //progracqteur.wikipedale.notification.to_text.mail Service
+   private static $em; // doctrine.orm.entity_manager Service
    
    public static function setUpBeforeClass()
    {
       $kernel = static::createKernel();
       $kernel->boot();
       static::$container = $kernel->getContainer();
+      static::$ttss = ToTextMailSenderServiceTest::$container->get('progracqteur.wikipedale.notification.to_text.mail');
+      static::$em = ToTextMailSenderServiceTest::$container->get('doctrine.orm.entity_manager');
+   }
+
+   /**
+    * Test if the generation of the description the following information :
+    *  - $report->getDescription()
+    *  - $report->getLabel()
+    *  - $report->getCreator()->getLabel()
+    *  - $report->getCategory()->getLabel()
+    *  - $report->getCreateDate()->format(static::$container->getParameter('date_format'))
+    *  - $report->getId()
+    */
+   public function testAddReportPresentation()
+   {
+      $report = Report::randomGenerate();
+      static::$em->persist($report); //to get an id and a creation date
+
+      $reportPresentation = static::$ttss->addReportPresentation($report); // the description of the report
+
+      $this->assertTrue(strpos($reportPresentation, $report->getDescription()) !== False);
+      $this->assertTrue(strpos($reportPresentation, $report->getLabel()) !== False);
+      $this->assertTrue(strpos($reportPresentation, $report->getCreator()->getLabel()) !== False);
+      $this->assertTrue(strpos($reportPresentation, $report->getCategory()->getLabel()) !== False);
+      $this->assertTrue(strpos($reportPresentation, $report->getCreateDate()->format(static::$container->getParameter('date_format'))) !== False);
+      $this->assertTrue(strpos($reportPresentation, ((string)$report->getId())) !== False);
    }
 
    /**
@@ -29,8 +58,6 @@ class ToTextMailSenderServiceTest extends WebTestCase{
       // creation utilisateur Virtuel  (le créer dans fixtures : virtuel, mdp virtuel) 
       // creation utiilisateur normal (le créer )
       // creation Moderateur (peut être identique au Manager)
-
-
 
       // setup before class ( get les users  )
       // setuf before (executer a chaque fois -> supprimer les notifs de la table - a voir si 
