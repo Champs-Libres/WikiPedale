@@ -26,6 +26,8 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     
    public function load(ObjectManager $om)
    {  
+      $userManager = $this->container->get('fos_user.user_manager');
+
       $city = $om->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
          ->findOneBySlug('mons');
 
@@ -33,13 +35,14 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
       $admin = new User(array("label" => "Robert Delieu", "username" => "admin",
          "password" => "admin", "email" => "RANDOM", "enable" => true, "phonenumber" => "RANDOM"));
       $admin->addRole(User::ROLE_ADMIN);
-      $om->persist($admin);
+      $userManager->updateUser($admin);
 
       echo "CREATE 'user' USER (pwd 'user')\n";
       $user = new User(array("label" => "Arnaud Bobo", "username" => "user",
          "password" => "user", "email" => "RANDOM", "enable" => true, "phonenumber" => "RANDOM"));
       $this->addReference('user', $user);
-      $om->persist($user);
+      $userManager->updateUser($user);
+
 
       echo "CREATE 'Moderator (CeM) Mons' Group\n";
       $cemGroup = new Group('Moderator (CeM) Mons', array());
@@ -55,7 +58,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
       $moderator = new User(array("label" => "Monsieur Vélo Mons", "username" => "moderator",
          "password" => "moderator", "email" => "RANDOM", "enable" => true, "phonenumber" => "RANDOM"));
       $moderator->addGroup($cemGroup);
-      $om->persist($moderator);
+      $userManager->updateUser($moderator);
       $this->addReference('cem', $moderator);
         
       echo "CREATE 'Gestionnaire de voirie communal Mons' Group\n";
@@ -72,7 +75,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
       $manager = new User(array("label" => "Monsieur Travaux Mons", "username" => "manager",
          "password" => "manager", "email" => "RANDOM", "enable" => true, "phonenumber" => "RANDOM"));
       $manager->addGroup($manGroup);
-      $om->persist($manager);
+      $userManager->updateUser($manager);
       $this->addReference('monsieur_velo', $manager);
 
       echo "CREATE 'Gestionnaire de voirie régional' Group\n";
@@ -84,7 +87,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
          ->setType(Group::TYPE_MANAGER)
          ->setNotation(
             $om->getRepository('ProgracqteurWikipedaleBundle:Management\Notation')->find('cem'))
-         ->setZone($monsspw);
+         ->setZone($city);
       $om->persist($manGroup);
       $this->addReference('manager_mons_spw', $manGroup);
 
@@ -92,7 +95,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
       $manager_spw = new User(array("label" => "Monsieur Travaux Region Mons", "username" => "manager_spw",
          "password" => "manager_spw", "email" => "RANDOM", "enable" => true, "phonenumber" => "RANDOM"));
       $manager_spw->addGroup($manGroup);
-      $om->persist($manager_spw);
+      $userManager->updateUser($manager_spw);
       $this->addReference('monsieur_travaux', $manager_spw);
 
       $om->flush();   
