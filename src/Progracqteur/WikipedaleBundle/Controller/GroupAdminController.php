@@ -57,19 +57,16 @@ class GroupAdminController extends Controller {
                 $em->persist($g);
                 $em->flush();
                 
-                
                 $this->get('session')->getFlashBag()->add('notice', $this->get('translator')
                            ->trans('groups.created'));
                 return $this->redirect(
                             $this->generateUrl('wikipedale_groups_list')
                         );
-                
             } else {
                 $this->get('session')->getFlashBag()->add('notice', $this->get('translator')
                            ->trans("echec"));
             }
         }
-        
         
         return $this->render('ProgracqteurWikipedaleBundle:Groups:form.html.twig', array(
             'form' => $form->createView(),
@@ -79,8 +76,7 @@ class GroupAdminController extends Controller {
     
     public function updateAction($id, Request $request)
     {
-        if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
-        {
+        if (! $this->get('security.context')->isGranted('ROLE_ADMIN')) {
             return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
         
