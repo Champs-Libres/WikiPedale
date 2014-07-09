@@ -22,6 +22,7 @@ Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription:
     owner:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\User
       inversedBy: notificationSubscriptions
+      cascade: [persist]
     group:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Group
       inversedBy: notificationSubscriptions

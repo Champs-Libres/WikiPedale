@@ -32,4 +32,4 @@ Progracqteur\WikipedaleBundle\Entity\Management\User:
     notificationSubscriptions:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription
       mappedBy: owner
-      cascade: [persist, refresh, remove]
+      cascade: [persist, refresh, remove, merge]

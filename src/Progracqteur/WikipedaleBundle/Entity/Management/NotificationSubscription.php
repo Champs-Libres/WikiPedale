@@ -205,6 +205,15 @@ class NotificationSubscription
     {
         return $this->group;
     }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function hasGroup()
+    {
+       return $this->group !== NULL;
+    }
 
 
     /**

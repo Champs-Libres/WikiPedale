@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 use Doctrine\Common\Collections\ArrayCollection;
 use Progracqteur\WikipedaleBundle\Resources\Generator\StringGenerator;
+use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Management\User
@@ -427,4 +428,58 @@ class User extends BaseUser
 
       return $this;
    }
+   
+   
+   public function addGroup(\FOS\UserBundle\Model\GroupInterface $group)
+   { 
+      if ( ! $this->getGroups()->contains($group)) {
+         parent::addGroup($group);
+         die(var_dump($this->getNotificationSubscriptions()->count()));
+         //add a notification subscription if group of type moderator or manager
+         switch ($group->getType()) {
+            case Group::TYPE_MANAGER:
+               $notification = new NotificationSubscription();
+               $notification->setKind(NotificationSubscription::KIND_MANAGER);
+               break;
+            case Group::TYPE_MODERATOR:
+               $notification = new NotificationSubscription();
+               $notification->setKind(NotificationSubscription::KIND_MODERATOR);
+               break;
+            default:
+               $notification = null;
+               break;
+         }
+
+         if ($notification !== null) {
+            $notification->setFrequency(NotificationSubscription::FREQUENCY_MINUTELY)
+                    ->setGroup($group)
+                    ->setOwner($this)
+                    ->setZone($group->getZone())
+            ;
+            $this->addNotificationSubscription($notification);
+            
+            
+         }
+      }
+      
+      return $this;
+   }
+   
+   public function removeGroup(\FOS\UserBundle\Model\GroupInterface $group)
+   {
+      if ($this->getGroups()->contains($group)) {
+         parent::removeGroup($group);
+         
+         //remove the notification if group of type moderator or manager
+         if (in_array($group->getType(), 
+                 array( Group::TYPE_MANAGER or Group::TYPE_MODERATOR))) {
+            foreach ($this->getNotificationSubscriptions() as $notification) {
+               if ($notification->hasGroup() && 
+                       $notification->getGroup()->getId() === $group->getId()) {
+                  $this->removeNotificationSubscription($notification);
+               }
+            }
+         }
+      }
+   }  
 }

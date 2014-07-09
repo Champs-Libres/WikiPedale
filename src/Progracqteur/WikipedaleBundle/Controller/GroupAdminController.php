@@ -202,120 +202,104 @@ class GroupAdminController extends Controller {
         
     }
     
-    public function addRemoveGroupsAction($id, Request $request)
-    {
-        if (! $this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
-        }
-        
-        $em = $this->getDoctrine()->getManager();
-        
-        $user = $em->getRepository('ProgracqteurWikipedaleBundle:Management\User')
-                ->find($id);
-        
-        if (null === $user) {
-            throw $this->createNotFoundException('user.not.found');
-        }
-        
-        $formGroups = $this->createForm(new GroupUserType(), $user);
-        
-        if ($request->getMethod() == "POST") {
-            $formGroups->bind($request);
-            
-            if ($formGroups->isValid()) {
-                //add notificationSubscriptions
-                $user = $formGroups->getData();
-                
-                //add notification to group recently added
-                foreach($user->getGroups() as $group) {
-                    $groupAlreadyNotified = false;
-                    
-                    foreach($user->getNotificationSubscriptions() as $notification) {
-                        if ($notification->getGroup() !== null 
-                                && $notification->getGroup()->getId() === $group->getId()) {
-                            $groupAlreadyNotified = true;
-                        } 
-                    }
-                    
-                    if ($groupAlreadyNotified === false) {
-                        switch ($group->getType())
-                        {
-                            case Group::TYPE_MANAGER:
-                                $notification = new NotificationSubscription();
-                                $notification->setKind(NotificationSubscription::KIND_MANAGER);
-                                break;
-                            case Group::TYPE_MODERATOR:
-                                $notification = new NotificationSubscription();
-                                $notification->setKind(NotificationSubscription::KIND_MODERATOR);
-                                break;
-                            default:
-                                $notification = null;
-                                break;
-                        }
+   public function addRemoveGroupsAction($id, Request $request)
+   {
+      if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+         return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
+      }
 
-                        if ($notification !== null) {
-                            $notification->setFrequency(NotificationSubscription::FREQUENCY_MINUTELY)
-                                        ->setGroup($group)
-                                        ->setOwner($user)
-                                        ->setZone($group->getZone())
-                                    ;
-                            $user->addNotificationSubscription($notification);
-                        }
-                    } 
-                }
-                
-                //remove notification to groups recently removed
-                foreach($user->getNotificationSubscriptions() as $notification) {
-                    $notificationMatchGroup = false;
-                    
-                    foreach ($user->getGroups() as $group) {
-                        if ($group->getZone()->getId() === $notification->getZone()->getId()) {
-                            $notificationMatchGroup = true;
-                            break;
-                        }
-                        
-                        /*if ($notification->getGroup() !== null)
-                        {
-                            if ($notification->getGroup()->getId() === $group->getId())
-                            {
-                                $notificationMatchGroup = true;
-                                break;
-                            }
-                            
-                        } */
-                    }
-                    
-                    if ($notificationMatchGroup === false) {
-                        $user->removeNotificationSubscription($notification);
-                        $em->remove($notification);
-                    }
-                }
-                
-                $em->flush();
-                $this->get('session')->getFlashBag()->add('notice', 
-                        $this->get('translator')
-                           ->trans('admin.user.groups_added_or_removed'));
-                
-                return $this->redirect(
-                        $this->generateUrl('wikipedale_admin_usergroups_update',
-                                array('id' => $user->getId())
-                            )
-                        );
+      $em = $this->getDoctrine()->getManager();
+
+      $user = $em->getRepository('ProgracqteurWikipedaleBundle:Management\User')
+              ->find($id);
+
+      if (null === $user) {
+         throw $this->createNotFoundException('user.not.found');
+      }
+
+      $formGroups = $this->createForm(new GroupUserType(), $user);
+
+      if ($request->getMethod() == "POST") {
+         $formGroups->bind($request);
+
+         if ($formGroups->isValid()) {
+            //add notificationSubscriptions
+            $user = $formGroups->getData();
+
+            //add notification to group recently added
+            foreach ($user->getGroups() as $group) {
+               $groupAlreadyNotified = false;
+
+               foreach ($user->getNotificationSubscriptions() as $notification) {
+                  if ($notification->getGroup() !== null && $notification->getGroup()->getId() === $group->getId()) {
+                     $groupAlreadyNotified = true;
+                  }
+               }
+
+               if ($groupAlreadyNotified === false) {
+                  switch ($group->getType()) {
+                     case Group::TYPE_MANAGER:
+                        $notification = new NotificationSubscription();
+                        $notification->setKind(NotificationSubscription::KIND_MANAGER);
+                        break;
+                     case Group::TYPE_MODERATOR:
+                        $notification = new NotificationSubscription();
+                        $notification->setKind(NotificationSubscription::KIND_MODERATOR);
+                        break;
+                     default:
+                        $notification = null;
+                        break;
+                  }
+
+                  if ($notification !== null) {
+                     $notification->setFrequency(NotificationSubscription::FREQUENCY_MINUTELY)
+                             ->setGroup($group)
+                             ->setOwner($user)
+                             ->setZone($group->getZone())
+                     ;
+                     $user->addNotificationSubscription($notification);
+                  }
+               }
             }
-            
-        }
-        //if not valid : (not POST or not valid form)
-        $this->get('session')->getFlashBag()->add('notice',
-                    $this->get('translator')
-                           ->trans('user.groups.error_adding_or_removing_group'));
-        return $this->redirect(
-                        $this->generateUrl('wikipedale_admin_usergroups_update',
-                                array('id' => $user->getId())
+
+            //remove notification to groups recently removed
+            foreach ($user->getNotificationSubscriptions() as $notification) {
+               $notificationMatchGroup = false;
+
+               foreach ($user->getGroups() as $group) {
+                  if ($notification->hasGroup() &&
+                          $group->getId() === $notification->getGroup()->getId()) {
+                     $notificationMatchGroup = true;
+                     break;
+                  }
+               }
+
+               if ($notificationMatchGroup === false) {
+                  $user->removeNotificationSubscription($notification);
+                  $em->remove($notification);
+               }
+            }
+
+            $em->flush();
+            $this->get('session')->getFlashBag()->add('notice', $this->get('translator')
+                            ->trans('admin.user.groups_added_or_removed'));
+
+            return $this->redirect(
+                            $this->generateUrl('wikipedale_admin_usergroups_update', array('id' => $user->getId())
                             )
-                        );
-    }
-    
-    public function userShowFormAction($id, Request $request) {
+            );
+         }
+      }
+      //if not valid : (not POST or not valid form)
+      $this->get('session')->getFlashBag()->add('notice', $this->get('translator')
+                      ->trans('user.groups.error_adding_or_removing_group'));
+      return $this->redirect(
+                      $this->generateUrl('wikipedale_admin_usergroups_update', array('id' => $user->getId())
+                      )
+      );
+   }
+
+   public function userShowFormAction($id, Request $request) {
         if (! $this->get('security.context')->isGranted('ROLE_ADMIN')) {
             return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
