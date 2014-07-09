@@ -12,7 +12,6 @@ use Symfony\Component\Validator\ExecutionContext;
  */
 class Group extends BaseGroup
 {
-
     /**
      * @var Progracqteur\WikipedaleBundle\Management\Zone $polygon
      */
@@ -51,8 +50,6 @@ class Group extends BaseGroup
     {
         return array(self::TYPE_MANAGER, self::TYPE_MODERATOR, self::TYPE_NOTATION);
     }
-    
-    
 
     public function __construct($name = '', $roles = array()) {
         parent::__construct($name, $roles);
@@ -125,9 +122,6 @@ class Group extends BaseGroup
         return $this->type;
     }
     
-    
-    
-    
     /**
      * Set notation
      *
@@ -150,41 +144,36 @@ class Group extends BaseGroup
         return $this->notation;
     }
     
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getName().' ("'.$this->getNotation().'" à '.$this->getZone().')';
     }
     
     
-    public function isValidType(ExecutionContext $context) {
+    public function isValidType(ExecutionContext $context)
+    {
         $a = self::getExistingTypes();
         
-        if ( ! in_array($this->getType(), $a))
-        {
+        if ( ! in_array($this->getType(), $a)) {
             $propertyPath = $context->getPropertyPath().'Type';
             $context->setPropertyPath($propertyPath);
             $context->addViolation('group.type.invalid', array(), $this->getType());
         }
-        
-        
     }
     
     public function isValidNotation(ExecutionContext $context)
     {
         $propertyPath = $context->getPropertyPath().'Notation';
         
-        if ($this->hasRole(User::ROLE_NOTATION))
-        {
-            if ($this->getNotation() === null)
-            {
+        if ($this->hasRole(User::ROLE_NOTATION)) {
+            if ($this->getNotation() === null) {
                 $context->addViolationAtSubPath('Notation', 'group.notation.not_null', array(), null);
                 return;
             }
         }
         
-        if ($this->getType() === self::TYPE_MODERATOR)
-        {
-            if ($this->getNotation()->getId() !== 'cem')
-            {
+        if ($this->getType() === self::TYPE_MODERATOR) {
+            if ($this->getNotation()->getId() !== 'cem') {
                 $context->addViolationAtSubPath('Notation', 'group.notation.must_be_cem', array(), $this->getNotation()->getId());
                 return;
             }
