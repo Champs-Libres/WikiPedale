@@ -1,6 +1,6 @@
-Feature: filtering markers by category
+Feature: Filtering markers by category
 
-@javascript @blop
+@javascript @filtering_map
 Scenario: Open filtering option menu and closing it
         Given I am on "/city/mons"
         Then element "#filter_and_export_menu" should not be visible
@@ -17,4 +17,3 @@ Scenario: Open filtering option menu and closing it
         Then element "#stop_filter_and_export_button" should not be visible
         Then element "#filter_and_export_button" should be visible
         When I click on the element "#filter_and_export_button"
-        

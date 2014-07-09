@@ -1,3 +1,19 @@
+ProgracqteurWikipedaleBundle_admin_category:
+  resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/category_admin.yml"
+  prefix:   /admin/category
+
+ProgracqteurWikipedaleBundle_public_category:
+  resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/category_public.yml"
+  prefix:   /category
+
+ProgracqteurWikipedaleBundle_comment:
+  resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/model_comment.yml"
+  prefix:   /comment
+
+wikipedale_notations:
+    resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/management_notation.yml"
+    prefix:   /admin/notation
+
 wikipedale_homepage:
   pattern: /
   defaults: {_controller: ProgracqteurWikipedaleBundle:Default:homepage }
@@ -49,49 +65,6 @@ wikipedale_report_change:
 wikipedale_user_confirm:
   pattern: /user/confirm/{token}/{reportId}.html
   defaults: {_controller: ProgracqteurWikipedaleBundle:Report:confirmUser }
-  options:
-    expose: true
-
-wikiedale_comment_last_by_report:
-  pattern: /comment/last/byreport/{reportId}.{_format}
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:getLastCommentByReport}
-  requirements:
-    _format: json|html
-  options:
-    expose: true
-
-wikiedale_comment_list_by_report:
-  pattern: /comment/list/byreport/{reportId}.{_format}
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:getCommentByReport}
-  requirements:
-    _format: json|html
-  options:
-    expose: true
-
-wikipedale_comment_new:
-  pattern: /comment/new/report-{reportId}.{_format}
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:newbis }
-  requirements:
-    _format: json
-    _method: POST
-  options:
-    expose: true
-
-wikipedale_comment_change:
-  pattern: /comment/change.{_format}
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:change }
-  requirements:
-    _format: json
-    _method: POST
-  options:
-    expose: true
-
-wikipedale_comment_view:
-  pattern: /comment/view/{commentId}.{_format}
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Comment:view}
-  requirements:
-    _format: json
-    commentId: \d+
   options:
     expose: true
 
@@ -191,10 +164,6 @@ wikipedale_admin_homepage:
   pattern: /admin
   defaults: {_controller: ProgracqteurWikipedaleBundle:Admin:index }
 
-wikipedale_notations:
-    resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/management_notation.yml"
-    prefix:   /admin/notation
-
 wikipedale_admin_usergroups:
   pattern: /admin/usergroup
   defaults: {_controller: ProgracqteurWikipedaleBundle:GroupAdmin:userList }
@@ -223,16 +192,6 @@ wikipedale_notification_subscriptions_update:
   pattern: /profile/notifications/{id}/update
   defaults:
     _controller: ProgracqteurWikipedaleBundle:Notifications:update
-
-ProgracqteurWikipedaleBundle_admin_category:
-  resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/category_admin.yml"
-  prefix:   /admin/category
-
-
-ProgracqteurWikipedaleBundle_public_category:
-  resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/category_public.yml"
-  prefix:   /category
-
 
 wikipedale_group_covers_zone:
   pattern: /groups/bytype/bycovering/{type}.{slugZone}.{_format}

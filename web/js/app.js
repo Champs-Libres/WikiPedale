@@ -28,8 +28,8 @@ require.config({
    }
 });
 
-require(['jQuery','recent_activities','data_map_glue','informer','markers_filtering','select2','colorbox','description_create','map_display','login','description_text_display','description_edit', 'category'],
-   function($,recent_activities,data_map_glue,informer,markers_filtering,select2,colorbox,description_create,map_display,login,description_text_display,description_edit, category){
+require(['jQuery','recent_activities','data_map_glue','informer','markers_filtering','select2','colorbox','description_create','map_display','login','description_text_display','description_edit', 'category','comments'],
+   function($,recent_activities,data_map_glue,informer,markers_filtering,select2,colorbox,description_create,map_display,login,description_text_display,description_edit, category,comments){
       $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
       $(document).ready(function(){
          $('a.connexion').colorbox({
@@ -42,6 +42,9 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
          //Login
          $('#loginForm').submit(function(e) { e.preventDefault(); login.catch_form(); });
 
+         // Add comment API KEY
+         $('#add_comment_with_api_key__submit_button').click(function(e) { e.preventDefault(); comments.addWithApiKey(); });
+         
          var data_for_init = $('#data_for_init');
          if (data_for_init.length !== 0)
          {

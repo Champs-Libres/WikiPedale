@@ -1,6 +1,6 @@
 <?php
 
-namespace Progracqteur\WikipedaleBundle\Tests\Controller\Model;
+namespace Progracqteur\WikipedaleBundle\Tests\Entity\Model;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;

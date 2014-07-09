@@ -158,7 +158,7 @@ class ToTextMailSenderService {
       }
      
       //prefix for changes items :
-      $p = '- ';
+      $prefix = '- ';
      
       //create a string for each report
       foreach ($a as $reportId => $notifications_) {
@@ -188,7 +188,7 @@ class ToTextMailSenderService {
 
                if ($reporttracking->isCreation())
                {
-                  $t .= $p.$this->t->trans('mail.report.creation', 
+                  $t .= $prefix . $this->t->trans('mail.report.creation', 
                           $args,
                           self::DOMAIN
                           );
@@ -203,7 +203,7 @@ class ToTextMailSenderService {
                     
                //if the change is add a photo (do not consider other changes)
                if (isset($keyChanges[ChangeService::REPORT_ADD_PHOTO])) {
-                  $t .= $p.$this->t->trans('mail.report.add_photo', $args, self::DOMAIN);
+                  $t .= $prefix . $this->t->trans('mail.report.add_photo', $args, self::DOMAIN);
                   $t .= "\n";
                   continue;
                }
@@ -215,7 +215,7 @@ class ToTextMailSenderService {
                           ->getRepository('ProgracqteurWikipedaleBundle:Management\Notation')
                           ->find($status->getType());
 
-                  $t .= $p;
+                  $t .= $prefix;
 
                   switch ($status->getValue())
                   {
@@ -246,7 +246,7 @@ class ToTextMailSenderService {
 
                //if the author added a private comment
                if (isset($keyChanges[ChangeService::REPORT_COMMENT_MODERATOR_MANAGER_ADD])) {
-                  $t .= $p. $this->t->trans('mail.report.comment.private_add',
+                  $t .= $prefix . $this->t->trans('mail.report.comment.private_add',
                           $args, self::DOMAIN);
                   $t .= "\n";
 
@@ -286,10 +286,10 @@ class ToTextMailSenderService {
                   }
 
                   if (in_array($manager->getId(), $groupIds)){
-                      $t.= $p. $this->t->trans('mail.report.manager.you', $args, self::DOMAIN);
+                      $t.= $prefix . $this->t->trans('mail.report.manager.you', $args, self::DOMAIN);
                   } else {
                       $args['%manager%'] = $manager->getName();
-                      $t.= $p . $this->t->trans('mail.report.manager.add', $args, self::DOMAIN);
+                      $t.= $prefix . $this->t->trans('mail.report.manager.add', $args, self::DOMAIN);
                   }
 
                   unset($temp_ch);
@@ -298,7 +298,7 @@ class ToTextMailSenderService {
                }
 
                if (isset($keyChanges[ChangeService::REPORT_MANAGER_REMOVE])) {
-                  $t.= $p . $this->t->trans('mail.report.manager.remove', $args, self::DOMAIN);
+                  $t.= $prefix . $this->t->trans('mail.report.manager.remove', $args, self::DOMAIN);
                   $t.="\n";
                }
 
@@ -329,12 +329,12 @@ class ToTextMailSenderService {
                if ($nb == 1) {
                   $args['%change%'] = 
                      $this->getStringFromChangeType($changes[0]->getType());
-                  $t .= $p.$this->t->trans('mail.report.change.one', $args, self::DOMAIN);
+                  $t .= $prefix . $this->t->trans('mail.report.change.one', $args, self::DOMAIN);
                   $t .= "\n";
                } elseif ($nb == 2) {
                   $args['%change_%'] =  $this->getStringFromChangeType($changes[0]->getType());
                   $args['%change__%'] = $this->getStringFromChangeType($changes[1]->getType());
-                  $t .= $p.$this->t->trans('mail.report.change.two', $args, self::DOMAIN);
+                  $t .= $prefix . $this->t->trans('mail.report.change.two', $args, self::DOMAIN);
                   $t .= "\n";
                } elseif ($nb > 2) {
                   $args['%change_%'] = 
@@ -343,7 +343,7 @@ class ToTextMailSenderService {
                        $this->getStringFromChangeType($changes[1]->getType());
                   $more = $nb - 2;
                   $args['%more%'] = $more;
-                  $t .=  $p.$this->t->transChoice('mail.report.change.more', $more, $args, self::DOMAIN);
+                  $t .=  $prefix . $this->t->transChoice('mail.report.change.more', $more, $args, self::DOMAIN);
                   $t .= "\n";
                }
             } catch (\Exception $e) {
@@ -352,7 +352,33 @@ class ToTextMailSenderService {
                $this->exceptions[] = $exception;
             }
          }
+
          $t .= "\n\n";
+
+         //if moderator or manager, add a direct link for adding a comment
+         $currentNotification = current($notifications_);
+         $ownerGroups = $owner->getGroups();
+         $ownerGroupsId =  $ownerGroups->map(function ($uG) { return $uG->getId(); });
+         $report = $currentNotification->getreportTracking()->getReport();
+         if ($ownerGroupsId->contains($report->getManager()->getId())) {
+            $t .= $this->t->trans(
+               'mail.comment.add_with_apikey', 
+               array(
+                  '%lien%' => $this->router->generate(
+                     'wikipedale_comment_add_with_api_key',
+                     array('APIKey' => $report->getAddingCommentAPIKey($owner->getId()),
+                        'reportId' => $report->getId(), 
+                        'userId' => $owner->getId()
+                     ),
+                     true
+                  )
+               ),
+               self::DOMAIN
+            );
+         }
+
+         $t .= "\n\n";
+
          $t .= $this->addReportPresentation($reporttracking->getReport());
          $t .= "\n\n\n\n\n\n\n\n";
       }

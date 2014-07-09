@@ -33,6 +33,9 @@ Progracqteur\WikipedaleBundle\Entity\Model\Report:
       default: true
     moderatorComment:
       type: text
+    salt:
+      type: string
+      length: 60
   lifecycleCallbacks:
 #    prePersist: [registerCurrentChangeset]
     preFlush: [registerCurrentChangeset]

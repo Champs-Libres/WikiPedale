@@ -32,7 +32,6 @@ class NotificationCorner {
      */
     private $container;
     
-    
     private $transporterIds = array();
     
     private $processorsIds = array();
@@ -82,11 +81,4 @@ class NotificationCorner {
             }
         }
     }
-    
-    
-    
-    
-    
-    
 }
-

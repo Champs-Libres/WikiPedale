@@ -89,6 +89,15 @@ class Point {
     {
         return $this->lon;
     }
+
+    /**
+     * Returns a random point in the Mons region (lat in [50.4500, 50.4570]; lon in  [3.9400, 3.9620])
+     * @return \Progracqteur\WikipedaleBundle\Resources\Geo\Point A random point in the Mons region
+     */
+    public static function randomGenerate()
+    {
+        return self::fromLonLat((rand(39400, 39620)/10000), (rand(504500, 504570)/10000));
+    }
 }
 
 

@@ -72,6 +72,5 @@ class NotificationCommand extends ContainerAwareCommand {
         
         echo "ok ! \n";
     }
-    
 }
 

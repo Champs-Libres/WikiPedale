@@ -42,7 +42,7 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
    function change_place(id, changement){
       /**
       * Returns a json string describing a place.
-      * @param{int} id The id of the description.
+      * @param{int} id The id of the report.
       * @param{string} changement A json string representing the changement to do.
       */
       var ret = '{"entity":"report"';
@@ -54,7 +54,7 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
    function edit_moderator_comment(id,new_moderator_comment){
       /**
       * Returns a json for editing the moderator comment of a place.
-      * @param{int} id The id of the description.
+      * @param{int} id The id of the report.
       * @param{string} new_moderator_comment The new moderator comment.
       */
       return change_place(id,'"moderatorComment":' + JSON.stringify(new_moderator_comment));
@@ -63,7 +63,7 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
    function edit_description(id,new_description){
       /**
       * Returns a json for editing the parameter 'description' of a place.
-      * @param{int} id The id of the description.
+      * @param{int} id The id of the report.
       * @param{string} new_description The new value of the parameter 'description'.
       */
       return change_place(id,'"description":' + JSON.stringify(new_description));
@@ -72,7 +72,7 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
    function edit_location(id,new_location){
       /**
       * Returns a json for editing location of a place.
-      * @param{int} id The id of the description.
+      * @param{int} id The id of the report.
       * @param{string} new_location The new location.
       */
       return change_place(id,'"addressParts":{"entity":"address","road":' + JSON.stringify(new_location) + '}');
@@ -81,7 +81,7 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
    function edit_category(id, new_category_id){
       /**
       * Returns a json for editing the category (single) of a place.
-      * @param{int} id The id of the description.
+      * @param{int} id The id of the report.
       * @param{int} new_category_id The new category id.
       */
       return change_place(id,'"category":{"entity":"category","id":' + new_category_id + '}');
@@ -90,7 +90,7 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
    function edit_status(id,status_type,new_status_value){
       /**
       * Returns a json for editing the status of a place.
-      * @param{int} id The id of the description.
+      * @param{int} id The id of the report.
       * @param{string} status_type The type of the status
       * @param{string} new_status_value The new value of the status.
       */
@@ -100,7 +100,7 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
    function edit_manager(id,new_manager_id){
       /**
       * Returns a json for editing the manager of a place.
-      * @param{int} id The id of the description.
+      * @param{int} id The id of the report.
       * @param{int} new_manager_id The id of the new manager.
       */
       return change_place(id,'"manager": {"entity":"group","type":"MANAGER","id":' +
@@ -110,36 +110,33 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
    function edit_place_type(id, new_placetype_id){
       /**
       * Returns a json for editing place type of a place.
-      * @param{int} id The id of the description.
+      * @param{int} id The id of the report.
       * @param{int} new_placetype_id The new id of the place type.
       */
       return change_place(id,'"placetype":{"id":' +  JSON.stringify(new_placetype_id) + ',"entity":"placetype"}');
    }
 
-
    function edit_place_position(id,lon,lat) {
       /**
       * Returns a json for editing the position of a place.
-      * @param{int} id The id of the description.
+      * @param{int} id The id of the report.
       * @param{int} lon the new longitude of the place.
       * @param{int} lat the new latitude of the place.
       */
       return change_place(id,'"geom":'+ point(lon,lat));
    }
 
-
-
    function delete_place(id){
       /**
-      * Returns a json for deleting a description.
-      * @param{int} id The id of the description to delete.
+      * Returns a json for deleting a report.
+      * @param{int} id The id of the report to delete.
       */
       return change_place(id,'"accepted":false');
    }
 
    function edit_place(description, lon, lat, address, id, color, user_label, user_email, user_phonenumber, category) {
       /**
-      * Returns a json string used for adding/editing a new description.
+      * Returns a json string used for adding/editing a new report.
       * @param {string} description the description of the new place.
       * @param {string} lon The longitude of the new place.
       * @param {string} lat The latitude of the new place.
@@ -153,13 +150,13 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
       */
       var ret = '{"entity":"report"';
 
-      if (typeof id === 'undefined' || id==null) {
+      if (typeof id === 'undefined' || id===null) {
          ret = ret + ',"id":null';
       } else {
          ret = ret + ',"id":' + JSON.stringify(id);
       }
 
-      if (typeof lon !== 'undefined' && lon!=null && typeof lat !== 'undefined' && lon!=null) {
+      if (typeof lon !== 'undefined' && lon!==null && typeof lat !== 'undefined' && lat!==null) {
          ret = ret + ',"geom":'+ point(lon,lat);
       }
 
@@ -173,6 +170,18 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
       ret = ret + ',"category":{"entity":"category","id":' + category + '}';
       return ret + '}';
    }
+
+   function moderatorManagerComment(report_id, comment_text) {
+      /**
+       * Return a json string use for adding/editing a new moderator-manager comment.
+       * @param {int} reportId The id of the report.
+       * @param {string} comment_text The text of the comment.
+       * @return {sring} The json string describing the comment.
+       */
+      return '{"entity":"comment","reportId":' + JSON.stringify(report_id) +
+      ',"text":' + JSON.stringify(comment_text) + ',"type":"moderator_manager"}';
+   }
+
    return {
       unregister_user: unregister_user,
       change_place: change_place,
@@ -185,6 +194,7 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
       edit_place_type: edit_place_type,
       delete_place: delete_place,
       edit_place: edit_place,
-      edit_place_position: edit_place_position
+      edit_place_position: edit_place_position,
+      moderatorManagerComment: moderatorManagerComment
    };
 });
