@@ -40,9 +40,7 @@ class NotificationMailSender extends NotificationSender {
      */
     private $mailer;
     
-    private $notificationToSend = array();
-    
-    
+    private $notificationToSend = array();   
     
     public function __construct(
             ToTextMailSenderService $toTextService, 
@@ -55,7 +53,6 @@ class NotificationMailSender extends NotificationSender {
         $this->translator = $translator;
     }
     
-    
     public function addNotification(PendingNotification $notification) {
                 $this->notificationToSend[$notification->getSubscription()
                         ->getOwner()->getId()][] = $notification;
@@ -67,16 +64,13 @@ class NotificationMailSender extends NotificationSender {
             $userEmail = null; 
             $owner = null;
             
-            
             if (isset($notifications[0])) {
                 //add user email only one time...
                 if ($userEmail === null) {
                     $owner = $notifications[0]->getSubscription()->getOwner();
                     $userEmail = $owner->getEmail();
                 }
-                    
             }
-            
             
             try {
                 $text = $this->toTextService

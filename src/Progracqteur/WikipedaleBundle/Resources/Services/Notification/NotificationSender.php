@@ -48,8 +48,6 @@ abstract class NotificationSender {
      * @return string
      */
     abstract public function getKey();
-    
-    
 }
 
 
