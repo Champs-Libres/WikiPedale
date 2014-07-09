@@ -963,8 +963,15 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
       $r->setGeom(Point::randomGenerate());
 
       $r->setAddress(Address::maquestGenerateFromPoint($r->getGeom()));
-      $r->setCategory(Category::randomGenerate());
       $r->setDescription(StringGenerator::randomGenerate(300));
+
+      if (array_key_exists('category', $params)) {
+         if ($params['category'] === 'RANDOM') {
+            $r->setCategory(Category::randomGenerate());
+         } else {
+            $r->setCategory($params['category']);
+         }
+      }
 
       if ((!array_key_exists('noUser', $params))|| !$params['noUser']) {
          $u = new UnregisteredUser();
