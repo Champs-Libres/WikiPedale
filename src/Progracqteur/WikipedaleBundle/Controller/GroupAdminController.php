@@ -89,31 +89,25 @@ class GroupAdminController extends Controller {
         $g = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
                 ->find($id);
         
-        
-        if ($g === null)
-        {
+        if ($g === null) {
             return $this->createNotFoundException("group.non.found");
         }
         
         $form = $this->createForm(new GroupType($this->getDoctrine()->getManager()), $g);
         
-        if ($request->getMethod() === 'POST')
-        {
+        if ($request->getMethod() === 'POST') {
             $form->bind($request);
             
-            if ($form->isValid())
-            {
+            if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($g);
                 $em->flush();
-                
                 
                 $this->get('session')->getFlashBag()->add('notice', $this->get('translator')
                            ->trans('groups.updated'));
                 return $this->redirect(
                             $this->generateUrl('wikipedale_groups_list')
                         );
-                
             } else {
                 $this->get('session')->getFlashBag()->add('notice', $this->get('translator')
                            ->trans("echec"));
@@ -129,8 +123,7 @@ class GroupAdminController extends Controller {
     
     public function userListAction(Request $request)
     {
-        if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
-        {
+        if (! $this->get('security.context')->isGranted('ROLE_ADMIN')) {
             return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
         
@@ -140,8 +133,7 @@ class GroupAdminController extends Controller {
         
         $em = $this->getDoctrine()->getManager();
         
-        if ($query !== '')
-        {
+        if ($query !== '') {
             $users = $em->createQuery('Select u from ProgracqteurWikipedaleBundle:Management\User u
                 LEFT JOIN u.groups g
                 where u.username LIKE :query 
@@ -157,7 +149,6 @@ class GroupAdminController extends Controller {
                     ->setParameter('query', '%'.$query.'%')
                     ->getSingleResult()
                     ;
-            
         } else {
             $users = $em->createQuery('Select u from 
                 ProgracqteurWikipedaleBundle:Management\User u
@@ -186,20 +177,14 @@ class GroupAdminController extends Controller {
                     'query' => $query,
                     'first' => $first,
                     'max' => $max
-                    
                     )
-                
                 );
-        
-                
-        
     }
     
     
     public function userUpdateAction($id, Request $request)
     {
-        if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
-        {
+        if (! $this->get('security.context')->isGranted('ROLE_ADMIN')) {
             return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
         
@@ -208,8 +193,7 @@ class GroupAdminController extends Controller {
         $user = $em->getRepository('ProgracqteurWikipedaleBundle:Management\User')
                 ->find($id);
         
-        if (null === $user)
-        {
+        if (null === $user) {
             throw $this->createNotFoundException('user.not.found');
         }
         
@@ -224,8 +208,7 @@ class GroupAdminController extends Controller {
     
     public function addRemoveGroupsAction($id, Request $request)
     {
-        if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
-        {
+        if (! $this->get('security.context')->isGranted('ROLE_ADMIN')) {
             return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
         
@@ -234,38 +217,31 @@ class GroupAdminController extends Controller {
         $user = $em->getRepository('ProgracqteurWikipedaleBundle:Management\User')
                 ->find($id);
         
-        if (null === $user)
-        {
+        if (null === $user) {
             throw $this->createNotFoundException('user.not.found');
         }
         
         $formGroups = $this->createForm(new GroupUserType(), $user);
         
-        if ($request->getMethod() == "POST")
-        {
+        if ($request->getMethod() == "POST") {
             $formGroups->bind($request);
             
-            if ($formGroups->isValid())
-            {
+            if ($formGroups->isValid()) {
                 //add notificationSubscriptions
                 $user = $formGroups->getData();
                 
                 //add notification to group recently added
-                foreach($user->getGroups() as $group)
-                {
+                foreach($user->getGroups() as $group) {
                     $groupAlreadyNotified = false;
                     
-                    foreach($user->getNotificationSubscriptions() as $notification)
-                    {
+                    foreach($user->getNotificationSubscriptions() as $notification) {
                         if ($notification->getGroup() !== null 
-                                && $notification->getGroup()->getId() === $group->getId())
-                        {
+                                && $notification->getGroup()->getId() === $group->getId()) {
                             $groupAlreadyNotified = true;
                         } 
                     }
                     
-                    if ($groupAlreadyNotified === false)
-                    {
+                    if ($groupAlreadyNotified === false) {
                         switch ($group->getType())
                         {
                             case Group::TYPE_MANAGER:
@@ -279,30 +255,24 @@ class GroupAdminController extends Controller {
                             default:
                                 $notification = null;
                                 break;
-
                         }
 
-                        if ($notification !== null)
-                        {
+                        if ($notification !== null) {
                             $notification->setFrequency(NotificationSubscription::FREQUENCY_MINUTELY)
                                         ->setGroup($group)
                                         ->setOwner($user)
                                         ->setZone($group->getZone())
                                     ;
                             $user->addNotificationSubscription($notification);
-
                         }
                     } 
                 }
                 
                 //remove notification to groups recently removed
-                foreach($user->getNotificationSubscriptions() as $notification)
-                {
-                    
+                foreach($user->getNotificationSubscriptions() as $notification) {
                     $notificationMatchGroup = false;
                     
-                    foreach ($user->getGroups() as $group)
-                    {
+                    foreach ($user->getGroups() as $group) {
                         if ($group->getZone()->getId() === $notification->getZone()->getId()) {
                             $notificationMatchGroup = true;
                             break;
@@ -318,17 +288,12 @@ class GroupAdminController extends Controller {
                             
                         } */
                     }
-
                     
-                    if ($notificationMatchGroup === false)
-                    {
+                    if ($notificationMatchGroup === false) {
                         $user->removeNotificationSubscription($notification);
                         $em->remove($notification);
                     }
-                    
-                    
                 }
-
                 
                 $em->flush();
                 $this->get('session')->getFlashBag()->add('notice', 
@@ -354,13 +319,10 @@ class GroupAdminController extends Controller {
                         );
     }
     
-    
     public function userShowFormAction($id, Request $request) {
-        if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
-        {
+        if (! $this->get('security.context')->isGranted('ROLE_ADMIN')) {
             return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
-        
         
         $user = $this->getDoctrine()->getManager()
                 ->getRepository('ProgracqteurWikipedaleBundle:Management\User')
@@ -406,8 +368,7 @@ class GroupAdminController extends Controller {
     
     
     public function newVirtualUserAction() {
-        if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
-        {
+        if (! $this->get('security.context')->isGranted('ROLE_ADMIN')) {
             return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
         
@@ -427,8 +388,7 @@ class GroupAdminController extends Controller {
     }
     
     public function createVirtualUserAction(Request $request) {
-        if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
-        {
+        if (! $this->get('security.context')->isGranted('ROLE_ADMIN')) {
             return new \Symfony\Component\Security\Core\Exception\AccessDeniedException();
         }
         
@@ -458,7 +418,6 @@ class GroupAdminController extends Controller {
 
             $em->flush();
             
-            
             $this->get('session')->getFlashBag()->add('notice', 
                         $this->get('translator')
                            ->trans('admin.user.added', 
@@ -467,21 +426,10 @@ class GroupAdminController extends Controller {
             
             return $this->redirect($this->generateUrl('wikipedale_admin_user_show_form',
                     array('id' => $user->getId() 
-                    )));
-            
+                    )));           
         } else {
             return $this->redirect(
                     $this->generateUrl('wikipedale_admin_user_create_virtual'));
         }
-        
-        
-        
-        
-        
-        
     }
-    
-
-    
 }
-
