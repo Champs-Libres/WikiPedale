@@ -197,7 +197,7 @@ class User extends BaseUser
 
       if (array_key_exists('email', $params)) {
          if($params['email'] === 'RANDOM') {
-            $this->setEmail(StringGenerator::randomGenerate(10) . '@blopblop.be');
+            $this->setEmail((StringGenerator::randomGenerate(6) . '@blopblop.be'));
          } else {
             $this->setEmail($params['email']);
          }
@@ -205,9 +205,9 @@ class User extends BaseUser
 
       if (array_key_exists('phonenumber', $params)) {
          if($params['phonenumber'] === 'RANDOM') {
-            $this->setEmail(StringGenerator::randomGenerate(10));
+            $this->setPhonenumber(StringGenerator::randomGenerate(10));
          } else {
-            $this->setEmail($params['phonenumber']);
+            $this->setPhonenumber($params['phonenumber']);
          }
       }
 
