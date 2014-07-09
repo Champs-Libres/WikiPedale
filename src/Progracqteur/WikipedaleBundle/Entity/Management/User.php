@@ -434,7 +434,7 @@ class User extends BaseUser
    { 
       if ( ! $this->getGroups()->contains($group)) {
          parent::addGroup($group);
-         die(var_dump($this->getNotificationSubscriptions()->count()));
+
          //add a notification subscription if group of type moderator or manager
          switch ($group->getType()) {
             case Group::TYPE_MANAGER:
