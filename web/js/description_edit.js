@@ -30,7 +30,7 @@ define(['jQuery','map_display','report','basic_data_and_functions','json_string'
       map_display.get_map().events.remove('click');
 
       map_display.redisplay_description_markers();
-      markers_filtering.display_markers_regarding_to_filtering();
+      markers_filtering.displayMarkersRegardingToFiltering();
    }
 
    function stop_edition(){
@@ -185,7 +185,7 @@ define(['jQuery','map_display','report','basic_data_and_functions','json_string'
                   } else {
                      $(element_id).text($(element_id + '_edit').val());
                   }
-                  markers_filtering.display_markers_regarding_to_filtering();
+                  markers_filtering.displayMarkersRegardingToFiltering();
                   $(element_id +  '_error').hide();
                   $('#div_report_description_' + element_type + '_edit').hide();
                   $(element_id).show();
