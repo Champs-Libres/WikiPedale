@@ -58,14 +58,13 @@ class ToTextMailSenderServiceTest extends WebTestCase{
 
       $report = Report::randomGenerate(array('category' => $category));
       static::$em->persist($report); //to get an id and a creation date
-      static::$em->persist($report->getCreator());
       static::$em->flush();
       $reportId = $report->getId();
 
       $reportTrackingCreationArray = static::$em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report\\ReportTracking")->findByReport($report);
       $this->assertTrue(sizeof($reportTrackingCreationArray) === 1);
       $reportTrackingCreation = $reportTrackingCreationArray[0];
-
+      
       $pendingNotificationCreationArray = static::$em->getRepository("ProgracqteurWikipedaleBundle:Management\\Notification\\PendingNotification")->findByReportTracking($reportTrackingCreation);
    
       foreach ($userNameArray as $userName) {
