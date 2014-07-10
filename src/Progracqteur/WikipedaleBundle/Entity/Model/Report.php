@@ -959,7 +959,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
    public static function randomGenerate($params = array())
    //private function getReport($user = true)
    {
-      $r = new self();
+      $r = new Report();
       $r->setGeom(Point::randomGenerate());
 
       $r->setAddress(Address::maquestGenerateFromPoint($r->getGeom()));
@@ -967,21 +967,30 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
 
       if (array_key_exists('category', $params)) {
          if ($params['category'] === 'RANDOM') {
+            $cat = Category::randomGenerate();
             $r->setCategory(Category::randomGenerate());
          } else {
             $r->setCategory($params['category']);
          }
       }
 
-      if ((!array_key_exists('noUser', $params))|| !$params['noUser']) {
-         $u = new UnregisteredUser();
-         $u->setLabel('non enregistré '. (StringGenerator::randomGenerate(6)));
-         $u->setEmail('test@email.com');
-         $u->setIp('192.168.1.89');
+      if (array_key_exists('creator', $params)) {
+         if ($params['creator'] === 'RANDOM_UNREGISTERED' or $params['creator'] === 'CONFIRMED_RANDOM_UNREGISTERED') {
+            $u = new UnregisteredUser();
+            $u->setLabel('non enregistré '. (StringGenerator::randomGenerate(6)));
+            $u->setEmail('test@email.com');
+            $u->setIp('192.168.1.89');
+            $r->setCreator($u);
 
-         $r->setCreator($u);
+            if ($params['creator'] === 'CONFIRMED_RANDOM_UNREGISTERED') {
+               $r->setConfirmedCreator($u);
+               $u->setChecked(true);
+            }            
+         } elseif ($params['creator'] !== 'NO') {
+            $r->setCreator($params['user']);
+         }
       }
-        
+
       return $r;
    } 
 }

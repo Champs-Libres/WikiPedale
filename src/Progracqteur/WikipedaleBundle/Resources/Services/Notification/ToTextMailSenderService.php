@@ -360,7 +360,7 @@ class ToTextMailSenderService {
          $ownerGroups = $owner->getGroups();
          $ownerGroupsId =  $ownerGroups->map(function ($uG) { return $uG->getId(); });
          $report = $currentNotification->getreportTracking()->getReport();
-         if ($ownerGroupsId->contains($report->getManager()->getId())) {
+         if ($report->getManager() !== NULL and $ownerGroupsId->contains($report->getManager()->getId())) {
             $t .= $this->t->trans(
                'mail.comment.add_with_apikey', 
                array(
@@ -375,9 +375,9 @@ class ToTextMailSenderService {
                ),
                self::DOMAIN
             );
-         }
 
-         $t .= "\n\n";
+            $t .= "\n\n";
+         }
 
          $t .= $this->addReportPresentation($reporttracking->getReport());
          $t .= "\n\n\n\n\n\n\n\n";

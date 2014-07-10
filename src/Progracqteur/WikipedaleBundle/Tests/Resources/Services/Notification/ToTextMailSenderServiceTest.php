@@ -35,7 +35,7 @@ class ToTextMailSenderServiceTest extends WebTestCase{
     */
    public function testAddReportPresentation()
    {
-      $report = Report::randomGenerate(array('category' => 'RANDOM'));
+      $report = Report::randomGenerate(array('creator' => 'RANDOM_UNREGISTERED', 'category' => 'RANDOM'));
       static::$em->persist($report); //to get an id and a creation date
 
       $reportPresentation = static::$ttss->addReportPresentation($report); // the description of the report
@@ -54,9 +54,8 @@ class ToTextMailSenderServiceTest extends WebTestCase{
    public function __testCreateReportText($userNameArray)
    {
       $category = static::$em->getRepository("ProgracqteurWikipedaleBundle:Model\\Category")->findOneByTerm('short');
-      echo $category->getLabel();
 
-      $report = Report::randomGenerate(array('category' => $category));
+      $report = Report::randomGenerate(array('creator' => 'CONFIRMED_RANDOM_UNREGISTERED', 'category' => $category));
       static::$em->persist($report); //to get an id and a creation date
       static::$em->flush();
       $reportId = $report->getId();
@@ -64,18 +63,22 @@ class ToTextMailSenderServiceTest extends WebTestCase{
       $reportTrackingCreationArray = static::$em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report\\ReportTracking")->findByReport($report);
       $this->assertTrue(sizeof($reportTrackingCreationArray) === 1);
       $reportTrackingCreation = $reportTrackingCreationArray[0];
-      
+
       $pendingNotificationCreationArray = static::$em->getRepository("ProgracqteurWikipedaleBundle:Management\\Notification\\PendingNotification")->findByReportTracking($reportTrackingCreation);
    
       foreach ($userNameArray as $userName) {
-         echo $userName;
          $user = static::$em->getRepository("ProgracqteurWikipedaleBundle:Management\\User")->findOneByUsername($userName);
-         echo $user;
-         echo '----------\n';
-         echo static::$ttss->transformToText($pendingNotificationCreationArray, $user); 
+         $emailText =  static::$ttss->transformToText($pendingNotificationCreationArray, $user); 
+
+         $this->assertTrue(strpos($emailText, $user->getLabel()) !== False);
+         $this->assertTrue(strpos($emailText, $report->getDescription()) !== False);
+         $this->assertTrue(strpos($emailText, $report->getLabel()) !== False);
+         $this->assertTrue(strpos($emailText, $report->getCreator()->getLabel()) !== False);
+         $this->assertTrue(strpos($emailText, $category->getLabel()) !== False);
+         $this->assertTrue(strpos($emailText, $report->getCreateDate()->format(static::$container->getParameter('date_format'))) !== False);
+         $this->assertTrue(strpos($emailText, ((string)$report->getId())) !== False);
       }
    }
-
 
    /**
     *
@@ -83,7 +86,7 @@ class ToTextMailSenderServiceTest extends WebTestCase{
    public function testTransformToText()
    {
       $this->
-      __testCreateReportText(array('manager','moderateur','user'));
+      __testCreateReportText(array('manager','moderator','user'));
       // Tester les owner suivantes 
       // creation utilisateur Manager (le créer dans fixtures : manager, mdp manager) 
       // creation utilisateur Virtuel  (le créer dans fixtures : virtuel, mdp virtuel) 
