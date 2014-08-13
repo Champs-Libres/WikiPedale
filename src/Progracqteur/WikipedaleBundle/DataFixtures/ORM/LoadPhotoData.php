@@ -86,10 +86,7 @@ class LoadPhotoData extends AbstractFixture implements OrderedFixtureInterface, 
                     $manager->persist($photo);
                 
                     $manager->flush();
-
-                
-                
-                
+                 
             }
             
             } catch (\Exception $exc) {
