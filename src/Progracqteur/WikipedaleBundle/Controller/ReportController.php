@@ -253,8 +253,7 @@ class ReportController extends Controller
         
         $serializedJson = $request->get('entity', null);
         
-        if ($serializedJson === null)
-        {
+        if ($serializedJson === null) {
             throw new \Exception("Aucune entitée envoyée");
         }
         
@@ -279,7 +278,6 @@ class ReportController extends Controller
             $u = $this->get('security.context')->getToken()->getUser();
             $report->setCreator($u);
         }
-        
         
         // Modification du changeset
         //ajoute l'utilisateur courant au changeset
