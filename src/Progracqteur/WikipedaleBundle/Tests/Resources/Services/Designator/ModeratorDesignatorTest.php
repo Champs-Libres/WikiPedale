@@ -1,6 +1,6 @@
 <?php
 
-namespace Progracqteur\WikipedaleBundle\Tests\Resources\Services;
+namespace Progracqteur\WikipedaleBundle\Tests\Resources\Services\Designator;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Progracqteur\WikipedaleBundle\Entity\Model\Report;
