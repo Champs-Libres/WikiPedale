@@ -42,5 +42,22 @@ class ModeratorDesignatorTest extends WebTestCase
       $moderator = self::$moderatorFinder->getModerator($report);
       
       $this->assertTrue($moderator instanceof Group);
+      
+      return array($report, $moderator);
+   }
+   
+   /**
+    * 
+    * @param array $args
+    * @depends testDesignator
+    */
+   public function testAddModeratorToClass($args) {
+      $report    = $args[0];
+      $moderator = $args[1];
+      
+      $report->setModerator($moderator);
+      
+      $this->assertEquals($report->getModerator(), $moderator);
+      $this->assertContains($report, $moderator->getReportsAsModerator());
    }
 }

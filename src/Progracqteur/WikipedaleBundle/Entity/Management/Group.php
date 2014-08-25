@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\Group as BaseGroup;
 use Progracqteur\WikipedaleBundle\Entity\Management\Zone;
 use Symfony\Component\Validator\ExecutionContext;
+use Doctrine\Common\Collections\ArrayCollection;
+use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Management\Group
@@ -27,6 +29,12 @@ class Group extends BaseGroup
      * @var string 
      */
     private $type;
+    
+    /**
+     *
+     * @var \Doctrine\Common\Collections\ArrayCollection;
+     */
+    private $reportsAsModerator;
     
     /**
      * @var string
@@ -53,6 +61,7 @@ class Group extends BaseGroup
 
     public function __construct($name = '', $roles = array()) {
         parent::__construct($name, $roles);
+        $this->reportsAsModerator = new ArrayCollection();
     }
     
     /**
@@ -144,6 +153,36 @@ class Group extends BaseGroup
         return $this->notation;
     }
     
+    /**
+     * list of reports where the group is moderator
+     * 
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getReportsAsModerator()
+    {
+       return $this->reportsAsModerator;
+    }
+    
+    /**
+     * 
+     * @param \Doctrine\Common\Collections\ArrayCollection $reportsAsModerator
+     */
+    public function setReportsAsModerator(ArrayCollection $reportsAsModerator)
+    {
+       $this->reportsAsModerator = $reportsAsModerator;
+    }
+    
+    /**
+     * 
+     * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report $report
+     * @return Group 
+     */
+    public function addReportsAsModerator(Report $report) {
+       $this->reportsAsModerator->add($report);
+       return $this;
+    }
+
+        
     public function __toString()
     {
         return $this->getName().' ("'.$this->getNotation().'" à '.$this->getZone().')';

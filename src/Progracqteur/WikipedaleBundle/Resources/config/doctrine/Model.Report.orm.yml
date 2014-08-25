@@ -51,6 +51,10 @@ Progracqteur\WikipedaleBundle\Entity\Model\Report:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Group
       nullable: true
       mappedBy: place
+    moderator:
+       targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Group
+       nullable: true
+       mappedBy: reportsAsModerator
     type:
       targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportType
       nullable: true
