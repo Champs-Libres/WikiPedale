@@ -7,8 +7,8 @@
 * This module is used when the user want to create a new description (used to catch the 
 creating form and to clear this form)
 */
-define(['jQuery','basic_data_and_functions','map_display','data_map_glue','informer','user','json_string','report','login'],
-      function($, basic_data_and_functions,map_display,data_map_glue,informer,user,json_string,report,login) {
+define(['jQuery','basic_data_and_functions','report_map','data_map_glue','informer','user','json_string','report','login'],
+      function($, basic_data_and_functions,report_map,data_map_glue,informer,user,json_string,report,login) {
    function catch_creating_form(the_form_to_catch) {
       /**
       * Catches the form used to create a new description.
@@ -66,34 +66,27 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
                   cache: false,
                   success: function(output_json) {
                      if(! output_json.query.error) {
-                        var newPlaceData = output_json.results[0];
+                        var new_report = output_json.results[0];
                         clear_creating_form();
                         if(user.isRegistered()) { //sinon verif de l'email 
                            $(messages_div).text('Le point noir que vous avez soumis a bien été enregistré. Merci!');
-                           if($('#map').attr('class') === 'olMap') {
                               setTimeout( function(){
-                                 data_map_glue.add_marker_and_description(newPlaceData);
+                                 report_map.addReport(new_report);
                                  data_map_glue.mode_change();
-                                 data_map_glue.focus_on_place_of(newPlaceData.id);
-                                 map_display.delete_marker_for('new_description');
+                                 data_map_glue.focus_on_place_of(new_report.id);
+                                 report_map.deleteMarker('new_report');
+                                 $(messages_div).text('');
+                                 $(messages_div).removeClass('successMessage')
                               },3000);
-                           }
                         } else {
                            $(messages_div).text('Le point noir que vous avez soumis a bien été enregistré. Avant d\'afficher le point noir, nous allons vérifier votre adresse mail. Veuillez suivre les instructions qui vous ont été envoyées par email.');
-                           if($('#map').attr('class') === 'olMap') {
                               setTimeout(
                                  function(){
                                     data_map_glue.mode_change();
+                                    report_map.deleteMarker('new_report');
                                  },3000);
-                           }
                         }
 
-                        if($('#map').attr('class') !== 'olMap') {
-                           $('#form__add_new_description').hide();
-                           $('#new_report_form_submit_button').hide();
-                           $('#show_map_button').hide();
-                           $('#new_place_form_menu_return_button').show();
-                        }
                         $(messages_div).addClass('successMessage');
                      } else {
                         console.log(output_json);
@@ -116,12 +109,12 @@ define(['jQuery','basic_data_and_functions','map_display','data_map_glue','infor
       * Clear the data entered in the form used to create new description.
       * It remove also the marker of the map.
       */
+      add_new_description_form__message
+      form__add_new_description
       $('#form__add_new_description input[type=text], #form__add_new_description textarea, #form__add_new_description input[type=hidden]').val('');
       $('#form__add_new_description').children('.message').text('');
-      if($('#map').attr('class') === 'olMap') {
-         informer.reset_new_description_form();
-         map_display.delete_marker_for('new_description');
-      }
+      informer.reset_new_description_form();
+      report_map.deleteMarker('new_report');
    }
 
    return {

@@ -3,27 +3,63 @@
 /* global define */
 'use strict';
 
-define(['jQuery','map_display','user','report','photo','params','description_edit','comments','basic_data_and_functions'],
-      function($,map_display,user,report,photo,params,description_edit,comments,basic_data_and_functions) {
+define(['jQuery','report_map','user','report','photo','params','description_edit','comments','basic_data_and_functions'],
+      function($,report_map,user,report,photo,params,description_edit,comments,basic_data_and_functions) {
    var color_trad_text = {};
    color_trad_text['0'] = 'pas encore pris en compte (blanc)';
    color_trad_text['-1'] = 'rejeté (gris)';
    color_trad_text['1'] = 'pris en compte (rouge)';
    color_trad_text['2'] = 'en cours de résolution (orange)';
    color_trad_text['3'] = 'résolu (vert)';
-   var current_description_id = null;
+   var current_report_id = null;
 
-   function activate_comments_mode() {
+   function unactivateCommentMode() {
+      /**
+      * Return the map in the normal mode
+      */
+      $('#div_returnNormalMode').hide();
+      $('#actions_panel').addClass('grid_5');
+      $('#actions_panel').removeClass('grid_12');
+      $('#map_container').show();
+      $('#map_little').hide();
+      $('#div__add_new_description').show();
+      $('#div__filter_and_export').show();
+      $('#div__latest_modifications').show();
+      $('#div__town_presentation').show();
+      $('#div_last_private_comment_container').show();
+      $('#span_plus_de_commenaitres_link').show();
+      $('#div_list_private_comment_container').hide();
+      $('#div_form_commentaires_cem_gestionnaire').hide();
+
+      report_map.setTarget('map');
+      report_map.undoCenterMapOnMarker();
+   }
+
+   function activateCommentsMode() {
       /**
       * Display description with the 'comments mode'
       */
-      map_display.translate(current_description_id);
+      $('#div_returnNormalMode').show();
+      $('#actions_panel').removeClass('grid_5');
+      $('#actions_panel').addClass('grid_12');
+      $('#map_container').hide();
+      $('#map_little').show();
+      $('#div__add_new_description').hide();
+      $('#div__filter_and_export').hide();
+      $('#div__latest_modifications').hide();
+      $('#div__town_presentation').hide();
       $('#div_last_private_comment_container').hide();
       $('#span_plus_de_commenaitres_link').hide();
       $('#div_list_private_comment_container').show();
       $('#div_form_commentaires_cem_gestionnaire').show();
       $('#add_new_description_form__message').val('');
       scroll(0,0);
+
+      report_map.setTarget('map_little');
+
+      if(current_report_id) {
+         report_map.centerMapOnMarker(current_report_id);
+      }
    }
 
    function display_description_of(id_desc) {
@@ -34,7 +70,7 @@ define(['jQuery','map_display','user','report','photo','params','description_edi
       */
       var desc_data = report.get(id_desc);
 
-      current_description_id = id_desc;
+      current_report_id = id_desc;
       photo.refresh_span_photo(id_desc);
       $('#link_add_photo').unbind('click');
       $('#link_add_photo').click(function() { photo.pop_up_add_photo(id_desc); });
@@ -47,8 +83,7 @@ define(['jQuery','map_display','user','report','photo','params','description_edi
       $('#span_report_description_loc').text(desc_data.addressParts.road);
       $('#span_report_description_desc').text(desc_data.description);
 
-
-      if (desc_data.moderatorComment != '' || user.isCeM() || user.isAdmin()) {
+      if (desc_data.moderatorComment !== '' || user.isCeM() || user.isAdmin()) {
          $('#span_report_description_commentaireCeM').text(desc_data.moderatorComment);
          $('#div_container_report_description_commentaireCeM').show();
       } else {
@@ -57,17 +92,11 @@ define(['jQuery','map_display','user','report','photo','params','description_edi
       }
 
       $('#span_report_description_cat').text(desc_data.category.label);
-
-      if (desc_data.placetype == null) {
-         $('#span_report_description_type').text('pas encore de type assigné');
-      } else {
-         $('#span_report_description_type').text(desc_data.placetype.label);
-      }
       
-      if (desc_data.manager == null) {
-         $('#span_report_description_gestionnaire').text('pas encore de gestionnaire assigné');
-      } else {
+      if ('manager' in desc_data && desc_data.manager !== null) {
          $('#span_report_description_gestionnaire').text(desc_data.manager.label);
+      } else {
+         $('#span_report_description_gestionnaire').text('pas encore de gestionnaire assigné');
       }
 
       $('#span_report_description_status').text(color_trad_text[0]);
@@ -135,6 +164,7 @@ define(['jQuery','map_display','user','report','photo','params','description_edi
 
       if (user.isAdmin() || user.isCeM() || user.isGdV()) {
          $('#div_commentaires_cem_gestionnaire').show();
+         $('#plus_de_commenaitres_link').unbind().on( 'click', function(e) { e.preventDefault(); activateCommentsMode(); });
       } else{
          $('#div_commentaires_cem_gestionnaire').hide();
       }
@@ -148,23 +178,23 @@ define(['jQuery','map_display','user','report','photo','params','description_edi
       of the creator.
       */
       if (user.isGdV() || user.isCeM() || user.isAdmin()) {
-         comments.update_last(current_description_id);
-         comments.update_all(current_description_id);
+         comments.update_last(current_report_id);
+         comments.update_all(current_report_id);
          $('#form_add_new_comment').unbind('click');
          $('#span_plus_de_commenaitres_link a').click(function(e) {
             e.preventDefault();
-            activate_comments_mode();
+            activateCommentsMode();
          });
 
          $('#form_add_new_comment').unbind('submit');
          $('#form_add_new_comment').submit(function(e) {
             e.preventDefault();
-            comments.submit_creation_form(current_description_id);
+            comments.submit_creation_form(current_report_id);
          });
       }
 
       if (user.canVieuwUsersDetails() || user.isAdmin()) {
-         var desc_data = report.get(current_description_id);
+         var desc_data = report.get(current_report_id);
          $('#span_report_description_signaleur_contact').html(' (email : <a href="mailto:'+ desc_data.creator.email +'">'+
          desc_data.creator.email +'</a>, téléphone : '+ desc_data.creator.phonenumber + ')');
       } else {
@@ -175,7 +205,7 @@ define(['jQuery','map_display','user','report','photo','params','description_edi
    }
 
    return {
-      activate_comments_mode: activate_comments_mode,
+      unactivateCommentMode: unactivateCommentMode,
       display_description_of: display_description_of,
       display_regarding_to_user_role: display_regarding_to_user_role
    };

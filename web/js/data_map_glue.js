@@ -8,34 +8,32 @@
 * for the application.
 */
 
-define(['jQuery','map_display','report','description_text_display','user','informer','json_string','markers_filtering'],
-      function($,map_display,report,description_text_display,user,informer,json_string,markers_filtering) {
+define(['jQuery','report_map','report','description_text_display','user','informer','json_string','markers_filtering','ol'],
+      function($,report_map,report,description_text_display,user,informer,json_string,markers_filtering,ol) {
    var townId = null;
    var last_description_selected = null;
    var add_new_place_mode = false; // true when the user is in a mode for adding new place
 
-   function init_app(townId_param, townLon, townLat, marker_id_to_display) {
+   function init_app(townId_param, town_lon, town_lat, marker_id_to_display) {
       /**
       * Init the application and the map.
       * @param {int} townId  The id of the town
-      * @param {float} townLon The longitude of the town
-      * @param {float} townLat The latitude of the town
+      * @param {float} town_lon The longitude of the town
+      * @param {float} town_lat The latitude of the town
       * @param {int} marker_id_to_display The id of the marker to display (direct access). It is optional
       * (none if no marker to display)
       */
       townId = townId_param;
       var jsonUrlData  =  Routing.generate('wikipedale_report_list_by_city', {_format: 'json', city: townId_param, addUserInfo: true});
 
-      map_display.init(townLon,townLat);
+      report_map.init(town_lon,town_lat);
 
       $.when(
          $.getJSON(jsonUrlData, function(data) {
             user.update(data.user);
-            report.updateAll(data.results, function () {
-               $.each(data.results, function(index, a_report) {
-                  map_display.add_marker(a_report.id, focus_on_place_of); //focus_on_place_of is the event fct
-               });
-            });
+            $.each(data.results, function(index, report) {
+               report_map.addReport(report);
+            })
          })
       ).done(function() {
          if(marker_id_to_display) {
@@ -44,6 +42,8 @@ define(['jQuery','map_display','report','description_text_display','user','infor
          markers_filtering.initFor('manager');
          markers_filtering.displayMarkersRegardingToFiltering();
       });
+
+      report_map.addClickReportEvent(focus_on_place_of);
    }
 
    function update_data_and_map(){
@@ -72,14 +72,13 @@ define(['jQuery','map_display','report','description_text_display','user','infor
       }
    }
 
-   function add_marker_and_description(aDescription, anEventFunction) {
+   function add_marker_and_description(report, anEventFunction) {
       /**
       * Add on the map a new description and store this description in the local saved data.
       * @param {object} aDescription The data describing the new description to add on the map.
       * @param {function} anEventFunction The function to execute when the user click on the marker
       */
-      report.update(aDescription);
-      map_display.add_marker(aDescription.id, anEventFunction);
+      report_map.addReport(report);
    }
 
    function last_description_selected_reset() {
@@ -105,8 +104,7 @@ define(['jQuery','map_display','report','description_text_display','user','infor
          cache: false,
          success: function(output_json) {
             if(! output_json.query.error) {
-               map_display.get_marker_for(last_description_selected).erase();
-               report.erase(last_description_selected);
+               report_map.deleteReport(last_description_selected);
                $('#div_report_description_display').hide();
                last_description_selected = null;
             } else {
@@ -126,20 +124,23 @@ define(['jQuery','map_display','report','description_text_display','user','infor
       if(!add_new_place_mode) {
          $('#div_add_new_description_button').hide();
          $('#div_add_new_description_cancel_button').show();
-         map_display.unactivate_markers();
+         report_map.unactivateMarkers();
+         report_map.rmClickReportEvent();
 
-         map_display.display_marker('new_description');
 
-         map_display.get_map().events.register('click', map_display.get_map(), function(e) {
+         report_map.addClickMapEvent(function(evt) {
             informer.map_ok(); //le croix rouge dans le formulaire nouveau point devient verte
-            var position = map_display.get_map().getLonLatFromPixel(e.xy);
-            $('input[name=lon]').val(position.lon);
-            $('input[name=lat]').val(position.lat);
 
-            map_display.marker_change_position('new_description', position);
-            map_display.display_marker('new_description');
+            var map = evt.map;
+            var position = ol.proj.transform(evt.coordinate,'EPSG:3857', 'EPSG:4326');
 
+            $('input[name=lon]').val(position[0]);
+            $('input[name=lat]').val(position[1]);
+
+            report_map.moveMarker('new_report', position);
          });
+
+         report_map.displayMarker('new_report');
 
          if(user.isRegistered()) {
             $('#div_new_report_form_user_mail').hide();
@@ -153,20 +154,18 @@ define(['jQuery','map_display','report','description_text_display','user','infor
          $('#div_add_new_description_button').show();
          $('#div_add_new_description_cancel_button').hide();
 
-         map_display.undisplay_marker('new_description');
-         map_display.undisplay_marker('new_description');
-         map_display.get_map().events.remove('click');
-         map_display.reactivate_description_markers(focus_on_place_of);
-         // ne plus utiliser makers_and_assoc_data
+         report_map.hideMarker('new_report');
+
+         report_map.reactivateMarkers();
+         report_map.addClickReportEvent(focus_on_place_of);
+         report_map.rmClickMapEvent();
 
          $('#form__add_new_description').hide();
 
-         /*
          if(last_description_selected !== null ) {
             $("#div_report_description_display").show();
-            map_display.select_marker(last_description_selected);
+            report_map.selectMarker(last_description_selected);
          }
-         */
       }
       add_new_place_mode = ! add_new_place_mode;
    }
@@ -179,11 +178,12 @@ define(['jQuery','map_display','report','description_text_display','user','infor
       * @param {int} id_sig The id of the description to display.
       */
       if (last_description_selected) {
-         map_display.unselect_marker(last_description_selected);
+         report_map.unselectMarker(last_description_selected);
       }
-      map_display.select_marker(id_sig);
+
+      report_map.selectMarker(id_sig);
       last_description_selected = id_sig;
-      description_text_display.display_description_of(id_sig);
+      description_text_display.display_description_of((id_sig));
    }
 
    return {

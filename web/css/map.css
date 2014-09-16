@@ -18,6 +18,16 @@
    margin-right: 5px;
 }
 
+#voies_lentes_div {
+   position:absolute;
+   right:5px;
+   top:5px;
+   z-index:1000;
+   background-color:#FFF;
+   padding: 3px;
+   padding-right: 5px;
+}
+
 #logos_partenaires {
    position:absolute;
    left:5px;
@@ -37,44 +47,11 @@
    height: 50px;
 }
 
-/* OpenLayers */
-.olImageLoadError { 
-   /* when OL can display an image */
-   display: none !important;
-}
-
 /**** Panel haut-gauche ****/
 #olPanelUL {
    display:block;
 }
 
-.olControlAttribution {
-   position: absolute;
-   bottom:5px;
-   right: 5px;
-   font-size: 10px;
-   text-align: right;
-   color: #eeeeee;
-   background: #130085; /* fallback for IE - IE6 requires background shorthand*/
-   background: rgba(45, 45, 45, 0.4);
-   filter: alpha(opacity=90);
-   font-family: 'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
-   padding: 2px 5px;
-   border-radius: 5px 0 0 0;
-}
-.olControlAttribution a {
-   color: #eeeeee;
-   font-weight: bold;
-}
-.olControlZoom a:hover {
-   color: white;
-   background: rgba(45, 45, 45, 0.4);
-}
-
-div.olControlZoomPanel {
-   top: 15px;
-   left: 15px;
-}
 div.flash-notice {
    background-color: rgba(68,68,221,0.65);
    color: white;
