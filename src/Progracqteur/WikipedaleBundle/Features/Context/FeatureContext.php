@@ -20,6 +20,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
 {
    private $kernel;
    private $parameters;
+   private $currentReport;
 
    /**
     * Initializes context with parameters from behat.yml.
@@ -42,33 +43,24 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
       $this->kernel = $kernel;
    }
 
+
+
    /**
-    * Clicks on some text
-    *
-    * @When /^I click on the text "([^"]*)"$/
-    */
-   public function iClickOnTheText($text)
+   * @Given /^I submit "([^"]*)" \(ajax\)$/
+   */
+   public function stepISubmitForm($cssSelector)
    {
-      $session = $this->getSession();
-      $element = $session->getPage()->find(
-         'xpath',
-         $session->getSelectorsHandler()->selectorToXpath('xpath', '*//*[text()="' . $text . '"]'));
+
+      $element = $this->getSession()->getPage()->find('css', $cssSelector);
+ 
       if (null === $element) {
-         throw new \InvalidArgumentException(sprintf('Cannot find text: "%s"', $text));
+         throw new Exception("'$cssSelector' button not found");
       }
 
-      $element->doubleClick();
-   }
-   
-   /**
-    * Clicks on an xpath selected element
-    *
-    * @When /^I click on the element with xpath "([^"]*)"$/
-    */
-   public function iClickOnTheElementWithXpath($xpath)
-   {
-      $this->getSession()->getDriver()->click($xpath);
-   }
+      $script = '$("#loginForm").submit();';
+
+      echo $this->getSession()->evaluateScript($script);
+   }  
 
    /**
     * Waits for a given number of seconds (integer / float)
@@ -182,7 +174,23 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
    /**
     * Clicks on an css selected element
     *
-    * @When /^I click on the element "([^"]*)"$/
+    * @When /^I doubleclick on "([^"]*)"$/
+    */
+   public function iDoubleClickOnTheElement($cssSelector)
+   {
+      $element = $this->getSession()->getPage()->find('css', $cssSelector);
+
+      if(! $element) {
+         throw new \Exception("Element with id $id not found");
+      }
+
+      $element->doubleClick();
+   }
+
+   /**
+    * Clicks on an css selected element
+    *
+    * @When /^I click on "([^"]*)"$/
     */
    public function iClickOnTheElement($cssSelector)
    {
@@ -200,7 +208,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     *
     * @When /^(?:|I )randomly fill in "(?P<field>(?:[^"]|\\")*)" with "(?P<type>(?:[^"]|\\")*)"$/
     */
-   public function fillField($field, $type)
+   public function randomlyfillField($field, $type)
    {
       $value = md5(uniqid(rand(0,1000), true)); 
       if($type === 'email') {
@@ -208,5 +216,50 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
       }
       $field = $this->fixStepArgument($field);
       $this->getSession()->getPage()->fillField($field, $value);
-    }
+   }
+
+
+   /**
+    * @Then /^the current report is well displayed$/
+    */
+   public function reportIsWellDisplayed()
+   {
+      $this->assertElementContains("#div__report_description_display", 
+         $this->currentReport->getCreator()->getLabel());
+      $this->assertElementContains("#div__report_description_display", 
+         $this->currentReport->getDescription());
+   }
+
+   /**
+    * @Then /^I wait that the reports have been received$/
+    */
+   public function iWaitReportsReceived()
+   {
+      usleep(500);
+      $reportReceived = false;
+      while(! $reportReceived) {
+         $reportReceived = (boolean) $this->getSession()->getDriver()
+         ->evaluateScript('return require("report").isInitialized();');  
+      }
+   }
+
+   /**
+    * @Given /^I randomly choose a current report$/
+    */
+   public function randomlyChooseAReport()
+   {
+      $em = $this->kernel->getContainer()->get('doctrine')->getManager();
+      $reports = $em->getRepository('ProgracqteurWikipedaleBundle:Model\\Report')->findAll();
+      shuffle($reports);
+      $this->currentReport = array_shift($reports);
+   }
+
+   /**
+    * @Given /^I click on the current report$/
+    */
+   public function iclickOnTheCurrentReport()
+   {
+      $this->getSession()->getDriver()
+         ->evaluateScript('require("data_map_glue").focus_on_place_of(' . $this->currentReport->getId() .');');
+   }
 }

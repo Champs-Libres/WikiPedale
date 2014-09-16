@@ -6,8 +6,8 @@
 /**
 * This module is used when the user wants to edit a description
 */
-define(['jQuery','map_display','report','basic_data_and_functions','json_string','markers_filtering','params'],
-      function($,map_display,report,basic_data_and_functions,json_string,markers_filtering,params) {
+define(['jQuery','report_map','report','basic_data_and_functions','json_string','markers_filtering','params', 'ol'],
+      function($,report_map,report,basic_data_and_functions,json_string,markers_filtering,params,ol) {
    var mode_edit = {},
       new_lat = null,
       new_lon = null,
@@ -24,12 +24,14 @@ define(['jQuery','map_display','report','basic_data_and_functions','json_string'
       $('#span_edit_lon_lat_delete_error').hide();
       $('#button_save_lon_lat').hide();
       $('#button_edit_lon_lat').show();
-      mode_edit['lon_lat'] = false;
+      mode_edit.lon_lat = false;
 
-      map_display.undisplay_marker('edit_description');
-      map_display.get_map().events.remove('click');
+      report_map.deleteMarker('move_report');
+      report_map.displayAllReports();
+      report_map.rmClickMapEvent();
 
-      map_display.redisplay_description_markers();
+      report_map.addLastestClickReportEvent();
+
       markers_filtering.displayMarkersRegardingToFiltering();
    }
 
@@ -58,7 +60,7 @@ define(['jQuery','map_display','report','basic_data_and_functions','json_string'
          }
       });
 
-      if (mode_edit['lon_lat']) {
+      if (mode_edit.lon_lat) {
          stop_position_edition();
       }
 
@@ -66,26 +68,31 @@ define(['jQuery','map_display','report','basic_data_and_functions','json_string'
    }
 
    function position_edit_or_save() {
+      var report_id =  $('#input_report_description_id').val();
       /**
       * When this function is tiggered,
       either the edition mode for position of the selected marker  (map) is displayed
       either the new position of the selected marker is saved
       The choice between is done alternatively
       */
-      if (!( 'lon_lat' in  mode_edit && mode_edit['lon_lat'])) {
+      if (!( 'lon_lat' in  mode_edit && mode_edit.lon_lat)) {
          $('#button_save_lon_lat').show();
          $('#button_edit_lon_lat').hide();
-         map_display.undisplay_markers();
-         map_display.display_marker('edit_description');
-         map_display.get_map().events.register('click', map_display.get_map(), function(e) {
-            new_position = map_display.get_map().getLonLatFromPixel(e.xy);
-            new_lat = new_position.lat;
-            new_lon = new_position.lon;
+         report_map.hideAllReports();
+         report_map.displayMarker(report_id);
+         report_map.rmClickReportEvent();
+         report_map.addClickMapEvent(
+            function(evt) {
+               new_position = ol.proj.transform(evt.coordinate,'EPSG:3857', 'EPSG:4326');
 
-            map_display.marker_change_position('edit_description', new_position);
-            map_display.display_marker('edit_description');
-         });
-         mode_edit['lon_lat'] = true;
+               new_lon = new_position[0];
+               new_lat = new_position[1];
+
+               report_map.hideMarker(report_id);
+               report_map.moveMarker('move_report', new_position);
+               report_map.selectMarker('move_report');
+            });
+         mode_edit.lon_lat = true;
       } else {
          if (new_lat !== null) {
             var signalement_id = parseInt($('#input_report_description_id').val()),
@@ -99,7 +106,7 @@ define(['jQuery','map_display','report','basic_data_and_functions','json_string'
                   if(! output_json.query.error) {
                      var new_description = output_json.results[0];
                      report.update(new_description);
-                     map_display.marker_change_position(new_description.id, new_position);
+                     report_map.moveMarker(new_description.id, new_position);
                      stop_position_edition();
                   } else {
                      $('#span_edit_lon_lat_delete_error').show();
@@ -177,7 +184,7 @@ define(['jQuery','map_display','report','basic_data_and_functions','json_string'
                   if(element_type === 'cat'){
                      $(element_id).text(new_description.category.label);
                   } else if (element_type === 'status'){
-                     map_display.update_marker_for(signalement_id, 'selected');
+                     report_map.selectMarker(signalement_id);
                   } else if (element_type === 'gestionnaire') {
                      $(element_id).text($(element_id + '_edit').select2('data').text);
                   } else if (element_type === 'type'){

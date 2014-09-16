@@ -46,6 +46,14 @@ wikipedale_report_view:
   options:
     expose: true
 
+wikipedale_light_list:
+  pattern: /report/light/list.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Report:lightList }
+  requirements:
+    _format: json
+  options:
+    expose: true
+
 wikipedale_report_list_by_city:
   pattern: /report/list/bycity.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Report:listByCity }

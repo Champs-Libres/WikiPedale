@@ -22,6 +22,7 @@
     "casperjs": "~1.0.4",
     "colorbox": "~1.5.5",
     "jquery": "1.8.2",
+    "ol3-unofficial": "*",
     "OpenLayers" : "http://www.openlayers.org/download/OpenLayers-2.13.1.zip",
     "select2": "~3.4.5"
   }

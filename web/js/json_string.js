@@ -3,7 +3,7 @@
 /* global define, $ */
 'use strict';
 
-define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers) {
+define(['report_map','user'], function(report_map,user) {
    function unregister_user(label,email,phonenumber){
       /**
       * Returns a json string describing an unregister user.
@@ -28,7 +28,7 @@ define(['map_display','user','OpenLayers'], function(map_display,user,OpenLayers
 
       if ($('#map').attr('class') === 'olMap') {
          p = new OpenLayers.Geometry.Point(lon, lat);
-         p.transform(map_display.get_map().getProjectionObject(), new OpenLayers.Projection('EPSG:4326'));
+         p.transform(report_map.get_map().getProjectionObject(), new OpenLayers.Projection('EPSG:4326'));
          parser = new OpenLayers.Format.GeoJSON();
          var ret =  parser.write(p, false);
          return ret;

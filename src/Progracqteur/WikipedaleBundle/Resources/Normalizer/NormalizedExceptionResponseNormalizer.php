@@ -28,12 +28,7 @@ class NormalizedExceptionResponseNormalizer implements NormalizerInterface {
     }
     
     public function supportsNormalization($data, $format = null) {
-        if ($data instanceof NormalizedExceptionResponse)
-        {
-            return true;
-        } else {
-            return false;
-        }
+        return ($data instanceof NormalizedExceptionResponse);
     }
 }
 

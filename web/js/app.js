@@ -6,7 +6,7 @@
 require.config({
    paths: {
       'jQuery': 'bower_components/jquery/jquery',
-      'OpenLayers': 'bower_components/OpenLayers/OpenLayers',
+      'ol': 'bower_components/ol3-unofficial/ol-debug',
       'select2': 'bower_components/select2/select2',
       'colorbox': 'bower_components/colorbox/jquery.colorbox',
    },
@@ -14,8 +14,8 @@ require.config({
       'jQuery': {
          exports: '$'
       },
-      'OpenLayers': {
-         exports: 'OpenLayers'
+      'ol': {
+         exports: 'ol'
       },
       'select2': {
          deps: ['jQuery'],
@@ -28,8 +28,8 @@ require.config({
    }
 });
 
-require(['jQuery','recent_activities','data_map_glue','informer','markers_filtering','select2','colorbox','description_create','map_display','login','description_text_display','description_edit', 'category','comments'],
-   function($,recent_activities,data_map_glue,informer,markers_filtering,select2,colorbox,description_create,map_display,login,description_text_display,description_edit, category,comments){
+require(['jQuery','recent_activities','data_map_glue','informer','markers_filtering','select2','colorbox','description_create','login','description_text_display','description_edit', 'category','comments'],
+   function($,recent_activities,data_map_glue,informer,markers_filtering,select2,colorbox,description_create,login,description_text_display,description_edit, category,comments){
       $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
       $(document).ready(function(){
          $('a.connexion').colorbox({
@@ -72,7 +72,6 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
 
             $('#span_report_description_cat_edit').select2();
             $('#span_report_description_status_edit').select2();
-            $('#span_report_description_type_edit').select2();
             $('#span_report_description_gestionnaire_edit').select2();
 
             $('#add_new_description_form__category').select2().on('change', function() { informer.update_new_description_form('category'); });
@@ -84,17 +83,15 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             markers_filtering.initFor('moderator_status');
             markers_filtering.initFor('moderator_rejected_status');
 
-
             //Timestamp Filtering
             markers_filtering.initFor('timestamp');
             
             // Menu
             $('#div_add_new_description_button').click(function() { data_map_glue.mode_change(); });
             $('#div_add_new_description_cancel_button').click(function() { data_map_glue.mode_change(); });
-            $('#div_returnNormalMode').click(function() { map_display.normal_mode(); });
+            $('#div_returnNormalMode').click(function() { description_text_display.unactivateCommentMode(); });
             $('#filter_and_export_button').click(function() { markers_filtering.activateUnactivateFilteringForm(); } );
             $('#stop_filter_and_export_button').click(function() { markers_filtering.activateUnactivateFilteringForm(); } );
-
 
             // Add New Description
             $('#add_new_description_form__user_label').blur(function() { informer.update_new_description_form('user_label'); });
@@ -106,17 +103,15 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             $('#new_place_form_reset_button').click(function(e) { e.preventDefault(); description_create.clear_creating_form(); });
             $('#add_new_description_form_informer__category_medium_warning').hide();
 
-
             //Place Description Edit
             $('#span_report_description_loc_button').click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('loc'); });
             $('#span_report_description_desc_button').click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('desc'); });
             $('#span_report_description_commentaireCeM_button').click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('commentaireCeM'); });
             $('#span_report_description_cat_button').click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('cat'); });
             $('#span_report_description_status_button').click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('status'); });
-            $('#span_report_description_type_button').click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('type'); });
             $('#span_report_description_gestionnaire_button').click(function(e) { e.preventDefault();  description_edit.description_edit_or_save('gestionnaire'); });
             $('#span_report_description_delete_button').click(function(e) {e.preventDefault(); data_map_glue.last_description_selected_delete(); });
-            $('span_plus_de_commenaitres_link a').click(function(e) { e.preventDefault(); description_text_display.activate_comments_mode(); });
+            
             $('#button_edit_lon_lat').click(function(e) { e.preventDefault(); description_edit.position_edit_or_save(); });
             $('#button_save_lon_lat').click(function(e) { e.preventDefault(); description_edit.position_edit_or_save(); });
          

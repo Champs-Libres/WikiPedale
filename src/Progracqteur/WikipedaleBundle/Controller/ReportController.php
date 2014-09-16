@@ -20,6 +20,8 @@ use Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseUserToke
 use Progracqteur\WikipedaleBundle\Form\Model\ReportType;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\LightReportArrayNormalizer;
+
 /**
  * Description of ReportController
  *
@@ -60,6 +62,56 @@ class ReportController extends Controller
         $ret = $normalizer->serialize($rep, 'json');
 
         return new Response($ret);
+    }
+
+    public function lightListAction()
+    {
+        $defaultHiddenTerms = $this->get('service_container')->getParameter('default_hidden_report_terms');
+        $defaultHiddenStatus = $this->get('service_container')->getParameter('default_hidden_report_status');
+        //var_dump($defaultHiddenTerms);
+        //var_dump($defaultHiddenStatus);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $req = $em->createQueryBuilder()
+            ->from('ProgracqteurWikipedaleBundle:Model\\Report','r')
+            ->select('r')
+            ->join('r.category', 'c')
+            ->where('r.accepted = TRUE');
+            
+
+        foreach ($defaultHiddenTerms as $hiddenTerm) {
+            $req = $req->andWhere("c.term != '" .$hiddenTerm . "'");
+        }
+
+        $allReportsArrayWithoutStatusSelection = $req->getQuery()->getResult();
+
+        $allReports = array();
+        foreach ($allReportsArrayWithoutStatusSelection as $report) {
+            $displayReport = true;
+            $status = $report->getStatuses();
+
+            foreach($defaultHiddenStatus as $s) {
+                foreach ($status as $reportStatus) {
+                    if($reportStatus->getType() == $s["label"] && $reportStatus->getValue() == $s["value"]) {
+                        $displayReport = false;
+                    }
+                }
+            }
+
+            if($displayReport) {
+                $allReports[] = $report;
+            }
+        }
+
+        $normalizer = new LightReportArrayNormalizer();
+        $encoder = new JsonEncoder();
+
+        $serializer = new Serializer(array($normalizer), array($encoder));
+        $jsonContent = $serializer->serialize($allReports, 'json');
+
+        $geojsonContent = '{"type": "FeatureCollection", "features": ' . $jsonContent  . '}';
+        return new Response($geojsonContent);
     }
     
     /**
@@ -122,12 +174,15 @@ class ReportController extends Controller
             $filterCondition = $filterCondition . " p.manager IN (:managers))";
         }
 
-
         $p = $em->createQueryBuilder()
             ->from('ProgracqteurWikipedaleBundle:Model\\Report','p')
-            ->select('p')
-            ->join('p.category', 'c')
-            ->where(('covers(:polygon, p.geom) = true AND p.accepted = true' . $filterCondition));
+            ->select('p');
+
+        if($categoriesArray) {
+            $p = $p->join('p.category', 'c');
+        }
+            
+        $p = $p->where(('covers(:polygon, p.geom) = true AND p.accepted = true' . $filterCondition));
 
         if($categoriesArray) {
             $p = $p->andWhere('c.id IN (:categories)');
@@ -155,7 +210,6 @@ class ReportController extends Controller
         if($managersString) {
             $p = $p->setParameter('managers', $managersArray);
         }
-
 
         $r = $p->getQuery()->getResult();
 

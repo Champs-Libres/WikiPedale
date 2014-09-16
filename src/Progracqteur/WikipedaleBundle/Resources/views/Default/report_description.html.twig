@@ -122,24 +122,6 @@
       </span>
    </div>
 
-   <div class="description_element" style="display:none;">
-      {{ 'DisplayPoint.type'|trans({}, 'pointMessages') }} :
-      <strong>
-         <span id="span_report_description_type"></span>
-      </strong>
-      <div id="div_report_description_type_edit" style="display: none;">
-         <select data-placeholder="" id="span_report_description_type_edit">
-            {% for reportType in reportTypes %}
-               <option value="{{reportType.id}}">{{reportType.label}}</option>
-            {% endfor %}
-         </select>
-      </div>
-      <span id="span_report_description_type_error" style="background:red; display: none;">
-         {{ 'DisplayPoint.error'|trans({}, 'pointMessages') }}
-      </span>
-      <span class="ButtonEdit"><a href="#" id="span_report_description_type_button" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"><img src="{{ asset('img/edit.png') }}" title="{{ 'Controls.edit'|trans({}, 'pointMessages') }}"/></a></span>
-   </div>
-
    <div class="description_element">
       {{ 'DisplayPoint.manager'|trans({}, 'pointMessages') }} :
       <strong><span id="span_report_description_gestionnaire"></span></strong>

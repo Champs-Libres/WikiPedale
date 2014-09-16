@@ -10,7 +10,7 @@
 * This module is used to display the markers regarding to the filtering options.
 */
 
-define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions'], function ($, map_display, report, category, basic_data_and_functions) {
+define(['jQuery', 'report_map', 'report', 'category', 'basic_data_and_functions'], function ($, report_map, report, category, basic_data_and_functions) {
    var filter = { //to remember for each filtering element if it has been activated, and the data asked
       // filter.element.enable -> true if the filtering on this element is enable
       // filted.element.XXX -> data used by the filtering
@@ -119,9 +119,9 @@ define(['jQuery', 'map_display', 'report', 'category', 'basic_data_and_functions
                      )
                   )
                ) {
-               map_display.display_marker(desc_id);
+               report_map.displayMarker(desc_id);
             } else {
-               map_display.undisplay_marker(desc_id);
+               report_map.hideMarker(desc_id);
             }
          }
       });

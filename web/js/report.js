@@ -12,10 +12,7 @@
 // mettre des parseInt
 define(['jQuery'], function($) {
    var r = {}; //all the reports // object pour ne pas remplir le tableau de cellules vides
-   var min_timestamp = new Date().getTime(); //the minimal timestamp over all the reports
-   var max_timestamp = 0; //the maximal timestamp over all the reports
    var managers_list = {}; //list of the mangers //all the reports // object pour ne pas remplir le tableau de cellules vides
-
 
    function setManagers(m) {
       /**
@@ -69,14 +66,6 @@ define(['jQuery'], function($) {
       */
       r[parseInt(a_report.id)] = a_report;
       setManagers(a_report);
-
-      if (min_timestamp > a_report.createDate.u) {
-         min_timestamp = a_report.createDate.u;
-      }
-
-      if (max_timestamp < a_report.createDate.u) {
-         max_timestamp = a_report.createDate.u;
-      }
    }
 
    function get(an_id) {
@@ -94,27 +83,11 @@ define(['jQuery'], function($) {
       return r;
    }
 
-   function getMinTimestamp() {
-      /**
-      * Gets the minimal timestamp over all the reports
-      */
-      return min_timestamp;
-   }
-
-   function getMaxTimestamp() {
-      /**
-      * Gets the maximal timestamp over all the reports
-      */
-      return max_timestamp;
-   }
-
    function eraseAll(){
       /**
       * Remove all the reports
       */
       r = {};
-      min_timestamp = new Date().getTime();
-      max_timestamp = 0;
    }
 
    function erase(report_id) {
@@ -158,17 +131,20 @@ define(['jQuery'], function($) {
       }
    }
 
+   function isInitialized() {
+      return (Object.getOwnPropertyNames(r).length !== 0);
+   }
+
    return {
       updateAll: updateAll,
       update: update,
       get: get,
-      getMinTimestamp: getMinTimestamp,
-      getMaxTimestamp: getMaxTimestamp,
       getAll: getAll,
       eraseAll: eraseAll,
       erase: erase,
       getStatus: getStatus,
       getAllManagers: getAllManagers,
-      getManagerId: getManagerId
+      getManagerId: getManagerId,
+      isInitialized: isInitialized,
    };
 });
