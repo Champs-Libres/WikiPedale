@@ -39,6 +39,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
     const MODERATOR_COMMENT = 'moderatorComment';
     const COMMENTS = 'comments';
     const TERM = 'term';
+    const MODERATOR = 'moderator';
     
     public function __construct(NormalizerSerializerService $service)
     {
@@ -188,6 +189,13 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             $manager = null;
         }
         
+        if ($object->getModerator() !== null) {
+           $moderator = $this->service->getGroupNormalizer()
+                 ->normalize($object->getModerator());
+        } else {
+           $moderator = null;
+        }
+        
         if ($object->getType() !== null) {
             $reportType = $this->service
                     ->getReportTypeNormalizer()
@@ -218,6 +226,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             'statuses' => $s,
             'category' => $categoryNomalizer->normalize($object->getCategory(), $format),
             'manager' => $manager,
+            self::MODERATOR => $moderator,
             self::REPORT_TYPE => $reportType,
             self::MODERATOR_COMMENT => $object->getModeratorComment(),
             self::COMMENTS => $nbComments,
