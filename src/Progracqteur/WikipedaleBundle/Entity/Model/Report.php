@@ -824,6 +824,8 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
          $this->change('moderator', $this->moderator, $moderator);
          $this->moderator = $moderator;
          $this->moderator->addReportsAsModerator($this);
+         $this->getChangeset()->addChange(ChangeService::REPORT_MODERATOR_ALTER, 
+               $moderator);
          $this->setLastUpdateNow();
       }
       

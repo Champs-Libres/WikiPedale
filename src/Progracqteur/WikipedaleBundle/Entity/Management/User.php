@@ -157,7 +157,14 @@ class User extends BaseUser
     /**
     * indicate if the user may alter the term.
     */
+
     const ROLE_REPORT_TERM = 'ROLE_PLACE_TERM';
+   
+   /**
+    * indicate if the user/group may change the moderator
+    */
+   const ROLE_MODERATOR_ALTER = 'ROLE_MODERATOR_ALTER';
+   
 
     /**
     * Creates a new user

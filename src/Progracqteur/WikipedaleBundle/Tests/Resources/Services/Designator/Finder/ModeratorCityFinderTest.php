@@ -4,6 +4,7 @@ namespace Progracqteur\WikipedaleBundle\Tests\Resources\Services\Designator\Find
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Progracqteur\WikipedaleBundle\Entity\Model\Report;
+use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 
 /**
  * 
@@ -38,5 +39,6 @@ class ModeratorCityFinderTest extends WebTestCase
       $moderator = self::$moderatorFinder->getModerator($report);
 
       $this->assertTrue($moderator->getZone()->getSlug() === 'mons');
+      $this->assertEquals($moderator->getType(), Group::TYPE_MODERATOR);
    }
 }

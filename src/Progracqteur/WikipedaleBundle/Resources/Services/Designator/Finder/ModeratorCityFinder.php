@@ -6,6 +6,7 @@ use Progracqteur\WikipedaleBundle\Resources\Services\Designator\ModeratorFinderI
 use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Doctrine\ORM\EntityManagerInterface;
 use Progracqteur\WikipedaleBundle\Resources\Services\GeoService;
+use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 /**
  * return moderators for a 'city' zone, for report within a city zone
  * 
@@ -72,9 +73,11 @@ class ModeratorCityFinder implements ModeratorFinderInterface
             . "FROM ProgracqteurWikipedaleBundle:Management\Group g "
             . "JOIN g.zone z "
             . "WHERE COVERS(z.polygon, :point) = true "
-            . "AND z.type = 'city'";
+            . "AND z.type = 'city'"
+            . "AND g.type = :type";
       $groups = $this->em->createQuery($dql)
             ->setParameter('point', $point)
+            ->setParameter('type', Group::TYPE_MODERATOR)
             ->getResult();
       
       $this->cache[spl_object_hash($report)] = $groups;
