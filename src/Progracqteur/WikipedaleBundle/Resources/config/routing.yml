@@ -6,6 +6,10 @@ ProgracqteurWikipedaleBundle_public_category:
   resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/category_public.yml"
   prefix:   /category
 
+ProgracqteurWikipedaleBundle_zone:
+  resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/zone.yml"
+  prefix:   /zone
+
 ProgracqteurWikipedaleBundle_comment:
   resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/model_comment.yml"
   prefix:   /comment

@@ -1,0 +1,7 @@
+zone_view_covering_point:
+   pattern: /covers/point/{lon}/{lat}/{_format}
+   defaults: { _controller: "ProgracqteurWikipedaleBundle:Zone:getCoveringPoint" }
+   requirements:
+      _format: json
+   options:
+      expose: true
