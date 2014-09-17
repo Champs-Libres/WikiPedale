@@ -7,17 +7,14 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\CustomNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Geo\BBox;
 use Symfony\Component\HttpFoundation\Request;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
-use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedExceptionResponse;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseUserToken;
-use Progracqteur\WikipedaleBundle\Form\Model\ReportType;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\LightReportArrayNormalizer;
@@ -113,32 +110,20 @@ class ReportController extends Controller
         $geojsonContent = '{"type": "FeatureCollection", "features": ' . $jsonContent  . '}';
         return new Response($geojsonContent);
     }
-    
+
+
     /**
-     * Return all the reports for a given city
+     * Return all the reports contained in a Polygon
      *
+     * @param $polygon The polygon
      * @param String $_format the format of the output (csv or json)
-     * @param Symfony\Component\HttpFoundation\Request $request the request that must contain a city param
+     * @param Symfony\Component\HttpFoundation\Request $request the request
      *
-     * @return Symfony\Component\HttpFoundation\Response A csv or json file that contains an array of all the report of the city
+     * @return Symfony\Component\HttpFoundation\Response A csv or json file that contains an array of all the reports contained in a polygon
      */
-    public function listByCityAction($_format, Request $request)
+    public function listContainedInPolygonAction($polygon, $_format, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        
-        $citySlug = $request->get('city', null);
-        $citySlug = $this->get('progracqteur.wikipedale.slug')->slug($citySlug);
-        
-        if ($citySlug === null) {
-            throw new \Exception('Renseigner une ville dans une variable \'city\' ');
-        }
-        
-        $city = $em->getRepository('ProgracqteurWikipedaleBundle:Management\\Zone')
-                ->findOneBy(array('slug' => $citySlug));
-        
-        if ($city === null) {
-            throw $this->createNotFoundException("Aucune ville correspondant à $citySlug n'a pu être trouvée");
-        }
 
         $categoriesArray = array();
         $categoriesString = $request->get('categories');
@@ -189,7 +174,7 @@ class ReportController extends Controller
         }
         
         $p = $p->orderBy('p.id')
-            ->setParameter('polygon', $city->getPolygon());
+            ->setParameter('polygon', $polygon);
 
         if($categoriesArray) {
             $p = $p->setParameter('categories', $categoriesArray);
@@ -218,8 +203,7 @@ class ReportController extends Controller
 
             for($i = 0; $i < count($r); $i = $i + 1) {
                 $cem_notation_row = 0;
-                foreach ($r[$i]->getStatuses() as $key)
-                { 
+                foreach ($r[$i]->getStatuses() as $key) { 
                     if($key->getType() == 'cem') {
                         $cem_notation_row = $key->getValue();
                     }
@@ -255,6 +239,65 @@ class ReportController extends Controller
 
                 return $response;    
         }
+    }
+    
+
+    /**
+     * Return all the reports contained in a BBox
+     *
+     * @param String $_format the format of the output (csv or json)
+     * @param Symfony\Component\HttpFoundation\Request $request the request that must contain a bbox string
+     *
+     * @return Symfony\Component\HttpFoundation\Response A csv or json file that contains an array of all the reports contained in the BBox
+     */
+    public function listByBBoxAction()
+    {
+        $BboxStr = $request->get('bbox', null);
+        if ($BboxStr === null) {
+            throw new \Exception('Fournissez un bbox');
+        }
+        $BboxArr = explode(',', $BboxStr, 4);
+        foreach($BboxArr as $value){
+            if (!is_numeric($value)) {
+                throw new \Exception("Le Bbox n'est pas valide : $BboxStr");
+            }
+        }
+        
+        $bbox = BBox::fromCoord($BboxArr[0], $BboxArr[1], $BboxArr[2], $BboxArr[3]);
+        $polygon = $bbox->toWKT();
+
+        return $this->listContainedInPolygonAction($polygon, $_format, $request);
+    }
+
+    /**
+     * Return all the reports for a given city
+     *
+     * @param String $_format the format of the output (csv or json)
+     * @param Symfony\Component\HttpFoundation\Request $request the request that must contain a city param
+     *
+     * @return Symfony\Component\HttpFoundation\Response A csv or json file that contains an array of all the report of the city
+     */
+    public function listByCityAction($_format, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $citySlug = $request->get('city', null);
+        $citySlug = $this->get('progracqteur.wikipedale.slug')->slug($citySlug);
+        
+        if ($citySlug === null) {
+            throw new \Exception('Renseigner une ville dans une variable \'city\' ');
+        }
+        
+        $city = $em->getRepository('ProgracqteurWikipedaleBundle:Management\\Zone')
+                ->findOneBy(array('slug' => $citySlug));
+        
+        if ($city === null) {
+            throw $this->createNotFoundException("Aucune ville correspondant à $citySlug n'a pu être trouvée");
+        }
+
+        $polygon = $city->getPolygon();
+
+        return $this->listContainedInPolygonAction($polygon, $_format, $request);
     }
 
     /**
