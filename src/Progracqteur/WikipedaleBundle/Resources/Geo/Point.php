@@ -14,7 +14,7 @@ class Point {
     private $lon;
     public static $SRID = '4326';
     
-    private function __construct($lon, $lat) {
+    public function __construct($lon, $lat) {
         $this->lat = $lat;
         $this->lon = $lon;
     }

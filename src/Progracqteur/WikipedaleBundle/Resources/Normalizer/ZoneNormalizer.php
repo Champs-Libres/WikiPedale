@@ -34,7 +34,9 @@ class ZoneNormalizer implements NormalizerInterface {
             'entity' => 'zone',
             'name' => $object->getName(),
             'slug' => $object->getSlug(),
-            'type' => $object->getType()
+            'type' => $object->getType(),
+            'description' => $object->getDescription(),
+            'url' => $object->getUrl()
         );
     }
 
