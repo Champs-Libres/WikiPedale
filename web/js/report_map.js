@@ -483,7 +483,12 @@ define(['jQuery','basic_data_and_functions','report','ol','params'],
       });
    }
 
-   function addZoomChangeEvent( event_fct ) {
+   function addZoomChangeEvent(event_fct) {
+      /**
+       * Register a function to trigger when the zoom change
+       * @param {function} event_fct The function to trigger
+       * @return nothing
+       */
       if(zoom_change_event_fct) {
          map.un('moveend', zoom_change_event_fct);
       }
