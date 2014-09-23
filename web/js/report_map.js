@@ -12,9 +12,9 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
    var old_center; // To re-center the map after displaying the tiny map
    var map; // Variable to acces to the map
    var marker_source; // source for the layer displaying reports
-   //var zoom_map = 13; // zoom level of the map
-   var zoom_map = 17; // zoom level of the map
+   var map_zoom_lvl; // zoom level of the map
    var marker_img_url = basic_data_and_functions.web_dir + 'img/OpenLayers/';
+   var evt_fct_when_new_reports; //function to triggers when new reports
    
    var markers = [];
 
@@ -62,16 +62,18 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
       map.getView().setCenter(old_center);
    }
    
-   function init(town_lon,town_lat, evt_new_reports){
+   function init(map_center_lon, map_center_lat, zoom_lvl, evt_fct_when_new_reports_init){
       /**
        * Initializes the map on the good town
-       * @param {float} town_lon Longitude of the town
-       * @param {float} town_lat Latitude of the town
+       * @param {float} map_center_lon Longitude of the center of the map
+       * @param {float} map_center_lat Latitude of the center of the map
+       * @param {int} zoom_lvl Zoom level for the map
        * @param {function} evt_new_reports The event to trigger when new reports are displayed on the map
        * @return nothing
        */
       var voies_lentes_layer, voies_lentes_visible;
       var lightReportGeoJSONUrl =  Routing.generate('wikipedale_light_list', {_format: 'json'});
+      evt_fct_when_new_reports = evt_fct_when_new_reports_init;
 
       voies_lentes_layer = new ol.layer.Tile({
          source: new ol.source.TileWMS(/** @type {olx.source.TileWMSOptions} */ ({
@@ -89,7 +91,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
          source: marker_source
       });
 
-      layers.markers.uello_displayed = true;
+      map_zoom_lvl = zoom_lvl;
 
       map = new ol.Map({
          target: 'map',
@@ -97,12 +99,11 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
             new ol.layer.Tile({
                source: new ol.source.OSM({})
             }),
-            voies_lentes_layer,
-            layers.markers
+            voies_lentes_layer
          ],
          view: new ol.View({
-            center: ol.proj.transform([parseFloat(town_lon), parseFloat(town_lat)], 'EPSG:4326', 'EPSG:3857'),
-            zoom: zoom_map
+            center: ol.proj.transform([parseFloat(map_center_lon), parseFloat(map_center_lat)], 'EPSG:4326', 'EPSG:3857'),
+            zoom: zoom_lvl
          })
       });
 
@@ -148,37 +149,50 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
          }
       });
 
-      map.addLayer(layers.cluster);
-      layers.cluster.uello_displayed = true;
+      if( zoom_lvl < 13) {
+         map.addLayer(layers.cluster);
+         layers.cluster.uello_displayed = true;
+         layers.markers.uello_displayed = false;
+      } else {
+         map.addLayer(layers.markers);
+         layers.cluster.uello_displayed = false;
+         layers.markers.uello_displayed = true;
+      }
 
       map.on('moveend', function() {
-         var extent = map.getView().calculateExtent(map.getSize());
-         var bottom_left_4326 = ol.proj.transform(
-            ol.extent.getBottomLeft(extent),'EPSG:3857', 'EPSG:4326');
+         if (layers.markers.uello_displayed) {
+            loadReportsForBBoxView();
+         }
+      });
+   }
 
-         var top_right_4326 = ol.proj.transform(
-            ol.extent.getTopRight(extent), 'EPSG:3857', 'EPSG:4326');
+   function loadReportsForBBoxView() {
+      var extent = map.getView().calculateExtent(map.getSize());
+      var bottom_left_4326 = ol.proj.transform(
+         ol.extent.getBottomLeft(extent),'EPSG:3857', 'EPSG:4326');
 
-         var bbox = decodeURIComponent(
-            top_right_4326[1].toString() + ',' +
-            top_right_4326[0].toString() + ',' +
-            bottom_left_4326[1].toString() + ',' +
-            bottom_left_4326[0].toString()
-            );
+      var top_right_4326 = ol.proj.transform(
+         ol.extent.getTopRight(extent), 'EPSG:3857', 'EPSG:4326');
 
-         var jsonUrlData  =  Routing.generate('wikipedale_report_list_by_bbox', {_format: 'json', bbox: bbox, addUserInfo: true});
+      var bbox = decodeURIComponent(
+         top_right_4326[1].toString() + ',' +
+         top_right_4326[0].toString() + ',' +
+         bottom_left_4326[1].toString() + ',' +
+         bottom_left_4326[0].toString()
+         );
 
-         $.when(
-            $.getJSON(jsonUrlData, function(data) {
-               user.update(data.user);
-               $.each(data.results, function(index, report) {
-                  addReport(report);
-               });
-            })
+      var jsonUrlData  =  Routing.generate('wikipedale_report_list_by_bbox', {_format: 'json', bbox: bbox, addUserInfo: true});
 
-         ).done(function() {
-            evt_new_reports();
-         });
+      $.when(
+         $.getJSON(jsonUrlData, function(data) {
+            user.update(data.user);
+            $.each(data.results, function(index, report) {
+               addReport(report);
+            });
+         })
+
+      ).done(function() {
+         evt_fct_when_new_reports();
       });
    }
 
@@ -527,10 +541,10 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
       }
 
       zoom_change_event_fct = function(evt) {
-         var new_zoom_map = map.getView().getZoom();
-         if(new_zoom_map != zoom_map) {
+         var new_map_zoom_lvl = map.getView().getZoom();
+         if(new_map_zoom_lvl != map_zoom_lvl) {
             event_fct(evt);
-            zoom_map = new_zoom_map;
+            map_zoom_lvl = new_map_zoom_lvl;
          }
       };
 
@@ -544,11 +558,12 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
        * @return nothing
        */
       if(layer_name in layers && ! layers[layer_name].uello_displayed) {
+         if(layer_name === 'markers') {
+            loadReportsForBBoxView();
+         }
          map.addLayer(layers[layer_name]);
          layers[layer_name].uello_displayed = true;
       }
-
-
    }
 
    function hideLayer(layer_name) {

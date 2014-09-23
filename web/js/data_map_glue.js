@@ -24,11 +24,10 @@ define(['jQuery','report_map','report','description_text_display','user','inform
       * (none if no marker to display)
       */
       townId = townId_param;
-      var jsonUrlData  =  Routing.generate('wikipedale_report_list_by_city', {_format: 'json', city: townId_param, addUserInfo: true});
 
       markers_filtering.initFormFor('manager');
 
-      report_map.init(town_lon,town_lat, function() {
+      report_map.init(4.648801835937508, 50.20168148245898, 8, function() {
          markers_filtering.updateFormFor('manager');
          markers_filtering.displayMarkersRegardingToFiltering();
          if(add_new_place_mode) {
@@ -37,6 +36,18 @@ define(['jQuery','report_map','report','description_text_display','user','inform
       });
 
       report_map.addClickReportEvent(focus_on_place_of);
+
+      report_map.addZoomChangeEvent(function(evt) {
+         var zoom = evt.map.getView().getZoom();
+
+         if(zoom >= 13) {
+            report_map.displayLayer('markers');
+            report_map.hideLayer('cluster');
+         } else {
+            report_map.displayLayer('cluster');
+            report_map.hideLayer('markers');
+         }
+      });
    }
 
    function update_data_and_map(){
@@ -123,7 +134,6 @@ define(['jQuery','report_map','report','description_text_display','user','inform
          report_map.addClickMapEvent(function(evt) {
             informer.map_ok(); //le croix rouge dans le formulaire nouveau point devient verte
 
-            var map = evt.map;
             var position = ol.proj.transform(evt.coordinate,'EPSG:3857', 'EPSG:4326');
 
             $('input[name=lon]').val(position[0]);
@@ -155,7 +165,7 @@ define(['jQuery','report_map','report','description_text_display','user','inform
          $('#form__add_new_description').hide();
 
          if(last_description_selected !== null ) {
-            $("#div_report_description_display").show();
+            $('#div_report_description_display').show();
             report_map.selectMarker(last_description_selected);
          }
       }
