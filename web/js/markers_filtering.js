@@ -147,16 +147,39 @@ define(['jQuery', 'report_map', 'report', 'category', 'basic_data_and_functions'
       displayMarkersRegardingToFiltering();
    }
 
-   function initFor(element) {
+   function updateFormFor(element) {
       /**
-      * init the filtering for the element {element}.
+       * update the filtering form for a given element 
+       * (if there is more data for the filtering the form has to be updated )
+       * @param{string} element The element to filter (only manager)
+       * @return nothing
+       */
+      if(element === 'manager') {
+         var already_filtering_managers= [];
+
+         $('#filtering__manager__value option').each(
+            function() {
+               already_filtering_managers.push($(this).attr('value'));
+            }
+         );
+
+         $.each(report.getAllManagers(), function(i, e) {
+            if(already_filtering_managers.indexOf(i) === -1) {
+               $('#filtering__' + element + '__value').append(
+                  '<option value="' +  e.manager.id +   '">' +  e.manager.label +   '</option>');
+            }
+         });
+      }
+   }
+
+   function initFormFor(element) {
+      /**
+      * init the filtering form for the element {element}.
       * @param{string} element The element to filter (or not) (see var filter)
+      * @return nothing
       */
       if(element === 'manager') {
-         $.each(report.getAllManagers(), function(i, e) {
-            $('#filtering__' + element + '__value').append(
-               '<option value="' +  e.manager.id +   '">' +  e.manager.label +   '</option>');
-         });
+         updateFormFor('manager');
       } else if(element === 'category') {
          category.insertParentCategoryToSelectField('#filtering__category__value_parent', ['short','medium']);
          $('#filtering__category__value_parent').on('select2-selecting', function(e) {
@@ -203,6 +226,7 @@ define(['jQuery', 'report_map', 'report', 'category', 'basic_data_and_functions'
    return {
       displayMarkersRegardingToFiltering: displayMarkersRegardingToFiltering,
       activateUnactivateFilteringForm: activateUnactivateFilteringForm,
-      initFor: initFor
+      initFormFor: initFormFor,
+      updateFormFor: updateFormFor
    };
 });

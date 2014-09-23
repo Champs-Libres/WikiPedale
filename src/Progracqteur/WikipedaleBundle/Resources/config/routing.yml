@@ -66,6 +66,14 @@ wikipedale_report_list_by_city:
   options:
     expose: true
 
+wikipedale_report_list_by_bbox:
+  pattern: /report/list/bybbox.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Report:listByBBox }
+  requirements:
+    _format: json|csv
+  options:
+    expose: true
+
 wikipedale_report_change:
   pattern: /report/change.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Report:change }

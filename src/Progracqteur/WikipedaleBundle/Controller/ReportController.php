@@ -250,7 +250,7 @@ class ReportController extends Controller
      *
      * @return Symfony\Component\HttpFoundation\Response A csv or json file that contains an array of all the reports contained in the BBox
      */
-    public function listByBBoxAction()
+    public function listByBBoxAction($_format, Request $request)
     {
         $BboxStr = $request->get('bbox', null);
         if ($BboxStr === null) {

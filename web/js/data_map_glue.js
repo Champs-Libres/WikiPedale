@@ -26,21 +26,14 @@ define(['jQuery','report_map','report','description_text_display','user','inform
       townId = townId_param;
       var jsonUrlData  =  Routing.generate('wikipedale_report_list_by_city', {_format: 'json', city: townId_param, addUserInfo: true});
 
-      report_map.init(town_lon,town_lat);
+      markers_filtering.initFormFor('manager');
 
-      $.when(
-         $.getJSON(jsonUrlData, function(data) {
-            user.update(data.user);
-            $.each(data.results, function(index, report) {
-               report_map.addReport(report);
-            })
-         })
-      ).done(function() {
-         if(marker_id_to_display) {
-            focus_on_place_of(marker_id_to_display);
-         }
-         markers_filtering.initFor('manager');
+      report_map.init(town_lon,town_lat, function() {
+         markers_filtering.updateFormFor('manager');
          markers_filtering.displayMarkersRegardingToFiltering();
+         if(add_new_place_mode) {
+            report_map.unactivateMarkers();
+         }
       });
 
       report_map.addClickReportEvent(focus_on_place_of);
@@ -126,7 +119,6 @@ define(['jQuery','report_map','report','description_text_display','user','inform
          $('#div_add_new_description_cancel_button').show();
          report_map.unactivateMarkers();
          report_map.rmClickReportEvent();
-
 
          report_map.addClickMapEvent(function(evt) {
             informer.map_ok(); //le croix rouge dans le formulaire nouveau point devient verte
