@@ -7,12 +7,13 @@
 * This is for all the action for the display of the map
 */
 
-define(['jQuery','basic_data_and_functions','report','ol','params'],
-      function($,basic_data_and_functions, detailed_report,ol,params) {
+define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
+      function($,basic_data_and_functions, detailed_report,ol,params, user) {
    var old_center; // To re-center the map after displaying the tiny map
    var map; // Variable to acces to the map
    var marker_source; // source for the layer displaying reports
-   var zoom_map = 13; // zoom level of the map
+   //var zoom_map = 13; // zoom level of the map
+   var zoom_map = 17; // zoom level of the map
    var marker_img_url = basic_data_and_functions.web_dir + 'img/OpenLayers/';
    
    var markers = [];
@@ -61,11 +62,12 @@ define(['jQuery','basic_data_and_functions','report','ol','params'],
       map.getView().setCenter(old_center);
    }
    
-   function init(town_lon,town_lat){
+   function init(town_lon,town_lat, evt_new_reports){
       /**
        * Initializes the map on the good town
        * @param {float} town_lon Longitude of the town
        * @param {float} town_lat Latitude of the town
+       * @param {function} evt_new_reports The event to trigger when new reports are displayed on the map
        * @return nothing
        */
       var voies_lentes_layer, voies_lentes_visible;
@@ -149,7 +151,35 @@ define(['jQuery','basic_data_and_functions','report','ol','params'],
       map.addLayer(layers.cluster);
       layers.cluster.uello_displayed = true;
 
-      //map.on('moveend', function() { console.log(map.getView().getZoom()); });
+      map.on('moveend', function() {
+         var extent = map.getView().calculateExtent(map.getSize());
+         var bottom_left_4326 = ol.proj.transform(
+            ol.extent.getBottomLeft(extent),'EPSG:3857', 'EPSG:4326');
+
+         var top_right_4326 = ol.proj.transform(
+            ol.extent.getTopRight(extent), 'EPSG:3857', 'EPSG:4326');
+
+         var bbox = decodeURIComponent(
+            top_right_4326[1].toString() + ',' +
+            top_right_4326[0].toString() + ',' +
+            bottom_left_4326[1].toString() + ',' +
+            bottom_left_4326[0].toString()
+            );
+
+         var jsonUrlData  =  Routing.generate('wikipedale_report_list_by_bbox', {_format: 'json', bbox: bbox, addUserInfo: true});
+
+         $.when(
+            $.getJSON(jsonUrlData, function(data) {
+               user.update(data.user);
+               $.each(data.results, function(index, report) {
+                  addReport(report);
+               });
+            })
+
+         ).done(function() {
+            evt_new_reports();
+         });
+      });
    }
 
    function addClickMapEvent(event_function) {
@@ -310,10 +340,13 @@ define(['jQuery','basic_data_and_functions','report','ol','params'],
        * @param {report} report The report
        * @return nothing
        */
-      detailed_report.update(report);
-      addMarker(report.id, report.geom.coordinates, report);
-      markers[report.id].type = 'report';
-      markers[report.id].feature.report_id = report.id;
+
+      if (typeof(markers[report.id]) === 'undefined') { // only add if the report is not already registered
+         detailed_report.update(report);
+         addMarker(report.id, report.geom.coordinates, report);
+         markers[report.id].type = 'report';
+         markers[report.id].feature.report_id = report.id;
+      }
    }
 
    function deleteMarker(marker_id) {
@@ -510,9 +543,9 @@ define(['jQuery','basic_data_and_functions','report','ol','params'],
        * @param {string} layer_name The name of the layer ('markers' or 'cluster')
        * @return nothing
        */
-      if(layer_name in layer && ! layer[layer_name].uello_displayed) {
-         map.addLayer(layer[layer_name]);
-         layer[layer_name].uello_displayed = true;
+      if(layer_name in layers && ! layers[layer_name].uello_displayed) {
+         map.addLayer(layers[layer_name]);
+         layers[layer_name].uello_displayed = true;
       }
 
 
@@ -524,9 +557,9 @@ define(['jQuery','basic_data_and_functions','report','ol','params'],
        * @param {string} layer_name The name of the layer  ('markers' or 'cluster')
        * @return nothing
        */
-      if(layer_name in layer && layer[layer_name].uello_displayed) {
-         map.removeLayer(layer[layer_name]);
-         layer[layer_name].uello_displayed = false;
+      if(layer_name in layers && layers[layer_name].uello_displayed) {
+         map.removeLayer(layers[layer_name]);
+         layers[layer_name].uello_displayed = false;
       }
    }
 

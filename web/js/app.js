@@ -67,8 +67,8 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             category.init(function() {markers_filtering.displayMarkersRegardingToFiltering();});
 
             //Category Filtering
-            markers_filtering.initFor('category');
-            markers_filtering.initFor('long_term_category');
+            markers_filtering.initFormFor('category');
+            markers_filtering.initFormFor('long_term_category');
 
             $('#span_report_description_cat_edit').select2();
             $('#span_report_description_status_edit').select2();
@@ -80,11 +80,11 @@ require(['jQuery','recent_activities','data_map_glue','informer','markers_filter
             $('#div_returnNormalMode').hide();
 
             //ModeratorStatus Filtering 
-            markers_filtering.initFor('moderator_status');
-            markers_filtering.initFor('moderator_rejected_status');
+            markers_filtering.initFormFor('moderator_status');
+            markers_filtering.initFormFor('moderator_rejected_status');
 
             //Timestamp Filtering
-            markers_filtering.initFor('timestamp');
+            markers_filtering.initFormFor('timestamp');
             
             // Menu
             $('#div_add_new_description_button').click(function() { data_map_glue.mode_change(); });
