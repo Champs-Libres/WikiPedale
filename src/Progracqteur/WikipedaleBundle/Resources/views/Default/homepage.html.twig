@@ -27,13 +27,9 @@ Params passed by the controller to this template :
 {% endblock %}
 
 {% block css %}
-    {% if (app.session.get('city') ) %}
-        <link rel="stylesheet"  href="{{ asset('css/map.css') }}" type="text/css"/>
-        <link rel="stylesheet"  href="{{ asset('js/bower_components/ol3-unofficial/ol.css') }}" type="text/css"/>
-        <link rel="stylesheet"  href="{{ asset('css/actions_panel.css') }}" type="text/css"/>
-    {% else %}
-        <link rel="stylesheet"  href="{{ asset('css/accueil.css') }}" type="text/css"/>
-    {% endif %}
+    <link rel="stylesheet"  href="{{ asset('css/map.css') }}" type="text/css"/>
+    <link rel="stylesheet"  href="{{ asset('js/bower_components/ol3-unofficial/ol.css') }}" type="text/css"/>
+    <link rel="stylesheet"  href="{{ asset('css/actions_panel.css') }}" type="text/css"/>
 {% endblock %}
 
 {% block body %}
@@ -45,6 +41,6 @@ Params passed by the controller to this template :
         {% endif %}
         {% include 'ProgracqteurWikipedaleBundle:Default:map.html.twig' %}
     {% else %}
-        {% include "ProgracqteurWikipedaleBundle:Default:town_choice.html.twig" %}
+        {% include 'ProgracqteurWikipedaleBundle:Default:map.html.twig' %}
     {% endif %}
 {% endblock %}
