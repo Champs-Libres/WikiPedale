@@ -32,76 +32,56 @@ class ManagerController extends Controller {
         
         $city = $cities[0];
         
-        if ($city === null)
-        {
+        if ($city === null) {
             throw $this->createNotFoundException("La ville demandée '$city' n'a pas été trouvée");
         }
         
         
         $session->set('city', $city);
-	
-	/*switch ($city) {
-		case 'mons' :
-			$point = Point::fromLonLat(3.971868, 50.452449);
-			$session->set('city_center', $point);
-                        $session->set('city', 'mons');
-			break;
-                case 'liege' :
-                    $point = Point::fromLonLat(5.60259, 50.612973);
-                    $session->set('city_center', $point);
-                    $session->set('city', 'liege');
-                    break;
-                default:
-                    throw new Exception("Le nom de la ville demandé ('$city') est inconnu dans notre système");
-    	}*/
         
         $url = $request->get('url', null);
-        //TODO: attention: il faut vérifier que l'URL est bien une URL du site, sinon risque de renvoyer n'importe où
         
-        if ($url === null)
-        {
+        if ($url === null) {
             $url = $this->generateUrl('wikipedale_homepage');
         }
         
         return $this->redirect($url);
         
-     }
+    }
      
-     public function resetCityAction() {
-         $session = $this->getRequest()->getSession();
-         $session->set('city', null);
+    public function resetCityAction()
+    {
+        $session = $this->getRequest()->getSession();
+        $session->set('city', null);
          
-         $url = $this->getRequest()->get('url', null);
+        $url = $this->getRequest()->get('url', null);
         
-        if ($url === null)
-        {
+        if ($url === null) {
             $url = $this->generateUrl('wikipedale_homepage');
         }
         
         return $this->redirect($url);
-     }
+    }
      
-     public function wsseAuthenticateAction($_format)
-     {
-         if ($_format != NormalizerSerializerService::JSON_FORMAT)
-         {
-             throw new \Exception("Le format demandé n'est pas disponible");
-         }
+    public function wsseAuthenticateAction($_format)
+    {
+        if ($_format != NormalizerSerializerService::JSON_FORMAT) {
+            throw new \Exception("Le format demandé n'est pas disponible");
+        }
          
-         $u = $this->get('security.context')->getToken()->getUser();
+        $u = $this->get('security.context')->getToken()->getUser();
          
-         $r = new \Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse();
-         $r->setResults(array($u));
+        $r = new \Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse();
+        $r->setResults(array($u));
          
-         $serializer = $this->get('progracqteurWikipedaleSerializer');
+        $serializer = $this->get('progracqteurWikipedaleSerializer');
          
-         $serializer->getUserNormalizer()->addGroupsToNormalization(true);
+        $serializer->getUserNormalizer()->addGroupsToNormalization(true);
          
-         $t = $serializer->serialize($r, NormalizerSerializerService::JSON_FORMAT);
+        $t = $serializer->serialize($r, NormalizerSerializerService::JSON_FORMAT);
          
-         return new Response($t);
-         
-     }
+        return new Response($t); 
+    }
     
 }
 
