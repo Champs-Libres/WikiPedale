@@ -19,24 +19,20 @@ class ManagerController extends Controller {
     
     public function toCityAction($citySlug, Request $request)
     {
-        $session = $this->getRequest()->getSession();
-        
-        $em = $this->getDoctrine()->getManager();
-        
         $citySlug = $this->get('progracqteur.wikipedale.slug')->slug($citySlug);
-        
+
+        $em = $this->getDoctrine()->getManager();
         $cities = $em->createQuery("SELECT  c from ProgracqteurWikipedaleBundle:Management\\Zone c 
                  where c.slug = :slug")
                 ->setParameter('slug', $citySlug)
                 ->getResult();
-        
         $city = $cities[0];
         
         if ($city === null) {
             throw $this->createNotFoundException("La ville demandée '$city' n'a pas été trouvée");
         }
         
-        
+        $session = $this->getRequest()->getSession();
         $session->set('city', $city);
         
         $url = $request->get('url', null);
@@ -46,7 +42,6 @@ class ManagerController extends Controller {
         }
         
         return $this->redirect($url);
-        
     }
      
     public function resetCityAction()

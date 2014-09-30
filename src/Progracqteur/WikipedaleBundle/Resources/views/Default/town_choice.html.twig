@@ -1,0 +1,16 @@
+{#
+Template for chosing the town.
+#}
+<h1>
+   <span style="color:#76b82a;">{{ 'accueil.accroche'|trans({}, 'messages') }}</span>
+</h1>
+
+<ul>
+   {% for city in mainCities %}
+      <li><a href="{{ path('wikipedale_to_city', {'citySlug': city.slug})}}">{{city.name}}</a></li>
+   {% endfor %}
+</ul>
+
+<a href="http://www.gracq.be" style="padding-right:10px" target="new"><img src="{{ asset('img/logos/logo_gracq_big.png') }}" height="80px" /></a>
+<a href="http://www.wallonie.be/" style="padding-right:10px" target="new"><img src="{{ asset('img/logos/icon_coq_wallon.jpg') }}"></a>
+<a href="http://mobilite.wallonie.be"><img src="{{ asset('img/logos/logo_WallonieCyclable.jpg') }}" height="80px"/></a>

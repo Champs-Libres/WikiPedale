@@ -35,6 +35,10 @@
    z-index:1000;
 }
 
+#managed_by {
+   display: none;
+}
+
 #logos_partenaires div {
    margin-right: 5px;
    float: left;
