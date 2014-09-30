@@ -72,8 +72,8 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
                            $(messages_div).text('Le point noir que vous avez soumis a bien été enregistré. Merci!');
                               setTimeout( function(){
                                  report_map.addReport(new_report);
-                                 data_map_glue.mode_change();
-                                 data_map_glue.focus_on_place_of(new_report.id);
+                                 data_map_glue.modeChange();
+                                 data_map_glue.focusOnPlaceOf(new_report.id);
                                  report_map.deleteMarker('new_report');
                                  $(messages_div).text('');
                                  $(messages_div).removeClass('successMessage')
@@ -82,7 +82,7 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
                            $(messages_div).text('Le point noir que vous avez soumis a bien été enregistré. Avant d\'afficher le point noir, nous allons vérifier votre adresse mail. Veuillez suivre les instructions qui vous ont été envoyées par email.');
                               setTimeout(
                                  function(){
-                                    data_map_glue.mode_change();
+                                    data_map_glue.modeChange();
                                     report_map.deleteMarker('new_report');
                                  },3000);
                         }

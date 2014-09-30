@@ -14,7 +14,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
    var marker_source; // source for the layer displaying reports
    var map_zoom_lvl; // zoom level of the map
    var marker_img_url = basic_data_and_functions.web_dir + 'img/OpenLayers/';
-   var evt_fct_when_new_reports; //function to triggers when new reports
+   var evtFctWhenNewReports; //function to triggers when new reports
    
    var markers = [];
 
@@ -26,6 +26,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
    var click_report_event_fct;
    var click_map_event_fct;
    var zoom_change_event_fct;
+   var moveend_event_fct;
 
    // marker with color
    var color_trad = [];
@@ -62,7 +63,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
       map.getView().setCenter(old_center);
    }
    
-   function init(map_center_lon, map_center_lat, zoom_lvl, evt_fct_when_new_reports_init){
+   function init(map_center_lon, map_center_lat, zoom_lvl, evtFctWhenNewReportsInit){
       /**
        * Initializes the map on the good town
        * @param {float} map_center_lon Longitude of the center of the map
@@ -73,7 +74,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
        */
       var voies_lentes_layer, voies_lentes_visible;
       var lightReportGeoJSONUrl =  Routing.generate('wikipedale_light_list', {_format: 'json'});
-      evt_fct_when_new_reports = evt_fct_when_new_reports_init;
+      evtFctWhenNewReports = evtFctWhenNewReportsInit;
 
       voies_lentes_layer = new ol.layer.Tile({
          source: new ol.source.TileWMS(/** @type {olx.source.TileWMSOptions} */ ({
@@ -166,7 +167,10 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
       });
    }
 
-   function loadReportsForBBoxView() {
+   function loadReportsForBBoxView(evtFctWhenReportsIsLoaded) {
+      /**
+       * Load the reports via the API that are in the displayed bbox
+      */
       var extent = map.getView().calculateExtent(map.getSize());
       var bottom_left_4326 = ol.proj.transform(
          ol.extent.getBottomLeft(extent),'EPSG:3857', 'EPSG:4326');
@@ -181,7 +185,9 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
          bottom_left_4326[0].toString()
          );
 
-      var jsonUrlData  =  Routing.generate('wikipedale_report_list_by_bbox', {_format: 'json', bbox: bbox, addUserInfo: true});
+      $('#csv_export_link_bbox').attr('href', Routing.generate('wikipedale_report_list_by_bbox', {_format: 'csv', bbox: bbox}));
+
+      var jsonUrlData = Routing.generate('wikipedale_report_list_by_bbox', {_format: 'json', bbox: bbox, addUserInfo: true});
 
       $.when(
          $.getJSON(jsonUrlData, function(data) {
@@ -190,10 +196,14 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
                addReport(report);
             });
          })
-
       ).done(function() {
-         evt_fct_when_new_reports();
+         evtFctWhenNewReports();
+         if( evtFctWhenReportsIsLoaded ) {
+            evtFctWhenReportsIsLoaded();
+         }
       });
+
+      var center =  ol.proj.transform(map.getView().getCenter(), 'EPSG:3857', 'EPSG:4326');
    }
 
    function addClickMapEvent(event_function) {
@@ -354,9 +364,9 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
        * @param {report} report The report
        * @return nothing
        */
+      detailed_report.update(report);
 
       if (typeof(markers[report.id]) === 'undefined') { // only add if the report is not already registered
-         detailed_report.update(report);
          addMarker(report.id, report.geom.coordinates, report);
          markers[report.id].type = 'report';
          markers[report.id].feature.report_id = report.id;
@@ -551,6 +561,22 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
       map.on('moveend', zoom_change_event_fct);
    }
 
+   function addMapMoveEndEvent(event_fct) {
+      /**
+       * Register a function to trigger when the map is movend (at end)
+       * @param {function} event_fct The function to trigger
+       * @return nothing
+       */
+      if(moveend_event_fct) {
+         map.un('moveend', moveend_event_fct);
+      }
+
+      moveend_event_fct = event_fct;
+
+      map.on('moveend', moveend_event_fct);
+
+   }
+
    function displayLayer(layer_name) {
       /** 
        * Display a layer on the map
@@ -578,14 +604,6 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
       }
    }
 
-   function getMapCenter() {
-      /** 
-       * Gets the center of the map
-       * @return the coordinates of the center of the map
-       */
-      return  map.getView().getCenter();
-   }
-
    return {
       setTarget: setTarget,
       addClickMapEvent: addClickMapEvent,
@@ -611,6 +629,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
       addZoomChangeEvent: addZoomChangeEvent,
       displayLayer: displayLayer,
       hideLayer: hideLayer,
-      getMapCenter: getMapCenter
+      addMapMoveEndEvent: addMapMoveEndEvent,
+      loadReportsForBBoxView: loadReportsForBBoxView
    };
 });

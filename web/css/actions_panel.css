@@ -86,63 +86,67 @@ p.PointTitle .span_id {
 
 /* Town presentation */
 #div__town_presentation {
-  color: #FFF;
-  background-color: #76B82A;
-  -webkit-border-radius: 30px 0px 0px 0px;
-  -moz-border-radius: 30px 0px 0px 0px;
-  border-radius: 30px 0px 0px 0px;
-  margin-top: 1em;
-  min-height: 18.5em;
+   color: #FFF;
+   background-color: #76B82A;
+   -webkit-border-radius: 30px 0px 0px 0px;
+   -moz-border-radius: 30px 0px 0px 0px;
+   border-radius: 30px 0px 0px 0px;
+   margin-top: 1em;
+   min-height: 18.5em;
 }
 
 #div__town_presentation .title-container {
-  height: 60px;
-  position: relative;
-  background-image: url(../img/town_presentation/left.png);
-  background-repeat: no-repeat;
-  background-origin: content-box, content-box;
+   height: 60px;
+   position: relative;
+   background-image: url(../img/town_presentation/left.png);
+   background-repeat: no-repeat;
+   background-origin: content-box, content-box;
 }
 
 #div__town_presentation .title-container .bg-line {
-  background : url(../img/town_presentation/right.png);
-  background-repeat: repeat-x;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  width: 50%;
-  height: 60px;
+   background : url(../img/town_presentation/right.png);
+   background-repeat: repeat-x;
+   position: absolute;
+   top: 0px;
+   right: 0px;
+   width: 50%;
+   height: 60px;
 }
 
 #div__town_presentation .title-container .title {
-  padding-right: 0.5em;
-  height: 40px;
-  text-align: right;
-  font-family: Pecita;
-  font-weight: 100;
-  font-size: 40px;
-  font-feature-settings: "calt" on, "liga" on, "rlig" on;
-  -webkit-font-feature-settings: "calt" on, "liga" on, "rlig" on;
-  position: absolute;
-  bottom: 9px;
-  right: 0px
+   padding-right: 0.5em;
+   height: 40px;
+   text-align: right;
+   font-family: Pecita;
+   font-weight: 100;
+   font-size: 40px;
+   font-feature-settings: "calt" on, "liga" on, "rlig" on;
+   -webkit-font-feature-settings: "calt" on, "liga" on, "rlig" on;
+   position: absolute;
+   bottom: 9px;
+   right: 0px
 }
 
 #div__town_presentation .content {
-  padding-left: 1.5em;
-  padding-right: 1.5em;
-  padding-bottom: 0.3em;
-  text-align: justify;
+   padding-left: 1.5em;
+   padding-right: 1.5em;
+   padding-bottom: 0.3em;
+   text-align: justify;
 }
 
 /* Formulaire ajout point */
 #add_new_description_div img.verif {
-    float: left;
-    width:16px;
-    height:16px;
-    margin-right:0.2em;
+   float: left;
+   width:16px;
+   height:16px;
+   margin-right:0.2em;
 }
 
 .span_photo img {
-  width: 30%;
-  padding-right: 3%;
+   width: 30%;
+   padding-right: 3%;
+}
+
+#div__add_new_description, #div__filter_and_export, #div__report_description_display, #div__latest_modifications, #div__town_presentation, #div__town_choice {
+   display: none;
 }

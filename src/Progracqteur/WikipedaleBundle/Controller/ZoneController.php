@@ -23,7 +23,7 @@ class ZoneController extends Controller
             where COVERS(z.polygon, :center) = true and z.type = :type')
             ->setParameter('center', $stringCenter)
             ->setParameter('type', $type)
-            ->getSingleResult();
+            ->getResult();
 
         $normalizer = $this->get('progracqteurWikipedaleSerializer');
         $rep = new NormalizedResponse($zone);

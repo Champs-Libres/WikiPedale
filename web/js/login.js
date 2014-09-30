@@ -70,7 +70,7 @@ define(['jQuery','data_map_glue','user'], function($,data_map_glue,user) {
       $('a.connexion').colorbox.close('');
       $('.username').text(user.data().label);
 
-      data_map_glue.update_data_and_map();
+      data_map_glue.updateDataAndMap();
    }
 
    return {

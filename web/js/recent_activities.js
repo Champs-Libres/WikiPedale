@@ -4,12 +4,13 @@
 'use strict';
 
 define(['jQuery'], function($) {
-   function filling(aCitySlug,nbr_max){
-      var jsonUrlData  =  Routing.generate('wikipedale_history_report_by_city', {_format: 'json', citySlug: aCitySlug, max:nbr_max});
+   function filling(city_slug, nbr_max) {
+      var jsonUrlData  =  Routing.generate('wikipedale_history_report_by_city', {_format: 'json', citySlug: city_slug, max:nbr_max});
       $.ajax({
          dataType: 'json',
          url: jsonUrlData,
          success: function(data) {
+            $('#div_content_dernieres_modifs').html('');
             $.each(data.results, function(index, aLastModif) {
                $('#div_content_dernieres_modifs').append(aLastModif.text);
                var lien_voir = $(document.createElement('a'))

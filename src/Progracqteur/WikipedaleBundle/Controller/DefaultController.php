@@ -5,6 +5,7 @@ namespace Progracqteur\WikipedaleBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Progracqteur\WikipedaleBundle\Entity\Management\Group;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Description of DefaultController
@@ -27,20 +28,21 @@ class DefaultController extends Controller
      * Display 'homepage' webpage. This is the main page of the application : the webpage is 
      * updated (in function of the user interaction) with JSON request.
      */
-    public function homepageAction()
+    public function homepageAction(Request $request)
     {
-        $id = $this->getRequest()->get('id', null);
+        $id = $request->get('id', null);
+        $selectedReport = null;
+
         $em = $this->getDoctrine()->getManager();
-        
         if ($id != null) {
-            $report = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Report')
+            $selectedReport = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Report')
                 ->find($id);
             
-            if ($report === null OR $report->isAccepted() == FALSE) {
+            if ($selectedReport === null OR $selectedReport->isAccepted() === FALSE) {
                 throw $this->createNotFoundException('errors.404.report.not_found');
             }
             
-            $stringGeo = $this->get('progracqteur.wikipedale.geoservice')->toString($report->getGeom());
+            $stringGeo = $this->get('progracqteur.wikipedale.geoservice')->toString($selectedReport->getGeom());
             
             $city = $em->createQuery('select c 
                     from ProgracqteurWikipedaleBundle:Management\Zone c
@@ -50,7 +52,7 @@ class DefaultController extends Controller
                     ->setParameter('type', 'city')
                     ->getSingleResult();
             
-            $this->getRequest()->getSession()->set('city', $city);
+            $request->getSession()->set('city', $city);
         }
 
         $cities = $em->createQuery("select c from 
@@ -106,8 +108,8 @@ class DefaultController extends Controller
                 ->findAll();
         //TODO : cachable query
         
-        if ($this->getRequest()->getSession()->get('city') !== null) {
-            $z = $this->getRequest()->getSession()->get('city');
+        if ($request->getSession()->get('city') !== null) {
+            $z = $request->getSession()->get('city');
             $managers = $this->getDoctrine()
                 ->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
                 ->getGroupsByTypeByCoverage(Group::TYPE_MANAGER, $z->getPolygon());
@@ -126,6 +128,7 @@ class DefaultController extends Controller
 
         if ($id != null) {
             $paramsToView['selectedReportId'] = $id;
+            $paramsToView['selectedReport'] = $selectedReport;
         }
         
         return $this->render('ProgracqteurWikipedaleBundle:Default:homepage.html.twig', 

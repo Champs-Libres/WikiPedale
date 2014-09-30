@@ -85,11 +85,7 @@
 
    <div>
       {{ 'filter.export'|trans({}, 'messages') }} :
-      <a id="csv_export_link" href="{{ path('wikipedale_report_list_by_city', { _format:'csv'}) }}?city={{ app.session.get('city').slug }}">
-     CSV
-      </a>
-      <a id="csv_basic_export_link" href="{{ path('wikipedale_report_list_by_city', { _format:'csv'}) }}?city={{ app.session.get('city').slug }}" style="display:none">
-     CSV
-      </a>
+      <a id="csv_export_link_bbox" href="">Carte CSV</a>
+      <a id="csv_export_link_town" href=""></a>
    </div>
 </div>
