@@ -111,11 +111,11 @@ define(
             if(selected_city_data) {
                $('#div__latest_modifications').show();
                $('#div__town_presentation').show();
-               $('managed_by').show();
+               $('#managed_by').show();
             } else {
                $('#div__latest_modifications').hide();
                $('#div__town_presentation').hide();
-               $('managed_by').hide();
+               $('#managed_by').hide();
             }
          } else {
             $('#div__add_new_description').hide();
