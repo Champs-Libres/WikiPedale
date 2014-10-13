@@ -6,14 +6,14 @@ Scenario: Open filtering option menu and closing it
    Then element "#filter_and_export_menu" should not be visible
    Then element "#stop_filter_and_export_button" should not be visible
    Then element "#filter_and_export_button" should be visible
-   When I click on the element "#filter_and_export_button"
+   When I click on "#filter_and_export_button"
    And I wait for 1 seconds
    Then element "#filter_and_export_menu" should be visible
    Then element "#stop_filter_and_export_button" should be visible
    Then element "#filter_and_export_button" should not be visible
-   When I click on the element "#stop_filter_and_export_button"
+   When I click on "#stop_filter_and_export_button"
    And I wait for 1 seconds
    Then element "#filter_and_export_menu" should not be visible
    Then element "#stop_filter_and_export_button" should not be visible
    Then element "#filter_and_export_button" should be visible
-   When I click on the element "#filter_and_export_button"
+   When I click on "#filter_and_export_button"

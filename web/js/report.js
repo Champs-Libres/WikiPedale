@@ -132,7 +132,12 @@ define(['jQuery'], function($) {
    }
 
    function isInitialized() {
-      return (Object.getOwnPropertyNames(r).length !== 0);
+      return Object.getOwnPropertyNames(r).length !== 0;
+   }
+
+   function getARandomReportId() {
+      var rdata = Object.getOwnPropertyNames(r);
+      return rdata[Math.floor(Math.random() * rdata.length)];
    }
 
    return {
@@ -146,5 +151,6 @@ define(['jQuery'], function($) {
       getAllManagers: getAllManagers,
       getManagerId: getManagerId,
       isInitialized: isInitialized,
+      getARandomReportId: getARandomReportId,
    };
 });
