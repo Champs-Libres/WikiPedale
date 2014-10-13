@@ -58,8 +58,6 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
       }
 
       $script = '$("#loginForm").submit();';
-
-      echo $this->getSession()->evaluateScript($script);
    }  
 
    /**
@@ -230,36 +228,37 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
          $this->currentReport->getDescription());
    }
 
-   /**
-    * @Then /^I wait that the reports have been received$/
-    */
-   public function iWaitReportsReceived()
-   {
-      usleep(500);
-      $reportReceived = false;
-      while(! $reportReceived) {
-         $reportReceived = (boolean) $this->getSession()->getDriver()
-         ->evaluateScript('return require("report").isInitialized();');  
-      }
-   }
+    /**
+     * @Then /^I wait that the reports have been received$/
+     */
+    public function iWaitReportsReceived()
+    {
+        usleep(500);
+        $reportReceived = false;
+        while(! $reportReceived) {
+            $reportReceived = (boolean) $this->getSession()->getDriver()
+            ->evaluateScript('return require("report").isInitialized();');  
+        }
+    }
 
-   /**
-    * @Given /^I randomly choose a current report$/
-    */
-   public function randomlyChooseAReport()
-   {
-      $em = $this->kernel->getContainer()->get('doctrine')->getManager();
-      $reports = $em->getRepository('ProgracqteurWikipedaleBundle:Model\\Report')->findAll();
-      shuffle($reports);
-      $this->currentReport = array_shift($reports);
-   }
+    /**
+     * @Given /^I randomly choose a current report$/
+     */
+    public function randomlyChooseAReport()
+    {
+        $em = $this->kernel->getContainer()->get('doctrine')->getManager();
+        $idCurrentReport = $this->getSession()->getDriver()
+            ->evaluateScript('return require("report").getARandomReportId();');
 
-   /**
-    * @Given /^I click on the current report$/
-    */
-   public function iclickOnTheCurrentReport()
-   {
-      $this->getSession()->getDriver()
-         ->evaluateScript('require("data_map_glue").focus_on_place_of(' . $this->currentReport->getId() .');');
-   }
+        $this->currentReport = $em->getRepository('ProgracqteurWikipedaleBundle:Model\\Report')->findOneById($idCurrentReport);
+    }
+
+    /**
+     * @Given /^I click on the current report$/
+     */
+    public function iclickOnTheCurrentReport()
+    {
+        $this->getSession()->getDriver()
+            ->evaluateScript('require("data_map_glue").focusOnPlaceOf(' . $this->currentReport->getId() .');');
+    }
 }
