@@ -20,6 +20,7 @@ define(
       var last_description_selected = null;
       var add_new_place_mode = false; // true when the user is in a mode for adding new place
       var selected_city_data = null;
+      var current_map_zoom_lvl;
 
       function initApp(town_lon, town_lat, map_zoom_lvl, marker_id_to_display) {
          /**
@@ -30,6 +31,7 @@ define(
          * (none if no marker to display)
          */
          var init = true;
+         current_map_zoom_lvl = map_zoom_lvl;
 
          markers_filtering.initFormFor('manager');
 
@@ -46,30 +48,27 @@ define(
             }
          });
 
-         if(map_zoom_lvl >= 13) {
+         if(current_map_zoom_lvl >= 13) {
             report_map.displayLayer('markers');
             report_map.hideLayer('cluster');
-            markerMapMode();
          } else {
             report_map.displayLayer('cluster');
             report_map.hideLayer('markers');
-            clusterMapMode();
          }
+         hideShowLateralContent();
 
          report_map.addClickReportEvent(focusOnPlaceOf);
 
          report_map.addZoomChangeEvent(function(evt) {
-            var zoom = evt.map.getView().getZoom();
-
-            if(zoom >= 13) {
+            current_map_zoom_lvl = evt.map.getView().getZoom();
+            if(current_map_zoom_lvl >= 13) {
                report_map.displayLayer('markers');
                report_map.hideLayer('cluster');
-               markerMapMode();
             } else {
                report_map.displayLayer('cluster');
                report_map.hideLayer('markers');
-               clusterMapMode();
             }
+            hideShowLateralContent();
          });
 
          report_map.addMapMoveEndEvent(function(evt) {
@@ -87,44 +86,46 @@ define(
                      $('#managed_by__img').attr('src', 'img/cities/logo_' +  selected_city_data.slug + '.png');
                      $('#div__town_presentation .title').text(selected_city_data.name.toUpperCase());
                      $('#div__town_presentation .content').text(selected_city_data.description);
-                     $('#div__latest_modifications').show();
-                     $('#div__town_presentation').show();
-                     $('#managed_by').show();
                      $('#csv_export_link_town').attr('href',
                         Routing.generate('wikipedale_report_list_by_city',
                            {_format: 'csv'}) + '?city=' +  selected_city_data.slug);
                      $('#csv_export_link_town').text(selected_city_data.name + ' CSV');
                   } else if (data.results.length === 0) {
                      selected_city_data = null;
-                     $('#div__latest_modifications').hide();
-                     $('#div__town_presentation').hide();
-                     $('managed_by').hide();
-                     $('#csv_export_link_town').text('');
                   }
+                  hideShowLateralContent();
                })
             );
          });
       }
 
-      function clusterMapMode() {
-         $('#div__add_new_description').hide();
-         $('#div__filter_and_export').hide();
-         $('#div__report_description_display').hide();
-         $('#div__latest_modifications').hide();
-         $('#div__town_presentation').hide();
-         $('#div__town_choice').show();
-      }
-    
-      function markerMapMode() {
-         if(! add_new_place_mode && last_description_selected !== null ) {
-            $('#div__report_description_display').show();
-         }
+      function hideShowLateralContent() {
+         if(current_map_zoom_lvl >= 13) {
+            if(! add_new_place_mode && last_description_selected !== null ) {
+               $('#div__report_description_display').show();
+            }
 
-         $('#div__add_new_description').show();
-         $('#div__filter_and_export').show();
-         $('#div__latest_modifications').show();
-         $('#div__town_presentation').show();
-         $('#div__town_choice').hide();
+            $('#div__add_new_description').show();
+            $('#div__filter_and_export').show();
+            $('#div__town_choice').hide();
+            if(selected_city_data) {
+               $('#div__latest_modifications').show();
+               $('#div__town_presentation').show();
+               $('managed_by').show();
+            } else {
+               $('#div__latest_modifications').hide();
+               $('#div__town_presentation').hide();
+               $('managed_by').hide();
+            }
+         } else {
+            $('#div__add_new_description').hide();
+            $('#div__filter_and_export').hide();
+            $('#div__report_description_display').hide();
+            $('#div__latest_modifications').hide();
+            $('#div__town_presentation').hide();
+            $('managed_by').hide();
+            $('#div__town_choice').show();
+         }
       }
 
       function updateDataAndMap(){
