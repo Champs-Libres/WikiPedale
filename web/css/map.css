@@ -71,3 +71,14 @@ div#OpenLayers.Control.Attribution_7 {
    position:absolute;
    bottom:0;
 }
+
+
+#add_new_report_form__end_draw_details_on_map {
+   display: block;
+}
+
+
+#div_edit_report__draw {
+   margin-top: 20px;
+   margin-bottom: 20px;
+}

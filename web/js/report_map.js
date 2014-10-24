@@ -15,6 +15,12 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
    var map_zoom_lvl; // zoom level of the map
    var marker_img_url = basic_data_and_functions.web_dir + 'img/OpenLayers/';
    var evtFctWhenNewReports; //function to triggers when new reports
+
+   var drawn_features_overlay; // the overlay of the draw features on the map
+   var modify_interaction; // the interaction to modify the drawn_features
+   var draw_interaction; // the inteaction to draw new features
+
+   var drawn_geojson_selected_marker;
    
    var markers = [];
 
@@ -27,6 +33,8 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
    var click_map_event_fct;
    var zoom_change_event_fct;
    var moveend_event_fct;
+   var tard_geojson = new ol.format.GeoJSON();
+
 
    // marker with color
    var color_trad = [];
@@ -155,6 +163,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
          layers.cluster.uello_displayed = true;
          layers.markers.uello_displayed = false;
       } else {
+         //map.getLayers().insertAt(layers.markers, 0);
          map.addLayer(layers.markers);
          layers.cluster.uello_displayed = false;
          layers.markers.uello_displayed = true;
@@ -164,6 +173,44 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
          if (layers.markers.uello_displayed) {
             loadReportsForBBoxView();
          }
+      });
+
+      drawn_geojson_selected_marker = new ol.FeatureOverlay({
+         style: new ol.style.Style({
+            fill: new ol.style.Fill({
+               color: 'rgba(255, 255, 255, 0.4)'
+            }),
+            stroke: new ol.style.Stroke({
+               color: '#990033',
+               width: 2
+            }),
+            image: new ol.style.Circle({
+               radius: 7,
+               fill: new ol.style.Fill({
+                  color: '#990033'
+               })
+            })
+         })
+      });
+
+      map.addOverlay(drawn_geojson_selected_marker);
+
+      drawn_features_overlay = new ol.FeatureOverlay({
+         style: new ol.style.Style({
+            fill: new ol.style.Fill({
+               color: 'rgba(255, 255, 255, 0.4)'
+            }),
+            stroke: new ol.style.Stroke({
+               color: '#990033',
+               width: 2
+            }),
+            image: new ol.style.Circle({
+               radius: 7,
+               fill: new ol.style.Fill({
+                  color: '#990033'
+               })
+            })
+         })
       });
    }
 
@@ -202,8 +249,6 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
             evtFctWhenReportsIsLoaded();
          }
       });
-
-      var center =  ol.proj.transform(map.getView().getCenter(), 'EPSG:3857', 'EPSG:4326');
    }
 
    function addClickMapEvent(event_function) {
@@ -222,6 +267,17 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
       };
 
       map.on('click', click_map_event_fct);
+   }
+
+   function addLastestClickMapEvent() {
+      /**
+       * Reactivates the previously declared function to execute when the user click on the map
+       * (if such a function already exists, this function is removed)
+       * @return nothing
+       */
+      if(click_map_event_fct) {
+         map.on('click', click_map_event_fct);
+      }
    }
 
    function rmClickMapEvent() {
@@ -364,6 +420,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
        * @param {report} report The report
        * @return nothing
        */
+
       detailed_report.update(report);
 
       if (typeof(markers[report.id]) === 'undefined') { // only add if the report is not already registered
@@ -427,10 +484,11 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
    function displayAllReports() {
       /**
        * Displays on the map all the markers associate to a report
+       * This function re-activate the display of all the new reports added.
        * @return nothing
        */
       $.each(markers, function(marker_id, marker) {
-         if(marker.type === 'report') {
+         if(marker && marker.type === 'report') {
             displayMarker(marker_id);
          }
       });
@@ -451,10 +509,12 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
    function hideAllReports() {
       /**
        * Hides all the markers associate to a report
+       * When this function has been called all the new added report won be desplayed
+       * until the call of the function displayAllReports
        * @return nothing
        */
       $.each(markers, function(marker_id, marker) {
-         if(marker.type === 'report') {
+         if(marker && marker.type === 'report') {
             hideMarker(marker_id);
          }
       });
@@ -590,6 +650,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
          map.addLayer(layers[layer_name]);
          layers[layer_name].uello_displayed = true;
       }
+
    }
 
    function hideLayer(layer_name) {
@@ -602,6 +663,182 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
          map.removeLayer(layers[layer_name]);
          layers[layer_name].uello_displayed = false;
       }
+   }
+
+   function startDrawingDetailsOnMap(action) {
+      /**
+       * Enable the report-drawing mode for the user. The user can draw polygon or line that will
+       * be associated with the report.
+       * @param {string} This string indicates if the drawing is done during the creation
+       * or during the editon of a report :
+       * - 'new_report' for creation
+       * - 'edit_report' for edition
+       * @return nothing
+       */
+      var overlay = drawn_features_overlay; // if action === 'new_report'
+      var type = $('#add_new_report_form__draw_type').select2('val');
+
+      if(action === 'edit_report') {
+         overlay = drawn_geojson_selected_marker;
+         type = $('#edit_report__draw_selection_option').select2('val');
+      }
+
+      if(action === 'edit_report') {
+         rmClickReportEvent();
+      } else {
+         rmClickMapEvent();
+      }
+
+      modify_interaction = new ol.interaction.Modify({
+         features: overlay.getFeatures(),
+         // the SHIFT key must be pressed to delete vertices, so
+         // that new vertices can be drawn at the same position
+         // of existing vertices
+         deleteCondition: function(event) {
+            return ol.events.condition.shiftKeyOnly(event) &&
+               ol.events.condition.singleClick(event);
+         }
+      });
+
+      map.addInteraction(modify_interaction);
+
+      draw_interaction = new ol.interaction.Draw({
+         features: overlay.getFeatures(),
+         type: type
+      });
+
+      map.addInteraction(draw_interaction);
+   }
+
+   function endDrawingDetailsOnMap(action) {
+      /**
+       * Disable the report-drawing mode for the user. The user can draw polygon or line that will
+       * be associated with the report.
+       * @param {string} This string indicates if the drawing is done during the creation
+       * or during the editon of a report :
+       * - 'new_report' for creation
+       * - 'edit_report' for edition
+       * @return nothing
+       */
+      if(action === 'edit_report') {
+         addLastestClickReportEvent();
+      } else {
+         addLastestClickMapEvent();
+      }
+
+      if(modify_interaction) {
+         map.removeInteraction(modify_interaction);
+         map.removeInteraction(draw_interaction);
+      }
+      
+      modify_interaction = null;
+      draw_interaction = null;
+   }
+
+   function eraseDrawingDetailsOnMap(action)  {
+      /**
+       * Erase the user drawn data (polygon or line).
+       * @param {string} This string indicates if the drawing is done during the creation
+       * or during the editon of a report :
+       * - 'new_report' for creation
+       * - 'edit_report' for edition
+       * @return nothing
+       */
+      if(action === 'new_report') {
+         eraseFeaturesOverlay(drawn_features_overlay);
+      } else {
+         eraseFeaturesOverlay(drawn_geojson_selected_marker);
+      }
+   }
+
+   function changeDrawModeOnMap(action) {
+      /**
+       * Change the type of elements that can be entered during the report-drawing mode for the user (polygon or string).
+       * @param {string} This string indicates if the drawing is done during the creation
+       * or during the editon of a report :
+       * - 'new_report' for creation
+       * - 'edit_report' for edition
+       * @return nothing
+       */
+      endDrawingDetailsOnMap(action);
+      startDrawingDetailsOnMap(action);
+   }
+
+   function getDrawnDetails(action) {
+      /**
+       * Gets the features entered during the  report-drawing mode.
+       * @param {string} This string indicates if the drawing is done during the creation
+       * or during the editon of a report :
+       * - 'new_report' for creation
+       * - 'edit_report' for edition
+       * @return nothing
+       */
+      if(action === 'new_report') {
+         return tard_geojson.writeFeatures(drawn_features_overlay.getFeatures().getArray());
+      } else {
+         return tard_geojson.writeFeatures(drawn_geojson_selected_marker.getFeatures().getArray());
+      }
+   }
+
+   function eraseFeaturesOverlay(features_overlay) {
+      /**
+       * Erase all the data/features on an overlay.
+       * @param {ol.olverlay} features_overlay THe overlay.
+       * @return nothing
+       */
+      var features_to_delete = features_overlay.getFeatures();
+
+      while(features_to_delete.getLength() !== 0) {
+         features_to_delete.forEach(
+            function(f) {
+               features_overlay.removeFeature(f);
+            }
+         );
+
+         features_to_delete = features_overlay.getFeatures();
+      }
+   }
+
+   function showDrawnFeaturesOverlay() {
+      /**
+       * Display the feature overlay "drawn_features_overlay".
+       * Its is the features overlay where the drawn elements for a report are displayed.
+       * @return nothing
+       */
+      map.addOverlay(drawn_features_overlay);
+   }
+
+   function hideDrawnFeaturesOverlay() {
+      /**
+       * Hide the feature overlay drawn_features_overlay.
+       * Its is the features overlay where the drawn elements for a report are displayed.
+       * @return nothing
+       */
+      map.removeOverlay(drawn_features_overlay);
+   }
+
+   function displayDrawnGeojsonMarker(report_id) {
+      /**
+       * Display on the map the drawn features for a given report
+       * on a feature overlay ( drawn_geojson_selected_marker ).
+       * @param{integer} report_id The id of the report
+       * @return nothing
+       */
+      var report = detailed_report.get(report_id);
+      var features = tard_geojson.readFeatures(report.drawnGeoJSON);
+
+      $.each(features, function(i,f) {
+         drawn_geojson_selected_marker.addFeature(f);
+      });
+   }
+
+   function eraseDrawnGeojsonMarker() {
+      /**
+       * Erase the drawn data/features displayed of a given report by the function 
+       * displayDrawnGeojsonMarker
+       * @return nothing
+       */
+      eraseFeaturesOverlay(drawn_geojson_selected_marker);
    }
 
    return {
@@ -630,6 +867,15 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
       displayLayer: displayLayer,
       hideLayer: hideLayer,
       addMapMoveEndEvent: addMapMoveEndEvent,
-      loadReportsForBBoxView: loadReportsForBBoxView
+      loadReportsForBBoxView: loadReportsForBBoxView,
+      startDrawingDetailsOnMap: startDrawingDetailsOnMap,
+      endDrawingDetailsOnMap: endDrawingDetailsOnMap,
+      eraseDrawingDetailsOnMap: eraseDrawingDetailsOnMap,
+      changeDrawModeOnMap: changeDrawModeOnMap,
+      showDrawnFeaturesOverlay: showDrawnFeaturesOverlay,
+      hideDrawnFeaturesOverlay: hideDrawnFeaturesOverlay,
+      getDrawnDetails: getDrawnDetails,
+      displayDrawnGeojsonMarker: displayDrawnGeojsonMarker,
+      eraseDrawnGeojsonMarker: eraseDrawnGeojsonMarker,
    };
 });

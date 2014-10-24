@@ -10,11 +10,11 @@
 
 define(
    [
-      'jQuery', 'report_map', 'report', 'description_text_display', 'user', 'informer', 'json_string',
+      'jQuery', 'report_map', 'report', 'report_display', 'user', 'informer', 'json_string',
       'markers_filtering', 'ol', 'recent_activities'
    ],
    function(
-      $, report_map, report, description_text_display, user, informer, json_string,
+      $, report_map, report, report_display, user, informer, json_string,
       markers_filtering, ol, recent_activities
    ) {
       var last_description_selected = null;
@@ -43,7 +43,7 @@ define(
             }
 
             if(init && marker_id_to_display) {
-               focusOnPlaceOf(marker_id_to_display);
+               focusOnReport(marker_id_to_display);
                init = false;
             }
          });
@@ -57,7 +57,7 @@ define(
          }
          hideShowLateralContent();
 
-         report_map.addClickReportEvent(focusOnPlaceOf);
+         report_map.addClickReportEvent(focusOnReport);
 
          report_map.addZoomChangeEvent(function(evt) {
             current_map_zoom_lvl = evt.map.getView().getZoom();
@@ -100,6 +100,13 @@ define(
       }
 
       function hideShowLateralContent() {
+        /**
+         * Hide or show element in the right lateral column regarding to 
+         * - the zoom level of the map (cluster or marker)
+         * - if a city has been selected
+         * - if a point has been selected
+         * @return nothing
+         */
          if(current_map_zoom_lvl >= 13) {
             if(! add_new_place_mode && last_description_selected !== null ) {
                $('#div__report_description_display').show();
@@ -135,7 +142,7 @@ define(
          */
          //report.eraseAll();
          report_map.loadReportsForBBoxView(function() {
-            description_text_display.display_regarding_to_user_role();
+            report_display.display_regarding_to_user_role();
          });
       }
 
@@ -171,11 +178,15 @@ define(
          /**
          * Changin the mode between 'add_new_place' and 'edit_place' / 'show_place'.
          */
-         if(!add_new_place_mode) {
+         if(!add_new_place_mode) { // add_new_place
+            endDrawingDetailsOnMap('edit_report');
+            report_map.showDrawnFeaturesOverlay();
+
             $('#div_add_new_description_button').hide();
             $('#div_add_new_description_cancel_button').show();
             report_map.unactivateMarkers();
             report_map.rmClickReportEvent();
+            report_map.eraseDrawnGeojsonMarker();
 
             report_map.addClickMapEvent(function(evt) {
                informer.map_ok(); //le croix rouge dans le formulaire nouveau point devient verte
@@ -198,14 +209,17 @@ define(
             $('#form__add_new_description').show();
             $('#div_report_description_display').hide();
          }
-         else {
+         else { // edit_place / show_place
+            endDrawingDetailsOnMap('new_report');
+            report_map.hideDrawnFeaturesOverlay();
+
             $('#div_add_new_description_button').show();
             $('#div_add_new_description_cancel_button').hide();
 
             report_map.hideMarker('new_report');
 
             report_map.reactivateMarkers();
-            report_map.addClickReportEvent(focusOnPlaceOf);
+            report_map.addClickReportEvent(focusOnReport);
             report_map.rmClickMapEvent();
 
             $('#form__add_new_description').hide();
@@ -213,25 +227,92 @@ define(
             if(last_description_selected !== null ) {
                $('#div_report_description_display').show();
                report_map.selectMarker(last_description_selected);
+               report_map.displayDrawnGeojsonMarker(last_description_selected);
             }
          }
          add_new_place_mode = ! add_new_place_mode;
       }
 
-      function focusOnPlaceOf(id_sig) {
+      function startDrawingDetailsOnMap(action) {
+         /**
+          * Activation of the drawing mode (to draw polygon or line on the map)
+          * @param {string} This string indicates if the drawing is done during the creation
+          * or during the editon of a report :
+          * - 'new_report' for creation
+          * - 'edit_report' for edition
+          * @return nothing
+          */
+         $('#button_edit_lon_lat').hide();
+         $('#edit_report__draw_button').hide();
+         $('#div_edit_report__draw').show();
+         $('#add_new_report_form__draw_details_on_map').hide();
+         $('#div_add_new_description__draw').show();
+         report_map.startDrawingDetailsOnMap(action);
+      }
+
+      function endDrawingDetailsOnMap(action) {
+         /**
+          * Stop the drawing mode (to draw polygon or line on the map)
+          * @param {string} This string indicates if the drawing is done during the creation
+          * or during the editon of a report :
+          * - 'new_report' for creation
+          * - 'edit_report' for edition
+          * @return nothing
+          */
+         if(action === 'edit_report' && last_description_selected) {
+            report_map.displayDrawnGeojsonMarker(last_description_selected);
+         }
+
+         $('#button_edit_lon_lat').show();
+         $('#add_new_report_form__draw_details_on_map').show();
+         $('#div_add_new_description__draw').hide();
+         $('#edit_report__draw_button').show();
+         $('#div_edit_report__draw').hide();
+         report_map.endDrawingDetailsOnMap(action);
+      }
+
+      function eraseDrawingDetailsOnMap(action) {
+         /**
+          * Erase the data (line or polygon) drawn on the map during the drawing mode
+          * @param {string} This string indicates if the drawing is done during the creation
+          * or during the editon of a report :
+          * - 'new_report' for creation
+          * - 'edit_report' for edition
+          * @return nothing
+          */
+         report_map.eraseDrawingDetailsOnMap(action);
+      }
+
+      function changeDrawModeOnMap(action) {
+         /**
+          * Called when the user want to change the drawing mode :
+          * - either drawing polygon
+          * - either drawing line
+          * @param {string} This string indicates if the drawing is done during the creation
+          * or during the editon of a report :
+          * - 'new_report' for creation
+          * - 'edit_report' for edition
+          * @return nothing
+          */
+         report_map.changeDrawModeOnMap(action);
+      }
+
+      function focusOnReport(report_id) {
          /**
          * Function which display some data of the description on the webpage
          * and draw the marker relative to this description as selected.
          * To be executed when the user click on a marker on the global map.
-         * @param {int} id_sig The id of the description to display.
+         * @param {int} report_id The id of the report to display.
          */
          if (last_description_selected) {
             report_map.unselectMarker(last_description_selected);
+            report_map.eraseDrawnGeojsonMarker();
          }
 
-         report_map.selectMarker(id_sig);
-         last_description_selected = id_sig;
-         description_text_display.display_description_of((id_sig));
+         report_map.selectMarker(report_id);
+         last_description_selected = report_id;
+         report_display.display_description_of(report_id);
+         report_map.displayDrawnGeojsonMarker(report_id);
       }
 
       return {
@@ -239,7 +320,11 @@ define(
          updateDataAndMap: updateDataAndMap,
          lastDescriptionSelectedDelete: lastDescriptionSelectedDelete,
          modeChange: modeChange,
-         focusOnPlaceOf: focusOnPlaceOf,
+         focusOnReport: focusOnReport,
+         startDrawingDetailsOnMap: startDrawingDetailsOnMap,
+         endDrawingDetailsOnMap: endDrawingDetailsOnMap,
+         eraseDrawingDetailsOnMap: eraseDrawingDetailsOnMap,
+         changeDrawModeOnMap: changeDrawModeOnMap,
       };
    }
 );

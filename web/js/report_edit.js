@@ -24,6 +24,7 @@ define(['jQuery','report_map','report','basic_data_and_functions','json_string',
       $('#span_edit_lon_lat_delete_error').hide();
       $('#button_save_lon_lat').hide();
       $('#button_edit_lon_lat').show();
+      $('#edit_report__draw_button').show();
       mode_edit.lon_lat = false;
 
       report_map.deleteMarker('move_report');
@@ -68,16 +69,17 @@ define(['jQuery','report_map','report','basic_data_and_functions','json_string',
    }
 
    function position_edit_or_save() {
-      var report_id =  $('#input_report_description_id').val();
       /**
-      * When this function is tiggered,
-      either the edition mode for position of the selected marker  (map) is displayed
-      either the new position of the selected marker is saved
-      The choice between is done alternatively
-      */
+       * When this function is tiggered,
+       * either the edition mode for position of the selected marker  (map) is displayed
+       * either the new position of the selected marker is saved
+       * The choice between is done alternatively
+       */
+      var report_id =  $('#input_report_description_id').val();
       if (!( 'lon_lat' in  mode_edit && mode_edit.lon_lat)) {
          $('#button_save_lon_lat').show();
          $('#button_edit_lon_lat').hide();
+         $('#edit_report__draw_button').hide();
          report_map.hideAllReports();
          report_map.displayMarker(report_id);
          report_map.rmClickReportEvent();
@@ -123,7 +125,7 @@ define(['jQuery','report_map','report','basic_data_and_functions','json_string',
       }
    }
 
-   function description_edit_or_save(element_type){
+   function edit_or_save(element_type){
       /**
       * When this function is tiggered,
       either the edition form is displayed relative to 'element_type'
@@ -213,9 +215,38 @@ define(['jQuery','report_map','report','basic_data_and_functions','json_string',
       return false;
    }
 
+   function saveDrawings() {
+      /**
+       * Save the drawings done by the user on the map.
+       * @return nothing
+       */
+      var signalement_id = parseInt($('#input_report_description_id').val()),
+      json_request = json_string.editReportDrawings(
+         signalement_id,report_map.getDrawnDetails('edit_report'));
+      $.ajax({
+         type: 'POST',
+         data: {entity: json_request},
+         url: url_edit,
+         cache: false,
+         success: function(output_json) {
+            if(! output_json.query.error) {
+               var new_description = output_json.results[0];
+               report.update(new_description);
+               $('#div_edit_report__draw_error').hide();
+            } else {
+               $('#div_edit_report__draw_error').show();
+            }
+         },
+         error: function() {
+            $('#div_edit_report__draw_error').show();
+         }
+      });
+   }
+
    return {
       stop_edition: stop_edition,
-      description_edit_or_save: description_edit_or_save,
+      edit_or_save: edit_or_save,
       position_edit_or_save:position_edit_or_save,
+      saveDrawings: saveDrawings,
    };
 });

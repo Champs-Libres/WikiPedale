@@ -18,8 +18,8 @@ require.config({
     }
 });
 
-require(['jQuery','user','description_create'],
-    function($,user,description_create){
+require(['jQuery','user','report_create'],
+    function($,user,report_create){
 
     $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
 
@@ -61,7 +61,7 @@ require(['jQuery','user','description_create'],
             $('#show_new_description_form_button').click(function() { 
                 $("#add_new_description_div").show();
                 $("#new_report_form_submit_button").show();
-                $("#new_report_form_submit_button").click(function() { description_create.catch_creating_form($("#add_new_description_form")); });
+                $("#new_report_form_submit_button").click(function() { report_create.catch_creating_form($("#add_new_report_form")); });
                 $("#show_new_description_form_button").hide();
                 $("#map").hide();
                 $("#map_instruction").hide();

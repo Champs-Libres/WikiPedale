@@ -1,36 +1,36 @@
 <div id="add_new_description_div" style="display:none;">
-   <form method="post" id="add_new_description_form">
+   <form method="post" id="add_new_report_form">
       <input type="hidden" name="lon" readonly="true" />
       <input  type="hidden" name="lat" readonly="true" />
    
       <fieldset id="div_new_report_form_user_mail">
-         <legend>{{ 'AddPoint.userdata.firefoxos_legend'|trans({}, 'pointMessages') }}</legend>
+         <legend>{{ 'new_report.firefoxos_legend'|trans({}, 'reportMessages') }}</legend>
 
          <section>
             <p>
-               <input type="text" id="add_new_description_form__user_label" name="user_label" placeholder="{{ 'AddPoint.userdata.name_placeholder'|trans({}, 'pointMessages') }}" />
+               <input type="text" id="add_new_report_form__user_label" name="user_label" placeholder="{{ 'new_report.name_placeholder'|trans({}, 'reportMessages') }}" />
             </p>
 
             <p>
-               <input type="text" id="add_new_description_form__email" name="email" placeholder="{{ 'AddPoint.userdata.firefoxos_mail_placeholder'|trans({}, 'pointMessages') }}" />
+               <input type="text" id="add_new_report_form__email" name="email" placeholder="{{ 'new_report.firefoxos_mail_placeholder'|trans({}, 'reportMessages') }}" />
             </p>
 
             <p>
-               <input type="text" id="add_new_description_form__user_phonenumber" name="user_phonenumber" placeholder="{{ 'AddPoint.userdata.firefoxos_phone_placeholder'|trans({}, 'pointMessages') }}" />
+               <input type="text" id="add_new_report_form__user_phonenumber" name="user_phonenumber" placeholder="{{ 'new_report.firefoxos_phone_placeholder'|trans({}, 'reportMessages') }}" />
             </p>
          </section>
       </fieldset>
 
       <fieldset>
-         <legend>{{ 'AddPoint.PointData.legend'|trans({}, 'pointMessages') }}</legend>
+         <legend>{{ 'new_report.describe_the_problem'|trans({}, 'reportMessages') }}</legend>
 
          <section>
             <p>
-               <input type="text" id="add_new_description_form__lieu" name="lieu" placeholder="{{ 'AddPoint.PointData.location_placeholder'|trans({}, 'pointMessages') }}" /><br />
+               <input type="text" id="add_new_report_form__lieu" name="lieu" placeholder="{{ 'new_report.location_placeholder'|trans({}, 'reportMessages') }}" /><br />
             </p>
 
             <p>
-               <select id="add_new_description_form__categories" name="categories" style="width:70%;" data-placeholder="{{ 'AddPoint.PointData.categories_placeholder'|trans({}, 'pointMessages') }}">
+               <select id="add_new_report_form__categories" name="categories" style="width:70%;" data-placeholder="{{ 'new_report.categories_placeholder'|trans({}, 'reportMessages') }}">
                   {% for category in categories %}
                      {% if category.hasChildren %}
                         <optgroup label="{{ category.label }}" >
@@ -49,7 +49,7 @@
             </p>
 
             <p>
-               <textarea id="add_new_description_form__description" name="description" placeholder="{{ 'AddPoint.PointData.description_placeholder'|trans({}, 'pointMessages') }}"></textarea>
+               <textarea id="add_new_report_form__description" name="description" placeholder="{{ 'new_report.description_placeholder'|trans({}, 'reportMessages') }}"></textarea>
             </p>
          </section>
       </fieldset>
@@ -57,14 +57,14 @@
 </div>
 
 <section role="status">
-<p id="add_new_description_form__message" class="message">
+<p id="add_new_report_form__message" class="message">
 </p>
 <section>
 
 <button id="new_report_form_submit_button" style="display:none">
-   {{ 'AddPoint.submit'|trans({}, 'pointMessages') }}
+   {{ 'new_report.submit'|trans({}, 'reportMessages') }}
 </button>
       
 <a id="new_place_form_menu_return_button" href="{{ path('wikipedale_firefoxos_index')}}" class="button" style="display:none">
-   {{ 'AddPoint.menu_return'|trans({}, 'pointMessages') }}
+   {{ 'new_report.menu_return'|trans({}, 'reportMessages') }}
 </a>

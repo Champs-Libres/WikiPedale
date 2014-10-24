@@ -16,47 +16,68 @@
   <input  type="hidden" name="lat" readonly="true" />
   
   <fieldset id="div_new_report_form_user_mail">
-    <legend><a href="#login_form_div">{{ 'AddPoint.userdata.legend1'|trans({}, 'pointMessages') }}</a> {{ 'AddPoint.userdata.legend2'|trans({}, 'pointMessages') }}</legend>
+    <legend><a href="#login_form_div">{{ 'new_report.log_in'|trans({}, 'reportMessages') }}</a> {{ 'new_report.enter_your_coordinate'|trans({}, 'reportMessages') }}</legend>
 
     <p>
-      <img src="{{ asset('img/verif_rien.png') }}" class="verif" id="add_new_description_form_informer__user_label" alt="is the field ok">
-      <label for="add_new_description_form__user_label">{{ 'AddPoint.userdata.name'|trans({}, 'pointMessages') }}</label>
-      <input type="text" id="add_new_description_form__user_label" name="user_label" placeholder="{{ 'AddPoint.userdata.name_placeholder'|trans({}, 'pointMessages') }}" />
+      <img src="{{ asset('img/verif_rien.png') }}" class="verif" id="add_new_report_form_informer__user_label" alt="is the field ok">
+      <label for="add_new_report_form__user_label">{{ 'new_report.name'|trans({}, 'reportMessages') }}</label>
+      <input type="text" id="add_new_report_form__user_label" name="user_label" placeholder="{{ 'new_report.name_placeholder'|trans({}, 'reportMessages') }}" />
     </p>
 
     <p>
-      <img src="{{ asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__email" alt="is the field ok">
-      <label for="add_new_description_form__email">{{ 'AddPoint.userdata.mail'|trans({}, 'pointMessages') }}</label>
-      <input type="text" id="add_new_description_form__email" name="email" placeholder="{{ 'AddPoint.userdata.mail_placeholder'|trans({}, 'pointMessages') }}" />
+      <img src="{{ asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__email" alt="is the field ok">
+      <label for="add_new_report_form__email">{{ 'new_report.mail'|trans({}, 'reportMessages') }}</label>
+      <input type="text" id="add_new_report_form__email" name="email" placeholder="{{ 'new_report.mail_placeholder'|trans({}, 'reportMessages') }}" />
     </p>
 
     <p>
-      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__user_phonenumber" alt="is the field ok">
-      <label for="add_new_description_form__user_phonenumber">{{ 'AddPoint.userdata.phone'|trans({}, 'pointMessages') }}</label>
-      <input type="text" id="add_new_description_form__user_phonenumber" name="user_phonenumber" placeholder="{{ 'AddPoint.userdata.phone_placeholder'|trans({}, 'pointMessages') }}" />
+      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__user_phonenumber" alt="is the field ok">
+      <label for="add_new_report_form__user_phonenumber">{{ 'new_report.phone'|trans({}, 'reportMessages') }}</label>
+      <input type="text" id="add_new_report_form__user_phonenumber" name="user_phonenumber" placeholder="{{ 'new_report.phone_placeholder'|trans({}, 'reportMessages') }}" />
     </p>
   </fieldset>
   
   <fieldset id="put_marker_on_the_map_fieldset">
-      <legend>{{ 'AddPoint.map.legend'|trans({}, 'pointMessages') }}</legend>
-      <img src="{{ asset('img/AddPoint.png')}}" />
-      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__map" alt="is the field ok">
+      <p>
+         <legend>{{ 'new_report.locate_your_report_on_the_map'|trans({}, 'reportMessages') }}</legend>
+         {{ 'new_report.please_locate_your_report_on_the_map'|trans({}, 'reportMessages') }}
+         <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__map" alt="is the field ok">
+      </p>
+      <p>
+         <button class="edit" id="add_new_report_form__draw_details_on_map">
+            {{ 'new_report.draw_your_report_on_the_map'|trans({}, 'reportMessages') }}
+         </button>
+
+         <div id="div_add_new_description__draw">
+            <select id="add_new_report_form__draw_type" style="width:250px;">
+               <option value="LineString">{{ 'new_report.draw_a_line'|trans({}, 'reportMessages') }}</option>
+               <option value="Polygon">{{ 'new_report.draw_a_polygon'|trans({}, 'reportMessages') }}</option>
+            </select>
+              
+            <button class="delete" id="add_new_report_form__draw_erase">
+               {{ 'new_report.erase_drawings'|trans({}, 'reportMessages') }}
+            </button>
+            <button class="edit" id="add_new_report_form__end_draw_details_on_map">
+               {{ 'new_report.end_of_drawing'|trans({}, 'reportMessages') }}
+            </button>
+         </div>
+      </p>
   </fieldset>
 
 
   <fieldset>
-    <legend>{{ 'AddPoint.PointData.legend'|trans({}, 'pointMessages') }}</legend>
+    <legend>{{ 'new_report.describe_the_problem'|trans({}, 'reportMessages') }}</legend>
       
     <p>
-      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__lieu" alt="is the field ok">
-      <label for="add_new_description_form__lieu">{{ 'AddPoint.PointData.location'|trans({}, 'pointMessages') }}</label> 
-      <input type="text" id="add_new_description_form__lieu" name="lieu" placeholder="{{ 'AddPoint.PointData.location_placeholder'|trans({}, 'pointMessages') }}" /><br />
+      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__lieu" alt="is the field ok">
+      <label for="add_new_report_form__lieu">{{ 'new_report.location'|trans({}, 'reportMessages') }}</label> 
+      <input type="text" id="add_new_report_form__lieu" name="lieu" placeholder="{{ 'new_report.location_placeholder'|trans({}, 'reportMessages') }}" /><br />
     </p>
 
     <p>
-      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__category" alt="is the field ok">
-      <label for="add_new_description_form__category">{{ 'AddPoint.PointData.categories'|trans({}, 'pointMessages') }}</label>
-      <select id="add_new_description_form__category" name="category" style="width:250px;" data-placeholder="{{ 'AddPoint.PointData.categories_placeholder'|trans({}, 'pointMessages') }}">
+      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__category" alt="is the field ok">
+      <label for="add_new_report_form__category">{{ 'new_report.categories'|trans({}, 'reportMessages') }}</label>
+      <select id="add_new_report_form__category" name="category" style="width:250px;" data-placeholder="{{ 'new_report.categories_placeholder'|trans({}, 'reportMessages') }}">
           {% for category in categories %}
               {% if category.hasChildren %}
                     <optgroup label="{{ category.label }}" >
@@ -80,21 +101,21 @@
     <p/>
 
     <p>
-      <span id="add_new_description_form_informer__category_medium_warning" class="warningMessage">{{ 'AddPoint.medium_warning'|trans({}, 'pointMessages') }}</span>
+      <span id="add_new_report_form_informer__category_medium_warning" class="warningMessage">{{ 'new_report.medium_warning'|trans({}, 'reportMessages') }}</span>
     </p>
 
 
   <p>
-    <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_description_form_informer__description" alt="is the field ok">
-    <label for="add_new_description_form__description">{{ 'AddPoint.PointData.description'|trans({}, 'pointMessages') }}</label> 
-    <textarea id="add_new_description_form__description" name="description" rows="5" placeholder="{{ 'AddPoint.PointData.description_placeholder'|trans({}, 'pointMessages') }}"></textarea>
+    <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__description" alt="is the field ok">
+    <label for="add_new_report_form__description">{{ 'new_report.description'|trans({}, 'reportMessages') }}</label> 
+    <textarea id="add_new_report_form__description" name="description" rows="5" placeholder="{{ 'new_report.description_placeholder'|trans({}, 'reportMessages') }}"></textarea>
   </p>
 </fieldset>
   
-  <div id="add_new_description_form__message" class="message">
+  <div id="add_new_report_form__message" class="message">
   </div>
   
   <div style="text-align:right;">
-    <input class="envoi" id="new_report_form_submit_button" type="submit" value="{{ 'AddPoint.submit'|trans({}, 'pointMessages') }}">
+    <input class="submit" id="new_report_form_submit_button" type="submit" value="{{ 'new_report.submit'|trans({}, 'reportMessages') }}">
   </div>
 </form>
