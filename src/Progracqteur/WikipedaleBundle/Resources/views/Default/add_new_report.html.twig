@@ -108,7 +108,7 @@
   <p>
     <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__description" alt="is the field ok">
     <label for="add_new_report_form__description">{{ 'new_report.description'|trans({}, 'reportMessages') }}</label> 
-    <textarea id="add_new_report_form__description" name="description" rows="5" placeholder="{{ 'new_report.description_placeholder'|trans({}, 'reportMessages') }}"></textarea>
+    <textarea id="add_new_report_form__description" name="description" rows="5" placeholder="{{ 'new_report.description_placeholder'|trans({}, 'reportMessages') }}" maxlength="2500"></textarea>
   </p>
 </fieldset>
   

@@ -83,7 +83,7 @@
       {{ 'display_report.description'|trans({}, 'reportMessages') }} :
       <strong><span id="span_report_description_desc"></span></strong>
       <div id="div_report_description_desc_edit" style="display: none;">
-         <textarea id="span_report_description_desc_edit"></textarea>
+         <textarea id="span_report_description_desc_edit" maxlength="2500"></textarea>
       </div>
       <span id="span_report_description_desc_error" style="background:red; display: none;">
          {{ 'display_report.error'|trans({}, 'reportMessages') }} 
@@ -95,7 +95,7 @@
       {{ 'display_report.cem_comment'|trans({}, 'reportMessages') }} :
       <strong><span id="span_report_description_commentaireCeM"></span></strong>
       <div id="div_report_description_commentaireCeM_edit" style="display: none;">
-         <textarea id="span_report_description_commentaireCeM_edit"></textarea>
+         <textarea id="span_report_description_commentaireCeM_edit" maxlength="2500"></textarea>
       </div>
       <span id="span_report_description_commentaireCeM_error" style="background:red; display: none;">
          {{ 'display_report.error'|trans({}, 'reportMessages') }}
@@ -199,7 +199,7 @@
       <div id="div_form_commentaires_cem_gestionnaire" style="display:none">
          <form method="post" id="form_add_new_comment">
             <label for="form_add_new_comment__text">{{ 'display_report.your_comment'|trans({}, 'reportMessages') }} :</label>
-            <textarea id="form_add_new_comment__text" name="text" rows="5" maxlength="4000" placeholder="Ajoutez ici votre commentaire"></textarea>
+            <textarea id="form_add_new_comment__text" name="text" rows="5" maxlength="4000" placeholder="Ajoutez ici votre commentaire" maxlength="5000"></textarea>
             <div id="form_add_new_comment__message"></div>
             <div style="text-align:right;">
                <input class="submit" id="new_comment_form_submit_button" type="submit" value="Soumettre">
