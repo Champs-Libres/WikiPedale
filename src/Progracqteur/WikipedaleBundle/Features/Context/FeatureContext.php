@@ -259,6 +259,6 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     public function iclickOnTheCurrentReport()
     {
         $this->getSession()->getDriver()
-            ->evaluateScript('require("data_map_glue").focusOnPlaceOf(' . $this->currentReport->getId() .');');
+            ->evaluateScript('require("data_map_glue").focusOnReport(' . $this->currentReport->getId() .');');
     }
 }

@@ -5,7 +5,7 @@ Background:
 
 @javascript @account_creation
 Scenario: Show the creation form
-   When I click on the element "#menu_register a"
+   When I click on "#menu_register a"
    Then I am on "/register"
    And element "#fos_user_registration_form_username" should be visible
    And element "#fos_user_registration_form_email" should be visible
