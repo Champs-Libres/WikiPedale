@@ -1,34 +1,39 @@
-AddPoint:
-  userdata:
-    legend1: Connectez-vous 
-    legend2: ou entrez vos coordonnées.
-    firefoxos_legend: Vous
-    name: Nom
-    name_placeholder: Nom et Prénom
-    mail: Courriel
-    mail_placeholder: Votre adresse de courrier électronique
-    firefoxos_mail_placeholder: Courriel
-    phone: Téléphone
-    phone_placeholder: Un numéro où vous joindre
-    firefoxos_phone_placeholder: Téléphone
-  map:
-    legend: Localisez votre point sur la carte.
-  PointData:
-    legend: Décrivez le problème.
-    location : Localisation
-    location_placeholder: Rue et numéro
-    categories: Type
-    categories_placeholder: Sélectionner une ou plusieurs catégories
-    description: Détails
-    description_placeholder: Description du problème
+# Adding new report
+new_report:
+  log_in: Connectez-vous 
+  enter_your_coordinate: ou entrez vos coordonnées.
+  firefoxos_legend: Vous
+  name: Nom
+  name_placeholder: Nom et Prénom
+  mail: Courriel
+  mail_placeholder: Votre adresse de courrier électronique
+  firefoxos_mail_placeholder: Courriel
+  phone: Téléphone
+  phone_placeholder: Un numéro où vous joindre
+  firefoxos_phone_placeholder: Téléphone
+  describe_the_problem: Décrivez le problème.
+  location : Localisation
+  location_placeholder: Rue et numéro
+  categories: Type
+  categories_placeholder: Sélectionner une ou plusieurs catégories
+  description: Détails
+  description_placeholder: Description du problème
+  locate_your_report_on_the_map: Localisez votre point sur la carte.
+  please_locate_your_report_on_the_map: Veuillez cliquer sur la carte pour localisez  le signalement.
   medium_warning: Attention, un problème de ce type est complexe à résoudre. Cela peut donc prendre du temps.
   submit: Enregistrer
   cancel: Effacer
   menu_return: Retour au menu général
+  draw_your_report_on_the_map: Dessiner le problème sur la carte
+  draw_a_line: Dessiner une ligne
+  draw_a_polygon: Dessiner un polygone
+  erase_drawings: Effacer
+  end_of_drawing: Fin du dessin
 
-DisplayPoint:
+# Display / Edit reports
+display_report:
   author: Constat effectué par
-  position_change: Changer le signalement sur la carte
+  position_change: Changer la localisation du signalement
   save: Sauvegarder
   error: Erreur, veuillez reéssayer et si le problème persiste le signaler au gracq
   localisation: Localisation
@@ -47,19 +52,16 @@ DisplayPoint:
   internal_comments: Commentaires CeM-gestionnaire de Voirie
   more_comments: Plus de commentaires & ajout
   your_comment: Votre commentaire
-
-Controls:
   edit: Éditer
-  save: Sauver
-  delete: Supprimer le signalement
-
-display_black_points:
-  blackpoint: Point noir
-  author: Constat effectué par
   add_picture: Ajouter une photo
-  comments: commentaires
+  edit_drawings: Modifier le dessin de la carte
+  draw_a_line: Dessiner une ligne
+  draw_a_polygon: Dessiner un polygone
+  erase_drawings: Effacer
+  save_drawings: Sauvegarder
+  end_of_drawing: Fin de l'édition
 
-  # Registration
+# Registration
 registration:
     check_email: Un e-mail a été envoyé à l'adresse %email%. Veuillez suivre les instructions qui vous y sont indiquées.
     confirmed: Félicitations %username%, votre compte est maintenant activé.
