@@ -5,11 +5,11 @@ Progracqteur\WikipedaleBundle\Entity\Model\Report:
       - Valid: ~
   properties:
     description:
-      - Length: {max: 1000, maxMessage: La description ne peut pas être plus longue que 1000 caractères}
+      - Length: {max: 2500, maxMessage: La description ne peut pas être plus longue que 2500 caractères}
     geom:
       - NotNull: {message: Indiquez un emplacement géographique}
     moderatorComment:
-      - Length: {max: 1000, maxMessage: Le commentaire du modérateur ne peut pas être plus long que 1000 caractères}
+      - Length: {max: 2500, maxMessage: Le commentaire du modérateur ne peut pas être plus long que 2500 caractères}
   constraints:
     - Callback:
         methods: [isStatusesValid, hasOnlyOneChange, isCategoriesValid, isManagerValid]
