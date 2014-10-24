@@ -40,6 +40,7 @@ class ChangeService {
     const REPORT_MANAGER_REMOVE = 198;
     const REPORT_REPORTTYPE_ALTER = 200;
     const REPORT_MODERATOR_COMMENT_ALTER = 210;
+    const REPORT_DRAWINGS = 220;
     const REPORT_TERM = 220;
     const REPORT_CREATOR_CONFIRMATION = 1600;
     
@@ -132,6 +133,9 @@ class ChangeService {
             {
                 //pour les objets Report
                 //case self::REPORT_ADD_COMMENT : 
+                case self::REPORT_DRAWINGS:
+                    continue;
+                    break;
                 case self::REPORT_CREATION:
                     continue; //tout le monde peut ajouter un emplacement
                     break;

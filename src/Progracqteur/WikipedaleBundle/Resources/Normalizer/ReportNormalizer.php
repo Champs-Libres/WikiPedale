@@ -66,6 +66,10 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
         if (isset($data['description'])) {
             $p->setDescription($data['description']);
         }
+
+        if (isset($data['drawnGeoJSON'])) {   
+            $p->setDrawnGeoJSON(json_encode($data['drawnGeoJSON']));
+        }
         
         if (isset($data['geom'])) {
             $point = Point::fromArrayGeoJson($data['geom']);
@@ -201,6 +205,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             'entity' => 'report',
             'description' => $object->getDescription(),
             'geom' => $object->getGeom()->toArrayGeoJson(),
+            'drawnGeoJSON' => $object->getDrawnGeoJSON(),
             'id' => $object->getId(),
             'nbComm' => $object->getNbComm(),
             'nbVote' => $object->getNbVote(),

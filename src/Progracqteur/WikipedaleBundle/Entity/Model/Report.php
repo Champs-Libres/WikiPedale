@@ -137,6 +137,14 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     */
    private $moderator;
 
+
+   /**
+    * GeoJSON string that represents what the user has drawn on the map
+    * (to give more explanation about the report)
+    *
+    * @var string
+    */
+   private $drawnGeoJSON;
     
    private $_listeners = array();
 
@@ -155,7 +163,6 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
       //initialize the placeStatuses (tel quel dans la db)
       $this->infos->placeStatuses = new Hash();
    }
-
 
    /**
     * Get id
@@ -321,6 +328,31 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
    {
       return $this->infos;
    }
+
+   /**
+    * Get the GeoJSON string that represent what the user has drawn on the map
+    * (to give more explanation)
+    */
+   public function getDrawnGeoJSON()
+   {
+      return $this->drawnGeoJSON;
+   }
+
+   /**
+    * Set the GeoJSON string that represent what the user has drawn on the map
+    * (to give more explanation)
+    */
+   public function setDrawnGeoJSON($drawnGeoJSON)
+   {
+        //$this->drawnGeoJSON = $drawnGeoJSON;
+
+        if ($this->drawnGeoJSON !== $drawnGeoJSON) {
+            $this->change('drawnGeoJSON', $this->drawnGeoJSON, $drawnGeoJSON);
+            $this->drawnGeoJSON = $drawnGeoJSON;
+            $this->getChangeset()->addChange(ChangeService::REPORT_DRAWINGS, $drawnGeoJSON);
+      }
+   }
+
 
    /**
    * Set creator
@@ -646,8 +678,6 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
       $this->decreasePhoto();
       $this->getChangeset()->addChange(ChangeService::REPORT_REMOVE_PHOTO, $photo->getFileName());
    }
-
-
 
    /**
    * Set description
