@@ -1,6 +1,6 @@
 /* jslint vars: true */
 /*jslint indent: 3 */
-/* global define, $ */
+/* global define */
 'use strict';
 
 define(['report_map','user'], function(report_map,user) {
@@ -24,19 +24,7 @@ define(['report_map','user'], function(report_map,user) {
       * @param{string} lon The longitude of the point.
       * @param{string} lat} The latitude of the point.
       */
-      var p, parser;
-
-      if ($('#map').attr('class') === 'olMap') {
-         p = new OpenLayers.Geometry.Point(lon, lat);
-         p.transform(report_map.get_map().getProjectionObject(), new OpenLayers.Projection('EPSG:4326'));
-         parser = new OpenLayers.Format.GeoJSON();
-         var ret =  parser.write(p, false);
-         return ret;
-      }
-      else {
-         return '{"type":"Point","coordinates":[' + lon + ',' + lat + ']}';
-      }
-      
+      return '{"type":"Point","coordinates":[' + lon + ',' + lat + ']}';
    }
 
    function change_place(id, changement){
@@ -126,6 +114,16 @@ define(['report_map','user'], function(report_map,user) {
       return change_place(id,'"geom":'+ point(lon,lat));
    }
 
+
+   function editReportDrawings(id, drawn_geojson) {
+      /**
+      * Returns a json for the drawings of a report.
+      * @param{int} id The id of the report.
+      * @param{object} drawn_geojson The geojson of the drawings.
+      */
+      return change_place(id, '"drawnGeoJSON":' + JSON.stringify(drawn_geojson));
+   }
+
    function delete_place(id){
       /**
       * Returns a json for deleting a report.
@@ -134,7 +132,7 @@ define(['report_map','user'], function(report_map,user) {
       return change_place(id,'"accepted":false');
    }
 
-   function edit_place(description, lon, lat, address, id, color, user_label, user_email, user_phonenumber, category) {
+   function edit_place(description, lon, lat, address, id, color, user_label, user_email, user_phonenumber, category, drawn_geojson) {
       /**
       * Returns a json string used for adding/editing a new report.
       * @param {string} description the description of the new place.
@@ -167,6 +165,8 @@ define(['report_map','user'], function(report_map,user) {
       ret = ret + ',"description":' + JSON.stringify(description) +
          ',"addressParts":{"entity":"address","road":' + JSON.stringify(address) + '}';
 
+      ret = ret + ',"drawnGeoJSON":' + JSON.stringify(drawn_geojson);
+
       ret = ret + ',"category":{"entity":"category","id":' + category + '}';
       return ret + '}';
    }
@@ -195,6 +195,7 @@ define(['report_map','user'], function(report_map,user) {
       delete_place: delete_place,
       edit_place: edit_place,
       edit_place_position: edit_place_position,
-      moderatorManagerComment: moderatorManagerComment
+      moderatorManagerComment: moderatorManagerComment,
+      editReportDrawings: editReportDrawings,
    };
 });

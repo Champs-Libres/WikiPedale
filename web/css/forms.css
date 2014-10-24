@@ -25,9 +25,7 @@ form input, form textarea, form select {
     width: 250px;
 }
 
-input.envoi, input.CancelButton {
-    width: 150px;
-    background: #76B82A;
+input.submit, input.CancelButton, button.submit, button.edit, button.delete {
     border: none;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -37,19 +35,35 @@ input.envoi, input.CancelButton {
     letter-spacing: 1px;
     margin: 0.5em 0.5em 0 0.5em;
     padding: 0.5em;
-    text-shadow: 0 1px 1px #000000;
+    /* text-shadow: 0 1px 1px #000000; */
 }
 
-input.envoi:hover {
+input.submit, input.CancelButton {
+    width: 150px;
+}
+
+input.submit, button.submit {
+   background: #76B82A;
+}
+
+input.submit:hover, button.submit:hover {
     background: #609522;
 }
 
-input.CancelButton {
+input.CancelButton, button.delete {
+    background: #A74B50;
+}
+
+input.CancelButton:hover,  button.delete:hover {
     background: #724648;
 }
 
-input.CancelButton:hover {
-    background: #A74B50;
+button.edit {
+    background: #888;
+}
+
+button.edit:hover {
+    background: #7F7F7F;
 }
 
 /* Boîte Connexion */

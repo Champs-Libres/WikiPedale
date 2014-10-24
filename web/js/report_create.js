@@ -18,30 +18,30 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
       */
       var desc_data = {},
          error_messages = '',
-         messages_div = $('#add_new_description_form__message');
+         messages_div = $('#add_new_report_form__message');
 
       $.map($(the_form_to_catch).serializeArray(), function(n){
-         desc_data[n['name']] = n['value'];
+         desc_data[n.name] = n.value;
       });
 
-      if(desc_data['description'] === '') {
+      if(desc_data.description === '') {
          error_messages = error_messages + 'Veuillez remplir la description. ';
       }
 
-      if(desc_data['lieu'] === '') {
+      if(desc_data.lieu === '') {
          error_messages = error_messages + 'Veuillez indiquer l\'adresse. ';
       }
 
-      if(desc_data['lon'] === '' || desc_data['lat'] === '') {
+      if(desc_data.lon === '' || desc_data.lat === '') {
          error_messages = error_messages + 'Veuillez indiquer où se trouve le point noir en cliquant sur la carte. ';
       }
 
       if(! user.isRegistered()){
-         if(desc_data['user_label'] === '') {
+         if(desc_data.user_label === '') {
             error_messages = error_messages + 'Veuillez donner votre nom. ';
          }
 
-         if(! basic_data_and_functions.is_mail_valid(desc_data['email'])) {
+         if(! basic_data_and_functions.is_mail_valid(desc_data.email)) {
             error_messages = error_messages + 'Veuillez indiquer une adresse email valide. ';
          }
       }
@@ -55,9 +55,10 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
                $(messages_div).addClass('errorMessage');
             } else {
                $(messages_div).text('Traitement en cours');
-               var entity_string = json_string.edit_place(desc_data['description'], desc_data['lon'],
-                  desc_data['lat'], desc_data['lieu'], desc_data['id'], desc_data['couleur'],
-                  desc_data['user_label'], desc_data['email'], desc_data['user_phonenumber'],desc_data['category']);
+               var entity_string = json_string.edit_place(desc_data.description, desc_data.lon,
+                  desc_data.lat, desc_data.lieu, desc_data.id, desc_data.couleur,
+                  desc_data.user_label, desc_data.email, desc_data.user_phonenumber,desc_data.category,
+                  report_map.getDrawnDetails('new_report'));
                var url_edit = Routing.generate('wikipedale_report_change', {_format: 'json'});
                $.ajax({
                   type: 'POST',
@@ -70,21 +71,21 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
                         clear_creating_form();
                         if(user.isRegistered()) { //sinon verif de l'email 
                            $(messages_div).text('Le point noir que vous avez soumis a bien été enregistré. Merci!');
-                              setTimeout( function(){
-                                 report_map.addReport(new_report);
-                                 data_map_glue.modeChange();
-                                 data_map_glue.focusOnPlaceOf(new_report.id);
-                                 report_map.deleteMarker('new_report');
-                                 $(messages_div).text('');
-                                 $(messages_div).removeClass('successMessage')
-                              },3000);
+                           setTimeout( function(){
+                              report_map.addReport(new_report);
+                              data_map_glue.modeChange();
+                              data_map_glue.focusOnReport(new_report.id);
+                              report_map.deleteMarker('new_report');
+                              $(messages_div).text('');
+                              $(messages_div).removeClass('successMessage');
+                           },3000);
                         } else {
                            $(messages_div).text('Le point noir que vous avez soumis a bien été enregistré. Avant d\'afficher le point noir, nous allons vérifier votre adresse mail. Veuillez suivre les instructions qui vous ont été envoyées par email.');
-                              setTimeout(
-                                 function(){
-                                    data_map_glue.modeChange();
-                                    report_map.deleteMarker('new_report');
-                                 },3000);
+                           setTimeout(
+                              function(){
+                                 data_map_glue.modeChange();
+                                 report_map.deleteMarker('new_report');
+                              },3000);
                         }
 
                         $(messages_div).addClass('successMessage');
@@ -94,9 +95,9 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
                      }
                   },
                   error: function(error_message) {
-                     alert('Mince, il y a un problème : '
-                        + error_message.responseText 
-                        + '. Si le problème persiste, veuilllez nous le signaler. Merci.');
+                     alert('Mince, il y a un problème : ' +
+                        error_message.responseText +
+                        '. Si le problème persiste, veuilllez nous le signaler. Merci.');
                   }
                });
             }
@@ -109,8 +110,6 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
       * Clear the data entered in the form used to create new description.
       * It remove also the marker of the map.
       */
-      add_new_description_form__message
-      form__add_new_description
       $('#form__add_new_description input[type=text], #form__add_new_description textarea, #form__add_new_description input[type=hidden]').val('');
       $('#form__add_new_description').children('.message').text('');
       informer.reset_new_description_form();

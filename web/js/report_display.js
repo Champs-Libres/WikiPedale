@@ -3,8 +3,8 @@
 /* global define */
 'use strict';
 
-define(['jQuery','report_map','user','report','photo','params','description_edit','comments','basic_data_and_functions'],
-      function($,report_map,user,report,photo,params,description_edit,comments,basic_data_and_functions) {
+define(['jQuery','report_map','user','report','photo','params','report_edit','comments','basic_data_and_functions'],
+      function($,report_map,user,report,photo,params,report_edit,comments,basic_data_and_functions) {
    var color_trad_text = {};
    color_trad_text['0'] = 'pas encore pris en compte (blanc)';
    color_trad_text['-1'] = 'rejeté (gris)';
@@ -52,7 +52,7 @@ define(['jQuery','report_map','user','report','photo','params','description_edit
       $('#span_plus_de_commenaitres_link').hide();
       $('#div_list_private_comment_container').show();
       $('#div_form_commentaires_cem_gestionnaire').show();
-      $('#add_new_description_form__message').val('');
+      $('#add_new_report_form__message').val('');
       scroll(0,0);
 
       report_map.setTarget('map_little');
@@ -74,6 +74,9 @@ define(['jQuery','report_map','user','report','photo','params','description_edit
       photo.refresh_span_photo(id_desc);
       $('#link_add_photo').unbind('click');
       $('#link_add_photo').click(function() { photo.pop_up_add_photo(id_desc); });
+
+      $('#div_edit_report__draw_error').hide();
+      $('#span_edit_lon_lat_delete_error').hide();
 
       $('.class_span_report_description_id').each(function() { this.innerHTML = desc_data.id; });
       $('.class_span_report_description_loc').each(function() { this.innerHTML = desc_data.addressParts.road; });
@@ -107,7 +110,7 @@ define(['jQuery','report_map','user','report','photo','params','description_edit
          }
       }
 
-      description_edit.stop_edition(); // si l'utilisateur a commencé à éditer , il faut cacher les formulaires
+      report_edit.stop_edition(); // si l'utilisateur a commencé à éditer , il faut cacher les formulaires
       display_regarding_to_user_role();
       
       $('#div__report_description_display').show();
@@ -156,10 +159,12 @@ define(['jQuery','report_map','user','report','photo','params','description_edit
          $('#span_report_description_status_button').show();
          $('#div_container_report_description_commentaireCeM').show();
          $('#button_edit_lon_lat').show();
+         $('#edit_report__draw_button').show();
       } else {
          $('#span_report_description_commentaireCeM_button').hide();
          $('#span_report_description_status_button').hide();
          $('#button_edit_lon_lat').hide();
+         $('#edit_report__draw_button').hide();
       }
 
       if (user.isAdmin() || user.isCeM() || user.isGdV()) {
