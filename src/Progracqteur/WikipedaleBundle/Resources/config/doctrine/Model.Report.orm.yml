@@ -12,6 +12,8 @@ Progracqteur\WikipedaleBundle\Entity\Model\Report:
   fields:
     geom:
       type: point
+    drawnGeoJSON:
+      type: text
     description:
       type: text
     createDate:
