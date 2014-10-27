@@ -212,6 +212,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
       if($type === 'email') {
          $value = $value . '@' . md5(uniqid(rand(0,1000), true)) . '.com';
       }
+
       $field = $this->fixStepArgument($field);
       $this->getSession()->getPage()->fillField($field, $value);
    }
@@ -251,6 +252,19 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
             ->evaluateScript('return require("report").getARandomReportId();');
 
         $this->currentReport = $em->getRepository('ProgracqteurWikipedaleBundle:Model\\Report')->findOneById($idCurrentReport);
+    }
+
+
+    /**
+     *  @Then /^I randomly select a point on the map$/
+     */
+    public function randomlySelectAPointOnTheMap()
+    {
+        // Mons
+        $javascript = "document.getElementById('add_new_report_form__lat').value='" . (rand(504500, 504570)/10000) . "'";
+        $this->getSession()->executeScript($javascript);
+        $javascript = "document.getElementById('add_new_report_form__lon').value='" . (rand(39400, 39620)/10000) .  "'";
+        $this->getSession()->executeScript($javascript);
     }
 
     /**
