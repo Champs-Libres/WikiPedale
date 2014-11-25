@@ -5,10 +5,6 @@ Wikipedale est un logiciel de signalement de problèmes à Vélo. Il est dévelo
 
 Le projet est en test à l'adresse suivante http://uello.be.
 
-This software is developed by [Champs Libres](http://www.champs-libres.coop). You may find useful informations and help by contacting us !
-
-A demo implementation is available here : http://demo.uello.be
-
 Concepts
 ---------
 
@@ -85,7 +81,7 @@ ALTER TABLE spatial_ref_sys OWNER TO uello_user;
 *Install the app and dependencies*
 
 ```bash
-git clone https://github.com/Champs-Libres/WikiPedale.git wikipedale # use the stable branch for test and prod
+git clone https://github.com/GRACQ-dev/Wikipedale.git wikipedale # use the stable branch for test and prod
 cd wikipedale
 #get composer.phar
 curl -sS https://getcomposer.org/installer | php
