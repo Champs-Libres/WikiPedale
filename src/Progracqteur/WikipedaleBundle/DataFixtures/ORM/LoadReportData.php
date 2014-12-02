@@ -21,112 +21,112 @@ use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 
 class LoadReportData extends AbstractFixture implements OrderedFixtureInterface, \Symfony\Component\DependencyInjection\ContainerAwareInterface
 {
-   public function getOrder()
-   {
-     return 500;
-   }
+    public function getOrder()
+    {
+        return 500;
+    }
 
-   /**
-   *Cette fonction ajoute trois report à des endroits aléatoires
-   * @param ObjectManager $manager 
-   */
-   public function load(ObjectManager $manager)
-   {       
-      $notations = array('gracq', "spw", "villedemons", 'cem', 'cem', 'cem', 'cem');
-      $valuesNotations = array(-1,0,1,2,3);
+    /**
+    *Cette fonction ajoute trois report à des endroits aléatoires
+    * @param ObjectManager $manager 
+    */
+    public function load(ObjectManager $manager)
+    {       
+        $notations = array('gracq', "spw", "villedemons", 'cem', 'cem', 'cem', 'cem');
+        $valuesNotations = array(-1,0,1,2,3);
 
-      for ($i=0; $i < 40; $i++) {
-         $report = new Report();
+        for ($i=0; $i < 40; $i++) {
+            $report = new Report();
 
-         $creatorIsUnregistered = $i % 2 === 0; // 0 or 1 (modulo)
+            $creatorIsUnregistered = $i % 2 === 0; // 0 or 1 (modulo)
 
-         if($creatorIsUnregistered) {
-            echo "Report #$i creation (unregistred user)\n";
-            $creator = new UnregisteredUser();
-            $creator->setLabel('non enregistré '.$this->createId());
-            $creator->setEmail('test@fastre.info');
-            $creator->setIp('192.168.1.89');
-            $creator->setPhonenumber("012345678901");
-            $creator->setChecked(true);
-            $report->setCreator($creator);
-            //$report->getChangeset()->setAuthor($u);
-         } else {
-            echo "Report #$i creation (registred user)\n";
-            $creator = $this->getReference('user');
-            $report->setCreator($creator);
-         } 
+            if($creatorIsUnregistered) {
+                echo "Report #$i creation (unregistred user)\n";
+                $creator = new UnregisteredUser();
+                $creator->setLabel('non enregistré '.$this->createId());
+                $creator->setEmail('test@fastre.info');
+                $creator->setIp('192.168.1.89');
+                $creator->setPhonenumber("012345678901");
+                $creator->setChecked(true);
+                $report->setCreator($creator);
+                //$report->getChangeset()->setAuthor($u);
+            } else {
+                echo "Report #$i creation (registred user)\n";
+                $creator = $this->getReference('user');
+                $report->setCreator($creator);
+            } 
 
-         $report->setDescription($this->getLipsum(rand(10,60)));
+            $report->setDescription($this->getLipsum(rand(10,60)));
          
-         # Randomly add (or not) a  moderator comment
-         if (rand(0,5) > 3) {
-            $report->setModeratorComment($this->getLipsum(rand(10,90)));
-         }
-
-         $point = $this->getRandomPoint();
-         $report->setGeom($point);
-         
-         $report->setAddress($this->geolocate($point));
-         
-         //add a random category amongst the one loaded
-         $cat_array = array('1', '2', '3', '4', '5', '6');
-         $rand = array_rand($cat_array);
-         $cat_string_ref = 'cat'.$cat_array[$rand];
-
-         echo "add $cat_string_ref \n";
-         $report->setCategory($this->getReference('cat'.$cat_array[$rand]));
-         
-         //ajout un statut à toutes les report, sauf à quatre d'entre elles
-         if ($i != 0 OR $i != 10 OR $i != 15 OR $i != 19) {
-             $p = new ReportStatus();
-             $p->setType($notations[array_rand($notations)])
-               ->setValue($valuesNotations[array_rand($valuesNotations)]);
-             $report->addStatus($p);
-         }
-
-         if($creatorIsUnregistered) {
-            $report->getChangeset()->setAuthor($creator);
-            $report->setConfirmedCreator($creator);
-         } else {
-            $report->getChangeset()->setAuthor($creator);
-         }         
-
-         $report->setManager($this->getReference('manager_mons'));
-         
-         $type_array = array('long', 'short', 'medium', 'short', 'short', 'short');
-         $rand = array_rand($type_array);
-         $reportType = $this->getReference('type_'.$type_array[$rand]);
-         $report->setType($reportType);
-
-         echo "type of the report : ".$report->getType()->getLabel()." \n";
-         
-         $errors = $this->container->get('validator')->validate($report);
-         if (count($errors) > 0) {
-            $m = "";
-            foreach ($errors as $error) {
-               $m .= $error->getMessage();
+            # Randomly add (or not) a  moderator comment
+            if (rand(0,5) > 3) {
+                $report->setModeratorComment($this->getLipsum(rand(10,90)));
             }
 
-            //ignore some errors
-            if (!($m === "place.validation.message.onlyOneStatusAtATime")) {
-               throw new \Exception("invalid report : $m");
+            $point = $this->getRandomPoint();
+            $report->setGeom($point);
+
+            $report->setAddress($this->geolocate($point));
+
+            //add a random category amongst the one loaded
+            $cat_array = array('1', '2', '3', '4', '5', '6');
+            $rand = array_rand($cat_array);
+            $cat_string_ref = 'cat'.$cat_array[$rand];
+
+            echo "add $cat_string_ref \n";
+            $report->setCategory($this->getReference('cat'.$cat_array[$rand]));
+
+            //ajout un statut à toutes les report, sauf à quatre d'entre elles
+            if ($i != 0 OR $i != 10 OR $i != 15 OR $i != 19) {
+                $p = new ReportStatus();
+                $p->setType($notations[array_rand($notations)])
+                    ->setValue($valuesNotations[array_rand($valuesNotations)]);
+                $report->addStatus($p);
             }
-         }
+
+            if($creatorIsUnregistered) {
+                $report->getChangeset()->setAuthor($creator);
+                $report->setConfirmedCreator($creator);
+            } else {
+                $report->getChangeset()->setAuthor($creator);
+            }         
+
+            $report->setManager($this->getReference('manager_mons'));
+
+            $type_array = array('long', 'short', 'medium', 'short', 'short', 'short');
+            $rand = array_rand($type_array);
+            $reportType = $this->getReference('type_'.$type_array[$rand]);
+            $report->setType($reportType);
+
+            echo "type of the report : ".$report->getType()->getLabel()." \n";
          
-         $manager->persist($report);
+            $errors = $this->container->get('validator')->validate($report);
+            if (count($errors) > 0) {
+                $m = "";
+                foreach ($errors as $error) {
+                    $m .= $error->getMessage();
+                }
 
-         if($creatorIsUnregistered) {
-            $this->addReference("REPORT_FOR_UNREGISTERED_USER".($i / 2), $report);
-         } else {
-            $this->addReference("REPORT_FOR_REGISTERED_USER".(($i - 1)  / 2), $report);
-         }
+                //ignore some errors
+                if (!($m === "place.validation.message.onlyOneStatusAtATime")) {
+                    throw new \Exception("invalid report : $m");
+                }
+            }
          
-      }
+            $manager->persist($report);
 
-      $manager->persist($report);
+            if($creatorIsUnregistered) {
+                $this->addReference("REPORT_FOR_UNREGISTERED_USER".($i / 2), $report);
+            } else {
+                $this->addReference("REPORT_FOR_REGISTERED_USER".(($i - 1)  / 2), $report);
+            }
 
-      $manager->flush();
-   }
+            $report->setDrawnGeoJSON('{"type":"FeatureCollection","features":[]}');
+        }
+
+        $manager->persist($report);
+        $manager->flush();
+    }
 
    /**
    * La fonction renvoie un point aléatoire dans la région de Mons
