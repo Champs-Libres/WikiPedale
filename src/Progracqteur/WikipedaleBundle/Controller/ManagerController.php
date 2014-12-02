@@ -77,6 +77,5 @@ class ManagerController extends Controller {
          
         return new Response($t); 
     }
-    
 }
 
