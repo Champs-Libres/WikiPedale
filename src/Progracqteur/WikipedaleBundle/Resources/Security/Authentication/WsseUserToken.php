@@ -9,8 +9,8 @@ use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class WsseUserToken extends AbstractToken {
-    
+class WsseUserToken extends AbstractToken
+{    
     public $created;
     public $digest;
     public $nonce;
