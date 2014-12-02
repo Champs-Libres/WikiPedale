@@ -54,7 +54,7 @@ Progracqteur\WikipedaleBundle\Entity\Management\Group:
   constraints:
     - Callback:
         methods: [isValidType, isValidNotation]
-      
+
 Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser:
   properties:
     ip: 
@@ -79,12 +79,12 @@ Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser:
           #checkMX: true
     phonenumber:
       - NotNull: {message: user.validation.phonenumber.not_null}
-  
+
 Progracqteur\WikipedaleBundle\Entity\Management\User:
   constraints:
       - Callback: 
           methods: [isVirtualConsistant]
-      
+
 Progracqteur\WikipedaleBundle\Entity\Model\Category:
   constraints:
     - Callback:
@@ -94,8 +94,7 @@ Progracqteur\WikipedaleBundle\Entity\Model\Category:
     label:
       - NotBlank: ~
       - Length: {min: 3, minMessage: admin.category.form.label.min_length, max: 240, maxMessage: admin.category.form.label.max_length}
-      
-      
+
 Progracqteur\WikipedaleBundle\Entity\Model\Comment:
   getters:
     type: 
@@ -109,5 +108,3 @@ Progracqteur\WikipedaleBundle\Entity\Model\Comment:
     creator:
       - NotNull:
           message: validation.comment.creator.not_null
-          
-      
