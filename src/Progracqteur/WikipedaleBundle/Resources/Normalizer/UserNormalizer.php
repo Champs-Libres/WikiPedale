@@ -10,19 +10,16 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerServi
 
 use Fastre\LibravatarBundle\Services\ServiceLibravatar;
 
-
-
-
 /**
  * Description of UserNormalizer
  *
  * @author julien [at] fastre [point] info
+ * @author marc.ducobu@gmail.com
  */
 class UserNormalizer implements NormalizerInterface
 {
     
     private $service;
-    
     private $addGroupsToNormalization = false;
     
     /**
@@ -44,10 +41,8 @@ class UserNormalizer implements NormalizerInterface
     public function denormalize($data, $class, $format = null, array $context = array()) {
         //si la classe demandée n'est pas USER, il faut uniquement renvoyer un objet User existant,
         // ou un objet Unregistereduser
-        if ($class === NormalizerSerializerService::REPORT_TYPE)
-        {
-            if ($data['id'] === null)
-            {          
+        if ($class === NormalizerSerializerService::REPORT_TYPE) {
+            if ($data['id'] === null) {
                 $u = $this->service->getReportNormalizer()->getCurrentReport()->getCreator();
                 if ($u === null) {
                     $u = new UnregisteredUser();
@@ -62,22 +57,16 @@ class UserNormalizer implements NormalizerInterface
 
                     $u->setIp($this->service->getRequest()->getClientIp());
                 }
-
             } else {
-
                 $u = $this->service->getManager()
                         ->getRepository('ProgracqteurWikipedaleBundle:Management\\User')
                         ->find($data['id']);
 
-                if ($u === null)
-                {
+                if ($u === null) {
                     throw new \Exception("L'utilisateur n'a pas été trouvé dans la base de donnée");
                 }
             }
-
-            
         }
-        
         return $u;
     }
     
@@ -88,7 +77,6 @@ class UserNormalizer implements NormalizerInterface
      * @return type
      */
     public function normalize($object, $format = null, array $context = array()) {
-        
         $a =  array(
             'entity' => 'user',
             'id' => $object->getId(),
@@ -100,27 +88,19 @@ class UserNormalizer implements NormalizerInterface
             'avatar' => '' //$this->libravatarService->getUrl($object->getEmail()),   TODO : activate avatar when this will be ready ! 
         );
         
-        if (
-                $this->service->getSecurityContext()->isGranted(User::ROLE_SEE_USER_DETAILS)
-                )
-        {
+        if ($this->service->getSecurityContext()->isGranted(User::ROLE_SEE_USER_DETAILS)) {
             $a['email'] = $object->getEmail();
             $a['phonenumber'] = $object->getPhonenumber();
         }
         
-        if ($this->addGroupsToNormalization)
-        {
+        if ($this->addGroupsToNormalization) {
             $a[self::GROUPS] = array();
-            foreach ($object->getGroups() as $group)
-            {
+            foreach ($object->getGroups() as $group) {
                 $a[self::GROUPS][] = $this->service->getGroupNormalizer()
                         ->normalize($group);
             }
         }
-        
-
         return $a;
-        
     }
     
     /**
@@ -135,26 +115,14 @@ class UserNormalizer implements NormalizerInterface
         $this->addGroupsToNormalization = $enable;
     }
     
-    
-    
-    public function supportsDenormalization($data, $type, $format = null) {
-        if ($data['entity'] == 'user')
-        {
-            return true;
-        } else
-        {
-            return false;
-        }
-        
-        
+    public function supportsDenormalization($data, $type, $format = null)
+    {
+        return ($data['entity'] == 'user');
     }
-    public function supportsNormalization($data, $format = null) {
-        if ($data instanceof User)
-        {
-            return true;
-        } else {
-            return false;
-        }
+
+    public function supportsNormalization($data, $format = null)
+    {
+        return ($data instanceof User);
     }
 }
 
