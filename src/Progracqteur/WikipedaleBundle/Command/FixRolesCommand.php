@@ -41,8 +41,5 @@ class FixRolesCommand extends ContainerAwareCommand {
         }
         
         $manager->flush();
-        
     }
-    
 }
-
