@@ -14,8 +14,8 @@ use Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseUserToke
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class WsseProvider implements AuthenticationProviderInterface {
-    
+class WsseProvider implements AuthenticationProviderInterface
+{
     private $userProvider;
     private $cacheDir;
 
@@ -29,8 +29,11 @@ class WsseProvider implements AuthenticationProviderInterface {
     {
         $user = $this->userProvider->loadUserByUsername($token->getUsername());
 
-        if ($user && $this->validateDigest($token->digest, $token->nonce, $token->created, $user->getPassword())) {
-            
+        $saltSize = strlen($user->getSalt());
+        $userPassword = $user->getPassword();
+        $plainPassword = substr($userPassword, 0, strlen($userPassword) - $saltSize -2);
+
+        if ($user && $this->validateDigest($token->digest, $token->nonce, $token->created, $plainPassword)) {
             //check password validity
             if ($user->isEnabled() === FALSE) {
                 throw new AuthenticationException('user.is_disabled');
@@ -43,14 +46,12 @@ class WsseProvider implements AuthenticationProviderInterface {
             $user->setLastLogin(new \DateTime());
             $this->userProvider->updateUser($user);
             
-            
             $authenticatedToken = new WsseUserToken($user->getRoles());
             $authenticatedToken->setUser($user);
             
             $authenticatedToken->setFullyAuthenticated();
             
             //TODO vérifier l'expiration du mot de passe
-
             return $authenticatedToken;
         }
 
