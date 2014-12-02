@@ -16,8 +16,8 @@ use Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseUserToke
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class WsseListener implements ListenerInterface {
-    
+class WsseListener implements ListenerInterface
+{    
     protected $securityContext;
     protected $authenticationManager;
 
@@ -27,11 +27,11 @@ class WsseListener implements ListenerInterface {
         $this->authenticationManager = $authenticationManager;
     }
     
-    public function handle(GetResponseEvent $event) {
+    public function handle(GetResponseEvent $event)
+    {
         $request = $event->getRequest();
         
         if ($request->headers->has('x-wsse')) {
-
             $wsseRegex = '/UsernameToken Username="([^"]+)", PasswordDigest="([^"]+)", Created="([^"]+)", Nonce="([^"]+)"/';
 
             if (preg_match($wsseRegex, $request->headers->get('x-wsse'), $matches)) {
@@ -44,9 +44,7 @@ class WsseListener implements ListenerInterface {
 
                 try {
                     $returnValue = $this->authenticationManager->authenticate($token);
-
                     if ($returnValue instanceof TokenInterface) {
-                        
                         return $this->securityContext->setToken($returnValue);
                     } elseif ($returnValue instanceof Response) {
                         return $event->setResponse($returnValue);
@@ -57,12 +55,7 @@ class WsseListener implements ListenerInterface {
                     $event->setResponse($response);
                 }
             }
-        
-            
-            
         }
-
-        
     }
 }
 
