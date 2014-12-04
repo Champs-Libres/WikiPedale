@@ -44,6 +44,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
       $userManager->updateUser($user);
 
 
+      
       echo "CREATE 'Moderator (CeM) Mons' Group\n";
       $cemGroup = new Group('Moderator (CeM) Mons', array());
       $cemGroup
@@ -53,6 +54,22 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
          ->setZone($city);
       $om->persist($cemGroup);
       $this->addReference('cemgroup', $cemGroup);
+      
+      //we need more than one moderator roup for test working...
+      for ($i = 0; $i < 10; $i++) {
+          echo "CREATE 'Moderator (CeM) $i' Group\n";
+          $cemGroup = new Group('Moderator (CeM) '.$i, array());
+          $cemGroup
+          ->setType(Group::TYPE_MODERATOR)
+          ->setNotation(
+              $om->getRepository('ProgracqteurWikipedaleBundle:Management\Notation')->find('cem'))
+           ->setZone($this->getUniqueRandomZone())
+           ;
+          //
+          
+          $om->persist($cemGroup);
+          $this->addReference('cemgroup'.$i, $cemGroup);
+      }
 
       echo "CREATE 'moderator' USER (pwd 'moderator')\n";
       $moderator = new User(array("label" => "Monsieur Vélo Mons", "username" => "moderator",
@@ -62,7 +79,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
       $this->addReference('cem', $moderator);
         
       echo "CREATE 'Gestionnaire de voirie communal Mons' Group\n";
-      $manGroup = new Group('Gestionnaire de voirie communal Mons', array());
+      $manGroup = new Group('Gestionnaire de voirie communal', array());
       $manGroup
          ->setType(Group::TYPE_MANAGER)
          ->setNotation(
@@ -103,5 +120,35 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     
    public function setContainer(ContainerInterface $container = null) {
       $this->container = $container;
+   }
+   
+   /**
+    * cache zone for the function getUniqueRandomZone
+    */
+   private $cacheUniqueRandomZone = null;
+   
+   /**
+    * return an unique random zone
+    * a zone may be returned only once
+    */
+   public function getUniqueRandomZone()
+   {
+       if ($this->cacheUniqueRandomZone === NULL) {
+           $this->cacheUniqueRandomZone = $this->container->get('doctrine.orm.entity_manager')
+                ->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
+                ->findAll();
+           
+           //remove mons
+           foreach ($this->cacheUniqueRandomZone as $key => $zone) {
+               if ($zone->getSlug() === 'mons') {
+                   unset($this->cacheUniqueRandomZone[$key]);
+               }
+           }
+       }
+       
+       $randomKey = array_rand($this->cacheUniqueRandomZone);
+       $zone = $this->cacheUniqueRandomZone[$randomKey];
+       unset($this->cacheUniqueRandomZone[$randomKey]);
+       return $zone;
    }
 }

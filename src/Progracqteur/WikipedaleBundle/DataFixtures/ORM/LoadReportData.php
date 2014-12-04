@@ -161,44 +161,13 @@ class LoadReportData extends AbstractFixture implements OrderedFixtureInterface,
       $s = '';
       $d = array_rand($this->z);
       $dd = $this->z[$d];
-
-<<<<<<< HEAD
       for ($i = 0; $i < $dd; $i++) {
          $o = array_rand($this->n);
          $s .= $this->n[$o];
       }
-=======
-            
-            //add a type (little 4 more frequently)
-            $type_array = array('short', 'medium', 'short', 'short', 'short');
-            $rand = array_rand($type_array);
-            $reportType = $this->getReference('type_'.$type_array[$rand]);
-            $report->setType($reportType);
-            
-            //designate a moderator
-            $report->setModerator(
-                  $this->container
-                     ->get('progracqteur.wikipedale.moderator_designator')
-                     ->getModerator($report)
-                  );
-            
-            $errors = $this->container->get('validator')->validate($report);
-            if (count($errors) > 0)
-            {
-                $m = "";
-                foreach ($errors as $error)
-                {
-                    $m .= $error->getMessage();
-                }
-                
-                //ignore some errors
-                if (!($m === "place.validation.message.onlyOneStatusAtATime"))
-                    throw new \Exception("report invalide $m");
-            }
->>>>>>> #53 add into fixtures
-
       return $s;
    }
+   
 
 
    private function geolocate(Point $point)

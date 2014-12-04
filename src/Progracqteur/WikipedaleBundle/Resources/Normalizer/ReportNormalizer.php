@@ -144,6 +144,20 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             }
         }
         
+        if (isset($data[self::MODERATOR])) {
+            if ($this->service->getGroupNormalizer()
+                ->supportsDenormalization($data[self::MODERATOR], $class)) {
+                    $group = $this->service->getGroupNormalizer()->denormalize($data[self::MODERATOR], $class);
+                    $p->setModerator($group);
+                } else {
+                    throw new NormalizingException('could not denormalize moderator '.$data[self::MODERATOR]);
+                }
+            
+                if ($data[self::MODERATOR] === null) {
+                    $p->setModerator(null);
+                }
+        }
+        
         if (isset($data[self::REPORT_TYPE])) {
             if ($this->service
                     ->getReportTypeNormalizer()
