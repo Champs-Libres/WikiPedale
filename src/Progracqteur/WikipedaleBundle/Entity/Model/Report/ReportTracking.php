@@ -138,6 +138,10 @@ class ReportTracking implements ChangesetInterface {
                     break;
                 case ChangeService::REPORT_TERM:
                     $newValue = $newValue;
+                    break;
+                case ChangeService::REPORT_MODERATOR_ALTER:
+                    $newValue = $newValue->getId();
+                    break;
                 //default:
                     //rien à faire
             }

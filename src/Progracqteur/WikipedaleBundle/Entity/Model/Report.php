@@ -130,6 +130,12 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     * @var Doctrine\Common\Collections\ArrayCollection 
     */
    private $comments;
+   
+   /**
+    *
+    * @var Group
+    */
+   private $moderator;
 
 
    /**
@@ -797,7 +803,36 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
    {
       return $this->manager;
    }
+   
+   /**
+    * 
+    * @return \Progracqteur\WikipedaleBundle\Entity\Management\Group
+    */
+   public function getModerator()
+   {
+      return $this->moderator;
+   }
 
+   /**
+    * 
+    * @param \Progracqteur\WikipedaleBundle\Entity\Management\Group $moderator
+    * @return \Progracqteur\WikipedaleBundle\Entity\Model\Report
+    */
+   public function setModerator(Group $moderator)
+   {
+      if ($moderator !== $this->moderator) {
+         $this->change('moderator', $this->moderator, $moderator);
+         $this->moderator = $moderator;
+         $this->moderator->addReportsAsModerator($this);
+         $this->getChangeset()->addChange(ChangeService::REPORT_MODERATOR_ALTER, 
+               $moderator);
+         $this->setLastUpdateNow();
+      }
+      
+      return $this;
+   }
+
+   
    /**
    * 
    * @param \Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportType $type

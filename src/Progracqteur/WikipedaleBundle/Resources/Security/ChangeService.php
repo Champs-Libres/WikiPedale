@@ -43,6 +43,7 @@ class ChangeService {
     const REPORT_DRAWINGS = 220;
     const REPORT_TERM = 220;
     const REPORT_CREATOR_CONFIRMATION = 1600;
+    const REPORT_MODERATOR_ALTER = 230;
     
     
     /**
@@ -390,6 +391,18 @@ class ChangeService {
                     } else {
                         throw ChangeException::param('term');
                     }
+                    break;
+                case self::REPORT_MODERATOR_ALTER:
+                   if ($object->getChangeset()->isCreation()) {
+                      continue;
+                   } else {
+                      if ($this->securityContext
+                            ->isGranted(User::ROLE_MODERATOR_ALTER)) {
+                         continue;
+                      } else {
+                         throw ChangeException::param('moderator');
+                      }
+                   }
                  default:
                      throw ChangeException::param('inconnu - '.$change->getType());
             

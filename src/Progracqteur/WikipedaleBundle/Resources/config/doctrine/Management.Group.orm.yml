@@ -1,20 +1,24 @@
 Progracqteur\WikipedaleBundle\Entity\Management\Group:
-  type: entity
-  table: group_table
-  repositoryClass: Progracqteur\WikipedaleBundle\EntityRepositories\Management\GroupRepository
-  id:
-    id:
-      type: integer
-      generator: {strategy: AUTO}
-  fields:
-    type:
-      type: string
-      column: gtype
-      length: 12
-  manyToOne:
-    notation:
-      targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Notation
-      nullable: true
-    zone:
-      targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Zone
-      nullable: true
+   type: entity
+   table: group_table
+   repositoryClass: Progracqteur\WikipedaleBundle\EntityRepositories\Management\GroupRepository
+   id:
+      id:
+         type: integer
+         generator: {strategy: AUTO}
+   fields:
+      type:
+         type: string
+         column: gtype
+         length: 12
+   manyToOne:
+      notation:
+         targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Notation
+         nullable: true
+      zone:
+         targetEntity: Progracqteur\WikipedaleBundle\Entity\Management\Zone
+         nullable: true
+   oneToMany:
+      reportsAsModerator:
+         targetEntity: Progracqteur\WikipedaleBundle\Entity\Model\Report
+         mappedBy: moderator

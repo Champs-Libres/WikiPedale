@@ -377,8 +377,9 @@ class ReportController extends Controller
         }
         
         // Modification du changeset
-        //ajoute l'utilisateur courant au changeset
+        
         if ($report->getChangeset()->isCreation()) { // si création 
+           //ajoute l'utilisateur courant au changeset
             if ($this->get('security.context')->getToken()->getUser() instanceof User) { //si utilisateur connecté
                 $report->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
             } else { 
@@ -386,6 +387,10 @@ class ReportController extends Controller
                 
                 $report->getChangeset()->setAuthor($user);
             }
+            //add a default moderator
+            $moderatorDesignator = $this->get('progracqteur.wikipedale.'
+                  . 'moderator_designator');
+            $report->setModerator($moderatorDesignator->getModerator($report));
         } else { //si modification d'un signalement
             //les vérifications de sécurité ayant eu lieu, il suffit d'ajouter l'utilisateur courant
             $report->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());

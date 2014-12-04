@@ -39,6 +39,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
     const MODERATOR_COMMENT = 'moderatorComment';
     const COMMENTS = 'comments';
     const TERM = 'term';
+    const MODERATOR = 'moderator';
     
     public function __construct(NormalizerSerializerService $service)
     {
@@ -143,6 +144,20 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             }
         }
         
+        if (isset($data[self::MODERATOR])) {
+            if ($this->service->getGroupNormalizer()
+                ->supportsDenormalization($data[self::MODERATOR], $class)) {
+                    $group = $this->service->getGroupNormalizer()->denormalize($data[self::MODERATOR], $class);
+                    $p->setModerator($group);
+                } else {
+                    throw new NormalizingException('could not denormalize moderator '.$data[self::MODERATOR]);
+                }
+            
+                if ($data[self::MODERATOR] === null) {
+                    $p->setModerator(null);
+                }
+        }
+        
         if (isset($data[self::REPORT_TYPE])) {
             if ($this->service
                     ->getReportTypeNormalizer()
@@ -188,6 +203,13 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             $manager = null;
         }
         
+        if ($object->getModerator() !== null) {
+           $moderator = $this->service->getGroupNormalizer()
+                 ->normalize($object->getModerator());
+        } else {
+           $moderator = null;
+        }
+        
         if ($object->getType() !== null) {
             $reportType = $this->service
                     ->getReportTypeNormalizer()
@@ -218,6 +240,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
             'statuses' => $s,
             'category' => $categoryNomalizer->normalize($object->getCategory(), $format),
             'manager' => $manager,
+            self::MODERATOR => $moderator,
             self::REPORT_TYPE => $reportType,
             self::MODERATOR_COMMENT => $object->getModeratorComment(),
             self::COMMENTS => $nbComments,

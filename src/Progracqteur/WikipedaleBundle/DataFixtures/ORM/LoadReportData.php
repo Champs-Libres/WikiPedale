@@ -98,8 +98,19 @@ class LoadReportData extends AbstractFixture implements OrderedFixtureInterface,
             $reportType = $this->getReference('type_'.$type_array[$rand]);
             $report->setType($reportType);
 
+
             echo "type of the report : ".$report->getType()->getLabel()." \n";
          
+
+            echo "type de le signalement est ".$report->getType()->getLabel()." \n";
+            
+            //designate a moderator
+            $report->setModerator(
+                  $this->container
+                     ->get('progracqteur.wikipedale.moderator_designator')
+                     ->getModerator($report)
+                  );
+            
             $errors = $this->container->get('validator')->validate($report);
             if (count($errors) > 0) {
                 $m = "";
@@ -155,9 +166,9 @@ class LoadReportData extends AbstractFixture implements OrderedFixtureInterface,
          $o = array_rand($this->n);
          $s .= $this->n[$o];
       }
-
       return $s;
    }
+   
 
 
    private function geolocate(Point $point)
