@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
+use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 
 /**
  * 
@@ -45,6 +46,28 @@ class GroupFrontendController extends Controller
         }
         
         
+    }
+    
+    public function listByTypeAction($type, $_format = 'json')
+    {
+        if ($_format !== 'json') {
+            $response = new Response("The format $_format is not allowed");
+            $response->setStatusCode(406);
+            return $response;
+        }
+        
+        if (! in_array(mb_strtoupper($type), array(Group::TYPE_MODERATOR, Group::TYPE_MANAGER, Group::TYPE_NOTATION))) {
+            throw $this->createNotFoundException("'$type' not found");
+        }
+    
+        $em = $this->getDoctrine()->getManager();
+        $moderators = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
+        ->findBy(array('type' => mb_strtoupper($type)));
+    
+        $normalizer = $this->get('progracqteurWikipedaleSerializer');
+        $response = new NormalizedResponse($moderators);
+    
+        return new Response($normalizer->serialize($response, 'json'));
     }
 }
 
