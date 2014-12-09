@@ -1,0 +1,54 @@
+<div>
+
+   <div class="description_element">
+      {#  set author ? report.creator.label :  #}
+      {{ 'Report done by %author% on %date%'|trans({ 
+            '%author%': '<strong><span id="span_report_description_signaleur">' ~ report.creator.label ~ '</span></strong>', 
+            '%date%': '<strong><span id="span_report_description_creation_date">'~ report.createDate|date(date_format) ~ '</span></strong>'}, 
+            'reportMessages')|raw }}
+   </div>
+
+   <div class="description_element">
+
+      {{ 'display_report.localisation'|trans({}, 'reportMessages') }} :
+      <strong>
+         <span id="span_report_description_loc">{{ report.address.road }}</span>
+      </strong>
+   </div>
+
+   <div class="description_element">
+      <div>{{ 'display_report.description'|trans({}, 'reportMessages') }} :</div>
+      <blockquote><span id="span_report_description_desc">{{ report.description }}</span></blockquote>
+         </div>
+
+   <div class="description_element" id="div_container_report_description_commentaireCeM">
+      {{ 'display_report.cem_comment'|trans({}, 'reportMessages') }} :
+      <strong><span id="span_report_description_commentaireCeM">{{ report.moderatorComment }}</span></strong>
+   </div>
+
+   <div class="description_element">
+      {{ 'display_report.category'|trans({}, 'reportMessages') }} :
+      <strong><span id="span_report_description_cat">{{ report.category }}</span></strong>
+      
+   </div>
+
+   <div class="description_element">
+      {{ 'display_report.cem_notation'|trans({}, 'reportMessages') }} :
+      <strong><span id="span_report_description_status">{{ 'csv.report.list.statuses'|transchoice(report.statuses[0].value|default(0)) }}</span></strong>
+   </div>
+
+   <div class="description_element">
+      {{ 'display_report.manager'|trans({}, 'reportMessages') }} :
+      <strong><span id="span_report_description_gestionnaire"></span></strong>
+   </div>
+
+
+
+   <div>
+      <span class="span_photo"></span>
+      <a href="#" id="link_add_photo" title="{{ 'display_report.add_picture'|trans({}, 'changes') }}">
+         <img src="{{asset('img/AddPicture.png')}}" />
+      </a>
+   </div>
+
+</div>

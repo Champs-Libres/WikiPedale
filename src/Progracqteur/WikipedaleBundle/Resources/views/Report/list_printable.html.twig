@@ -1,0 +1,13 @@
+{% extends "ProgracqteurWikipedaleBundle::layout_printable.html.twig" %}
+
+{% block title %}{{ 'Report list'|trans }}{% endblock title %}
+
+{% block content %}
+{% if reports|length == 0 %}
+<p>{{ 'No reports to print'|trans }}</p>
+{% else %}
+{% for report in reports %}
+{%  include 'ProgracqteurWikipedaleBundle:Report:view_printable.html.twig' with {'report' : report } %}
+{% endfor %}
+{% endif %}
+{% endblock content %}
