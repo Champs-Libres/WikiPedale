@@ -22,16 +22,14 @@ class GroupFrontendController extends Controller
         $zoneA = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
                 ->findOneBy(array('slug' => $slugZone));
         
-        if ($zoneA === null)
-        {
+        if ($zoneA === null) {
             throw $this->createNotFoundException('slugZone does not match any zone');
         }
         
         $groups = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
                 ->getGroupsByTypeByCoverage($type, $zoneA->getPolygon());
         
-        switch ($_format) 
-        {
+        switch ($_format) {
             case 'json' : 
                 $serializer = $this->get('progracqteurWikipedaleSerializer');
         
