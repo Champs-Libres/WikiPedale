@@ -98,24 +98,23 @@ class DefaultController extends Controller
             WHERE  c.used = true AND c.parent is null AND c.term IN (%s)
             ORDER BY c.order, c.label', $terms_allowed);
         
-        $categories = $this->getDoctrine()->getManager()
-                ->createQuery($q)
-                ->getResult();
+        $categories = $em->createQuery($q)->getResult();
         //Todo: cachable query
         
-        $reportTypes = $this->getDoctrine()->getManager()
-                ->getRepository('ProgracqteurWikipedaleBundle:Model\Report\ReportType')
-                ->findAll();
+        $reportTypes = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Report\ReportType')
+            ->findAll();
         //TODO : cachable query
         
         if ($request->getSession()->get('city') !== null) {
             $z = $request->getSession()->get('city');
-            $managers = $this->getDoctrine()
-                ->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
+            $managers = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
                 ->getGroupsByTypeByCoverage(Group::TYPE_MANAGER, $z->getPolygon());
         } else {
             $managers = array();
         }
+
+        $moderators = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
+            ->findByType(Group::TYPE_MODERATOR);
         
         $paramsToView = array(
             'mainCities' => $mainCities, 
@@ -123,6 +122,7 @@ class DefaultController extends Controller
             'categories' => $categories,
             'reportTypes' => $reportTypes,
             'managers' => $managers,
+            'moderators' => $moderators,
             'terms_allowed' => $terms_allowed_array
         );
 

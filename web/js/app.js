@@ -90,6 +90,7 @@ require(
          $('#span_report_description_cat_edit').select2();
          $('#span_report_description_status_edit').select2();
          $('#span_report_description_gestionnaire_edit').select2();
+         $('#span_report_description_moderator_edit').select2();
 
          $('#add_new_report_form__category').select2().on('change', function() { informer.update_new_description_form('category'); });
          $('#add_new_report_form__draw_type').select2({'minimumResultsForSearch': -1}).on('change', function() { data_map_glue.changeDrawModeOnMap('new_report'); });
@@ -140,6 +141,7 @@ require(
          $('#span_report_description_cat_button').click(function(e) { e.preventDefault();  report_edit.edit_or_save('cat'); });
          $('#span_report_description_status_button').click(function(e) { e.preventDefault();  report_edit.edit_or_save('status'); });
          $('#span_report_description_gestionnaire_button').click(function(e) { e.preventDefault();  report_edit.edit_or_save('gestionnaire'); });
+         $('#span_report_description_moderator_button').click(function(e) { e.preventDefault();  report_edit.edit_or_save('moderator'); });
          $('#span_report_description_delete_button').click(function(e) {e.preventDefault(); data_map_glue.lastDescriptionSelectedDelete(); });
          
          $('#button_edit_lon_lat').click(function(e) { e.preventDefault(); report_edit.position_edit_or_save(); });

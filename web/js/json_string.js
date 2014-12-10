@@ -87,12 +87,22 @@ define(['report_map','user'], function(report_map,user) {
 
    function edit_manager(id,new_manager_id){
       /**
-      * Returns a json for editing the manager of a place.
+      * Returns a json for editing the manager of a report.
       * @param{int} id The id of the report.
       * @param{int} new_manager_id The id of the new manager.
       */
       return change_place(id,'"manager": {"entity":"group","type":"MANAGER","id":' +
          JSON.stringify(new_manager_id)  + '}');
+   }
+
+   function edit_moderator(id,new_moderator_id){
+      /**
+      * Returns a json for editing the moderator of a report.
+      * @param{int} id The id of the report.
+      * @param{int} new_moderator_id The id of the new moderator.
+      */
+      return change_place(id,'"moderator": {"entity":"group","type":"MODERATOR","id":' +
+         JSON.stringify(new_moderator_id)  + '}');
    }
 
    function edit_place_type(id, new_placetype_id){
@@ -191,6 +201,7 @@ define(['report_map','user'], function(report_map,user) {
       edit_category: edit_category,
       edit_status: edit_status,
       edit_manager: edit_manager,
+      edit_moderator: edit_moderator,
       edit_place_type: edit_place_type,
       delete_place: delete_place,
       edit_place: edit_place,
