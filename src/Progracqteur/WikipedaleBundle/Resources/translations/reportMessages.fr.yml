@@ -48,6 +48,7 @@ display_report:
   green_notation: résolu (vert)
   type: Type du signalement
   manager: Gestionnaire de voirie
+  moderator: Modérateur
   delete: Ne plus afficher le signalement
   internal_comments: Commentaires CeM-gestionnaire de Voirie
   more_comments: Plus de commentaires & ajout

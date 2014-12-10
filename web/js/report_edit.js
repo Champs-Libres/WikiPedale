@@ -170,6 +170,8 @@ define(['jQuery','report_map','report','basic_data_and_functions','json_string',
             json_request = json_string.edit_status(signalement_id,params.manager_color,$(element_id + '_edit').select2('val'));
          } else if (element_type === 'gestionnaire') {
             json_request = json_string.edit_manager(signalement_id,$(element_id + '_edit').select2('val'));
+         } else if (element_type === 'moderator') {
+            json_request = json_string.edit_moderator(signalement_id,$(element_id + '_edit').select2('val'));
          } else if (element_type === 'type'){
             json_request = json_string.edit_place_type(signalement_id,$(element_id + '_edit').select2('val'));
          }
@@ -187,9 +189,7 @@ define(['jQuery','report_map','report','basic_data_and_functions','json_string',
                      $(element_id).text(new_description.category.label);
                   } else if (element_type === 'status'){
                      report_map.selectMarker(signalement_id);
-                  } else if (element_type === 'gestionnaire') {
-                     $(element_id).text($(element_id + '_edit').select2('data').text);
-                  } else if (element_type === 'type'){
+                  } else if (element_type === 'gestionnaire' || element_type === 'type' || element_type === 'moderator' ) {
                      $(element_id).text($(element_id + '_edit').select2('data').text);
                   } else {
                      $(element_id).text($(element_id + '_edit').val());
