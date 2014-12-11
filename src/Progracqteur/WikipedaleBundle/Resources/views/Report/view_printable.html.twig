@@ -1,54 +1,70 @@
-<div>
+<div class="report">
+    
+    <div class="report-map" id="map_{{ report.id }}"></div>
+    
+    <script type="text/javascript">
+            reportPrintable.launchMap('map_{{ report.id }}', {{ report.geom.lon }}, {{ report.geom.lat }}, {{ report.statuses[0].value }});
+    </script>
+    
+    <div class="infos">
+       <div class="description_element">
+          {#  set author ? report.creator.label :  #}
+          {{ 'Report done by %author% on %date%'|trans({ 
+                '%author%': '<strong><span id="span_report_description_signaleur">' ~ report.creator.label ~ '</span></strong>', 
+                '%date%': '<strong><span id="span_report_description_creation_date">'~ report.createDate|date(date_format) ~ '</span></strong>'}, 
+                'reportMessages')|raw }}
+          {% if is_granted('ROLE_SEE_USER_DETAILS') %}
+           <div class="">
+               <strong>{{ 'Phonenumber'|trans({}, 'reportMessages') }}&nbsp;:</strong> <span class="phonenumber">{{ report.creator.phonenumber }}</span>
+               <br/>
+               <strong>{{ 'Email'|trans({}, 'reportMessages') }}&nbsp;:</strong> <span>{{ report.creator.email }}</span>
+           </div>
+          {% endif %}
+       </div>
 
-   <div class="description_element">
-      {#  set author ? report.creator.label :  #}
-      {{ 'Report done by %author% on %date%'|trans({ 
-            '%author%': '<strong><span id="span_report_description_signaleur">' ~ report.creator.label ~ '</span></strong>', 
-            '%date%': '<strong><span id="span_report_description_creation_date">'~ report.createDate|date(date_format) ~ '</span></strong>'}, 
-            'reportMessages')|raw }}
-   </div>
+       <div class="description_element">
 
-   <div class="description_element">
+          {{ 'display_report.localisation'|trans({}, 'reportMessages') }} :
+          <strong>
+             <span id="span_report_description_loc">{{ report.address.road }}</span>
+          </strong>
+       </div>
 
-      {{ 'display_report.localisation'|trans({}, 'reportMessages') }} :
-      <strong>
-         <span id="span_report_description_loc">{{ report.address.road }}</span>
-      </strong>
-   </div>
+       <div class="description_element">
+          <div>{{ 'display_report.description'|trans({}, 'reportMessages') }} :</div>
+          <blockquote><span id="span_report_description_desc">{{ report.description }}</span></blockquote>
+             </div>
 
-   <div class="description_element">
-      <div>{{ 'display_report.description'|trans({}, 'reportMessages') }} :</div>
-      <blockquote><span id="span_report_description_desc">{{ report.description }}</span></blockquote>
-         </div>
+       <div class="description_element" id="div_container_report_description_commentaireCeM">
+           <div>{{ 'display_report.cem_comment'|trans({}, 'reportMessages') }} :</div>
+          <blockquote><span id="span_report_description_commentaireCeM">{{ report.moderatorComment|default('<span class="empty">' ~'Any moderator\'s comment'|trans({}, 'reportMessages' ) ~ '</span>' )|raw }}</span></blockquote>
+       </div>
 
-   <div class="description_element" id="div_container_report_description_commentaireCeM">
-      {{ 'display_report.cem_comment'|trans({}, 'reportMessages') }} :
-      <strong><span id="span_report_description_commentaireCeM">{{ report.moderatorComment }}</span></strong>
-   </div>
+       <div class="description_element">
+          {{ 'display_report.category'|trans({}, 'reportMessages') }} :
+          <strong><span id="span_report_description_cat">{{ report.category }}</span></strong>
 
-   <div class="description_element">
-      {{ 'display_report.category'|trans({}, 'reportMessages') }} :
-      <strong><span id="span_report_description_cat">{{ report.category }}</span></strong>
-      
-   </div>
+       </div>
 
-   <div class="description_element">
-      {{ 'display_report.cem_notation'|trans({}, 'reportMessages') }} :
-      <strong><span id="span_report_description_status">{{ 'csv.report.list.statuses'|transchoice(report.statuses[0].value|default(0)) }}</span></strong>
-   </div>
+       <div class="description_element">
+          {{ 'display_report.cem_notation'|trans({}, 'reportMessages') }} :
+          <strong><span id="span_report_description_status">{{ 'csv.report.list.statuses'|transchoice(report.statuses[0].value|default(0)) }}</span></strong>
+       </div>
 
-   <div class="description_element">
-      {{ 'display_report.manager'|trans({}, 'reportMessages') }} :
-      <strong><span id="span_report_description_gestionnaire"></span></strong>
-   </div>
+       <div class="description_element">
+          {{ 'Modérateur'|trans({}, 'reportMessages') }} :
+          <strong><span id="span_report_description_gestionnaire">{{ report.moderator }}</span></strong>
+       </div>
 
+       <div class="description_element">
+          {{ 'display_report.manager'|trans({}, 'reportMessages') }} :
+          <strong><span id="span_report_description_manager">{{ report.manager|default('<span class="empty">' ~'No manager assigned'|trans({}, 'reportMessages' ) ~ '</span>' )|raw }}</span></strong>
+       </div>
+       
+       <div class="description_element">
+           <div>{{ 'Personal notes'|trans({}, 'reportMessages') }} :</div>
+           <textarea class="notes" rows="10" placeholder="{{ 'Enter your notes here'|trans({}, 'reportMessages') }}"></textarea>
+       </div>
 
-
-   <div>
-      <span class="span_photo"></span>
-      <a href="#" id="link_add_photo" title="{{ 'display_report.add_picture'|trans({}, 'changes') }}">
-         <img src="{{asset('img/AddPicture.png')}}" />
-      </a>
-   </div>
-
+    </div>
 </div>
