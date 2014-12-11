@@ -22,6 +22,16 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
    private $parameters;
    private $currentReport;
 
+   private function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
    /**
     * Initializes context with parameters from behat.yml.
     *
@@ -213,6 +223,18 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
          $value = $value . '@' . md5(uniqid(rand(0,1000), true)) . '.com';
       }
 
+      $field = $this->fixStepArgument($field);
+      $this->getSession()->getPage()->fillField($field, $value);
+   }
+
+   /**
+    * Fills in form field with a given number of chars
+    *
+    * @When /^(?:|I )randomly fill in "(?P<field>(?:[^"]|\\")*)" with "(?P<type>(?:[^"]|\\")*)" char$/
+    */
+   public function randomlyfillFieldWithXChar($field, $nbrChar)
+   {
+      $value = $this->generateRandomString($nbrChar);
       $field = $this->fixStepArgument($field);
       $this->getSession()->getPage()->fillField($field, $value);
    }
