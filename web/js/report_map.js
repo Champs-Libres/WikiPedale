@@ -233,7 +233,8 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
          );
 
       $('#csv_export_link_bbox').attr('href', Routing.generate('wikipedale_report_list_by_bbox', {_format: 'csv', bbox: bbox}));
-
+      $('#html_export_link_bbox').attr('href', Routing.generate('wikipedale_report_list_by_bbox', {_format: 'html', bbox: bbox}));
+      
       var jsonUrlData = Routing.generate('wikipedale_report_list_by_bbox', {_format: 'json', bbox: bbox, addUserInfo: true});
 
       $.when(
