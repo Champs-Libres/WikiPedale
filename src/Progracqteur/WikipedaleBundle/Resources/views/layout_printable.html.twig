@@ -1,0 +1,16 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <title>Uello | {% block title %}Uello{% endblock %}</title>
+        
+        {%  block javascript %}<!-- no javascript added -->{%  endblock %}
+        {%  block css %}<!-- no css added -->{%  endblock %}
+        
+    </head>
+    <body>
+    <div class="content">
+    {% block content %}<!-- content must come here -->{% endblock %}
+    </div>
+    
+    </body>
+</html>
