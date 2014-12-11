@@ -18,12 +18,11 @@ class Notation
      * @var string $name
      */
     private $name;
-    
+
     public function __construct($id = null)
     {
         $this->setId($id);
     }
-
 
     /**
      * Set id
@@ -68,8 +67,9 @@ class Notation
     {
         return $this->name;
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return $this->getName();
     }
 }
