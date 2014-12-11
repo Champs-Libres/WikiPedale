@@ -134,9 +134,12 @@ class NormalizerSerializerService {
      */
     public function getUserNormalizer()
     {
-        if ($this->userNormalizer === null)
-        {
-            $this->userNormalizer = new UserNormalizer($this, $this->container->get('libravatar.provider'));
+        if (! $this->userNormalizer) {
+            $this->userNormalizer = new UserNormalizer(
+                $this,
+                $this->container->get('libravatar.provider'),
+                $this->container->get('security.role_hierarchy')
+            );
         }
         
         return $this->userNormalizer;
