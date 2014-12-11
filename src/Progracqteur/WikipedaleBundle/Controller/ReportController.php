@@ -512,7 +512,7 @@ class ReportController extends Controller
      *
      * @return Symfony\Component\HttpFoundation\Response Error 401 if problems. If not a confrmation page.
      */
-    public function confirmUserAction(Request $request, $token, $reportId) 
+    public function confirmUserAction($token, $reportId)
     {
         $report = $this->getDoctrine()->getManager()
             ->getRepository('ProgracqteurWikipedaleBundle:Model\Report')
