@@ -20,7 +20,7 @@ class UserNormalizer implements NormalizerInterface
 {
     private $service;
     private $addGroupsToNormalization = false;
-    
+
     /**
      *
      * @var \Fastre\LibravatarBundle\Services\ServiceLibravatar 
@@ -32,18 +32,18 @@ class UserNormalizer implements NormalizerInterface
      * @var Symfony\Component\Security\Core\Role\RoleHierarchy
      */
     private $roleHierarchy;
-    
+
     const GROUPS = 'groups';
-    
+
     public function __construct(NormalizerSerializerService $service, ServiceLibravatar $libravatarService, RoleHierarchy $roleHierarchy)
     {
         $this->service = $service;
         $this->libravatarService = $libravatarService;
         $this->roleHierarchy = $roleHierarchy;
     }
-    
-    
-    public function denormalize($data, $class, $format = null, array $context = array()) {
+
+    public function denormalize($data, $class, $format = null, array $context = array())
+    {
         //si la classe demandée n'est pas USER, il faut uniquement renvoyer un objet User existant,
         // ou un objet Unregistereduser
         if ($class === NormalizerSerializerService::REPORT_TYPE) {
@@ -56,16 +56,16 @@ class UserNormalizer implements NormalizerInterface
 
                     if (isset($data['email']))
                         $u->setEmail($data['email']);
-                    
+
                     if (isset($data['phonenumber']))
-                        $u->setPhonenumber ($data['phonenumber']);
+                        $u->setPhonenumber($data['phonenumber']);
 
                     $u->setIp($this->service->getRequest()->getClientIp());
                 }
             } else {
                 $u = $this->service->getManager()
-                        ->getRepository('ProgracqteurWikipedaleBundle:Management\\User')
-                        ->find($data['id']);
+                    ->getRepository('ProgracqteurWikipedaleBundle:Management\\User')
+                    ->find($data['id']);
 
                 if ($u === null) {
                     throw new \Exception("L'utilisateur n'a pas été trouvé dans la base de donnée");
@@ -74,20 +74,21 @@ class UserNormalizer implements NormalizerInterface
         }
         return $u;
     }
-    
+
     /**
      * 
      * @param \Progracqteur\WikipedaleBundle\Entity\Management\User $object peut aussi être \Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser
      * @param string $format
      * @return type
      */
-    public function normalize($object, $format = null, array $context = array()) {
+    public function normalize($object, $format = null, array $context = array())
+    {
         $userRoles = $object->getRoles();
-        $userRoleObjects = array_map( function($r) { return new Role($r); }, $userRoles);
+        $userRoleObjects = array_map(function($r) { return new Role($r); }, $userRoles);
         $userAllRoleObjects = $this->roleHierarchy->getReachableRoles($userRoleObjects);
-        $userAllRoles = array_map( function($r) {return $r->getRole(); }, $userAllRoleObjects);
+        $userAllRoles = array_map(function($r) { return $r->getRole(); }, $userAllRoleObjects);
 
-        $a =  array(
+        $a = array(
             'entity' => 'user',
             'id' => $object->getId(),
             'label' => $object->getLabel(),
@@ -97,22 +98,22 @@ class UserNormalizer implements NormalizerInterface
             'registered' => $object->isRegistered(),
             'avatar' => '' //$this->libravatarService->getUrl($object->getEmail()),   TODO : activate avatar when this will be ready ! 
         );
-        
+
         if ($this->service->getSecurityContext()->isGranted(User::ROLE_SEE_USER_DETAILS)) {
             $a['email'] = $object->getEmail();
             $a['phonenumber'] = $object->getPhonenumber();
         }
-        
+
         if ($this->addGroupsToNormalization) {
             $a[self::GROUPS] = array();
             foreach ($object->getGroups() as $group) {
                 $a[self::GROUPS][] = $this->service->getGroupNormalizer()
-                        ->normalize($group);
+                    ->normalize($group);
             }
         }
         return $a;
     }
-    
+
     /**
      * add groups to normalization
      * 
@@ -124,7 +125,7 @@ class UserNormalizer implements NormalizerInterface
     {
         $this->addGroupsToNormalization = $enable;
     }
-    
+
     public function supportsDenormalization($data, $type, $format = null)
     {
         return ($data['entity'] == 'user');
@@ -134,5 +135,5 @@ class UserNormalizer implements NormalizerInterface
     {
         return ($data instanceof User);
     }
-}
 
+}
