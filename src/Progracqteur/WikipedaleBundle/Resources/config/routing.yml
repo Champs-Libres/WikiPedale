@@ -20,13 +20,13 @@ wikipedale_notations:
 
 wikipedale_homepage:
   pattern: /
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Default:homepage }
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Main:homepage }
   options:
     expose: true
 
 wikipedale_about:
     pattern:  /about
-    defaults: { _controller: ProgracqteurWikipedaleBundle:Default:about }
+    defaults: { _controller: ProgracqteurWikipedaleBundle:Main:about }
     options:
       expose: true
 

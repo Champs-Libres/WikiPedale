@@ -8,20 +8,18 @@ use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Description of DefaultController
- *
- * This controller contains the only webpages of the application (except for the admin part).
+ * This is the main controller that contains the only webpages of the application (except for the admin part).
  * 
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class DefaultController extends Controller
+class MainController extends Controller
 {
     /**
      * Display the 'about' webpage.
      */
     public function aboutAction()
     {
-        return $this->render('ProgracqteurWikipedaleBundle:Default:about.html.twig');
+        return $this->render('ProgracqteurWikipedaleBundle:Main:about.html.twig');
     }
     
     /**
@@ -131,7 +129,7 @@ class DefaultController extends Controller
             $paramsToView['selectedReport'] = $selectedReport;
         }
         
-        return $this->render('ProgracqteurWikipedaleBundle:Default:homepage.html.twig', 
+        return $this->render('ProgracqteurWikipedaleBundle:Main:homepage.html.twig', 
             $paramsToView
             );
     }
