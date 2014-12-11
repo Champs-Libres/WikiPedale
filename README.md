@@ -5,6 +5,11 @@ Wikipedale est un logiciel de signalement de problèmes à Vélo. Il est dévelo
 
 Le projet est en test à l'adresse suivante http://uello.be.
 
+Want to contribute ?
+--------------------
+
+Please read README_DEV.md
+
 Concepts
 ---------
 
