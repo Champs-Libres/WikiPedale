@@ -1,11 +1,10 @@
 parameters:
-#    progracqteur_wikipedale.example.class: Progracqteur\WikipedaleBundle\Example
   progracqteur_wikipedale.normalizer.class : Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService
   progracqteur_wikipedale.security.controlList.class : Progracqteur\WikipedaleBundle\Resources\Security\ChangeService
   progracqteur_wikipedale.service.photo.class: Progracqteur\WikipedaleBundle\Resources\Services\PhotoService
   progracqteur_wikipedale.service.slug.class: Progracqteur\WikipedaleBundle\Resources\Services\SlugService
   progracqteur.wikipedale.service.report.tracking.toText.class: Progracqteur\WikipedaleBundle\Resources\Services\ReportTrackingToTextService
-  
+
 services:
   progracqteurWikipedaleSerializer:
     class: %progracqteur_wikipedale.normalizer.class%
@@ -22,19 +21,19 @@ services:
       geoService: '@progracqteur.wikipedale.geoservice'
       reachableRoles: '@progracqteur.wikipedale.services.reachables_roles'
       defaultTypeTerm: %report_type_default%
-      
+
   progracqteurWikipedalePhotoService:
     class: %progracqteur_wikipedale.service.photo.class%
-    
+
   progracqteurWikipedale.form.type.photo:
       class: Progracqteur\WikipedaleBundle\Form\Model\PhotoType
       arguments: ["@service_container"]
       tags:
           - { name: form.type, alias: photo }
-  
+
   progracqteur.wikipedale.slug:
     class: %progracqteur_wikipedale.service.slug.class%
-    
+
   progracqteur.wikipedale.report.tracking.toText:
     class: %progracqteur.wikipedale.service.report.tracking.toText.class%
     arguments: ["@translator", "@doctrine.orm.entity_manager"]
@@ -45,7 +44,7 @@ services:
 
   wsse.security.authentication.listener:
     class: Progracqteur\WikipedaleBundle\Resources\Security\Firewall\WsseListener
-    arguments: ['@security.context', '@security.authentication.manager'] 
+    arguments: ['@security.context', '@security.authentication.manager']
     
   progracqteur.wikipedale.geoservice:
     class: Progracqteur\WikipedaleBundle\Resources\Services\GeoService
@@ -153,29 +152,29 @@ services:
       date_format: %date_format%
       om: "@doctrine.orm.entity_manager"
       router: "@router"
-  
+
   progracqteur.wikipedale.services.reachables_roles:
     class: Progracqteur\WikipedaleBundle\Resources\Services\ReachableRoleService
     arguments:
       roleHierarchy: "@security.role_hierarchy"
-      
+
   progracqteur.wikipedale.form.type.term:
       class: Progracqteur\WikipedaleBundle\Form\Type\TermType
       arguments:
           report_type: %report_types%
       tags:
         - { name: form.type, alias: term }
-      
+
   progracqteur.wikipedale.validators.term:
     class: Progracqteur\WikipedaleBundle\Validator\Constraints\TermValidator
     arguments:
       report_type: %report_types%
     tags:
         - { name: validator.constraint_validator, alias: term }
-        
+
   progracqteur.wikipedale.moderator_designator:
      class: Progracqteur\WikipedaleBundle\Resources\Services\Designator\ModeratorDesignator
-     
+
   progracqteur.wikipedale.moderator_finder.city:
      class: Progracqteur\WikipedaleBundle\Resources\Services\Designator\Finder\ModeratorCityFinder
      arguments:
@@ -183,9 +182,3 @@ services:
         geoservice: '@progracqteur.wikipedale.geoservice'
      tags:
         - { name: moderatorFinder, priority: 10000 }
-      
-  
-
-#    progracqteur_wikipedale.example:
-#        class: %progracqteur_wikipedale.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
