@@ -223,7 +223,8 @@ class ReportController extends Controller
                 return new Response($ret);
 
             case 'html':
-                return new Response('Pas encore implémenté');
+                return $this->render('ProgracqteurWikipedaleBundle:Report:list_printable.html.twig', 
+                    array('reports' => $r));
 
             case 'csv' :
                 $response = $this->render('ProgracqteurWikipedaleBundle:Report:list.csv.twig', 

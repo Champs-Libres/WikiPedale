@@ -62,7 +62,7 @@ wikipedale_report_list_by_city:
   pattern: /report/list/bycity.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Report:listByCity }
   requirements:
-    _format: json|csv
+    _format: json|csv|html
   options:
     expose: true
 
@@ -70,7 +70,7 @@ wikipedale_report_list_by_bbox:
   pattern: /report/list/bybbox.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Report:listByBBox }
   requirements:
-    _format: json|csv
+    _format: json|csv|html
   options:
     expose: true
 
