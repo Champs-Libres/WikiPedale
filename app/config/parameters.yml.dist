@@ -30,4 +30,10 @@ parameters:
     report_type_default: 'bike.short'
     user_manuel_url : 'url to the user manuel'
     contact_url : 'contact url or mailo'
+    default_hidden_report_terms:
+        - long
+    default_hidden_report_status:
+        - 
+            label: cem
+            value: -1
 
