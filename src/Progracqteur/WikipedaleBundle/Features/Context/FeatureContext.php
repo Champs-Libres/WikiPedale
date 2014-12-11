@@ -206,7 +206,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     *
     * @When /^(?:|I )randomly fill in "(?P<field>(?:[^"]|\\")*)" with "(?P<type>(?:[^"]|\\")*)"$/
     */
-   public function randomlyfillField($field, $type)
+   public function randomlyfillFieldWith($field, $type)
    {
       $value = md5(uniqid(rand(0,1000), true)); 
       if($type === 'email') {
@@ -215,6 +215,15 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
 
       $field = $this->fixStepArgument($field);
       $this->getSession()->getPage()->fillField($field, $value);
+   }
+
+
+   /**
+    * @Given /^I randomly fill in "([^"]*)"$/
+    */
+   public function randomlyfillField($field)
+   {
+      $this->randomlyfillFieldWith($field, "string");
    }
 
 
