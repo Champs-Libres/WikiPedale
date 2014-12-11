@@ -1,6 +1,6 @@
 Feature: Creation of a report as an anonymous user
 
-@javascript @report_create_anonymous
+@javascript @create_report_for_anonymous
 Scenario: I open the creation form as an anonymous
    Given I am on "/city/mons"
    And I wait that the reports have been received
