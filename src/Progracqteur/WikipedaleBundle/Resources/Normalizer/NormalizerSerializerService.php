@@ -25,22 +25,21 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
  *
  * @author julien
  */
-class NormalizerSerializerService {
-    
+class NormalizerSerializerService
+{
+
     const JSON_FORMAT = 'json';
     const REPORT_TYPE = 'report';
     const ADDRESS_TYPE = 'address';
     const USER_TYPE = 'user';
     const COMMENT_TYPE = 'comment';
-    
+
     private $em;
     /**
      * @var Symfony\Component\Security\Core\SecurityContext
      */
     private $securityContext;
-    
     private $container;
-    
     //Normalizers
     private $addressNormalizer = null;
     private $reportNormalizer = null;
@@ -54,21 +53,19 @@ class NormalizerSerializerService {
     private $zoneNormalizer = null;
     private $reportTypeNormalizer = null;
     private $commentNormalizer = null;
-    
+
     /**
      *
      * @var \Progracqteur\WikipedaleBundle\Resources\Normalizer\CategoryNormalizer 
      */
     private $categoryNormalizer = null;
-    
     //Encoders
     private $jsonEncoder = null;
-    
-    
+
     public function __construct(ContainerInterface $container)//EntityManager $em, $securityContext)
     {
-        /*$this->em = $em;
-        $this->securityContext = $securityContext;*/
+        /* $this->em = $em;
+          $this->securityContext = $securityContext; */
         $this->container = $container;
     }
 
@@ -78,172 +75,159 @@ class NormalizerSerializerService {
      */
     public function getCommentNormalizer()
     {
-        if ($this->commentNormalizer === null)
-        {
+        if ($this->commentNormalizer === null) {
             $this->commentNormalizer = new CommentNormalizer($this);
         }
-        
+
         return $this->commentNormalizer;
     }
-    
+
     /**
      *
      * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\AddressNormalizer 
      */
     public function getAddressNormalizer()
     {
-        if ($this->addressNormalizer === null)
-        {
+        if ($this->addressNormalizer === null) {
             $this->addressNormalizer = new AddressNormalizer($this);
         }
-        
+
         return $this->addressNormalizer;
     }
-    
+
     /**
      * 
      * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\DateNormalizer
      */
     public function getDateNormalizer()
     {
-        if ($this->dateNormalizer === null)
-        {
+        if ($this->dateNormalizer === null) {
             $this->dateNormalizer = new DateNormalizer($this);
         }
-        
+
         return $this->dateNormalizer;
     }
-    
+
     /**
      *
      * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\ReportNormalizer 
      */
     public function getReportNormalizer()
     {
-        if ($this->reportNormalizer === null)
-        {
+        if ($this->reportNormalizer === null) {
             $this->reportNormalizer = new ReportNormalizer($this);
         }
-        
+
         return $this->reportNormalizer;
     }
-    
+
     /**
      *
      * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer 
      */
     public function getUserNormalizer()
     {
-        if (! $this->userNormalizer) {
+        if (!$this->userNormalizer) {
             $this->userNormalizer = new UserNormalizer(
                 $this,
                 $this->container->get('libravatar.provider'),
                 $this->container->get('security.role_hierarchy')
             );
         }
-        
+
         return $this->userNormalizer;
     }
-    
+
     public function getPhotoNormalizer()
     {
-        if ($this->photoNormalizer === null)
-        {
+        if ($this->photoNormalizer === null) {
             $this->photoNormalizer = new PhotoNormalizer($this);
         }
-        
+
         return $this->photoNormalizer;
     }
-    
+
     public function getReportTrackingNormalizer()
     {
-        if ($this->reportTrackingNormalizer === null)
-        {
+        if ($this->reportTrackingNormalizer === null) {
             $this->reportTrackingNormalizer = new ReportTrackingNormalizer($this);
         }
-        
+
         return $this->reportTrackingNormalizer;
     }
-    
+
     /**
      * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\CategoryNormalizer category normalizer
      */
     public function getCategoryNormalizer()
     {
-        if ($this->categoryNormalizer === null)
-        {
+        if ($this->categoryNormalizer === null) {
             $this->categoryNormalizer = new CategoryNormalizer($this);
         }
-        
+
         return $this->categoryNormalizer;
-        
     }
-    
+
     /**
      * 
      * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\GroupNormalizer
      */
     public function getGroupNormalizer()
     {
-        if ($this->groupNormalizer === null)
-        {
+        if ($this->groupNormalizer === null) {
             $this->groupNormalizer = new GroupNormalizer($this);
         }
-        
+
         return $this->groupNormalizer;
     }
-    
+
     /**
      * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\ZoneNormalizer
      */
     public function getZoneNormalizer()
     {
-        if ($this->zoneNormalizer === null)
-        {
+        if ($this->zoneNormalizer === null) {
             $this->zoneNormalizer = new ZoneNormalizer($this);
         }
-        
+
         return $this->zoneNormalizer;
     }
-    
+
     /**
      * 
      * @return \Progracqteur\WikipedaleBundle\Resources\Normalizer\ZoneNormalizer
      */
     public function getReportTypeNormalizer()
     {
-        if ($this->reportTypeNormalizer === null)
-        {
+        if ($this->reportTypeNormalizer === null) {
             $this->reportTypeNormalizer = new ReportTypeNormalizer($this);
         }
-        
+
         return $this->reportTypeNormalizer;
     }
-    
+
     /**
      *
      * @return Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedResponseNormalizer 
      */
     public function getNormalizedResponseNormalizer()
     {
-        if ($this->normalizedResponseNormalizer === null)
-        {
+        if ($this->normalizedResponseNormalizer === null) {
             $this->normalizedResponseNormalizer = new NormalizedResponseNormalizer($this);
         }
-        
+
         return $this->normalizedResponseNormalizer;
     }
-    
+
     public function getNormalizedExceptionResponseNormalizer()
     {
-        if ($this->normalizedResponseExceptionNormalizer === null)
-        {
+        if ($this->normalizedResponseExceptionNormalizer === null) {
             $this->normalizedResponseExceptionNormalizer = new NormalizedExceptionResponseNormalizer();
         }
-        
+
         return $this->normalizedResponseExceptionNormalizer;
     }
-    
+
     /**
      * 
      * @return \Doctrine\ORM\EntityManager
@@ -253,12 +237,12 @@ class NormalizerSerializerService {
         //return $this->em;
         return $this->container->get('doctrine')->getManager();
     }
-    
+
     public function getRequest()
     {
         return $this->container->get('request');
     }
-    
+
     /**
      * 
      * @return \Symfony\Component\DependencyInjection\ContainerInterface
@@ -267,7 +251,7 @@ class NormalizerSerializerService {
     {
         return $this->container;
     }
-    
+
     /**
      *
      * @return null (?)
@@ -277,7 +261,7 @@ class NormalizerSerializerService {
     {
         return $this->session;
     }
-    
+
     /**
      *
      * @return Symfony\Component\Security\Core\SecurityContext 
@@ -286,96 +270,84 @@ class NormalizerSerializerService {
     {
         return $this->container->get('security.context');
     }
-    
+
     /**
      *
      * @return Symfony\Component\Serializer\Encoder\JsonEncoder 
      */
     public function getEncoderJson()
     {
-        if ($this->jsonEncoder === null)
-        {
+        if ($this->jsonEncoder === null) {
             $this->jsonEncoder = new JsonEncoder();
         }
-        
+
         return $this->jsonEncoder;
     }
-    
+
     public function returnFullClassName($short_class)
     {
-        switch($short_class)
-        {
+        switch ($short_class) {
             case self::REPORT_TYPE :
                 return 'Progracqteur\\WikipedaleBundle\\Entity\\Model\\Report';
-            case self::ADDRESS_TYPE : 
+            case self::ADDRESS_TYPE :
                 return 'Progracqteur\\WikipedaleBundle\\Resources\\Container\\Address';
-            case self::USER_TYPE : 
+            case self::USER_TYPE :
                 return 'Progracqteur\\WikipedaleBundle\\Entity\\Management\\User';
-            case self::COMMENT_TYPE : 
+            case self::COMMENT_TYPE :
                 return 'Progracqteur\\WikipedaleBundle\\Entity\\Model\\Comment';
         }
     }
 
-    
     public function serialize($response, $format)
     {
-        switch($format)
-        {
+        switch ($format) {
             case self::JSON_FORMAT :
                 $encoder = $this->getEncoderJson();
                 break;
             default :
                 throw new \Exception("Le format $format n'est pas connu par le service NormalizerSerializerService");
         }
-        
-        if ($this->container->get('request')->get('addUserInfo', false))
-        {
-            if ($this->getSecurityContext()->isGranted('IS_AUTHENTICATED_FULLY')) 
-            {
+
+        if ($this->container->get('request')->get('addUserInfo', false)) {
+            if ($this->getSecurityContext()->isGranted('IS_AUTHENTICATED_FULLY')) {
                 $response->setUser($this->getSecurityContext()->getToken()->getUser());
             } else {
                 $u = new \Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser();
                 $response->setUser($u);
             }
         }
-        
+
         $serializer = new Serializer(
                 array(
-                    $this->getNormalizedResponseNormalizer(),
-                    $this->getNormalizedExceptionResponseNormalizer()
-                ), 
-                array($format => $encoder) );
+            $this->getNormalizedResponseNormalizer(),
+            $this->getNormalizedExceptionResponseNormalizer()
+                ), array($format => $encoder));
         return $serializer->serialize($response, $format);
-        
-        
     }
-    
+
     public function deserialize($string, $type, $format)
     {
-        switch($format)
-        {
+        switch ($format) {
             case self::JSON_FORMAT :
                 $encoder = $this->getEncoderJson();
                 break;
             default :
                 throw new \Exception("Le format $format n'est pas connu par le service NormalizerSerializerService");
         }
-        
-        switch($type)
-        {
+
+        switch ($type) {
             case self::REPORT_TYPE :
                 $array = array($this->getReportNormalizer());
                 break;
             case self::COMMENT_TYPE :
                 $array = array($this->getCommentNormalizer());
                 break;
-            default: 
+            default:
                 throw new \Exception("Le type demandé ($type) est inconnu");
         }
-        
+
         $serializer = new Serializer($array, array($format => $encoder));
         return $serializer->deserialize($string, $type, $format);
     }
-    
-}
 
+}
