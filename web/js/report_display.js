@@ -149,6 +149,12 @@ define(['jQuery','report_map','user','report','photo','params','report_edit','co
          $('#span_report_description_gestionnaire_button').hide();
       }
 
+      if(user.canModifyModerator() || user.isAdmin()) {
+         $('#span_report_description_moderator_button').show();
+      } else {
+         $('#span_report_description_moderator_button').hide();
+      }
+
       if (user.canUnpublishADescription() || user.isAdmin()) {
          $('#span_report_description_delete_button').show();
       } else {

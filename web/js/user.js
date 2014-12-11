@@ -61,9 +61,17 @@ define(['jQuery','params'], function($,params) {
 
    function canModifyManager() {
       /**
-      * True if the user can the place type of a point
+      * True if the user can modify the manager of a report
       */
       return (typeof u.roles !== 'undefined') && $.inArray('ROLE_MANAGER_ALTER', u.roles) !== -1;
+   }
+
+   function canModifyModerator() {
+      /**
+      * True if the user can modify the moderator of a report
+      */
+      console.log(u.roles);
+      return (typeof u.roles !== 'undefined') && $.inArray('ROLE_MODERATOR_ALTER', u.roles) !== -1;
    }
 
    function canUnpublishADescription() {
@@ -174,6 +182,7 @@ define(['jQuery','params'], function($,params) {
       canVieuwUsersDetails: canVieuwUsersDetails,
       canModifyPlacetype: canModifyPlacetype,
       canModifyManager: canModifyManager,
+      canModifyModerator: canModifyModerator,
       canUnpublishADescription: canUnpublishADescription,
       isModetatorForNotation: isModetatorForNotation,
       isCeM: isCeM,

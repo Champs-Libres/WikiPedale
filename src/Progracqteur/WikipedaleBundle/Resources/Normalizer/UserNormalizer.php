@@ -1,14 +1,14 @@
 <?php
 
-
 namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
-
 use Fastre\LibravatarBundle\Services\ServiceLibravatar;
+use Symfony\Component\Security\Core\Role\RoleHierarchy;
+use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * Description of UserNormalizer
@@ -18,7 +18,6 @@ use Fastre\LibravatarBundle\Services\ServiceLibravatar;
  */
 class UserNormalizer implements NormalizerInterface
 {
-    
     private $service;
     private $addGroupsToNormalization = false;
     
@@ -27,14 +26,20 @@ class UserNormalizer implements NormalizerInterface
      * @var \Fastre\LibravatarBundle\Services\ServiceLibravatar 
      */
     private $libravatarService;
-    
+
+    /**
+     * RoleHierarchy
+     * @var Symfony\Component\Security\Core\Role\RoleHierarchy
+     */
+    private $roleHierarchy;
     
     const GROUPS = 'groups';
     
-    public function __construct(NormalizerSerializerService $service, ServiceLibravatar $libravatarService)
+    public function __construct(NormalizerSerializerService $service, ServiceLibravatar $libravatarService, RoleHierarchy $roleHierarchy)
     {
         $this->service = $service;
         $this->libravatarService = $libravatarService;
+        $this->roleHierarchy = $roleHierarchy;
     }
     
     
@@ -77,13 +82,18 @@ class UserNormalizer implements NormalizerInterface
      * @return type
      */
     public function normalize($object, $format = null, array $context = array()) {
+        $userRoles = $object->getRoles();
+        $userRoleObjects = array_map( function($r) { return new Role($r); }, $userRoles);
+        $userAllRoleObjects = $this->roleHierarchy->getReachableRoles($userRoleObjects);
+        $userAllRoles = array_map( function($r) {return $r->getRole(); }, $userAllRoleObjects);
+
         $a =  array(
             'entity' => 'user',
             'id' => $object->getId(),
             'label' => $object->getLabel(),
             'nbComment' => $object->getNbComment(),
             'nbVote' => $object->getNbVote(),
-            'roles' => $object->getRoles(),
+            'roles' => $userAllRoles,
             'registered' => $object->isRegistered(),
             'avatar' => '' //$this->libravatarService->getUrl($object->getEmail()),   TODO : activate avatar when this will be ready ! 
         );
