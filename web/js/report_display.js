@@ -102,7 +102,12 @@ define(['jQuery','report_map','user','report','photo','params','report_edit','co
          $('#span_report_description_gestionnaire').text('pas encore de gestionnaire assigné');
       }
 
-      $('#span_report_description_moderator').text(desc_data.moderator.label);
+      if ('manager' in desc_data && desc_data.moderator) {
+         $('#span_report_description_moderator').text(desc_data.moderator.label);
+      } else {
+         $('#span_report_description_moderator').text('pas encore de modérateur assigné');
+      }
+
       $('#span_report_description_status').text(color_trad_text[0]);
 
       for (var i = 0; i < desc_data.statuses.length; i++) {
