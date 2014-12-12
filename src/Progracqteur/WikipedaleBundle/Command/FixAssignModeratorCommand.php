@@ -41,6 +41,7 @@ class FixAssignModeratorCommand extends ContainerAwareCommand
             } else {
                $output->writeln("<warning>No moderator found for report "
                      . "".$report->getId()."</warning>");
+               $moderator = NULL;
             }
         }
         
