@@ -34,9 +34,14 @@ class FixAssignModeratorCommand extends ContainerAwareCommand
         
         foreach($reports as $report) {
             $moderator = $designator->getModerator($report);
-            $report->setModerator($moderator);
-            $output->writeln("<info>Set moderator '$moderator' to report "
+            if ($moderator !== NULL) {
+                $report->setModerator($moderator);
+                $output->writeln("<info>Set moderator '$moderator' to report "
                   . "".$report->getId()."</info>");
+            } else {
+               $output->writeln("<warning>No moderator found for report "
+                     . "".$report->getId()."</warning>");
+            }
         }
         
         $this->getContainer()->get('doctrine.orm.entity_manager')->flush();
