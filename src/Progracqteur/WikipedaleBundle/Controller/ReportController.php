@@ -46,7 +46,6 @@ class ReportController extends Controller
                 && ! $this->get('security.context')->isGranted(User::ROLE_SEE_UNACCEPTED)) {
             $hash = $this->getRequest()->query->get('checkcode');
             $code = $report->getCreator()->getCheckCode();
-            
 
             if ($hash !== hash('sha512', $code)) { /* sha512 -> is the used hashing algorithm */
                 throw new \Exception('code does not match '.$code.' '.$hash);
