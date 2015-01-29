@@ -22,3 +22,5 @@ app/config/parameters.yml
 *bower_components
 bin/*
 /tmp/*
+nbproject/
+.buildpath~
