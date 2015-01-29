@@ -37,38 +37,24 @@ services:
   progracqteur.wikipedale.report.tracking.toText:
     class: %progracqteur.wikipedale.service.report.tracking.toText.class%
     arguments: ["@translator", "@doctrine.orm.entity_manager"]
-    
-  wsse.security.authentication.provider:
-    class:  Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseProvider
-    arguments: ['', %kernel.cache_dir%/security/nonces]
-
-  wsse.security.authentication.listener:
-    class: Progracqteur\WikipedaleBundle\Resources\Security\Firewall\WsseListener
-    arguments: ['@security.context', '@security.authentication.manager']
-    
   progracqteur.wikipedale.geoservice:
     class: Progracqteur\WikipedaleBundle\Resources\Services\GeoService
     arguments: ["@doctrine.orm.entity_manager"]
-    
   progracqteur.wikipedale.token_provider:
     class: Progracqteur\WikipedaleBundle\Resources\Security\Csrf\TokenService
     arguments:
       csrf_provider: "@session"
       salt: framework.secret
-  
   progracqteur.wikipedale.registration.form.type:
     class: Progracqteur\WikipedaleBundle\Form\Management\UserType
     arguments: [%fos_user.model.user.class%]
     tags: 
       - { name: form.type, alias: wikipedale_user_registration }
-      
   progracqteur.wikipedale.profile.form.type:
     class: Progracqteur\WikipedaleBundle\Form\Management\ProfileUserType
     arguments: [%fos_user.model.user.class%]
     tags: 
       - { name: form.type, alias: wikipedale_user_profile }
-      
-      
   progracqteur.wikipedale.profile.form.admin.type:
     class: Progracqteur\WikipedaleBundle\Form\Management\AdminProfileUserType
     arguments: [%fos_user.model.user.class%]
