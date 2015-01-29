@@ -3,20 +3,30 @@
 namespace Progracqteur\WikipedaleBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
-use Progracqteur\WikipedaleBundle\Resources\Normalizer\UserNormalizer;
+use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
+use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 
 /**
- * Description of ManagerController
+ * Controller that manages the user session. This session contains information
+ * about the selected city (or not) and the current logged user (or not)
  *
- * @author Julien Fastré
+ * @author Champs-Libres COOP
  */
 class ManagerController extends Controller {
     
+    /**
+     * Select a city and set this information into the session.
+     *
+     * @param string $citySlug
+     * @param Request $request
+     * @return Symfony\Component\HttpFoundation\Response The index page
+     * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * The exception is thrown if the variable $citySlug does not refer to a
+     * known city
+     */
     public function toCityAction($citySlug, Request $request)
     {
         $citySlug = $this->get('progracqteur.wikipedale.slug')->slug($citySlug);
@@ -43,7 +53,12 @@ class ManagerController extends Controller {
         
         return $this->redirect($url);
     }
-     
+
+    /**
+     * Remove the session information about the selected city.
+     *
+     * @return Symfony\Component\HttpFoundation\Response The index page.
+     */
     public function resetCityAction()
     {
         $session = $this->getRequest()->getSession();
@@ -57,25 +72,36 @@ class ManagerController extends Controller {
         
         return $this->redirect($url);
     }
-     
-    public function wsseAuthenticateAction($_format)
-    {
+
+
+    /**
+     * Returns a json data containing the current user. If the user is not logged, 
+     * an empty UnregisteredUser is returned.
+     *
+     * @param string $_format The format. For the moment only JSON is supported.
+     * @return Response The json data containing the actual user.
+     * @throws \Exception If the format is not JSON
+     */
+    public function httpBasicAuthenticateAction($_format) {
         if ($_format != NormalizerSerializerService::JSON_FORMAT) {
             throw new \Exception("Le format demandé n'est pas disponible");
         }
-         
-        $u = $this->get('security.context')->getToken()->getUser();
-         
-        $r = new \Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse();
-        $r->setResults(array($u));
-         
+        
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            //throw new \Exception("Le format demandé n'est pas disponible");
+            $user = new UnregisteredUser();
+        } else {
+            $user = $this->get('security.context')->getToken()->getUser();
+        }
+        
+        $normalizedResponse = new NormalizedResponse();
+        $normalizedResponse->setResults(array($user));
+        
         $serializer = $this->get('progracqteurWikipedaleSerializer');
          
         $serializer->getUserNormalizer()->addGroupsToNormalization(true);
          
-        $t = $serializer->serialize($r, NormalizerSerializerService::JSON_FORMAT);
-         
-        return new Response($t); 
+        return new Response($serializer->serialize($normalizedResponse, NormalizerSerializerService::JSON_FORMAT)); 
     }
 }
 

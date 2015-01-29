@@ -122,7 +122,7 @@ wikipedale_photo_update:
 
 wikipedale_authenticate:
   pattern: /authenticate.{_format}
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Manager:wsseAuthenticate }
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Manager:httpBasicAuthenticate }
   requirements:
     _format: json
   options:
