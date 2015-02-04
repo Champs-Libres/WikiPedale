@@ -22,28 +22,34 @@ security:
         fos_userbundle:
             id: fos_user.user_manager
 
-
     firewalls:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
+            
         login:
+            pattern:    ^/login
+            anonymous: ~
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: form.csrf_provider
+            logout: true
+
+        demo_login:
             pattern:  ^/demo/secured/login$
             security: false
 
         main:
-            pattern:    ^/
+            pattern: ^/
             anonymous: true
-            http_basic: true
-            logout: true
+            http_basic: ~
             form_login:
                 provider: fos_userbundle
                 csrf_provider: form.csrf_provider
-
+            logout: true
 
     access_control:
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, role: ROLE_ADMIN }

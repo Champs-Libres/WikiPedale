@@ -21,34 +21,42 @@ define(['jQuery','data_map_glue','user'], function($,data_map_glue,user) {
       * To be excecuted when the login form is submitted.
       * This function checks asking to the db if couple username/password is correct
       */
-      var user_data = {};
-      var url_login, ret, ret2;
+      var authenticate_url = Routing.generate('wikipedale_authenticate', {_format: 'json'});
+      var username = $('#login_input_username').val();
+      var password = $('#login_input_password').val();
 
-      $.map($('#loginForm').serializeArray(), function(n) {
-         user_data[n['name']] = n['value'];
-      });
-
-      url_login = Routing.generate('wikipedale_authenticate', {_format: 'json'});
-      $.ajax({
-         type: 'POST',
-         beforeSend: function(xhrObj){
-            ret = xhrObj.setRequestHeader('Authorization','WSSE profile="UsernameToken"');
-            ret2 = xhrObj.setRequestHeader('X-WSSE',wsseHeader(user_data['username'], user_data['password']));
+      function make_base_auth(user, password) {
+         var tok = user + ':' + password;
+         var hash = btoa(tok);
+         return 'Basic ' + hash;
+      }
+      
+      $.ajax ({
+         type: 'GET',
+         beforeSend: function (xhr){
+            xhr.setRequestHeader('Authorization', make_base_auth(username, password));
          },
-         data: '',
-         url: url_login,
+         url: authenticate_url,
+         dataType: 'json',
          cache: false,
          success: function(output_json) {
+            var ret_user;
             if (! output_json.query.error) {
-               user.update(output_json.results[0]);
-               update_page_when_logged();
+               ret_user = output_json.results[0];
+               if(! ret_user.registered) {
+                  $('#login_message').text('Login failed');
+                  $('#login_message').addClass('errorMessage');
+               } else {
+                  user.update(ret_user);
+                  update_page_when_logged();
+               }
             } else {
                $('#login_message').text(output_json[0].message);
                $('#login_message').addClass('errorMessage');
             }
          },
-         error: function(output_json) {
-            $('#login_message').text(output_json.responseText);
+         error: function() {
+            $('#login_message').text('Login failed');
             $('#login_message').addClass('errorMessage');
          }
       });

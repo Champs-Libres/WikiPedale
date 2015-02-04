@@ -119,7 +119,7 @@ services:
       NotificationFilterBySubscriptionPublicReport: "@progracqteur.wikipedale.notification.filter.public_report"
     tags:
       - { name: progracqteur.wikipedale.notification.processor }
-    
+
   progracqteur.wikipedale.notification.sender.mail:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\NotificationMailSender
     arguments:
@@ -128,7 +128,7 @@ services:
       translator: "@translator"
     tags:
       - { name: progracqteur.wikipedale.notification.transport }
-  
+
   progracqteur.wikipedale.notification.to_text.mail:
     class: Progracqteur\WikipedaleBundle\Resources\Services\Notification\ToTextMailSenderService
     arguments:
@@ -159,12 +159,12 @@ services:
         - { name: validator.constraint_validator, alias: term }
 
   progracqteur.wikipedale.moderator_designator:
-     class: Progracqteur\WikipedaleBundle\Resources\Services\Designator\ModeratorDesignator
+    class: Progracqteur\WikipedaleBundle\Resources\Services\Designator\ModeratorDesignator
 
   progracqteur.wikipedale.moderator_finder.city:
-     class: Progracqteur\WikipedaleBundle\Resources\Services\Designator\Finder\ModeratorCityFinder
-     arguments:
-        em: '@doctrine.orm.entity_manager'
-        geoservice: '@progracqteur.wikipedale.geoservice'
-     tags:
-        - { name: moderatorFinder, priority: 10000 }
+    class: Progracqteur\WikipedaleBundle\Resources\Services\Designator\Finder\ModeratorCityFinder
+    arguments:
+      em: '@doctrine.orm.entity_manager'
+      geoservice: '@progracqteur.wikipedale.geoservice'
+    tags:
+      - { name: moderatorFinder, priority: 10000 }

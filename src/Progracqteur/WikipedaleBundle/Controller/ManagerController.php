@@ -72,8 +72,6 @@ class ManagerController extends Controller {
         
         return $this->redirect($url);
     }
-
-
     /**
      * Returns a json data containing the current user. If the user is not logged, 
      * an empty UnregisteredUser is returned.
@@ -88,7 +86,6 @@ class ManagerController extends Controller {
         }
         
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            //throw new \Exception("Le format demandé n'est pas disponible");
             $user = new UnregisteredUser();
         } else {
             $user = $this->get('security.context')->getToken()->getUser();
@@ -100,7 +97,7 @@ class ManagerController extends Controller {
         $serializer = $this->get('progracqteurWikipedaleSerializer');
          
         $serializer->getUserNormalizer()->addGroupsToNormalization(true);
-         
+        
         return new Response($serializer->serialize($normalizedResponse, NormalizerSerializerService::JSON_FORMAT)); 
     }
 }
