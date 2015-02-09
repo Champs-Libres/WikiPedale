@@ -19,6 +19,7 @@ class FixPlainPasswordToHashCommand extends ContainerAwareCommand {
     
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        throw new Exception("Are you sure to use this method ? ", 1);
         $manager = $this->getContainer()->get('doctrine.orm.entity_manager');
         $users = $manager->getRepository('ProgracqteurWikipedaleBundle:Management\User')
             ->findAll();
