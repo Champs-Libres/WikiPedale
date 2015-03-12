@@ -6,21 +6,19 @@ use Progracqteur\WikipedaleBundle\Resources\Geo\Polygon;
 use Doctrine\DBAL\Types\Type; 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
-
-
-
 /**
- * A Type for Doctrine to implement the Geography Point type
+ * A Type for Doctrine to implement the Geography Polygon type
  * implemented by Postgis on postgis+postgresql databases
  *
- * @author user
+ * @author Champs-Libres COOP
  */
-class PolygonType extends Type {
-    
+class PolygonType extends Type
+{
     const NAME = 'polygon';
     
     /**
-     *
+     * Return the sql declaration
+     * 
      * @param array $fieldDeclaration
      * @param AbstractPlatform $platform
      * @return type 
@@ -31,10 +29,11 @@ class PolygonType extends Type {
     }
     
     /**
-     *
+     * Return convert the element into a Php object
+     * 
      * @param type $value
      * @param AbstractPlatform $platform
-     * @return Point 
+     * @return Polygon 
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
@@ -46,21 +45,14 @@ class PolygonType extends Type {
         return self::NAME;
     }
     
-    public function convertToDatabaseValue($value, AbstractPlatform $platform)
-    {
-        return $value;
+    public function convertToDatabaseValue($polygon, AbstractPlatform $platform)
+    {        
+        return $polygon->toWKT();
     }
     
     public function canRequireSQLConversion()
     {
         return false;
-    }
-    
-
-    
-    
-    
-    
-    
+    }    
 }
 

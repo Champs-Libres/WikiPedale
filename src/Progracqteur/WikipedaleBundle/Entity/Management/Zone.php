@@ -154,7 +154,8 @@ class Zone {
      * @param polygon $polygon
      * @return Zone
      */
-    public function setPolygon($polygon) {
+    public function setPolygon($polygon)
+    {
         $this->polygon = $polygon;
         return $this;
     }
@@ -164,15 +165,29 @@ class Zone {
      *
      * @return polygon 
      */
-    public function getPolygon() {
+    public function getPolygon()
+    {
         return $this->polygon;
+    }
+    
+    /**
+     * Set the center of the zone
+     * 
+     * @param point $center
+     * @return Zone The updated zone
+     */
+    public function setCenter($center)
+    {
+        $this->center = $center;
+        return $this;
     }
 
     /**
      *
      * @return Progracqteur\WikipedaleBundle\Resources\Geo\Point 
      */
-    public function getCenter() {
+    public function getCenter()
+    {
         return $this->center;
     }
 
@@ -189,8 +204,6 @@ class Zone {
      * 
      * - city
      * 
-     * 
-     * 
      * @return type The type of the zone
      */
     public function getType() {
@@ -199,7 +212,6 @@ class Zone {
 
     /**
      * Set the type of the Zone.
-     * 
      * 
      * @param type $type
      * @return \Progracqteur\WikipedaleBundle\Entity\Management\Zone
@@ -227,4 +239,15 @@ class Zone {
         return $this->description;
     }
 
+    /**
+     * Set the description of the Zone. The description is shown to the public.
+     * 
+     * @param string $description
+     * @return \Progracqteur\WikipedaleBundle\Entity\Management\Zone
+     */
+    public function setDescription($description) {
+        $this->description = $description;
+        return $this;
+    }
+    
 }

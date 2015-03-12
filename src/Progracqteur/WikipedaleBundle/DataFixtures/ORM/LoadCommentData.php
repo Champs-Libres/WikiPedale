@@ -5,15 +5,14 @@ namespace Progracqteur\WikipedaleBundle\DataFixtures\ORM;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
 
 /**
- * Load Comment data 
+ * Load Comments data into the DB 
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class LoadCommentData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+class LoadCommentData extends AbstractFixture implements OrderedFixtureInterface
 {
    public function getOrder()
    {
@@ -24,8 +23,9 @@ class LoadCommentData extends AbstractFixture implements OrderedFixtureInterface
    {    
       for ($i = 0; $i < 20; $i ++) {       
          $creators = array(
-            $this->getReference('monsieur_velo'),
-            $this->getReference('monsieur_travaux')
+            $this->getReference('moderator'),
+            $this->getReference('manager'),
+            $this->getReference('manager1')
          );
 
          //create 1,2 or 3 random comment for 1/3 report
@@ -85,17 +85,6 @@ class LoadCommentData extends AbstractFixture implements OrderedFixtureInterface
          }
       }
       $manager->flush();
-   }
-
-   /**
-    *
-    * @var \Symfony\Component\DependencyInjection\ContainerInterface 
-    */
-   private $container;
-
-   public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null)
-   {
-      $this->container = $container;
    }
 
    private $cacheLipsum = array();

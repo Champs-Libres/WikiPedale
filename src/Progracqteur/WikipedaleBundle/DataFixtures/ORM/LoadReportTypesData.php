@@ -11,17 +11,17 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Description of LoadPlaceTypesData
  *
- * @author Julien Fastré <julien arobase fastre point info>
+ * @author Champs-Libres COOP
  */
-class LoadReportTypesData extends AbstractFixture implements ContainerAwareInterface, OrderedFixtureInterface {
-    
-    private $container ;
-    
-    public function getOrder() {
-        return 433;
+class LoadReportTypesData extends AbstractFixture implements OrderedFixtureInterface
+{    
+    public function getOrder()
+    {
+        return 450;
     }
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager)
+    {
         $types = array(
             'short' => 'petits problèmes',
             'long' => 'points noirs',
@@ -30,6 +30,7 @@ class LoadReportTypesData extends AbstractFixture implements ContainerAwareInter
         
         foreach ($types as $key => $t )
         {
+            echo "Loading $key type\n"; 
             $a = new ReportType();
             $a->setLabel($t);
             $manager->persist($a);
@@ -38,10 +39,6 @@ class LoadReportTypesData extends AbstractFixture implements ContainerAwareInter
         }
         
         $manager->flush();
-    }
-
-    public function setContainer(ContainerInterface $container = null) {
-        $this->container = $container;
     }
 }
 

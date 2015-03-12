@@ -5,11 +5,9 @@ namespace Progracqteur\WikipedaleBundle\DataFixtures\ORM;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
-use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportStatus;
-use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 
@@ -32,7 +30,7 @@ class LoadReportData extends AbstractFixture implements OrderedFixtureInterface,
     */
     public function load(ObjectManager $manager)
     {       
-        $notations = array('gracq', "spw", "villedemons", 'cem', 'cem', 'cem', 'cem');
+        $notations = array('cem');
         $valuesNotations = array(-1,0,1,2,3);
 
         for ($i=0; $i < 40; $i++) {
@@ -91,7 +89,7 @@ class LoadReportData extends AbstractFixture implements OrderedFixtureInterface,
                 $report->getChangeset()->setAuthor($creator);
             }         
 
-            $report->setManager($this->getReference('manager_mons'));
+            $report->setManager($this->getReference('group_MANAGER-mons-0'));
 
             $type_array = array('long', 'short', 'medium', 'short', 'short', 'short');
             $rand = array_rand($type_array);

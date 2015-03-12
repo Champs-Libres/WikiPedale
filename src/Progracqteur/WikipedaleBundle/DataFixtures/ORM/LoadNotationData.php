@@ -21,27 +21,14 @@ class LoadNotationData extends AbstractFixture implements OrderedFixtureInterfac
 
     public function load(ObjectManager $manager)
     {
-        $notations = array('gracq', "spw", "villedemons", 'cem');
+        $notationIds = array('cem');
         
-        foreach ($notations as $name) {
-            $n = new Notation($name);
-            switch ($name) {
-                case 'gracq' : 
-                    $l = "Locale du GRACQ";
-                    break;
-                case 'spw' : 
-                    $l = "Service public de Wallonie";
-                    break;
-                case 'villedemons' :
-                    $l = "Ville de Mons";
-                    break;
-                case 'cem':
-                    $l = "Conseiller en mobilité local";
-            }
-            $n->setName($l);
+        foreach ($notationIds as $id) {
+            $n = new Notation($id);
+            $n->setName("default");
             $manager->persist($n);
+            echo "Loading the notation_".$n->getId()." notation\n";
             $this->addReference('notation_'.$n->getId(), $n);
-            echo "ajout de la catégorie notation_".$n->getId()."\n";
         }
         
         $manager->flush();
