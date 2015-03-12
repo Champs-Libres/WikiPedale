@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Management\Notation
+ * 
+ * @deprecated since version number
  */
 class Notation
 {
