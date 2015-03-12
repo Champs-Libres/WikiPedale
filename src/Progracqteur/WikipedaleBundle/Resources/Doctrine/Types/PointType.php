@@ -7,17 +7,14 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Progracqteur\WikipedaleBundle\Resources\Geo\PointException;
 
-
-
-
 /**
  * A Type for Doctrine to implement the Geography Point type
  * implemented by Postgis on postgis+postgresql databases
  *
  * @author user
  */
-class PointType extends Type {
-    
+class PointType extends Type
+{    
     const POINT = 'point';
     
     /**
@@ -48,7 +45,7 @@ class PointType extends Type {
     }
     
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
-    {
+    {        
         return $value->toWKT();
     }
     
@@ -66,10 +63,5 @@ class PointType extends Type {
     {
         return $sqlExpr;
     }
-    
-    
-    
-    
-    
 }
 
