@@ -16,9 +16,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
  * @author Julien Fastré <julien arobase fastre point info>
  */
 class GroupAdminController extends Controller {
-    
 
-    
     public function listAction()
     {
         if (! $this->get('security.context')->isGranted('ROLE_ADMIN'))
