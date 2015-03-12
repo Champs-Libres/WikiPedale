@@ -15,8 +15,8 @@ use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
  *
  * @author Champs-Libres COOP
  */
-class ManagerController extends Controller {
-    
+class ManagerController extends Controller
+{    
     /**
      * Select a city and set this information into the session.
      *
