@@ -9,26 +9,36 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 
 /**
- * Progracqteur\WikipedaleBundle\Entity\Management\Group
+ * A group is a team/group of users that can NOTATE / MANAGE / MODERATE
+ * reports of a given zone. 
  */
 class Group extends BaseGroup
 {
     /**
-     * @var Progracqteur\WikipedaleBundle\Management\Zone $polygon
+     * @var Progracqteur\WikipedaleBundle\Management\Zone The zone relative to
+     * the group.
      */
     private $zone;
+    
     /**
-     * @var Progracqteur\WikipedaleBundle\Management\Notation
+     * @var Progracqteur\WikipedaleBundle\Management\Notation The notition 
+     * relative to the group/.
      */
     private $notation;
+    
     /**
-     *
-     * @var string 
+     * @var string The type of the group. The type can be 'NOTATION' if XXX,
+     * 'MODERATOR' if the group permits moderation, and 'MANAGER' of the group
+     * permits management
      */
     private $type;
+    
     /**
-     *
+     * The reports that are moderated by the group.
+     * 
      * @var \Doctrine\Common\Collections\ArrayCollection;
+     * 
+     * @todo adding $reportsAsManager that are manager by the group;
      */
     private $reportsAsModerator;
     
