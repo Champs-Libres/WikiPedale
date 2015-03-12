@@ -2,24 +2,25 @@
 
 namespace Progracqteur\WikipedaleBundle\Resources\Geo;
 
-
-
 /**
  * Description of Point
  *
  * @author user
  */
-class Point {
+class Point
+{
     private $lat;
     private $lon;
     public static $SRID = '4326';
     
-    public function __construct($lon, $lat) {
+    public function __construct($lon, $lat)
+    {
         $this->lat = $lat;
         $this->lon = $lon;
     }
     
-    public function toGeoJson(){
+    public function toGeoJson()
+    {
         $array = $this->toArrayGeoJson();
         return \json_encode($array);
     }
@@ -30,10 +31,12 @@ class Point {
     }
     
     /**
-     *
+     * Convert to WKT (Well-known text)
+     * 
      * @return string 
      */
-    public function toWKT() {
+    public function toWKT()
+    {
         return 'SRID='.self::$SRID.';POINT('.$this->lon.' '.$this->lat.')';
     }
     
@@ -56,15 +59,13 @@ class Point {
             $lat = $a->coordinates[1];
             $lon = $a->coordinates[0];
             return Point::fromLonLat($lon, $lat);
-        }
-                
+        }   
     }
     
     public static function fromLonLat($lon, $lat)
     {
         //TODO : les tests devraient être réalisés dans le constructeur
-        if (($lon > -180 && $lon < 180) && ($lat > -90 && $lat < 90))
-        {
+        if (($lon > -180 && $lon < 180) && ($lat > -90 && $lat < 90)) {
             return new Point($lon, $lat);
         } else {
             throw PointException::badCoordinates($lon, $lat);
@@ -74,8 +75,7 @@ class Point {
     public static function fromArrayGeoJson($array)
     {
         if ($array['type'] == 'Point' &&
-                isset($array['coordinates']))
-        {
+                isset($array['coordinates'])) {
             return self::fromLonLat($array['coordinates'][0], $array['coordinates'][1]);
         }
     }
@@ -99,5 +99,3 @@ class Point {
         return self::fromLonLat((rand(39400, 39620)/10000), (rand(504500, 504570)/10000));
     }
 }
-
-
