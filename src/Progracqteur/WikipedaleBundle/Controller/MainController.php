@@ -3,12 +3,12 @@
 namespace Progracqteur\WikipedaleBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
 use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * This is the main controller that contains the only webpages of the application (except for the admin part).
+ * This is the main controller that contains the only webpages of the 
+ * application (except for the admin part).
  * 
  * @author Julien Fastré <julien arobase fastre point info>
  */
@@ -23,8 +23,9 @@ class MainController extends Controller
     }
     
     /**
-     * Display 'homepage' webpage. This is the main page of the application : the webpage is 
-     * updated (in function of the user interaction) with JSON request.
+     * Display 'homepage' webpage. This is the main page of the application : 
+     * the webpage is updated (in function of the user interaction) with JSON
+     * request.
      */
     public function homepageAction(Request $request)
     {
@@ -36,19 +37,19 @@ class MainController extends Controller
             $selectedReport = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Report')
                 ->find($id);
             
-            if ($selectedReport === null OR $selectedReport->isAccepted() === FALSE) {
+            if ($selectedReport === null OR  !$selectedReport->isAccepted()) {
                 throw $this->createNotFoundException('errors.404.report.not_found');
             }
             
-            $stringGeo = $this->get('progracqteur.wikipedale.geoservice')->toString($selectedReport->getGeom());
+            $stringGeo = $this->get('progracqteur.wikipedale.geoservice')
+                ->toString($selectedReport->getGeom());
             
             $city = $em->createQuery('select c 
-                    from ProgracqteurWikipedaleBundle:Management\Zone c
-                    where COVERS(c.polygon, :geom) = true and c.type = :type
-                ')
-                    ->setParameter('geom', $stringGeo)
-                    ->setParameter('type', 'city')
-                    ->getSingleResult();
+                from ProgracqteurWikipedaleBundle:Management\Zone c
+                where COVERS(c.polygon, :geom) = true and c.type = :type')
+                ->setParameter('geom', $stringGeo)
+                ->setParameter('type', 'city')
+                ->getSingleResult();
             
             $request->getSession()->set('city', $city);
         }
@@ -57,9 +58,10 @@ class MainController extends Controller
             ProgracqteurWikipedaleBundle:Management\\Zone c  order by c.name")
             ->getResult();
         
-        $mainCitiesSlug = $this->get('service_container')->getParameter('cities_in_front_page'); 
-        $mainCities = array();
+        $mainCitiesSlug = $this->get('service_container')
+            ->getParameter('cities_in_front_page'); 
         
+        $mainCities = array();
         foreach ($cities as $c) {
             if (in_array($c->getSlug(), $mainCitiesSlug)) {
                 $mainCities[] = $c;
@@ -67,7 +69,6 @@ class MainController extends Controller
         }
         
         //retrieve categories depending on user's right
-        
         $terms_allowed = ' ';
         $terms_allowed_array = array();
         $iTerm = 0;
@@ -129,8 +130,8 @@ class MainController extends Controller
             $paramsToView['selectedReport'] = $selectedReport;
         }
         
-        return $this->render('ProgracqteurWikipedaleBundle:Main:homepage.html.twig', 
-            $paramsToView
-            );
+        return $this->render(
+            'ProgracqteurWikipedaleBundle:Main:homepage.html.twig', 
+            $paramsToView);
     }
 }
