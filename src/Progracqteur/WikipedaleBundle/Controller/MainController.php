@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
  * This is the main controller that contains the only webpages of the 
  * application (except for the admin part).
  * 
- * @author Julien Fastré <julien arobase fastre point info>
+ * @author Champs-Libres COOP
  */
 class MainController extends Controller
 {
@@ -26,6 +26,9 @@ class MainController extends Controller
      * Display 'homepage' webpage. This is the main page of the application : 
      * the webpage is updated (in function of the user interaction) with JSON
      * request.
+     * 
+     * @todo Remove the array creation (serialieation, or toArray function)
+     * @todo session->get('city') returns a Zone object not an array
      */
     public function homepageAction(Request $request)
     {
@@ -41,15 +44,14 @@ class MainController extends Controller
                 throw $this->createNotFoundException('errors.404.report.not_found');
             }
             
-            $stringGeo = $this->get('progracqteur.wikipedale.geoservice')
-                ->toString($selectedReport->getGeom());
+            $cityObj = $selectedReport->getModerator()->getZone();
             
-            $city = $em->createQuery('select c 
-                from ProgracqteurWikipedaleBundle:Management\Zone c
-                where COVERS(c.polygon, :geom) = true and c.type = :type')
-                ->setParameter('geom', $stringGeo)
-                ->setParameter('type', 'city')
-                ->getSingleResult();
+            $city = [
+                'id' => $cityObj->getId(),
+                'name' => $cityObj->getName(),
+                'center' => [
+                    'lon' => $cityObj->getCenter()->getLon(),
+                    'lat' => $cityObj->getCenter()->getLat()]];
             
             $request->getSession()->set('city', $city);
         }
@@ -104,10 +106,13 @@ class MainController extends Controller
             ->findAll();
         //TODO : cachable query
         
-        if ($request->getSession()->get('city') !== null) {
-            $z = $request->getSession()->get('city');
-            $managers = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
-                ->getGroupsByTypeByCoverage(Group::TYPE_MANAGER, $z->getPolygon());
+        // @todo why an object is returned not an array ?
+        $zone = $request->getSession()->get('city');
+
+        if ($zone) {
+            $managers = $em
+                ->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
+                ->getGroupsByTypeByCoverage(Group::TYPE_MANAGER, $zone->getPolygon());
         } else {
             $managers = array();
         }
