@@ -1,5 +1,6 @@
 Progracqteur\WikipedaleBundle\Entity\Management\Zone:
   type: entity
+  repositoryClass: Progracqteur\WikipedaleBundle\Entity\Management\ZoneRepository
   readOnly: ~
   table: zones
   id:

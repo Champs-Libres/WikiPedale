@@ -50,21 +50,9 @@ class MainController extends Controller
             $session->set('selectedZoneId', $selectedZone->getId());
 
         }
+        
+        $enableZones = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')->findAllWithModerator();
 
-        $cities = $em->createQuery("select z from
-            ProgracqteurWikipedaleBundle:Management\Zone z  order by z.name")
-            ->getResult();
-        
-        $mainCitiesSlug = $this->get('service_container')
-            ->getParameter('cities_in_front_page'); 
-        
-        $mainCities = array();
-        foreach ($cities as $c) {
-            if (in_array($c->getSlug(), $mainCitiesSlug)) {
-                $mainCities[] = $c;
-            }
-        }
-        
         //retrieve categories depending on user's right
         $terms_allowed = ' ';
         $terms_allowed_array = array();
@@ -116,8 +104,7 @@ class MainController extends Controller
             ->findByType(Group::TYPE_MODERATOR);
         
         $paramsToView = array(
-            'mainCities' => $mainCities, 
-            'cities' => $cities,
+            'mainCities' => $enableZones, 
             'categories' => $categories,
             'reportTypes' => $reportTypes,
             'managers' => $managers,
