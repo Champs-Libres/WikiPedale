@@ -23,41 +23,36 @@ class MainController extends Controller
     }
     
     /**
-     * Display 'homepage' webpage. This is the main page of the application : 
-     * the webpage is updated (in function of the user interaction) with JSON
-     * request.
-     * 
-     * @todo Remove the array creation (serialieation, or toArray function)
-     * @todo session->get('city') returns a Zone object not an array
+     * Display the 'homepage' webpage. This is the main page of the
+     * application : the webpage is updated (in function of the user 
+     * interaction) with JSON request.
+     * @param $request The request
+     * @todo cachable query
      */
     public function homepageAction(Request $request)
     {
-        $id = $request->get('id', null);
+        $selectedReportId = $request->get('id', null);
         $selectedReport = null;
+        $selectedZone = null;
 
         $em = $this->getDoctrine()->getManager();
-        if ($id != null) {
+        if ($selectedReportId) {
             $selectedReport = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Report')
-                ->find($id);
+                ->find($selectedReportId);
             
             if ($selectedReport === null OR  !$selectedReport->isAccepted()) {
                 throw $this->createNotFoundException('errors.404.report.not_found');
             }
             
-            $cityObj = $selectedReport->getModerator()->getZone();
+            $selectedZone = $selectedReport->getModerator()->getZone();
             
-            $city = [
-                'id' => $cityObj->getId(),
-                'name' => $cityObj->getName(),
-                'center' => [
-                    'lon' => $cityObj->getCenter()->getLon(),
-                    'lat' => $cityObj->getCenter()->getLat()]];
-            
-            $request->getSession()->set('city', $city);
+            $session = $this->getRequest()->getSession();
+            $session->set('selectedZoneId', $selectedZone->getId());
+
         }
 
-        $cities = $em->createQuery("select c from 
-            ProgracqteurWikipedaleBundle:Management\\Zone c  order by c.name")
+        $cities = $em->createQuery("select z from
+            ProgracqteurWikipedaleBundle:Management\Zone z  order by z.name")
             ->getResult();
         
         $mainCitiesSlug = $this->get('service_container')
@@ -94,25 +89,25 @@ class MainController extends Controller
         
         $terms_allowed .= ' ';
         
-        $q = sprintf('SELECT c from 
+        $categoriesQuery = sprintf('SELECT c from
             ProgracqteurWikipedaleBundle:Model\Category c 
             WHERE  c.used = true AND c.parent is null AND c.term IN (%s)
             ORDER BY c.order, c.label', $terms_allowed);
         
-        $categories = $em->createQuery($q)->getResult();
-        //Todo: cachable query
+        $categories = $em->createQuery($categoriesQuery)->getResult();
+        //@todo cachable query
         
         $reportTypes = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Report\ReportType')
             ->findAll();
-        //TODO : cachable query
+        //@todo cachable query
         
-        // @todo why an object is returned not an array ?
-        $zone = $request->getSession()->get('city');
-
-        if ($zone) {
-            $managers = $em
-                ->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
-                ->getGroupsByTypeByCoverage(Group::TYPE_MANAGER, $zone->getPolygon());
+        if (!$selectedZone && $request->getSession()->get('selectedZoneId') !== null) {
+            $selectedZoneId = $request->getSession()->get('selectedZoneId');
+            $selectedZone = $em
+                ->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
+                ->find($selectedZoneId);
+            $managers = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
+                ->getGroupsByTypeByCoverage(Group::TYPE_MANAGER, $selectedZone->getPolygon());
         } else {
             $managers = array();
         }
@@ -130,8 +125,12 @@ class MainController extends Controller
             'terms_allowed' => $terms_allowed_array
         );
 
-        if ($id != null) {
-            $paramsToView['selectedReportId'] = $id;
+        if ($selectedZone) {
+            $paramsToView['selectedZone'] = $selectedZone;
+        }
+
+        if ($selectedReportId) {
+            $paramsToView['selectedReportId'] = $selectedReportId;
             $paramsToView['selectedReport'] = $selectedReport;
         }
         

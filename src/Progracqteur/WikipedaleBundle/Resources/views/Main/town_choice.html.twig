@@ -7,7 +7,7 @@ Template for chosing the town.
 
 <ul>
    {% for city in mainCities %}
-      <li><a href="{{ path('wikipedale_to_city', {'citySlug': city.slug})}}">{{city.name}}</a></li>
+      <li><a href="{{ path('wikipedale_to_city', {'zoneSlug': city.slug})}}">{{city.name}}</a></li>
    {% endfor %}
 </ul>
 
