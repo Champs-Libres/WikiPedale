@@ -12,10 +12,6 @@
         
     <h2>{{ 'titles.licence'|trans({}, 'about')|raw }}</h2>
     <p>{{ 'licence'|trans({}, 'about')|raw }}</p>
-    
-    <p>{% if app.session.get('city') %}
-        <a href="javascript:history.go(-1)">{{ 'titles.back'|trans({}, 'about')|raw }}</a>
-    {% endif %}</p>
 </div>
 
 {% endblock %}

@@ -151,8 +151,6 @@
                         </a>
                     </div>
 
-                    
-
                     <div id="menu_contact">
                         <a href="mailto:uello@gracq.be">
                             <img src="{{asset('img/menu/contact.png')}}" />
@@ -163,13 +161,13 @@
                     <div>
                     {% if mainCities is defined %}
                         <select id="menu_city_selection" onchange="location = this.options[this.selectedIndex].value;">
-                        {% if app.session.get('city') %}
-                            <option><span style="color:red;">{{app.session.get('city').name}}</span></option>
+                        {% if selectedZone is defined %}
+                            <option>{{ selectedZone.name}}</span></option>
                         {% else %}
                             <option>Sélectionner une ville</option>
                         {% endif %}
                             {% for city in mainCities %}
-                            <option value="{{ path('wikipedale_to_city', {'citySlug': city.slug})}}">{{city.name}}</option>
+                            <option value="{{ path('wikipedale_to_city', {'zoneSlug': city.slug})}}">{{city.name}}</option>
                             {% endfor %}
                         </select>
                     {% endif %}

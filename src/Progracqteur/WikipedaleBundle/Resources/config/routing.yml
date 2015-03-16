@@ -31,7 +31,7 @@ wikipedale_about:
       expose: true
 
 wikipedale_to_city:
-  pattern: /city/{citySlug}
+  pattern: /city/{zoneSlug}
   defaults: {_controller: ProgracqteurWikipedaleBundle:Manager:toCity }
   options:
     expose: true

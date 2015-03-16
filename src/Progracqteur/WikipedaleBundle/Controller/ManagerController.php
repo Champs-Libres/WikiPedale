@@ -20,34 +20,35 @@ class ManagerController extends Controller
     /**
      * Select a city and set this information into the session.
      *
-     * @param string $citySlug
-     * @param Request $request
+     * @param string $zoneSlug The slug of the selected zone
+     * @param Request $request The Request
      * @return Symfony\Component\HttpFoundation\Response The index page
      * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      * The exception is thrown if the variable $citySlug does not refer to a
      * known city
      */
-    public function toCityAction($citySlug, Request $request)
+    public function toCityAction($zoneSlug, Request $request)
     {
-        $citySlug = $this->get('progracqteur.wikipedale.slug')->slug($citySlug);
+        $zoneSluged = $this->get('progracqteur.wikipedale.slug')->slug($zoneSlug);
 
         $em = $this->getDoctrine()->getManager();
-        $cities = $em->createQuery("SELECT  c from ProgracqteurWikipedaleBundle:Management\\Zone c 
-                 where c.slug = :slug")
-                ->setParameter('slug', $citySlug)
-                ->getResult();
-        $city = $cities[0];
+        $zones = $em->createQuery("SELECT z
+            from ProgracqteurWikipedaleBundle:Management\Zone z
+            where z.slug = :slug")
+            ->setParameter('slug', $zoneSluged)
+            ->getResult();
+        $zone = $zones[0];
         
-        if ($city === null) {
-            throw $this->createNotFoundException("La ville demandée '$city' n'a pas été trouvée");
+        if (! $zone) {
+            throw $this->createNotFoundException("La ville demandée '$zone' n'a pas été trouvée");
         }
         
         $session = $this->getRequest()->getSession();
-        $session->set('city', $city);
+        $session->set('selectedZoneId', $zone->getId());
         
         $url = $request->get('url', null);
         
-        if ($url === null) {
+        if (! $url) {
             $url = $this->generateUrl('wikipedale_homepage');
         }
         
@@ -62,11 +63,11 @@ class ManagerController extends Controller
     public function resetCityAction()
     {
         $session = $this->getRequest()->getSession();
-        $session->set('city', null);
+        $session->set('selectedZoneId', null);
          
         $url = $this->getRequest()->get('url', null);
         
-        if ($url === null) {
+        if (!$url) {
             $url = $this->generateUrl('wikipedale_homepage');
         }
         
@@ -101,4 +102,3 @@ class ManagerController extends Controller
         return new Response($serializer->serialize($normalizedResponse, NormalizerSerializerService::JSON_FORMAT)); 
     }
 }
-
