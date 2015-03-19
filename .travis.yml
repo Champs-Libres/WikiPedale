@@ -13,8 +13,8 @@ install:
   - composer install
   - cp app/config/parameters.travis.yml app/config/parameters.yml
 before_script:
-  - psql -U postgres -c 'create extension postgis'
   - psql -c 'create database test0;' -U postgres
+  - psql -U postgres -c 'create extension postgis' -d test0
   - php app/console --env=test cache:warmup
   - php app/console doctrine:migrations:migrate --no-interaction
   - php app/console doctrine:fixtures:load --no-interaction --env=test
