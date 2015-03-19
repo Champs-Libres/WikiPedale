@@ -3,8 +3,6 @@
 namespace Progracqteur\WikipedaleBundle\Tests\Resources\Services\Notification;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Progracqteur\WikipedaleBundle\Entity\Management\Notification\PendingNotification;
-use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 
 /**
