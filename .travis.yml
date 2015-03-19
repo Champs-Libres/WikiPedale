@@ -1,0 +1,23 @@
+language: php
+php:
+- 5.5
+- 5.6
+- hhvm-nightly
+matrix:
+  allow_failures:
+  - php: hhvm-nightly
+addons:
+  postgresql: '9.3'
+sudo: false
+install:
+  - composer install
+  - cp app/config/parameters.travis.yml app/config/parameters.yml
+before_script:
+  - psql -c 'create database test0;' -U postgres
+  - php app/console --env=test cache:warmup
+  - php app/console doctrine:migrations:migrate --no-interaction"
+  - php app/console doctrine:fixtures:load --no-interaction --env=test"
+script: phpunit -c app/
+notifications:
+  email:
+  - info@champs-libres.coop

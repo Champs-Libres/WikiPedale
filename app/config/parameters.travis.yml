@@ -1,0 +1,39 @@
+parameters:
+    database_driver: pdo_pgsql
+    database_host: 127.0.0.1
+    database_port: 5432
+    database_name: test0
+    database_user: postgres
+    database_password: postgres
+    mailer_transport: smtp
+    mailer_host: null
+    mailer_user: null
+    mailer_password: null
+    locale: fr
+    secret: ThisTokenIsNotSoSecretChangeIt
+    date_format: 'd/m/Y à H:i'
+    report_types:
+        bike:
+            label: place_type.bike.label
+            terms:
+                -
+                    key: short
+                    label: place_type.bike.short.label
+                    mayAddToReport: IS_AUTHENTICATED_ANONYMOUSLY
+                -
+                    key: medium
+                    label: place_type.bike.medium.label
+                    mayAddToReport: IS_AUTHENTICATED_ANONYMOUSLY
+                -
+                    key: long
+                    label: place_type.bike.long.label
+                    mayAddToReport: ROLE_PLACE_TERM
+    report_type_default: bike.short
+    user_manuel_url: 'url to the user manuel'
+    contact_url: 'contact url or mailo'
+    default_hidden_report_terms:
+        - long
+    default_hidden_report_status:
+        - 
+            label: cem
+            value: -1
