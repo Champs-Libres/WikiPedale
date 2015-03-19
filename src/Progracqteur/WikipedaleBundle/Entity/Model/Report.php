@@ -1029,6 +1029,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
 
       $r->setAddress(Address::maquestGenerateFromPoint($r->getGeom()));
       $r->setDescription(StringGenerator::randomGenerate(300));
+      $r->setDrawnGeoJSON('{"type":"FeatureCollection","features":[]}');
 
       if (array_key_exists('category', $params)) {
          if ($params['category'] === 'RANDOM') {
