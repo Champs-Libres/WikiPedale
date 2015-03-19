@@ -7,9 +7,12 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * Tests for CommentController
  *
- * @author julien
+ * @author Champs-Libres coop
  */
 class CommentControllerTest extends WebTestCase
 {
-   // TODO
+    public function testTODO()
+    {
+        $this->markTestIncomplete('No test for CommentController');
+    }
 }

@@ -6,6 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class CategoryControllerTest extends WebTestCase
 {
+    public function testTODO()
+    {
+        $this->markTestIncomplete('No test for CategroyController');
+    }
+    
     /*
     public function testCompleteScenario()
     {

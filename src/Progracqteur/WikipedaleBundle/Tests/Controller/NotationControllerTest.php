@@ -6,6 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class NotationControllerTest extends WebTestCase
 {
+    public function testTODO()
+    {
+        $this->markTestIncomplete('No test for NotationController');
+    }
+    
     /*
     public function testCompleteScenario()
     {
