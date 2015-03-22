@@ -73,7 +73,7 @@ define(
 
          report_map.addMapMoveEndEvent(function(evt) {
             var center = ol.proj.transform(evt.map.getView().getCenter(),'EPSG:3857', 'EPSG:4326');
-            var jsonUrlData = Routing.generate('zone_view_covering_point', {_format: 'json', lon: center[0], lat: center[1]});
+            var jsonUrlData = Routing.generate('wikipedale_zone_view_covering_point', {_format: 'json', lon: center[0], lat: center[1]});
 
             $.when(
                $.getJSON(jsonUrlData, function(data) {

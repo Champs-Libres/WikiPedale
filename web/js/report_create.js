@@ -4,25 +4,40 @@
 'use strict';
 
 /**
-* This module is used when the user want to create a new description (used to catch the 
+* This module is used when the user want to create a new report (used to catch the 
 creating form and to clear this form)
 */
 define(['jQuery','basic_data_and_functions','report_map','data_map_glue','informer','user','json_string','report','login'],
       function($, basic_data_and_functions,report_map,data_map_glue,informer,user,json_string,report,login) {
-   function catch_creating_form(the_form_to_catch) {
+   var messages_div = $('#add_new_report_form__message');
+
+   function catchCreatingForm(form_to_catch) {
       /**
-      * Catches the form used to create a new description.
-      * @param {DOM elem} the_form_to_catch the DOM elem which is the form to catch.
+      * Catches the form used to create a new description. This function check
+      * if the coordinates of the new report are valid (are in a moderated zone)
+      * @param {DOM elem} form_to_catch the DOM elem which is the form to catch.
       * This element must contain a div with an element of class '.message' where to 
       * display the error and success messages.
       */
-      var desc_data = {},
-         error_messages = '',
-         messages_div = $('#add_new_report_form__message');
+      var desc_data = {};
 
-      $.map($(the_form_to_catch).serializeArray(), function(n){
+      $.map($(form_to_catch).serializeArray(), function(n){
          desc_data[n.name] = n.value;
       });
+
+      checkCoordinatesThen(desc_data, function() {
+         catchCreatingFormWithValidCoordinates(desc_data);
+      });
+   }
+
+   function catchCreatingFormWithValidCoordinates(desc_data) {
+      /**
+       * Catches the form used to create a new report.
+       * @param {array} desc_data The data entered in the form
+       * This element must contain a div with an element of class '.message' where to 
+       * display the error and success messages.
+       */
+      var error_messages = '';
 
       if(desc_data.description === '') {
          error_messages = error_messages + 'Veuillez remplir la description. ';
@@ -68,7 +83,7 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
                   success: function(output_json) {
                      if(! output_json.query.error) {
                         var new_report = output_json.results[0];
-                        clear_creating_form();
+                        clearCreatingForm();
                         if(user.isRegistered()) { //sinon verif de l'email 
                            $(messages_div).text('Le point noir que vous avez soumis a bien été enregistré. Merci!');
                            setTimeout( function(){
@@ -91,13 +106,16 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
                         $(messages_div).addClass('successMessage');
                      } else {
                         console.log(output_json);
-                        alert('Mince, il y a un problème. Veuillez nous le signaler. Merci.');
+                        $(messages_div).text('Mince, il y a un problème. Veuillez nous le signaler. Merci.');
+                        $(messages_div).addClass('errorMessage');
                      }
                   },
                   error: function(error_message) {
-                     alert('Mince, il y a un problème : ' +
+
+                     $(messages_div).text('Mince, il y a un problème : ' +
                         error_message.responseText +
                         '. Si le problème persiste, veuilllez nous le signaler. Merci.');
+                     $(messages_div).addClass('errorMessage');
                   }
                });
             }
@@ -105,7 +123,28 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
       });
    }
 
-   function clear_creating_form() {
+   function checkCoordinatesThen(desc_data, callback) {
+      /**
+       * Check if the given lat / lang are valid (beeing in a zone moderated)
+       * and if it is the case execute a callback.
+       * @param {array} desc_data The data entered in the form
+       * @param {function} callback The callback to execute if the entered coordinates are valids
+       * @return No return
+       */
+      $.getJSON(
+         Routing.generate('wikipedale_zone_view_covering_point', {lon: desc_data.lon, lat: desc_data.lat, _format: 'json'}),
+         function (data) {
+            if(data.results.length === 0) {
+               $(messages_div).text('Erreur! Le signalement introduit ne se trouve dans aucune zone gérée par l\'outil!');
+               $(messages_div).addClass('errorMessage');
+            } else {
+               callback();
+            }
+         }
+      );
+   }
+
+   function clearCreatingForm() {
       /** 
       * Clear the data entered in the form used to create new description.
       * It remove also the marker of the map.
@@ -117,7 +156,7 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
    }
 
    return {
-      catch_creating_form: catch_creating_form,
-      clear_creating_form: clear_creating_form
+      catchCreatingForm: catchCreatingForm,
+      clearCreatingForm: clearCreatingForm
    };
 });

@@ -130,8 +130,8 @@ require(
          $('#add_new_report_form__user_phonenumber').blur(function() { informer.update_new_description_form('user_phonenumber'); });
          $('#add_new_report_form__lieu').blur(function() { informer.update_new_description_form('lieu'); });
          $('#add_new_report_form__description').blur(function() { informer.update_new_description_form('description'); });
-         $('#form__add_new_description').submit(function(e) { e.preventDefault(); report_create.catch_creating_form(this); });
-         $('#new_place_form_reset_button').click(function(e) { e.preventDefault(); report_create.clear_creating_form(); });
+         $('#form__add_new_description').submit(function(e) { e.preventDefault(); report_create.catchCreatingForm(this); });
+         $('#new_place_form_reset_button').click(function(e) { e.preventDefault(); report_create.clearCreatingForm(); });
          $('#add_new_report_form_informer__category_medium_warning').hide();
 
          //Place Description Edit
