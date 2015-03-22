@@ -5,6 +5,7 @@ php:
 - hhvm-nightly
 matrix:
   allow_failures:
+  - php: 5.6
   - php: hhvm-nightly
 addons:
   postgresql: '9.3'
