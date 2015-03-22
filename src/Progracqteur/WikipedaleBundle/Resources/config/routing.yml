@@ -233,27 +233,3 @@ wikipedale_group_moderator_list:
     method: GET
   options:
     expose: true
-
-wikipedale_firefoxos_index:
-  pattern: /firefoxos
-  defaults: {_controller: ProgracqteurWikipedaleBundle:FirefoxOS:homepage }
-  options:
-    expose: true
-
-wikipedale_firefoxos_choose_city:
-  pattern: /firefoxos/city/choice
-  defaults: {_controller: ProgracqteurWikipedaleBundle:FirefoxOS:chooseCity }
-  options:
-    expose: true
-
-wikipedale_firefoxos_signal:
-  pattern: /firefoxos/signal
-  defaults: {_controller: ProgracqteurWikipedaleBundle:FirefoxOS:signal }
-  options:
-    expose: true
-
-wikipedale_firefoxos_view:
-  pattern: /firefoxos/view
-  defaults: {_controller: ProgracqteurWikipedaleBundle:FirefoxOS:view }
-  options:
-    expose: true
