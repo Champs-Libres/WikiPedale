@@ -7,8 +7,12 @@ ProgracqteurWikipedaleBundle_public_category:
   prefix:   /category
 
 ProgracqteurWikipedaleBundle_zone:
-  resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/zone.yml"
+  resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/zone_public.yml"
   prefix:   /zone
+  
+ProgracqteurWikipedaleBundle_admin_zone:
+  resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/zone_admin.yml"
+  prefix:   /admin/zone
 
 ProgracqteurWikipedaleBundle_comment:
   resource: "@ProgracqteurWikipedaleBundle/Resources/config/routing/model_comment.yml"

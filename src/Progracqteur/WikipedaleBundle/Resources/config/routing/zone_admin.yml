@@ -1,0 +1,3 @@
+admin_zone:
+    pattern:  /
+    defaults: { _controller: "ProgracqteurWikipedaleBundle:Zone:indexAdmin" }

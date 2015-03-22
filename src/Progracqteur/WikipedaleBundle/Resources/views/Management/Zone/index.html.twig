@@ -1,0 +1,83 @@
+{% extends "ProgracqteurWikipedaleBundle::layout_admin_zone.html.twig" %}
+
+
+{% block css %}
+<style type="text/css">
+    table.admin_list {
+        border-collapse: collapse;
+        margin-left: auto;
+        margin-right: auto;
+    }
+        
+    table.admin_list td,
+    table.admin_list th,
+    table.admin_list {
+        border: 1px solid black;
+        vertical-align: middle;
+        padding: 5px;
+    }
+        
+    table.admin_list th{
+        color: white;
+        font-weight: bold;
+        background-color: black;
+        padding: 5px;
+        text-align: center;
+        vertical-align: middle;
+    }
+        
+    table.admin_list tr:nth-child(odd){
+        background-color: lightgray;
+    }
+        
+    table.admin_list tr.disabled {
+       
+    }
+        
+    .warning {
+        color: red;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+
+{% block body %}
+
+<h1>Management\Zone list</h1>
+
+<table class="records_list admin_list">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Label</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for zone in zones %}
+        <tr>
+            <td>{{ zone.id }}</td>
+            <td>{{ zone.name }}</td>
+            <td>
+                <ul>
+                    <li>
+                        show
+                    </li>
+                    <li>
+                        edit
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<ul>
+    <li>
+            Create a new entry
+    </li>
+</ul>
+
+{% endblock %}
