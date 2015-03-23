@@ -22,7 +22,7 @@ Scenario: I create a report for the user 'user'
    And I randomly fill in "add_new_report_form__lieu"
    And I randomly fill in "add_new_report_form__description"
    And I doubleclick on "#new_report_form_submit_button"
-   And I wait for 1 seconds
+   And I wait for 2.5 seconds
    Then I should see "Traitement en cours" in the "div#add_new_report_form__message" element
    And I wait for 7 seconds
    Then element "#div__report_description_display" should be visible
@@ -38,7 +38,7 @@ Scenario: I try to create a report with a description having more than 2500 char
    And I randomly fill in "add_new_report_form__lieu"
    And I randomly fill in "add_new_report_form__description" with "2601" char
    And I doubleclick on "#new_report_form_submit_button"
-   And I wait for 1 seconds
+   And I wait for 2.5 seconds
    Then I should see "Traitement en cours" in the "div#add_new_report_form__message" element
    And I wait for 7 seconds
    Then element "#div__report_description_display" should be visible

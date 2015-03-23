@@ -15,7 +15,7 @@ Scenario: I open the creation form as an anonymous
    And I randomly fill in "add_new_report_form__lieu" with "string"
    And I randomly fill in "add_new_report_form__description" with "string"
    And I doubleclick on "#new_report_form_submit_button"
-   And I wait for 1 seconds
+   And I wait for 2.5 seconds
    Then I should see "Traitement en cours" in the "div#add_new_report_form__message" element
    And I wait for 7 seconds
    Then I should see "Le point noir que vous avez soumis a bien été enregistré. Avant d'afficher le point noir, nous allons vérifier votre adresse mail. Veuillez suivre les instructions qui vous ont été envoyées par email." in the "div#add_new_report_form__message" element
