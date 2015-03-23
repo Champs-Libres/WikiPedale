@@ -37,22 +37,52 @@ class PolygonType extends Type
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return $value; //Polygon::fromGeoJson($value);
+        return Polygon::fromGeoJson($value);
     }
     
+    /**
+     * Gets the name of this type.
+     * @see http://www.doctrine-project.org/api/dbal/2.2/class-Doctrine.DBAL.Types.Type.html
+     */
     public function getName()
     {
         return self::NAME;
     }
     
+    /**
+     * Converts a value from its PHP representation to its database representation of this type.
+     * @see http://www.doctrine-project.org/api/dbal/2.2/class-Doctrine.DBAL.Types.Type.html
+     */
     public function convertToDatabaseValue($polygon, AbstractPlatform $platform)
     {        
         return $polygon->toWKT();
     }
     
+    /**
+     * Does working with this column require SQL conversion functions?
+     * @see http://www.doctrine-project.org/api/dbal/2.2/class-Doctrine.DBAL.Types.Type.html
+     */
     public function canRequireSQLConversion()
     {
-        return false;
-    }    
+        return true;
+    } 
+    
+    /**
+     * Modifies the SQL expression (identifier, parameter) to convert to a database value.
+     * @see http://www.doctrine-project.org/api/dbal/2.2/class-Doctrine.DBAL.Types.Type.html
+     */
+    public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
+    {
+        return $sqlExpr;
+    }
+    
+    /**
+     * Modifies the SQL expression (identifier, parameter) to convert to a PHP value.
+     * @see http://www.doctrine-project.org/api/dbal/2.2/class-Doctrine.DBAL.Types.Type.html
+     */
+    public function convertToPHPValueSQL($sqlExpr, $platform)
+    {
+        return 'ST_AsGeoJSON('.$sqlExpr.') ';
+    }
 }
 

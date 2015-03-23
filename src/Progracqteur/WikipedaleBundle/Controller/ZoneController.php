@@ -29,6 +29,25 @@ class ZoneController extends Controller
             'ProgracqteurWikipedaleBundle:Management/Zone:index.html.twig',
             array('zones' => $zones));
     }
+    
+    /**
+     * Return a JSON string that describe all the (moderated) zones.
+     * 
+     * @return Response The JSON string
+     */
+    public function getAllAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $zones = $em
+            ->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
+            ->findAllWithModerator();
+
+        $normalizer = $this->get('progracqteurWikipedaleSerializer');
+        $rep = new NormalizedResponse($zones);
+        $ret = $normalizer->serialize($rep, 'json');
+        return new Response($ret);
+    }
  
     /**
      * Return a JSON string that describe all the zones covering a given
@@ -40,16 +59,14 @@ class ZoneController extends Controller
      */
     public function getCoveringPointAction($lon,$lat)
     {
-        $type = 'city';
-
         $em = $this->getDoctrine()->getManager();
 
-        $center = new Point($lon, $lat);
-        $stringCenter = $this->get('progracqteur.wikipedale.geoservice')->toString($center);
-
+        $point  = new Point($lon, $lat);
+        $stringPoint = $this->get('progracqteur.wikipedale.geoservice')->toString($point);
+        
         $zones = $em
             ->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
-            ->findAllWithModeratorCovering($stringCenter);
+            ->findAllWithModeratorCovering($stringPoint);
 
         $normalizer = $this->get('progracqteurWikipedaleSerializer');
         $rep = new NormalizedResponse($zones);

@@ -13,11 +13,15 @@ class Polygon
     
     public static $SRID = '4326';
     
-    public function __construct($vertexes = array())
+    public function __construct($vertexes = array(), $latLonKey = true)
     {
         foreach ($vertexes as $key => $values)
         {
-            $this->vertex[] = array('lon' => $values['lon'], 'lat' => $values['lat']);
+            if($latLonKey) {
+                $this->vertex[] = array('lon' => $values['lon'], 'lat' => $values['lat']);
+            } else {
+                $this->vertex[] = array('lon' => $values[0], 'lat' => $values[1]); 
+            }   
         }
     }
     
@@ -65,9 +69,8 @@ class Polygon
     {
         $rings = array();
         $ring = array();
-        foreach ($this->vertex as $point)
-        {
-            $ring[] = array($point['long'], $point['lat']);
+        foreach ($this->vertex as $point) {
+            $ring[] = array($point['lon'], $point['lat']);
         }
         
         $rings[] = $ring;
@@ -75,14 +78,16 @@ class Polygon
     }
     
     /**
-     *
-     * @param type $geojson
-     * @return Point 
+     * Create a polygon form a String containing a geojson description
+     * of the polygon.
+     * 
+     * @param type $geojson The geojson string
+     * @return Polygon The polygon 
      */
-    public static function fromGeoJson($geojson) 
+    public static function fromGeoJson($geojsonString) 
     {
-        return new Polygon;
-                
+        $geojson = json_decode($geojsonString, true);
+        return new Polygon($geojson['coordinates'][0], false);
     }
     
     public static function fromLonLat($lon, $lat)

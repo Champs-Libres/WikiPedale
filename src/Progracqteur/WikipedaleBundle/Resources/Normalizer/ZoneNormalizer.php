@@ -36,7 +36,8 @@ class ZoneNormalizer implements NormalizerInterface {
             'slug' => $object->getSlug(),
             'type' => $object->getType(),
             'description' => $object->getDescription(),
-            'url' => $object->getUrl()
+            'url' => $object->getUrl(),
+            'polygon' => json_decode($object->getPolygon()->toGeoJson())
         );
     }
 

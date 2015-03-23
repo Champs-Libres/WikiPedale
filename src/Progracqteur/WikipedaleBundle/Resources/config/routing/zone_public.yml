@@ -5,3 +5,11 @@ wikipedale_zone_view_covering_point:
       _format: json
    options:
       expose: true
+      
+wikipedale_all_moderated_zones:
+   pattern: /list
+   defaults: { _controller: "ProgracqteurWikipedaleBundle:Zone:getAll" }
+   requirements:
+      _format: json
+   options:
+      expose: true
