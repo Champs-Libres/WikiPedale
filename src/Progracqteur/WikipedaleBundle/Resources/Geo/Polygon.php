@@ -74,7 +74,8 @@ class Polygon
         }
         
         $rings[] = $ring;
-        return array("type" => "Polygon", "coordinates" => $rings);
+        return array("type"=> "Feature",
+            "geometry" => array("type" => "Polygon", "coordinates" => $rings));
     }
     
     /**
