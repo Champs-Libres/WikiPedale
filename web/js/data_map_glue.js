@@ -11,11 +11,11 @@
 define(
    [
       'jQuery', 'report_map', 'report', 'report_display', 'user', 'informer', 'json_string',
-      'markers_filtering', 'ol', 'recent_activities'
+      'markers_filtering', 'ol', 'recent_activities', 'zone'
    ],
    function(
       $, report_map, report, report_display, user, informer, json_string,
-      markers_filtering, ol, recent_activities
+      markers_filtering, ol, recent_activities, zone
    ) {
       var last_description_selected = null;
       var add_new_place_mode = false; // true when the user is in a mode for adding new place
@@ -45,6 +45,13 @@ define(
             if(init && marker_id_to_display) {
                focusOnReport(marker_id_to_display);
                init = false;
+            }
+         });
+
+
+         zone.init(function(zones_array) {
+            for (var i = 0; i < zones_array.length; i++) {
+               report_map.addZone(zones_array[i]);
             }
          });
 

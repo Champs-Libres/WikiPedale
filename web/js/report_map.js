@@ -12,6 +12,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
    var old_center; // To re-center the map after displaying the tiny map
    var map; // Variable to acces to the map
    var marker_source; // source for the layer displaying reports
+   var zone_source; // source for the layer displaying the zones
    var map_zoom_lvl; // zoom level of the map
    var marker_img_url = basic_data_and_functions.web_dir + 'img/OpenLayers/';
    var evtFctWhenNewReports; //function to triggers when new reports
@@ -33,8 +34,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
    var click_map_event_fct;
    var zoom_change_event_fct;
    var moveend_event_fct;
-   var tard_geojson = new ol.format.GeoJSON();
-
+   var trad_geojson = new ol.format.GeoJSON();
 
    // marker with color
    var color_trad = [];
@@ -70,6 +70,44 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
        */
       map.getView().setCenter(old_center);
    }
+
+   function addZone(zone) {
+      /**
+       * Add a new zone on the map
+       * 
+       * @param {zone object} The zone to add 
+       *
+       * A zone object is such that :
+       * - object.polygon is the geojson polygon of the zone 
+       * - object.fill_color is the color to fill the polygon to display
+       */
+      var opacity = 0.4;
+      var rgba_color = 'rgba(255, 0, 0, ' + opacity + ')'; //
+
+      if(zone.fill_color === 'green') {
+         rgba_color = 'rgba(0, 255, 0, ' + opacity + ')'; //
+      } else if (zone.fill_color === 'blue') {
+         rgba_color = 'rgba(0, 0, 255, ' + opacity + ')'; //
+      } else if (zone.fill_color === 'white') {
+         rgba_color = 'rgba(255, 255, 255, ' + opacity + ')'; //
+      } else if (zone.fill_color === 'yellow') {
+         rgba_color = 'rgba(255, 255, 0, ' + opacity + ')'; //
+      } else if (zone.fill_color === 'orange') {
+         rgba_color = 'rgba(255, 165, 0, ' + opacity + ')'; //
+      }
+
+      var zone_feature = trad_geojson.readFeature(zone.polygon,
+         {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857'});
+      zone_feature.setStyle(
+         new ol.style.Style({
+            fill: new ol.style.Fill({
+               color: rgba_color
+            })
+         })
+      );
+
+      zone_source.addFeature(zone_feature);
+   }
    
    function init(map_center_lon, map_center_lat, zoom_lvl, evtFctWhenNewReportsInit){
       /**
@@ -100,6 +138,15 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
          source: marker_source
       });
 
+      zone_source = new ol.source.Vector({
+         features: [],
+         projection: 'EPSG:3857',
+      });
+
+      layers.zones = new ol.layer.Vector({
+         source: zone_source
+      });
+
       map_zoom_lvl = zoom_lvl;
 
       map = new ol.Map({
@@ -108,7 +155,8 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
             new ol.layer.Tile({
                source: new ol.source.OSM({})
             }),
-            voies_lentes_layer
+            voies_lentes_layer,
+            layers.zones
          ],
          view: new ol.View({
             center: ol.proj.transform([parseFloat(map_center_lon), parseFloat(map_center_lat)], 'EPSG:4326', 'EPSG:3857'),
@@ -775,9 +823,9 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
        * @return nothing
        */
       if(action === 'new_report') {
-         return tard_geojson.writeFeatures(drawn_features_overlay.getFeatures().getArray());
+         return trad_geojson.writeFeatures(drawn_features_overlay.getFeatures().getArray());
       } else {
-         return tard_geojson.writeFeatures(drawn_geojson_selected_marker.getFeatures().getArray());
+         return trad_geojson.writeFeatures(drawn_geojson_selected_marker.getFeatures().getArray());
       }
    }
 
@@ -826,7 +874,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
        * @return nothing
        */
       var report = detailed_report.get(report_id);
-      var features = tard_geojson.readFeatures(report.drawnGeoJSON);
+      var features = trad_geojson.readFeatures(report.drawnGeoJSON);
 
       $.each(features, function(i,f) {
          drawn_geojson_selected_marker.addFeature(f);
@@ -878,5 +926,6 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
       getDrawnDetails: getDrawnDetails,
       displayDrawnGeojsonMarker: displayDrawnGeojsonMarker,
       eraseDrawnGeojsonMarker: eraseDrawnGeojsonMarker,
+      addZone: addZone,
    };
 });
