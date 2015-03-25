@@ -30,11 +30,10 @@ class Polygon
         $ret = "Polygon[";
         foreach($this->vertex as $v)
         {
-            $ret = $ret + "(lon:".$v['lon'].", lat:".$v['lat'].")";
+            $ret = $ret."(lon:".$v['lon'].", lat:".$v['lat'].")";
         }
         return $ret."]";
-    }
-    
+    } 
     
     /**
      * Convert to WKT (Well-known text)

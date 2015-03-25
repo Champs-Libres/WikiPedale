@@ -35,9 +35,14 @@ class GroupFrontendController extends Controller
             throw $this->createNotFoundException(
                 "The zone $slugZone does not match any zone");
         }
+
+        $groups = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
+            ->findBy(array('type' => $type, 'zone' => $zone));
         
+        /*
         $groups = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
                 ->getGroupsByTypeByCoverage($type, $zoneA->getPolygon());
+        */
         
         switch ($_format) {
             case 'json' : 

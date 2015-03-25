@@ -73,7 +73,7 @@ class PolygonType extends Type
      */
     public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
     {
-        return $sqlExpr;
+        return 'ST_GeomFromText('.$sqlExpr.') ';
     }
     
     /**
