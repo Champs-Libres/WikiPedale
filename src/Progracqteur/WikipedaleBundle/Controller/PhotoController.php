@@ -22,8 +22,7 @@ class PhotoController extends Controller
         
         $report = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report")->find($reportId);
         
-        if ($report === null)
-        {
+        if ($report === null) {
             throw $this->createNotFoundException("Le signalement $reportId n'a pas été trouvée");
         }
         
@@ -33,8 +32,7 @@ class PhotoController extends Controller
         
         $photos = $q->getResult();
         
-        switch($_format)
-        {
+        switch($_format) {
             case 'json':
                 $response = new NormalizedResponse();
                 $response->setResults($photos);
@@ -51,8 +49,7 @@ class PhotoController extends Controller
     
     public function newAction($reportId, $_format, Request $request)
     {
-        if (!$this->get('security.context')->getToken()->getUser() instanceof User)
-        {
+        if (!$this->get('security.context')->getToken()->getUser() instanceof User) {
             throw new AccessDeniedException('Vous devez être un administrateur pour modifier une image');
         }
         
@@ -60,8 +57,7 @@ class PhotoController extends Controller
         
         $report = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report")->find($reportId);
         
-        if ($report === null)
-        {
+        if ($report === null) {
             throw $this->createNotFoundException("Le signalement $reportId n'a pas été trouvée");
         }
         
@@ -70,8 +66,7 @@ class PhotoController extends Controller
         
         $security = $this->get('security.context');
         
-        if ($security->isGranted('IS_AUTHENTICATED_FULLY'))
-        {
+        if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
             $photo->setCreator($security->getToken()->getUser());
         }
         
@@ -81,14 +76,12 @@ class PhotoController extends Controller
         $form = $this->createForm($formPhotoType, $photo);
         
         
-        if ($request->getMethod() === 'POST')
-        {
+        if ($request->getMethod() === 'POST') {
             $form->bind($request);
             
             $uploadedFile = $form['file']->getData();
             
-            if (!$uploadedFile->isValid())
-            {
+            if (!$uploadedFile->isValid()) {
                 $r = new Response("Erreur d'envoi de fichier. Vérifiez la taille du fichier. Erreur du fichier :"
                         .$uploadedFile->getError()." ".
                         $this->file_upload_error_message($uploadedFile->getError()));
@@ -96,21 +89,18 @@ class PhotoController extends Controller
                 return $r;
             }
             
-            if ($form->isValid()) //TODO créer une formulaire de validation
-            {
+            if ($form->isValid()) { //TODO créer une formulaire de validation
                 //enregistre l'utilisateur courant dans le tracking policy du signalement
                 $photo->getReport()->getChangeset()->setAuthor(
-                            $this->get('security.context')->getToken()->getUser()
-                        );
-                
+                    $this->get('security.context')->getToken()->getUser()
+                );
                 
                 $em->persist($photo);
                 $em->flush();
                 
                 $this->get('session')->getFlashBag()->add('notice', "Votre photo a été correctement enregistrée.");
                 
-                if ($this->get('security.context')->isGranted('ROLE_NOTATION'))
-                {
+                if ($this->get('security.context')->isGranted('ROLE_NOTATION')) {
                     $path = 'wikipedale_photo_update';
                 } else {
                     $path = 'wikipedale_photo_view';
@@ -123,15 +113,11 @@ class PhotoController extends Controller
                 ))); //TODO renvoyer vers le chemin adéquat
             }
         }
- 
         
         return $this->render('ProgracqteurWikipedaleBundle:Photo:form.html.twig', array(
             'form' => $form->createView()
         ));
-        
-        
     }
-    
     
     public function viewAction($fileNameP, $photoType, $_format, Request $request)
     {
@@ -140,8 +126,7 @@ class PhotoController extends Controller
         $photo = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Photo')
                 ->findOneBy(array('file' => $fileNameP.'.'.$photoType));
         
-        if ($photo === null)
-        {
+        if ($photo === null) {
             throw $this->createNotFoundException("La photo demandée n'a pas été trouvée");
         }
         
@@ -152,8 +137,7 @@ class PhotoController extends Controller
     
     public function updateAction($fileNameP, $photoType, $_format, Request $request)
     {
-        if (!$this->get('security.context')->isGranted('ROLE_NOTATION'))
-        {
+        if (!$this->get('security.context')->isGranted('ROLE_NOTATION')) {
             $this->get('session')->getFlashBag()->add('notice', "Vous devez être un administrateur pour modifier une image");
             throw new AccessDeniedException('Vous devez être authentifié pour modifier une image');
         }
@@ -163,8 +147,7 @@ class PhotoController extends Controller
         $photo = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Photo')
                 ->findOneBy(array('file' => $fileNameP.'.'.$photoType));
         
-        if ($photo === null)
-        {
+        if ($photo === null) {
             throw $this->createNotFoundException("La photo demandée n'a pas été trouvée");
         }
         
@@ -172,21 +155,17 @@ class PhotoController extends Controller
                     $this->get('progracqteurWikipedale.form.type.photo'), $photo
                 );
         
-        
-        if ($request->getMethod() == 'POST')
-        {
+        if ($request->getMethod() == 'POST') {
             $form->bind($request);
             $photo->setPhotoService($this->get('progracqteurWikipedalePhotoService'));
             
             $uploadedFile = $form['file']->getData();
-            if ($uploadedFile != null && !$uploadedFile->isValid())
-            {
+            if ($uploadedFile != null && !$uploadedFile->isValid()) {
                 $error = $uploadedFile->getError();
-                throw new \Exception("Le fichier envoyé n'est pas valide. Erreur : $error dump : ".var_dump($error));
+                throw new \Exception("Le fichier envoyé n'est pas valide. Erreur : $error");
             }
             
-            if ($form->isValid())
-            {
+            if ($form->isValid()) {
                 $em->flush();
                 
                 $this->get('session')->getFlashBag()->add('notice', "La photo a été mise à jour");
@@ -197,7 +176,6 @@ class PhotoController extends Controller
                     '_format' => $_format
                     
                     )));
-                
             }
         }
         
@@ -205,7 +183,6 @@ class PhotoController extends Controller
             'form' => $form->createView(),
             'photo' => $photo
         ));
-        
     }
     
     private function file_upload_error_message($error_code) {
