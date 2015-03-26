@@ -95,11 +95,6 @@ class MainController extends Controller
                 ->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
                 ->find($selectedZoneId);
 
-            /*
-            $managers = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
-                ->getGroupsByTypeByCoverage(Group::TYPE_MANAGER, $selectedZone->getPolygon());
-            */
-
             $managers = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
                 ->findBy(array('type' => Group::TYPE_MANAGER, 'zone' => $selectedZone));
         } else {

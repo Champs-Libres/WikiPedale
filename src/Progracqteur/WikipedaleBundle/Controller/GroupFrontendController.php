@@ -39,11 +39,6 @@ class GroupFrontendController extends Controller
         $groups = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
             ->findBy(array('type' => $type, 'zone' => $zone));
         
-        /*
-        $groups = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
-                ->getGroupsByTypeByCoverage($type, $zoneA->getPolygon());
-        */
-        
         switch ($_format) {
             case 'json' : 
                 $serializer = $this->get('progracqteurWikipedaleSerializer');
