@@ -33,8 +33,9 @@ class ZoneControllerTest extends WebTestCase
     /**
      * Test if the getAll action (/zone/list.json) return a good number of zone.
      * 
-     * @param type $zonesNumber The number of zone that must be returned by
+     * @param integer $zonesNumber The number of zone that must be returned by
      * the getAll action (/zone/list.json).
+     * @param String $message The message that explain the test expected number
      */
     private function zoneListCheck($zonesNumber, $message)
     {
@@ -87,8 +88,39 @@ class ZoneControllerTest extends WebTestCase
         $this->zoneListCheck(2, "Mons and Namur");
     }
     
-    public function getCoveringPointAction()
+    /**
+     * Test the reponse of the getCoveringPointAction action returns a good
+     * number of zone for a point in Mons and a point with no zone.
+     */
+    public function testGetCoveringPointAction()
     {
+        $this->zoneNumberCoveringPointCheck(0,0,0,'no zone at (0,0)');
+        $this->zoneNumberCoveringPointCheck(3.94, 50.44, 1,
+            'mons at (3.94, 50.44)');
+    }
+    
+    /**
+     * Test if the getCoveringPointAction returns a good number of zone for a
+     * given point.
+     * 
+     * @param float $lon The longitude of the point
+     * @param float $lat The latitude of the point
+     * @param integer $expectedZonesNumber The expected number of zones
+     * @param String $message The message that explain the expected zones number
+     */
+    private function zoneNumberCoveringPointCheck(
+        $lon,$lat, $expectedZonesNumber, $message)
+    {
+        $client = static::createClient();
+        $client->request('GET', "/zone/covers/point/$lon/$lat/json");
+        $jsonResponse = $client->getResponse()->getContent();
         
+        $arrayResponse = json_decode($jsonResponse, true);
+        $this->assertFalse($arrayResponse['query']['error'], 'The response '
+            . 'must not contains error.');
+
+        $this->assertTrue($arrayResponse['query']['nb'] == $expectedZonesNumber,
+            "The number of zone returned must be $expectedZonesNumber : "
+            . "$message");
     }
 }
