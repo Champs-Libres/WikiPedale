@@ -31,4 +31,5 @@ Progracqteur\WikipedaleBundle\Entity\Management\Zone:
       type: string
     description:
       type: text
-      
+    fillColor:
+      type: string

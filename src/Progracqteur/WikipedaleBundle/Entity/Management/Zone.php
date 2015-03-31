@@ -60,6 +60,9 @@ class Zone {
      */
     private $description = '';
 
+    /** @var string The fill color for displaying the zone on the map */
+    private $fillColor;
+
     /**
      * Type of zone "city"
      * 
@@ -247,6 +250,26 @@ class Zone {
      */
     public function setDescription($description) {
         $this->description = $description;
+        return $this;
+    }
+    
+    /**
+     * Get the fill color used for displaying the zone on the map
+     *
+     * @return string The fill color
+     */
+    public function getFillColor() {
+        return $this->fillColor;
+    }
+
+    /**
+     * Set the fill color used for displaying the zone on the map
+     *
+     * @param string $fillColor The fill color
+     * @return \Progracqteur\WikipedaleBundle\Entity\Management\Zone
+     */
+    public function setFillColor($fillColor) {
+        $this->fillColor = $fillColor;
         return $this;
     }
     
