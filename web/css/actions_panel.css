@@ -134,7 +134,7 @@ p.PointTitle .span_id {
    text-align: justify;
 }
 
-/* Formulaire ajout point */
+/* Formulaire ajout report */
 #add_new_description_div img.verif {
    float: left;
    width:16px;
@@ -149,4 +149,18 @@ p.PointTitle .span_id {
 
 #div__add_new_description, #div__filter_and_export, #div__report_description_display, #div__latest_modifications, #div__town_presentation, #div__town_choice {
    display: none;
+}
+
+.zone_icon {
+   width: 30px;
+   float: left;
+}
+
+.zone_icon div {
+   border-radius: 5px;
+   margin-left: auto;
+   margin-right: auto;
+   margin-top: 0.2em;
+   width: 1em;
+   height: 1em;
 }

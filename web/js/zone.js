@@ -35,13 +35,16 @@ define(['jQuery'], function($) {
       }
    }
    
-
    function updateModeratedZonesListForExtent(zones) {
       var div_zones_list_id = '#div_add_new_description__moderated_zones_list';
 
       $(div_zones_list_id).html('');
       $.each(zones, function(index, zone) {
-         $(div_zones_list_id).append(zone.name);
+         $(div_zones_list_id).append((
+            '<div class="zone_icon">' +
+               '<div style="background-color: ' + zone.fill_color + ';"></div>' +
+            '</div>' +
+            '<div id="#div_add_new_description__moderated_zones_list_' + zone.name + '">' + zone.name + '</div>'));
       });
    }
    return {
