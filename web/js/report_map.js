@@ -7,8 +7,8 @@
 * This is for all the action for the display of the map
 */
 
-define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
-      function($,basic_data_and_functions, detailed_report,ol,params, user) {
+define(['jQuery','basic_data_and_functions','report','ol','params', 'user', 'zone'],
+      function($,basic_data_and_functions, detailed_report,ol,params, user, zone) {
    var old_center; // To re-center the map after displaying the tiny map
    var map; // Variable to acces to the map
    var marker_source; // source for the layer displaying reports
@@ -33,7 +33,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
    var click_report_event_fct;
    var click_map_event_fct;
    var zoom_change_event_fct;
-   var moveend_event_fct;
+   var moveend_event_fcts = {};
    var trad_geojson = new ol.format.GeoJSON();
 
    // marker with color
@@ -106,6 +106,8 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
          })
       );
 
+      zone_feature.zone = zone;
+
       zone_source.addFeature(zone_feature);
    }
    
@@ -146,6 +148,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
       layers.zones = new ol.layer.Vector({
          source: zone_source
       });
+      layers.zones.uello_position = 1;
 
       map_zoom_lvl = zoom_lvl;
 
@@ -155,8 +158,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
             new ol.layer.Tile({
                source: new ol.source.OSM({})
             }),
-            voies_lentes_layer,
-            layers.zones
+            voies_lentes_layer
          ],
          view: new ol.View({
             center: ol.proj.transform([parseFloat(map_center_lon), parseFloat(map_center_lat)], 'EPSG:4326', 'EPSG:3857'),
@@ -262,9 +264,22 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
       });
    }
 
-   function loadReportsForBBoxView(evtFctWhenReportsIsLoaded) {
+   function updateZonesInExtent() {
+      var extent = map.getView().calculateExtent(map.getSize());
+      var zones = [];
+
+      zone_source.forEachFeatureInExtent(extent, function(feature) {
+         zones.push(feature.zone);
+      });
+
+      zone.updateModeratedZonesListForExtent(zones);
+   }
+
+   function loadReportsForBBoxView(callbackWhenReportsIsLoaded) {
       /**
        * Load the reports via the API that are in the displayed bbox
+       * @param {function} callbackWhenReportsIsLoaded callback triggered when
+       * the reports are loaded
       */
       var extent = map.getView().calculateExtent(map.getSize());
       var bottom_left_4326 = ol.proj.transform(
@@ -294,8 +309,8 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
          })
       ).done(function() {
          evtFctWhenNewReports();
-         if( evtFctWhenReportsIsLoaded ) {
-            evtFctWhenReportsIsLoaded();
+         if(callbackWhenReportsIsLoaded) {
+            callbackWhenReportsIsLoaded();
          }
       });
    }
@@ -670,20 +685,27 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
       map.on('moveend', zoom_change_event_fct);
    }
 
-   function addMapMoveEndEvent(event_fct) {
+   function addMapMoveEndEvent(id, event_fct) {
       /**
        * Register a function to trigger when the map is movend (at end)
+       * @param {string} id The id of the event (if the user want to remove it)
        * @param {function} event_fct The function to trigger
-       * @return nothing
        */
-      if(moveend_event_fct) {
-         map.un('moveend', moveend_event_fct);
+      rmMapMoveEndEvent(id);
+      moveend_event_fcts[id] = event_fct;
+      map.on('moveend', event_fct);
+   }
+
+   /**
+    * Register a function to trigger when the map is movend (at end)
+    * @param {string} id The id of the event (if the user want to remove it)
+    * @param {function} event_fct The function to trigger
+   */
+   function rmMapMoveEndEvent(id) {
+      if(typeof(moveend_event_fcts[id]) != 'undefined') {
+         map.un('moveend', moveend_event_fcts[id]);
+         delete moveend_event_fcts[id];
       }
-
-      moveend_event_fct = event_fct;
-
-      map.on('moveend', moveend_event_fct);
-
    }
 
    function displayLayer(layer_name) {
@@ -693,13 +715,21 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
        * @return nothing
        */
       if(layer_name in layers && ! layers[layer_name].uello_displayed) {
+         var layer = layers[layer_name];
+
          if(layer_name === 'markers') {
             loadReportsForBBoxView();
          }
-         map.addLayer(layers[layer_name]);
-         layers[layer_name].uello_displayed = true;
-      }
 
+         if(typeof layer.uello_position != 'undefined') {
+            var map_layers = map.getLayers();
+            map_layers.insertAt(layer.uello_position,layer);
+         } else {
+            map.addLayer(layer);
+         }
+
+         layer.uello_displayed = true;
+      }
    }
 
    function hideLayer(layer_name) {
@@ -916,6 +946,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
       displayLayer: displayLayer,
       hideLayer: hideLayer,
       addMapMoveEndEvent: addMapMoveEndEvent,
+      rmMapMoveEndEvent: rmMapMoveEndEvent,
       loadReportsForBBoxView: loadReportsForBBoxView,
       startDrawingDetailsOnMap: startDrawingDetailsOnMap,
       endDrawingDetailsOnMap: endDrawingDetailsOnMap,
@@ -927,5 +958,6 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user'],
       displayDrawnGeojsonMarker: displayDrawnGeojsonMarker,
       eraseDrawnGeojsonMarker: eraseDrawnGeojsonMarker,
       addZone: addZone,
+      updateZonesInExtent: updateZonesInExtent,
    };
 });

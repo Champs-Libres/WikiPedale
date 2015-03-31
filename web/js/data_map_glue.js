@@ -48,8 +48,7 @@ define(
             }
          });
 
-
-         zone.init(function(zones_array) {
+         zone.getAll(function(zones_array) {
             for (var i = 0; i < zones_array.length; i++) {
                report_map.addZone(zones_array[i]);
             }
@@ -78,7 +77,7 @@ define(
             hideShowLateralContent();
          });
 
-         report_map.addMapMoveEndEvent(function(evt) {
+         report_map.addMapMoveEndEvent('zone_covering_map_center',function(evt) {
             var center = ol.proj.transform(evt.map.getView().getCenter(),'EPSG:3857', 'EPSG:4326');
             var jsonUrlData = Routing.generate('wikipedale_zone_view_covering_point', {_format: 'json', lon: center[0], lat: center[1]});
 
@@ -191,6 +190,12 @@ define(
          */
          if(!add_new_place_mode) { // add_new_place
             endDrawingDetailsOnMap('edit_report');
+
+            // Zones
+            report_map.displayLayer('zones');
+            report_map.updateZonesInExtent();
+            report_map.addMapMoveEndEvent('add_new_place_zone_list',report_map.updateZonesInExtent);
+
             report_map.showDrawnFeaturesOverlay();
 
             $('#div_add_new_description_button').hide();
@@ -222,6 +227,10 @@ define(
          }
          else { // edit_place / show_place
             endDrawingDetailsOnMap('new_report');
+
+            report_map.hideLayer('zones');
+            report_map.rmMapMoveEndEvent('add_new_place_zone_list');
+
             report_map.hideDrawnFeaturesOverlay();
 
             $('#div_add_new_description_button').show();
