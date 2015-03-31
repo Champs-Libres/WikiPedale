@@ -81,27 +81,12 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user', 'zon
        * - object.polygon is the geojson polygon of the zone 
        * - object.fill_color is the color to fill the polygon to display
        */
-      var opacity = 0.4;
-      var rgba_color = 'rgba(255, 0, 0, ' + opacity + ')'; //
-
-      if(zone.fill_color === 'green') {
-         rgba_color = 'rgba(0, 255, 0, ' + opacity + ')'; //
-      } else if (zone.fill_color === 'blue') {
-         rgba_color = 'rgba(0, 0, 255, ' + opacity + ')'; //
-      } else if (zone.fill_color === 'white') {
-         rgba_color = 'rgba(255, 255, 255, ' + opacity + ')'; //
-      } else if (zone.fill_color === 'yellow') {
-         rgba_color = 'rgba(255, 255, 0, ' + opacity + ')'; //
-      } else if (zone.fill_color === 'orange') {
-         rgba_color = 'rgba(255, 165, 0, ' + opacity + ')'; //
-      }
-
       var zone_feature = trad_geojson.readFeature(zone.polygon,
          {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857'});
       zone_feature.setStyle(
          new ol.style.Style({
             fill: new ol.style.Fill({
-               color: rgba_color
+               color: zone.fill_color
             })
          })
       );

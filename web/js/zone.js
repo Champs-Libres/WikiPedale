@@ -10,8 +10,6 @@
 
 define(['jQuery'], function($) {
    var zones; // the known zones
-   var fill_colors = ['green', 'red', 'yellow', 'blue', 'orange', 'white'];
-   // fill color to display the polygon zones on the map
 
     /**
      * Get all the zones and send it to a callback function
@@ -21,13 +19,7 @@ define(['jQuery'], function($) {
       if(!zones) {
          $.get(Routing.generate('wikipedale_all_moderated_zones', {_format: 'json'}), function( data ) {
             if(! data.query.error) {
-               zones = data.results;
-
-               for (var i = 0; i < zones.length; i ++) {
-                  zones[i].fill_color = fill_colors[Math.floor(Math.random()*fill_colors.length)];
-               }
-               
-               callback(zones);
+               callback(data.results);
             }
          });
       } else {
