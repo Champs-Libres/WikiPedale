@@ -107,7 +107,6 @@ require(
          $('#edit_report__save_drawings_button').click(function(e) { e.preventDefault(); report_edit.saveDrawings(); });
          //$('#div_add_new_description__draw').hide();
 
-
          $('#div_returnNormalMode').hide();
 
          //ModeratorStatus Filtering 
