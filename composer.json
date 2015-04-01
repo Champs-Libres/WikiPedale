@@ -25,7 +25,8 @@
         "doctrine/migrations" : "master@dev",
         "doctrine/doctrine-migrations-bundle": "master@dev",
         "fastre/libravatar-bundle": "*@dev",
-        "incenteev/composer-parameter-handler": "~2.0"
+        "incenteev/composer-parameter-handler": "~2.0",
+        "creof/doctrine2-spatial": "0.0.1.*"
     },
     "scripts": {
         "post-install-cmd": [
