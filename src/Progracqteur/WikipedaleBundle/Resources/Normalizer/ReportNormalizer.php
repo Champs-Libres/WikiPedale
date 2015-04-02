@@ -17,8 +17,8 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
  *
  * @author julien [at] fastre [point] info
  */
-class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
-    
+class ReportNormalizer implements NormalizerInterface, DenormalizerInterface
+{    
     /**
      *
      * @var Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService 
@@ -44,8 +44,8 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
     }
     
     
-    public function denormalize($data, $class, $format = null, array $context = array()) {
-        
+    public function denormalize($data, $class, $format = null, array $context = array())
+    {    
         if ($data['id'] === null) {
             $p = new Report();
         }
@@ -181,7 +181,8 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
      * @param string $format
      * @return array
      */
-    public function normalize($object, $format = null, array $context = array()) {
+    public function normalize($object, $format = null, array $context = array())
+    {
         $addrNormalizer = $this->service->getAddressNormalizer();
         $userNormalizer = $this->service->getUserNormalizer();
         $categoryNomalizer = $this->service->getCategoryNormalizer();
@@ -253,7 +254,9 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface {
         }
         
     }
-    public function supportsNormalization($data, $format = null) {
+
+    public function supportsNormalization($data, $format = null)
+    {
         if ($data instanceof Report) {
             return true;
         } else {
