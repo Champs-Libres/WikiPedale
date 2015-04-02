@@ -47,31 +47,31 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface
     public function denormalize($data, $class, $format = null, array $context = array())
     {    
         if ($data['id'] === null) {
-            $p = new Report();
+            $report = new Report();
         }
         else {
-            $p = $this->service->getManager()
-                    ->getRepository('ProgracqteurWikipedaleBundle:Model\\Report')
-                    ->find($data['id']);
+            $report = $this->service->getManager()
+                ->getRepository('ProgracqteurWikipedaleBundle:Model\\Report')
+                ->find($data['id']);
             
-            if ($p === null) {
+            if (!$report) {
                 throw new \Exception("Le signalement recherchée n'existe pas");
             }
         }
         
-        $this->setCurrentReport($p);
+        $this->setCurrentReport($report);
         
         if (isset($data['description'])) {
-            $p->setDescription($data['description']);
+            $report->setDescription($data['description']);
         }
 
         if (isset($data['drawnGeoJSON'])) {   
-            $p->setDrawnGeoJSON(json_encode($data['drawnGeoJSON']));
+            $report->setDrawnGeoJSON(json_encode($data['drawnGeoJSON']));
         }
         
         if (isset($data['geom'])) {
             $point = Point::fromArrayGeoJson($data['geom']);
-            $p->setGeom($point);
+            $report->setGeom($point);
         }
         
         if (isset($data['addressParts'])) {
@@ -82,7 +82,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface
                 $addr = $addrNormalizer->denormalize($data['addressParts'], 
                         $class, 
                         $format);
-                $p->setAddress($addr);
+                $report->setAddress($addr);
             }
         }
         
@@ -94,12 +94,12 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface
                 $u = $userNormalizer->denormalize($data['creator'], 
                         $class, 
                         $format);
-                $p->setCreator($u);
+                $report->setCreator($u);
             }
         }
         
         if (isset($data['accepted'])) {
-            $p->setAccepted($data['accepted']);
+            $report->setAccepted($data['accepted']);
         }
         
         if (isset($data['statuses'])) {
@@ -111,7 +111,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface
                     $status = new ReportStatus();
                     $status->setType($arrayStatus['t'])
                             ->setValue($arrayStatus['v']);
-                    $p->addStatus($status);
+                    $report->addStatus($status);
                 }
             }
         }
@@ -121,7 +121,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface
             if ($this->service->getCategoryNormalizer()->supportsDenormalization($data['category'], $class, $format)) {
                 $newCategory = $this->service->getCategoryNormalizer()->denormalize($data['category'], null);
                 //var_dump($newCategory);
-                $p->setCategory($newCategory);
+                $report->setCategory($newCategory);
             } else {
                 throw new NormalizingException('Could not denormalize category '.print_r($cat, true));
             }
@@ -131,13 +131,13 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface
             if ($this->service->getGroupNormalizer()
                     ->supportsDenormalization($data['manager'], $class)) {
                 $group = $this->service->getGroupNormalizer()->denormalize($data['manager'], $class);
-                $p->setManager($group);
+                $report->setManager($group);
             } else {
                 throw new NormalizingException('could not denormalize manager '.$data['manager']);
             }
             
             if ($data['manager'] === null) {
-                $p->setManager(null);
+                $report->setManager(null);
             }
         }
         
@@ -145,13 +145,13 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface
             if ($this->service->getGroupNormalizer()
                 ->supportsDenormalization($data[self::MODERATOR], $class)) {
                     $group = $this->service->getGroupNormalizer()->denormalize($data[self::MODERATOR], $class);
-                    $p->setModerator($group);
+                    $report->setModerator($group);
                 } else {
                     throw new NormalizingException('could not denormalize moderator '.$data[self::MODERATOR]);
                 }
             
                 if ($data[self::MODERATOR] === null) {
-                    $p->setModerator(null);
+                    $report->setModerator(null);
                 }
         }
         
@@ -162,17 +162,17 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface
                 $type = $this->service
                         ->getReportTypeNormalizer()
                         ->denormalize($data[self::REPORT_TYPE], $class);
-                $p->setType($type);
+                $report->setType($type);
             } else {
                 throw new NormalizingException('could not denormalize reportType');
             }
         }
         
         if (isset($data[self::MODERATOR_COMMENT])) {
-            $p->setModeratorComment($data[self::MODERATOR_COMMENT]);
+            $report->setModeratorComment($data[self::MODERATOR_COMMENT]);
         }
         
-        return $p;
+        return $report;
     }
     
     /**
