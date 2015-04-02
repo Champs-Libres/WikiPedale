@@ -59,13 +59,14 @@ doctrine:
             geometry: string
             hstore: string
             xml: hash
-        
       types:
-        point: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\PointType
         file: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\FileType
         hash: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\HashType
         address: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\AddressType
-        polygon: Progracqteur\WikipedaleBundle\Resources\Doctrine\Types\PolygonType
+        geometry:   CrEOF\Spatial\DBAL\Types\GeographyType
+        point:      CrEOF\Spatial\DBAL\Types\Geography\PointType
+        polygon:    CrEOF\Spatial\DBAL\Types\Geography\PolygonType
+        linestring: CrEOF\Spatial\DBAL\Types\Geography\LineStringType
     orm:
         auto_generate_proxy_classes: %kernel.debug%
         auto_mapping: true
@@ -73,6 +74,13 @@ doctrine:
           string_functions:
             covers: Progracqteur\WikipedaleBundle\Resources\Doctrine\Functions\Covers
             crosses: Progracqteur\WikipedaleBundle\Resources\Doctrine\Functions\Crosses
+          numeric_functions:
+            st_covers:     CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STCovers
+            st_contains:     CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STContains
+            st_distance:     CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STDistance
+            st_area:         CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STArea
+            st_length:       CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STLength
+            st_geomfromtext: CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STGeomFromText
         
 # Swiftmailer Configuration
 swiftmailer:

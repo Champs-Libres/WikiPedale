@@ -2,10 +2,10 @@
 
 namespace Progracqteur\WikipedaleBundle\Controller;
 
-use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 use Symfony\Component\HttpFoundation\Response;
+use CrEOF\Spatial\PHP\Types\Geometry\Point;
 
 /**
  * Controller of the zone
@@ -62,7 +62,7 @@ class ZoneController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $point  = new Point($lon, $lat);
-        $stringPoint = $this->get('progracqteur.wikipedale.geoservice')->toString($point);
+        $stringPoint = 'POINT('. $point .')';
         
         $zones = $em
             ->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')

@@ -11,14 +11,13 @@ use Progracqteur\WikipedaleBundle\Resources\Normalizer\GroupNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\ReportTypeNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedResponseNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizedExceptionResponseNormalizer;
-use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\DateNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\ReportTrackingNormalizer;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\CommentNormalizer;
+use Progracqteur\WikipedaleBundle\Resources\Normalizer\GeographyPolygonGeoJSONNormalizer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Progracqteur\WikipedaleBundle\Entity\Management\User;
 
 /**
  * Description of NormalizerSerializerService
@@ -53,6 +52,7 @@ class NormalizerSerializerService
     private $zoneNormalizer = null;
     private $reportTypeNormalizer = null;
     private $commentNormalizer = null;
+    private $geographyPolygonGeoJSONNormalizer = null;
 
     /**
      *
@@ -226,6 +226,14 @@ class NormalizerSerializerService
         }
 
         return $this->normalizedResponseExceptionNormalizer;
+    }
+    
+    public function getGeographyPolygonGeoJSONNormalizer()
+    {
+        if(!$this->geographyPolygonGeoJSONNormalizer) {
+            $this->geographyPolygonGeoJSONNormalizer = new GeographyPolygonGeoJSONNormalizer($this);
+        }
+        return $this->geographyPolygonGeoJSONNormalizer;
     }
 
     /**

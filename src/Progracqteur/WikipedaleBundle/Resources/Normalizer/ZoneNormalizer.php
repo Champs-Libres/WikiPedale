@@ -38,7 +38,8 @@ class ZoneNormalizer implements NormalizerInterface {
             'description' => $object->getDescription(),
             'url' => $object->getUrl(),
             'fill_color' => $object->getFillColor(),
-            'polygon' => json_decode($object->getPolygon()->toGeoJson())
+            'polygon' => $this->service->getGeographyPolygonGeoJSONNormalizer()
+                ->normalize($object->getPolygon(), $format)
         );
     }
 

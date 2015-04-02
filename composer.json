@@ -5,7 +5,7 @@
         "psr-0": { "": "src/" }
     },
     "require": {
-         "php": ">=5.4.12",
+        "php": ">=5.4.12",
         "symfony/symfony": "2.3.*",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "1.2.*",
@@ -26,7 +26,7 @@
         "doctrine/doctrine-migrations-bundle": "master@dev",
         "fastre/libravatar-bundle": "*@dev",
         "incenteev/composer-parameter-handler": "~2.0",
-        "creof/doctrine2-spatial": "0.0.1.*"
+        "creof/doctrine2-spatial": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

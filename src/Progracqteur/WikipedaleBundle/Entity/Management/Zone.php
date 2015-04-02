@@ -3,7 +3,6 @@
 namespace Progracqteur\WikipedaleBundle\Entity\Management;
 
 use Doctrine\ORM\Mapping as ORM;
-use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Management\Zone
@@ -38,7 +37,7 @@ class Zone {
 
     /**
      *
-     * @var Progracqteur\WikipedaleBundle\Resources\Geo\Point 
+     * @var point $center;
      */
     private $center;
 
@@ -187,7 +186,7 @@ class Zone {
 
     /**
      *
-     * @return Progracqteur\WikipedaleBundle\Resources\Geo\Point 
+     * @return point
      */
     public function getCenter()
     {

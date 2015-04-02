@@ -224,7 +224,10 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface
         return  array(
             'entity' => 'report',
             'description' => $object->getDescription(),
-            'geom' => $object->getGeom()->toArrayGeoJson(),
+            'geom' => array(
+                'type' => 'Point',
+                'coordinates' => [$object->getGeom()->getX(), $object->getGeom()->getY()]
+            ),
             'drawnGeoJSON' => $object->getDrawnGeoJSON(),
             'id' => $object->getId(),
             'nbComm' => $object->getNbComm(),

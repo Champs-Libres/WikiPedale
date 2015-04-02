@@ -52,8 +52,9 @@ class ZoneRepository extends EntityRepository
         return $this->getEntityManager()
             ->createQuery(
                 $this->getZoneWithModeratorQuery(
-                    " AND COVERS(z.polygon, '$position') = true "))
+                    " AND ST_COVERS(z.polygon, '$position') = true "))
             ->getResult();
+
     }        
 }
 
