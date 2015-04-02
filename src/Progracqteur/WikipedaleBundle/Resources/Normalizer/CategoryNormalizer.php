@@ -13,8 +13,8 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class CategoryNormalizer implements NormalizerInterface, DenormalizerInterface  {
-    
+class CategoryNormalizer implements NormalizerInterface, DenormalizerInterface
+{    
     /**
      *
      * @var \Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService 
@@ -28,7 +28,8 @@ class CategoryNormalizer implements NormalizerInterface, DenormalizerInterface  
     const TERM = 'term';
     const CHILDREN = 'children';
     
-    public function __construct(NormalizerSerializerService $service) {
+    public function __construct(NormalizerSerializerService $service)
+    {
         $this->service = $service;
     }
     
@@ -40,7 +41,8 @@ class CategoryNormalizer implements NormalizerInterface, DenormalizerInterface  
      * @throw \Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizingException
      * @return \Progracqteur\WikipedaleBundle\Entity\Model\Category
      */
-    public function denormalize($data, $class, $format = null, array $context = array()) {
+    public function denormalize($data, $class, $format = null, array $context = array())
+    {
         $cat = $this->service->getManager()
                 ->getRepository('ProgracqteurWikipedaleBundle:Model\Category')
                 ->find($data['id']);
@@ -58,7 +60,8 @@ class CategoryNormalizer implements NormalizerInterface, DenormalizerInterface  
      * @param string $format
      * @return array
      */
-    public function normalize($object, $format = null, array $context = array()) {
+    public function normalize($object, $format = null, array $context = array())
+    {
         $ret = array();
 
         $ret[self::ID] = $object->getId();
@@ -79,7 +82,8 @@ class CategoryNormalizer implements NormalizerInterface, DenormalizerInterface  
      * 
      * Returns True if the data is supported by category denormalization
      */
-    public function supportsDenormalization($data, $type, $format = null) {
+    public function supportsDenormalization($data, $type, $format = null)
+    {
         return (isset($data[self::ENTITY]) 
             && $data[self::ENTITY] == self::ENTITY_TYPE
             && isset($data[self::ID]));
@@ -89,7 +93,8 @@ class CategoryNormalizer implements NormalizerInterface, DenormalizerInterface  
      * 
      * TODO
      */
-    public function supportsNormalization($data, $format = null) {
+    public function supportsNormalization($data, $format = null)
+    {
         return ($data instanceof Category);
     }
 }
