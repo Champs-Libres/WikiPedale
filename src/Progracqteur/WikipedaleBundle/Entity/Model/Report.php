@@ -1024,7 +1024,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
    //private function getReport($user = true)
    {
       $r = new Report();
-      $r->setGeom(Point::randomGenerate());
+      $r->setGeom(new Point((rand(39400, 39620)/10000), (rand(504500, 504570)/10000)));
 
       $r->setAddress(Address::maquestGenerateFromPoint($r->getGeom()));
       $r->setDescription(StringGenerator::randomGenerate(300));
