@@ -3,7 +3,7 @@
 namespace Progracqteur\WikipedaleBundle\Resources\Services;
 
 use Doctrine\ORM\EntityManager;
-use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
+use CrEOF\Spatial\PHP\Types\Geography\Point;
 use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
@@ -30,6 +30,8 @@ class GeoService {
      * 
      * It use a postgis database request to convert the point to the postgis string
      * 
+     * @deprecated
+     * 
      * @param \Progracqteur\WikipedaleBundle\Resources\Geo\Point $geog
      * @return string
      */
@@ -46,7 +48,6 @@ class GeoService {
                 ->setParameter('wkt', $wkt);
             $r = $q->getResult();
             
-            
             return $r[0]['string'];
         } else {
             throw new \Exception('object not supported');
@@ -55,6 +56,8 @@ class GeoService {
     
     /**
      * return whether the point is covered be (= inside a) polygon
+     * 
+     * @deprecated
      * 
      * @param string $polygon the postgis representation of the polygon
      * @param \Progracqteur\WikipedaleBundle\Resources\Geo\Point $point the postgis representation of the point
@@ -73,5 +76,34 @@ class GeoService {
         return $r;
     }
     
+    /**
+     * Return a point instance for a GeoJSON stirng
+     * 
+     * @param string $geojson The GeoJSON description of the point
+     * @return Point The point
+     * @throws Exception if the GeoJSON is not well formated
+     */
+    public function pointFromGeoJSON($geojson)
+    {
+        return $this->pointFromGeoJSONArray(json_decode($geojson));
+    }
+    
+    /**
+     * Return a point instance for a GeoJSON stirng
+     * 
+     * @param string $array The GeoJSON array description of the point
+     * @return Point The point
+     * @throws Exception if the GeoJSON is not well formated
+     */
+    public function pointGeoJSONArray($array)
+    {
+        if ($array == null or !array_key_exists('type', $array)
+            or !array_key_exists('coordinates', $array)
+            or $array['type'] != "Point"){
+            throw new Exception('Bad GeoJSON for point : ' . $array);
+        } else {
+            return new Point($array['coordinates']);
+        }
+    }
 }
 

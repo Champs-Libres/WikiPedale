@@ -33,9 +33,9 @@ Params passed by the controller to this template :
 {% block body %}
     {% if selectedZone is defined %}
         {% if selectedReportId is defined %}
-            <span id="data_for_init" data-map-center-lon="{{ selectedReport.geom.lon }}" data-map-center-lat="{{ selectedReport.geom.lat }}" data-selected-report-id="{{selectedReportId}}"></span>
+            <span id="data_for_init" data-map-center-lon="{{ selectedReport.geom.longitude }}" data-map-center-lat="{{ selectedReport.geom.latitude }}" data-selected-report-id="{{selectedReportId}}"></span>
         {% else %}
-            <span id="data_for_init" data-map-center-lon="{{selectedZone.center.lon}}" data-map-center-lat="{{selectedZone.center.lat}}"></span>
+            <span id="data_for_init" data-map-center-lon="{{selectedZone.center.longitude}}" data-map-center-lat="{{selectedZone.center.latitude}}"></span>
         {% endif %}
         {% include 'ProgracqteurWikipedaleBundle:Main:map.html.twig' %}
     {% else %}

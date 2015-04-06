@@ -4,13 +4,12 @@ namespace Progracqteur\WikipedaleBundle\Resources\Normalizer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Progracqteur\WikipedaleBundle\Entity\Model\Report;
-use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportStatus;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizingException;
 use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-
+use CrEOF\Spatial\PHP\Types\Geometry\Point;
 
 /**
  * Description of ReportNormalizer
@@ -19,10 +18,8 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
  */
 class ReportNormalizer implements NormalizerInterface, DenormalizerInterface
 {    
-    /**
-     *
-     * @var Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService 
-     */
+    /** @var NormalizerSerializerService The normalizer service (for accessing
+     * to each normalizers) */
     private $service;
     
     /**
@@ -42,7 +39,6 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface
     {
         $this->service = $service;
     }
-    
     
     public function denormalize($data, $class, $format = null, array $context = array())
     {    
@@ -70,7 +66,10 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface
         }
         
         if (isset($data['geom'])) {
-            $point = Point::fromArrayGeoJson($data['geom']);
+            $geoService = $this->service->getContainer()
+                ->get('progracqteur.wikipedale.geoservice');
+            
+            $point = $geoService->pointGeoJSONArray($data['geom']);
             $report->setGeom($point);
         }
         
@@ -226,7 +225,7 @@ class ReportNormalizer implements NormalizerInterface, DenormalizerInterface
             'description' => $object->getDescription(),
             'geom' => array(
                 'type' => 'Point',
-                'coordinates' => [$object->getGeom()->getX(), $object->getGeom()->getY()]
+                'coordinates' => [$object->getGeom()->getLongitude(), $object->getGeom()->getLatitude()]
             ),
             'drawnGeoJSON' => $object->getDrawnGeoJSON(),
             'id' => $object->getId(),

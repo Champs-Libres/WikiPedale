@@ -24,7 +24,7 @@ class LightReportArrayNormalizer implements NormalizerInterface {
             'type' => 'Feature',
             'geometry' => [
                 'type' => 'Point',
-                'coordinates' => [$report->getGeom()->getX(),$report->getGeom()->getY()]
+                'coordinates' => [$report->getGeom()->getLongitude(),$report->getGeom()->getLatitude()]
             ],
             'properties' => ['id' => $report->getId()]
         ];

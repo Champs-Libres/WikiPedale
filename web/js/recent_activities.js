@@ -5,7 +5,7 @@
 
 define(['jQuery'], function($) {
    function filling(city_slug, nbr_max) {
-      var jsonUrlData  =  Routing.generate('wikipedale_history_report_by_city', {_format: 'json', citySlug: city_slug, max:nbr_max});
+      var jsonUrlData  =  Routing.generate('wikipedale_history_report_by_city', {_format: 'json', citySlugP: city_slug, max:nbr_max});
       $.ajax({
          dataType: 'json',
          url: jsonUrlData,

@@ -88,7 +88,7 @@ define(
                      recent_activities.filling(selected_city_data.slug,5);
                      $('#managed_by__url').attr('href', selected_city_data.url);
                      $('#lastest_modifications_rss_link').attr('href',
-                        Routing.generate('wikipedale_history_report_by_city', {_format: 'atom', citySlug: selected_city_data.slug}));
+                        Routing.generate('wikipedale_history_report_by_city', {_format: 'atom', citySlugP: selected_city_data.slug}));
                      $('#managed_by__img').attr('src', 'img/cities/logo_' +  selected_city_data.slug + '.png');
                      $('#div__town_presentation .title').text(selected_city_data.name.toUpperCase());
                      $('#div__town_presentation .content').text(selected_city_data.description);

@@ -2,10 +2,8 @@
 
 namespace Progracqteur\WikipedaleBundle\Entity\Model;
 
-use Doctrine\ORM\Mapping as ORM;
 use Progracqteur\WikipedaleBundle\Resources\Container\Hash;
 use Progracqteur\WikipedaleBundle\Entity\Model\Comment;
-use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
 use Progracqteur\WikipedaleBundle\Resources\Container\Address;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeableInterface;
@@ -17,6 +15,8 @@ use Symfony\Component\Validator\ExecutionContext;
 use Progracqteur\WikipedaleBundle\Entity\Model\Category;
 use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 use Progracqteur\WikipedaleBundle\Resources\Generator\StringGenerator;
+use CrEOF\Spatial\PHP\Types\Geography\Point;
+
 
 /**
  * Progracqteur\WikipedaleBundle\Entity\Model\Report
@@ -33,9 +33,7 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
     */
    private $address;
 
-   /**
-    * @var Progracqteur\WikipedaleBundle\Resources\Geo\Point $geom
-    */
+   /** @var CrEOF\Spatial\PHP\Types\Geography\Point $geom */
    private $geom;
 
    /**
@@ -227,11 +225,11 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
       }
    }
 
-   /**
-   * Set geom
-   *
-   * @param Progracqteur\WikipedaleBundle\Resources\Geo\Point $geom
-   */
+    /**
+    * Set the long/lat where stands the report
+    * 
+    * @param CrEOF\Spatial\PHP\Types\Geography\Point $geom
+    */
    public function setGeom(Point $geom)
    {
       if ($this->getGeom() === null) {
@@ -239,30 +237,31 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
          return;
       }
 
-      if ( $this->getGeom()->getLat() != $geom->getLat()
-         && $this->getGeom()->getLon() != $geom->getLon()) {
+      if ($this->getGeom()->getLatitude() != $geom->getLatitude()
+         && $this->getGeom()->getLongitude() != $geom->getLongitude()) {
          $this->change('geom', $this->geom, $geom);
          $this->geom = $geom;
          $this->getChangeset()->addChange(ChangeService::REPORT_GEOM, $geom );
       }
    }
 
-   /**
-    * Get geom
-    *
-    * @return Progracqteur\WikipedaleBundle\Resources\Geo\Point 
-    */
-   public function getGeom()
-   {
-      return $this->geom;
-   }
+    /**
+     * Return the position (long/lat) of the report
+     *
+     * @return CrEOF\Spatial\PHP\Types\Geography\Point
+     */
+    public function getGeom()
+    {
+        return $this->geom;
+    }
 
-   /**
-    * Get salt
-    */
-   public function getSalt() {
-      return $this->salt;
-   }
+    /**
+     * Get salt
+     */
+   public function getSalt()
+    {
+       return $this->salt;
+    }
 
    /**
    * Set createDate

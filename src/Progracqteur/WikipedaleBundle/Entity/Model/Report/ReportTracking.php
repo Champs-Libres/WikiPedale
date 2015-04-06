@@ -100,7 +100,9 @@ class ReportTracking implements ChangesetInterface {
                     //il n'y a pas d'autrs modifs à effectuer
                     break;
                 case ChangeService::REPORT_GEOM:
-                    $newValue = $newValue->toGeoJson();
+                    $geoJSonArray = ["type" => "Point",
+                        "coordinates" => [$newValue->getX(), $newValue->getY()]];
+                    $newValue = json_encode($geoJSonArray);
                     break;
                 case ChangeService::REPORT_ADDRESS:
                     $newValue = json_encode($newValue->toArray());
@@ -119,8 +121,7 @@ class ReportTracking implements ChangesetInterface {
                 case ChangeService::REPORT_ADD_CATEGORY:
                 case ChangeService::REPORT_REMOVE_CATEGORY:
                     $ids = array();
-                    foreach ($newValue as $category)
-                    {
+                    foreach ($newValue as $category) {
                         $ids[]['id'] = $category->getId();
                     }
                     $newValue = json_encode($ids);
@@ -145,14 +146,8 @@ class ReportTracking implements ChangesetInterface {
                 //default:
                     //rien à faire
             }
-            
             $this->details->changes->{$type} = $newValue;
-            
-            
-            
         }
-        
-        
     }
     
     /**
