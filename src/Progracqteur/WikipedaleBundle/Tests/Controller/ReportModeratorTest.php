@@ -1,5 +1,8 @@
 <?php
+
 namespace Progracqteur\WikipedaleBundle\Tests\Controller;
+
+ini_set('memory_limit', '256M');
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Progracqteur\WikipedaleBundle\Entity\Management\Group;
@@ -21,7 +24,6 @@ class ReportModeratorTest extends WebTestCase
         
         $this->assertObjectHasAttribute('moderator', $response->results[0],
             "Check that the moderator key is present");
-        
     }
     
     public function testUpdateModerator()
@@ -32,6 +34,7 @@ class ReportModeratorTest extends WebTestCase
             'PHP_AUTH_PW'   => 'moderator',
         ));
         $client->request('GET', '/report/list/bybbox.json?bbox=50.48148610448666%2C4.02755931274414%2C50.42683811382025%2C3.874780687255859');
+        
         $response = json_decode($client->getResponse()->getContent(), true);
         //get a random object
         $report = $response['results'][array_rand($response['results'])];
