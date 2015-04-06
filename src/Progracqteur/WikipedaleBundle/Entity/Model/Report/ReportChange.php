@@ -47,7 +47,7 @@ class ReportChange implements ChangeInterface{
      * - REPORT_PHOTO: a string which represent the filename of the new picture
      * - REPORT_ADDRESS : Progracqteur\WikipedaleBundle\Resources\Container\Address
      * - REPORT_DESCRIPTION = string
-     * - REPORT_GEOM = Progracqteur\WikipedaleBundle\Resources\Geo\Point;
+     * - REPORT_GEOM = CrEOF\Spatial\PHP\Types\Geometry\Point;
      * - REPORT_ADD_COMMENT = not implemented;
      * - REPORT_ADD_VOTE = not implemented;
      * - REPORT_ADD_PHOTO = string of the filename;
