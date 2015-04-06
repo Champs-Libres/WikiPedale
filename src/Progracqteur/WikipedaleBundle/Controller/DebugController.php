@@ -3,7 +3,8 @@
 namespace Progracqteur\WikipedaleBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
+// use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
+use CrEOF\Spatial\PHP\Types\Geometry\Point;
 use Progracqteur\WikipedaleBundle\Entity\Model\Place;
 use Symfony\Component\HttpFoundation\Response;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
