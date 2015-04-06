@@ -3,7 +3,6 @@
 namespace Progracqteur\WikipedaleBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
