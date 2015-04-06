@@ -6,7 +6,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Progracqteur\WikipedaleBundle\Entity\Model\Report\ReportTracking;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
-use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
+
 /**
  * normalizer ReportTracking elements to an array, and back. 
  * Used with Serializer.
