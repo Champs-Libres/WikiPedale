@@ -2,12 +2,12 @@
 
 namespace Progracqteur\WikipedaleBundle\Resources\Container;
 
-use Progracqteur\WikipedaleBundle\Resources\Geo\Point;
-
+use CrEOF\Spatial\PHP\Types\Geography\Point;
 /**
  * Description of Address
  *
  * @author Julien Fastré <julien arobase fastre point info>
+ * @author Champs-Libres Coop
  */
 class Address {
     private $city = '';
@@ -147,8 +147,8 @@ class Address {
         $a = new self();
 
         $dom = new \DOMDocument();
-        $lat = $point->getLat();
-        $lon = $point->getLon();
+        $lat = $point->getLatitude();
+        $lon = $point->getLongitude();
 
         $url = "http://open.mapquestapi.com/nominatim/v1/reverse?format=xml&lat=$lat&lon=$lon";
 
