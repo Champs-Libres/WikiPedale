@@ -46,7 +46,7 @@ class ZoneControllerTest extends WebTestCase
         $arrayResponse = json_decode($jsonResponse, true);
         $this->assertFalse($arrayResponse['query']['error'], 'The response '
             . 'must not contains error.');
-
+        
         $this->assertTrue($arrayResponse['query']['nb'] == $zonesNumber,
             "The number of zone returned must be $zonesNumber : $message");
     }
@@ -57,7 +57,7 @@ class ZoneControllerTest extends WebTestCase
      */
     public function testBasicGetAllAction()
     {
-        $this->zoneListCheck(2, "Mons and Namur");
+        $this->zoneListCheck(3, "Mons, Mons-ring and Namur");
     }
     
     /**
@@ -81,11 +81,11 @@ class ZoneControllerTest extends WebTestCase
         
         $em->persist($charleroiModeratorGroup);
         $em->flush();
-        $this->zoneListCheck(3, "Mons, Namur and Charleroi");
+        $this->zoneListCheck(4, "Mons, Mons-ring Namur and Charleroi");
         
         $em->remove($charleroiModeratorGroup);
         $em->flush();
-        $this->zoneListCheck(2, "Mons and Namur");
+        $this->zoneListCheck(3, "Mons, Mons-ring and Namur");
     }
     
     /**

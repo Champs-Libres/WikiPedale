@@ -52,9 +52,7 @@ class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $om)
     {
-        $zoneSlugWithManagerGroup = ['mons', 'namur'];
-        
-        $zoneSlugWithModeratorGroup = ['mons', 'charleroi'];
+        $zoneSlugWithManagerGroup = ['mons', 'namur', 'mons-ring'];
         
         foreach ($zoneSlugWithManagerGroup as $zoneSlug) {
             $this->loadGroups($om, $zoneSlug, Group::TYPE_MANAGER, 2);
