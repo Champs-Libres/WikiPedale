@@ -226,4 +226,8 @@ div.padding_bottom_small {
 #div__town_choice h1 { font-size: 2.5em; color:#2D2D2D; }
 #div__town_choice ul { list-style-type: none; padding:0; }
 #div__town_choice ul a { color: #000000; font-size:1.5em; text-decoration: none; }
+
+.bold {
+    font-weight: bold;
+}
 #div__town_choice ul a:hover { background: #2D2D2D; color:#FFFFFF; }

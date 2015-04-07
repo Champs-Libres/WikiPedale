@@ -213,6 +213,7 @@ define(
                $('input[name=lat]').val(position[1]);
 
                report_map.moveMarker('new_report', position);
+               zone.highlightSelectedZone(evt);
             });
 
             report_map.displayMarker('new_report');

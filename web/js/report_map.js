@@ -134,6 +134,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user', 'zon
          source: zone_source
       });
       layers.zones.uello_position = 1;
+      layers.zones.uello_layer_id = 'zones';
 
       map_zoom_lvl = zoom_lvl;
 
