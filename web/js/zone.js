@@ -10,6 +10,7 @@
 
 define(['jQuery'], function($) {
    var zones; // the known zones
+   var new_report_zones = [];
 
     /**
      * Get all the zones and send it to a callback function
@@ -42,6 +43,8 @@ define(['jQuery'], function($) {
             '</div>' +
             '<div id="' + addNewDescriptionZoneId(zone) + '">' + zone.name + '</div>'));
       });
+
+      highlightZonesFromNewReportZonesArray();
    }
 
    /**
@@ -54,14 +57,27 @@ define(['jQuery'], function($) {
    }
 
    /**
-    * Highlight the zone, form the extent zones list, that contains the marker
+    * Highlight the zones, from the extent zones list, that contains the marker
     * @param {event} The click event
     */
    function highlightSelectedZone(evt) {
+      new_report_zones = [];
       evt.map.forEachFeatureAtPixel(evt.pixel, function(feature, layer) {
          if(layer.hasOwnProperty('uello_layer_id') && layer.uello_layer_id == 'zones') {
-            $('#' + addNewDescriptionZoneId(feature.zone)).addClass('bold');
+            new_report_zones.push(feature.zone);
+            
          }
+      });
+
+      highlightZonesFromNewReportZonesArray();
+   }
+
+   /**
+    * Hightligth the zones, from the extent zones list, that are in the new_report_zones array
+    */
+   function highlightZonesFromNewReportZonesArray() {
+      $.each(new_report_zones, function(i, zone){
+         $('#' + addNewDescriptionZoneId(zone)).addClass('bold');
       });
    }
 
