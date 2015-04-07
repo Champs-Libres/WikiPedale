@@ -12,7 +12,7 @@ addons:
 sudo: false
 install:
   - composer install
-  - cp app/config/parameters.travis.yml app/config/parameters.yml
+  - cp app/config/parameters.yml.travis app/config/parameters.yml
 before_script:
   - psql -c 'create database test0;' -U postgres
   - psql -U postgres -c 'create extension postgis' -d test0
