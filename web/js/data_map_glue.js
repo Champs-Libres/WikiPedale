@@ -57,9 +57,13 @@ define(
          if(current_map_zoom_lvl >= 13) {
             report_map.displayLayer('markers');
             report_map.hideLayer('cluster');
+            if(add_new_place_mode) {
+               report_map.displayLayer('zones');
+            }
          } else {
             report_map.displayLayer('cluster');
             report_map.hideLayer('markers');
+            report_map.hideLayer('zones');
          }
          hideShowLateralContent();
 
@@ -70,9 +74,13 @@ define(
             if(current_map_zoom_lvl >= 13) {
                report_map.displayLayer('markers');
                report_map.hideLayer('cluster');
+               if(add_new_place_mode) {
+                  report_map.displayLayer('zones');
+               }
             } else {
                report_map.displayLayer('cluster');
                report_map.hideLayer('markers');
+               report_map.hideLayer('zones');
             }
             hideShowLateralContent();
          });
