@@ -3,124 +3,125 @@
 #}
 
 <div id="div_add_new_description_button" class="right_menu"  title="{{ 'tools_panel.signalement_add_help'|trans({}, 'messages') }}">
-  <img src="{{ asset('img/menu/ajout.png') }}">
-  {{ 'tools_panel.signalement_add'|trans({}, 'messages') }}
+    <img src="{{ asset('img/menu/ajout.png') }}">
+    {{ 'tools_panel.signalement_add'|trans({}, 'messages') }}
 </div>
 
 <div id="div_add_new_description_cancel_button" class="right_menu cancel" style="display:none;"  title="{{ 'tools_panel.signalement_cancel_add_help'|trans({}, 'messages') }}">
-  {{ 'tools_panel.cancel'|trans({}, 'messages') }}
+    {{ 'tools_panel.cancel'|trans({}, 'messages') }}
 </div>
 
 <form id="form__add_new_description" method="post" class="lateral_content hidden">
-  <input type="hidden" name="lon" id="add_new_report_form__lon" readonly="true" />
-  <input  type="hidden" name="lat" id="add_new_report_form__lat" readonly="true" />
-  
-  <fieldset id="div_new_report_form_user_mail">
-    <legend><a href="#login_form_div">{{ 'new_report.log_in'|trans({}, 'reportMessages') }}</a> {{ 'new_report.enter_your_coordinate'|trans({}, 'reportMessages') }}</legend>
+    <input type="hidden" name="lon" id="add_new_report_form__lon" readonly="true" />
+    <input  type="hidden" name="lat" id="add_new_report_form__lat" readonly="true" />
 
-    <p>
-      <img src="{{ asset('img/verif_rien.png') }}" class="verif" id="add_new_report_form_informer__user_label" alt="is the field ok">
-      <label for="add_new_report_form__user_label">{{ 'new_report.name'|trans({}, 'reportMessages') }}</label>
-      <input type="text" id="add_new_report_form__user_label" name="user_label" placeholder="{{ 'new_report.name_placeholder'|trans({}, 'reportMessages') }}" />
-    </p>
+    <fieldset id="div_new_report_form_user_mail">
+        <legend><a href="#login_form_div">{{ 'new_report.log_in'|trans({}, 'reportMessages') }}</a> {{ 'new_report.enter_your_coordinate'|trans({}, 'reportMessages') }}</legend>
+        <p>
+            <img src="{{ asset('img/verif_rien.png') }}" class="verif" id="add_new_report_form_informer__user_label" alt="is the field ok">
+            <label for="add_new_report_form__user_label">{{ 'new_report.name'|trans({}, 'reportMessages') }}</label>
+            <input type="text" id="add_new_report_form__user_label" name="user_label" placeholder="{{ 'new_report.name_placeholder'|trans({}, 'reportMessages') }}" />
+        </p>
+        <p>
+            <img src="{{ asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__email" alt="is the field ok">
+            <label for="add_new_report_form__email">{{ 'new_report.mail'|trans({}, 'reportMessages') }}</label>
+            <input type="text" id="add_new_report_form__email" name="email" placeholder="{{ 'new_report.mail_placeholder'|trans({}, 'reportMessages') }}" />
+        </p>
+        <p>
+            <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__user_phonenumber" alt="is the field ok">
+            <label for="add_new_report_form__user_phonenumber">{{ 'new_report.phone'|trans({}, 'reportMessages') }}</label>
+            <input type="text" id="add_new_report_form__user_phonenumber" name="user_phonenumber" placeholder="{{ 'new_report.phone_placeholder'|trans({}, 'reportMessages') }}" />
+        </p>
+    </fieldset>
 
-    <p>
-      <img src="{{ asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__email" alt="is the field ok">
-      <label for="add_new_report_form__email">{{ 'new_report.mail'|trans({}, 'reportMessages') }}</label>
-      <input type="text" id="add_new_report_form__email" name="email" placeholder="{{ 'new_report.mail_placeholder'|trans({}, 'reportMessages') }}" />
-    </p>
-
-    <p>
-      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__user_phonenumber" alt="is the field ok">
-      <label for="add_new_report_form__user_phonenumber">{{ 'new_report.phone'|trans({}, 'reportMessages') }}</label>
-      <input type="text" id="add_new_report_form__user_phonenumber" name="user_phonenumber" placeholder="{{ 'new_report.phone_placeholder'|trans({}, 'reportMessages') }}" />
-    </p>
-  </fieldset>
-  
-  <fieldset id="put_marker_on_the_map_fieldset">
-      <p>
-         <legend>{{ 'new_report.locate_your_report_on_the_map'|trans({}, 'reportMessages') }}</legend>
-
-        <div id="div_add_new_description__moderated_zones_list">
+    <fieldset id="put_marker_on_the_map_fieldset">
+        <legend>{{ 'new_report.locate_your_report_on_the_map'|trans({}, 'reportMessages') }}</legend>
         
-        </div>
+        <p>
+        {{ 'new_report.please_locate_your_report_on_the_map'|trans({}, 'reportMessages') }}
+        <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__map" alt="is the field ok">
+        </p>
+        <p>
+            <bold>{{ 'Active zones'|trans({}, 'reportMessages') }}</bold>
+            <div id="div_add_new_description__moderated_zones_list"></div>
+        </p>
+        <p>
+            <button class="edit" id="add_new_report_form__draw_details_on_map">
+                {{ 'new_report.draw_your_report_on_the_map'|trans({}, 'reportMessages') }}
+            </button>
 
-         {{ 'new_report.please_locate_your_report_on_the_map'|trans({}, 'reportMessages') }}
-         <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__map" alt="is the field ok">
-      </p>
-      <p>
-         <button class="edit" id="add_new_report_form__draw_details_on_map">
-            {{ 'new_report.draw_your_report_on_the_map'|trans({}, 'reportMessages') }}
-         </button>
+            <div id="div_add_new_description__draw">
+                <select id="add_new_report_form__draw_type" style="width:250px;">
+                    <option value="LineString">{{ 'new_report.draw_a_line'|trans({}, 'reportMessages') }}</option>
+                    <option value="Polygon">{{ 'new_report.draw_a_polygon'|trans({}, 'reportMessages') }}</option>
+                </select>
 
-         <div id="div_add_new_description__draw">
-            <select id="add_new_report_form__draw_type" style="width:250px;">
-               <option value="LineString">{{ 'new_report.draw_a_line'|trans({}, 'reportMessages') }}</option>
-               <option value="Polygon">{{ 'new_report.draw_a_polygon'|trans({}, 'reportMessages') }}</option>
+                <button class="delete" id="add_new_report_form__draw_erase">
+                    {{ 'new_report.erase_drawings'|trans({}, 'reportMessages') }}
+                </button>
+                <button class="edit" id="add_new_report_form__end_draw_details_on_map">
+                    {{ 'new_report.end_of_drawing'|trans({}, 'reportMessages') }}
+                </button>
+            </div>
+        </p>
+    </fieldset>
+
+    <fieldset>
+        <legend>{{ 'new_report.describe_the_problem'|trans({}, 'reportMessages') }}</legend>
+
+        <p>
+            <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__lieu" alt="is the field ok">
+            <label for="add_new_report_form__lieu">{{ 'new_report.location'|trans({}, 'reportMessages') }}</label>
+            <input type="text" id="add_new_report_form__lieu" name="lieu" placeholder="{{ 'new_report.location_placeholder'|trans({}, 'reportMessages') }}" /><br />
+        </p>
+
+        <p>
+            <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__category" alt="is the field ok">
+            <label for="add_new_report_form__category">{{ 'new_report.categories'|trans({}, 'reportMessages') }}</label>
+            <select id="add_new_report_form__category" name="category" style="width:250px;" data-placeholder="{{ 'new_report.categories_placeholder'|trans({}, 'reportMessages') }}">
+                {% for category in categories %}
+                    {% if category.hasChildren %}
+                        <optgroup label="{{ category.label }}" >
+                            {% for childCategory in category.children %}
+                                {% if childCategory.term in terms_allowed %}
+                                    <option value="{{ childCategory.id }}" data-term="{{ childCategory.term }}">{{ childCategory.label }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </optgroup>
+                    {% else %}
+                        <option value="{{ category.id }}" data-term="{{ category.term }}">{{ category.label }}</option>
+                    {% endif %}
+                {% endfor %}
             </select>
-              
-            <button class="delete" id="add_new_report_form__draw_erase">
-               {{ 'new_report.erase_drawings'|trans({}, 'reportMessages') }}
-            </button>
-            <button class="edit" id="add_new_report_form__end_draw_details_on_map">
-               {{ 'new_report.end_of_drawing'|trans({}, 'reportMessages') }}
-            </button>
-         </div>
-      </p>
-  </fieldset>
-
-
-  <fieldset>
-    <legend>{{ 'new_report.describe_the_problem'|trans({}, 'reportMessages') }}</legend>
-      
+        <p/>
+        <p>
+            <span id="add_new_report_form_informer__category_medium_warning" class="warningMessage">{{ 'new_report.medium_warning'|trans({}, 'reportMessages') }}</span>
+        </p>
+        <p>
+            <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__description" alt="is the field ok">
+            <label for="add_new_report_form__description">{{ 'new_report.description'|trans({}, 'reportMessages') }}</label>
+            <textarea id="add_new_report_form__description" name="description" rows="5" placeholder="{{ 'new_report.description_placeholder'|trans({}, 'reportMessages') }}" maxlength="2500"></textarea>
+        </p>
+    </fieldset>
+       
+    <span class="form-legend">{{ 'Designated moderator.'|trans({}, 'reportMessages') }} </span>
     <p>
-      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__lieu" alt="is the field ok">
-      <label for="add_new_report_form__lieu">{{ 'new_report.location'|trans({}, 'reportMessages') }}</label> 
-      <input type="text" id="add_new_report_form__lieu" name="lieu" placeholder="{{ 'new_report.location_placeholder'|trans({}, 'reportMessages') }}" /><br />
+        <div id="add_new_report_form__get_designated_moderator_message">{{
+            'No moderator has been designated. Please use the button below for designating the moderator.'|trans({}, 'reportMessages')
+        }}</div>
+        <span id="add_new_report_form__no_moderator_designated_message" padding="display:none" style="display:none;">{{
+            'The moderator can not be designated for the information you gave. Please fill the report form and restart the procedure.'|trans({}, 'reportMessages')
+        }}</span>
+        
+        <button id="add_new_report_form__get_designated_moderator" class="edit">
+            {{ 'Get the designated moderator'|trans({}, 'reportMessages') }}
+        </button>
     </p>
-
     <p>
-      <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__category" alt="is the field ok">
-      <label for="add_new_report_form__category">{{ 'new_report.categories'|trans({}, 'reportMessages') }}</label>
-      <select id="add_new_report_form__category" name="category" style="width:250px;" data-placeholder="{{ 'new_report.categories_placeholder'|trans({}, 'reportMessages') }}">
-          {% for category in categories %}
-              {% if category.hasChildren %}
-                    <optgroup label="{{ category.label }}" >
-                       {% for childCategory in category.children %}
-                            {% if childCategory.term in terms_allowed %}
-                            <option value="{{ childCategory.id }}" data-term="{{ childCategory.term }}">{{ childCategory.label }}</option>
-                            {% endif %}
-                       {% endfor %}
+        <div id="add_new_report_form__message" class="message"></div>
 
-
-                    </optgroup>
-              
-              {% else %}
-              
-                    <option value="{{ category.id }}" data-term="{{ category.term }}">{{ category.label }}</option>
-              {% endif %}
-              
-          {% endfor %}
-        </optgroup>
-      </select>
-    <p/>
-
-    <p>
-      <span id="add_new_report_form_informer__category_medium_warning" class="warningMessage">{{ 'new_report.medium_warning'|trans({}, 'reportMessages') }}</span>
+        <div style="text-align:right;">
+            <input class="submit" id="new_report_form_submit_button" type="submit" value="{{ 'new_report.submit'|trans({}, 'reportMessages') }}">
+        </div>
     </p>
-
-
-  <p>
-    <img src="{{asset('img/verif_rien.png')}}" class="verif" id="add_new_report_form_informer__description" alt="is the field ok">
-    <label for="add_new_report_form__description">{{ 'new_report.description'|trans({}, 'reportMessages') }}</label> 
-    <textarea id="add_new_report_form__description" name="description" rows="5" placeholder="{{ 'new_report.description_placeholder'|trans({}, 'reportMessages') }}" maxlength="2500"></textarea>
-  </p>
-</fieldset>
-  
-  <div id="add_new_report_form__message" class="message">
-  </div>
-  
-  <div style="text-align:right;">
-    <input class="submit" id="new_report_form_submit_button" type="submit" value="{{ 'new_report.submit'|trans({}, 'reportMessages') }}">
-  </div>
 </form>

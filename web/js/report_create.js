@@ -11,6 +11,64 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
       function($, basic_data_and_functions,report_map,data_map_glue,informer,user,json_string,report,login) {
    var messages_div = $('#add_new_report_form__message');
 
+   var initial_designated_moderator_message = $('#add_new_report_form__get_designated_moderator_message').text();
+   /**
+   * Catches data for the form used for creating new report and then apply
+   * a callback on it.
+   * @param {DOM elem} new_report_from The DOM elem which is the for used for creating new report
+   * @param {function} callback The callback to apply to the data
+   */
+   function getNewReportDataAndCallback(new_report_from, callback) {
+      var desc_data = {};
+
+      $.map($(new_report_from).serializeArray(), function(n){
+         desc_data[n.name] = n.value;
+      });
+
+      callback(desc_data);
+   }
+
+   /**
+    *
+    */
+   function getDesignatedModerator() {
+      getNewReportDataAndCallback('#form__add_new_description', function(desc_data) {
+         if(desc_data.lon === '' || desc_data.lat === '') {
+            $('#add_new_report_form__get_designated_moderator_message').text(
+               $('#add_new_report_form__no_moderator_designated_message').text()
+            );
+         } else {
+            var entity_string = json_string.edit_place(desc_data.description, desc_data.lon,
+               desc_data.lat, desc_data.lieu, desc_data.id, desc_data.couleur,
+               desc_data.user_label, desc_data.email, desc_data.user_phonenumber,desc_data.category,
+               report_map.getDrawnDetails('new_report'));
+            $.ajax({
+               type: 'POST',
+               data: {entity: entity_string},
+               url: Routing.generate('wikipedale_report_designate_moderator', {_format: 'json'}),
+               cache: false,
+               dataType: 'text json',
+               success: function(output_json) {
+                  if(! output_json.query.error && parseInt(output_json.query.nb) >= 1) {
+                     $('#add_new_report_form__get_designated_moderator_message').html(
+                        output_json.results[0].label
+                     );
+                  } else {
+                     $('#add_new_report_form__get_designated_moderator_message').text(
+                         $('#add_new_report_form__no_moderator_designated_message').text()
+                     );
+                  }
+               },
+               error: function() {
+                  $('#add_new_report_form__get_designated_moderator_message').text(
+                     $('#add_new_report_form__no_moderator_designated_message').text()
+                  );
+               }
+            });
+         }
+      });
+   }
+
    function catchCreatingForm(form_to_catch) {
       /**
       * Catches the form used to create a new description. This function check
@@ -19,14 +77,10 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
       * This element must contain a div with an element of class '.message' where to 
       * display the error and success messages.
       */
-      var desc_data = {};
-
-      $.map($(form_to_catch).serializeArray(), function(n){
-         desc_data[n.name] = n.value;
-      });
-
-      checkCoordinatesThen(desc_data, function() {
-         catchCreatingFormWithValidCoordinates(desc_data);
+      getNewReportDataAndCallback(form_to_catch, function(desc_data) {
+         checkCoordinatesThen(desc_data, function() {
+            catchCreatingFormWithValidCoordinates(desc_data);
+         });
       });
    }
 
@@ -105,13 +159,11 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
 
                         $(messages_div).addClass('successMessage');
                      } else {
-                        console.log(output_json);
                         $(messages_div).text('Mince, il y a un problème. Veuillez nous le signaler. Merci.');
                         $(messages_div).addClass('errorMessage');
                      }
                   },
                   error: function(error_message) {
-
                      $(messages_div).text('Mince, il y a un problème : ' +
                         error_message.responseText +
                         '. Si le problème persiste, veuilllez nous le signaler. Merci.');
@@ -153,10 +205,14 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
       $('#form__add_new_description').children('.message').text('');
       informer.reset_new_description_form();
       report_map.deleteMarker('new_report');
+      $('#add_new_report_form__get_designated_moderator_message').text(
+         initial_designated_moderator_message
+      );
    }
 
    return {
       catchCreatingForm: catchCreatingForm,
-      clearCreatingForm: clearCreatingForm
+      clearCreatingForm: clearCreatingForm,
+      getDesignatedModerator: getDesignatedModerator
    };
 });

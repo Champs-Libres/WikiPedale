@@ -86,6 +86,14 @@ wikipedale_report_change:
   options:
     expose: true
 
+wikipedale_report_designate_moderator:
+  pattern: /report/designate/moderator.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Report:getDesignatedModerator }
+  requirements:
+    _format: json
+  options:
+    expose: true
+
 wikipedale_user_confirm:
   pattern: /user/confirm/{token}/{reportId}.html
   defaults: {_controller: ProgracqteurWikipedaleBundle:Report:confirmUser }

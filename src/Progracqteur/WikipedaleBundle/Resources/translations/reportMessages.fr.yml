@@ -1,3 +1,8 @@
+#Zones message
+"Designated moderator.": Désignez le modérateur
+"No moderator has been designated. Please use the button below for designating the moderator.": Le modérateur n'a pas encore été désigné. Veuillez utiliser le bouton ci-dessous pour lancer la procédure.
+"Get the designated moderator": Désignez le modérateur
+"The moderator can not be designated for the information you gave. Please fill the report form and restart the procedure.": Il est impossible de désigner un modérateur avec les informations soumises. Veuillez remplir le formulaire avec plus de détail et recommencer la procédure.
 # Adding new report
 new_report:
   log_in: Connectez-vous 

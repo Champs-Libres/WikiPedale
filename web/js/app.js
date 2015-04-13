@@ -97,6 +97,7 @@ require(
          $('#edit_report__draw_selection_option').select2({'minimumResultsForSearch': -1}).on('change', function() { data_map_glue.changeDrawModeOnMap('edit_report'); });
 
          $('#add_new_report_form__draw_details_on_map').click(function(e) { e.preventDefault(); data_map_glue.startDrawingDetailsOnMap('new_report'); });
+         $('#add_new_report_form__get_designated_moderator').click(function(e) { e.preventDefault(); report_create.getDesignatedModerator(); });
          $('#add_new_report_form__end_draw_details_on_map').click(function(e) { e.preventDefault(); data_map_glue.endDrawingDetailsOnMap('new_report'); });
          $('#add_new_report_form__draw_erase').click(function(e) { e.preventDefault(); data_map_glue.eraseDrawingDetailsOnMap('new_report'); });
          $('#div_add_new_description__draw').hide();

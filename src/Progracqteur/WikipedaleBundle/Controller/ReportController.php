@@ -1,5 +1,25 @@
 <?php
 
+/*
+ *  Uello is a reporting tool. This file is part of Uello.
+ * 
+ *  Copyright (C) 2015, Champs-Libres Cooperative SCRLFS,
+ *  <http://www.champs-libres.coop>, <info@champs-libres.coop>
+ * 
+ *  Uello is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Uello is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Uello.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 namespace Progracqteur\WikipedaleBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -235,7 +255,6 @@ class ReportController extends Controller
                 $response->headers->set('Content-Transfer-Encoding', 'binary');
                 $response->headers->set('Pragma', 'no-cache');
                 $response->headers->set('Expires', '0');
-
                 return $response;    
         }
     }
@@ -298,6 +317,42 @@ class ReportController extends Controller
 
         return $this->listContainedInPolygonAction($polygon, $_format, $request);
     }
+    
+    /**
+     * Return the moderator that will be designate to moderate the report
+     *
+     * @param Request $request The request. The report must be send as parameter
+     * of the request. The report is given in the JSON format (see 
+     * Resources/Normalizer/ReportNormalizer).
+     * @return Response A json reponse (see
+     * Resources/Normalizer/NormalizedResponseNormalizer) containing the 
+     * moderator (see Resources/Normalizer/GroupNormalizer)
+     * @throws Exception If no report is given in the request
+     */
+    public function getDesignatedModeratorAction(Request $request)
+    {
+        $serializedJson = $request->get('entity', null);
+        if (!$serializedJson) {
+            throw new \Exception("Aucune entitée envoyée");
+        }
+
+        $serializer = $this->get('progracqteurWikipedaleSerializer');
+
+        $report = $serializer->deserialize($serializedJson, NormalizerSerializerService::REPORT_TYPE, 'json');
+
+        if ($report->getId() == null && $this->get('security.context')->getToken()->getUser() instanceof User) {
+            $u = $this->get('security.context')->getToken()->getUser();
+            $report->setCreator($u);
+        }
+
+        $moderatorDesignator = $this->get('progracqteur.wikipedale.moderator_designator');
+        
+        $moderator = $moderatorDesignator->getModerator($report);
+
+        $normalizedResponse = new NormalizedResponse($moderator);
+        $normalizedResponseJSON = $serializer->serialize($normalizedResponse, 'json');
+        return new Response($normalizedResponseJSON);
+    }
 
     /**
      * Update a given report (post method and json objec)
@@ -318,13 +373,8 @@ class ReportController extends Controller
         $token = $request->attributes->get('token', null);
         if ($token === null) {
             //if WSSE authentication, does not need token
-            if(! 
-                    (
-                        $this->get('security.context')->getToken() instanceof WsseUserToken
-                        AND 
-                        $this->get('security.context')->getToken()->isFullyAuthenticated()
-                    )
-              ) {
+            if(! ($this->get('security.context')->getToken() instanceof WsseUserToken  
+                 AND $this->get('security.context')->getToken()->isFullyAuthenticated())) {
                 /*TODO: when the token will be enabled into javascript, if there
                  * is no token, the script must reject request without tokens
                  */
@@ -354,14 +404,11 @@ class ReportController extends Controller
         }
         
         $serializer = $this->get('progracqteurWikipedaleSerializer');
-        $report = $serializer->deserialize($serializedJson, NormalizerSerializerService::REPORT_TYPE, 'json');
+        $report = $serializer->deserialize($serializedJson, NormalizerSerializerService::REPORT_TYPE, 'json'); /* */
 
         //SECURITE: refuse la modification d'une report par un utilisateur anonyme
-        if (
-                ($this->get('security.context')->getToken()->getUser() instanceof User) == false 
-                && 
-                $report->getChangeset()->isCreation() == false
-            ) {
+        if ( (!($this->get('security.context')->getToken()->getUser() instanceof User)) 
+            && ! $report->getChangeset()->isCreation()) {
             $r = new Response("Il faut être enregistré pour modifier un signalement");
             $r->setStatusCode(403);
 
@@ -448,10 +495,11 @@ class ReportController extends Controller
         
         $validator = $this->get('validator');
         
-        if ($report->getId() === null)
+        if ($report->getId() === null) {
             $arrayValidation = array('Default', 'creation');
-        else
+        } else {
             $arrayValidation = array('Default');
+        }
         
         $errors = $validator->validate($report, $arrayValidation);
         

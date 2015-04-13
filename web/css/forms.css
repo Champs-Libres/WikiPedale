@@ -4,7 +4,7 @@ form fieldset {
     margin:0 0 1em 0;
 }
 
-form legend {
+form legend, .form-legend {
     color: #000;
     font-size: 1.1em;
     font-weight: bold;
