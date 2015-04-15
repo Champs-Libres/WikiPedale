@@ -34,15 +34,15 @@ wikipedale_about:
     options:
       expose: true
 
-wikipedale_to_city:
-  pattern: /city/{zoneSlug}
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Manager:toCity }
+wikipedale_zone_zoom_on:
+  pattern: /zoom/on/{zoneSlug}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Zone:selectZoneForZoom }
   options:
     expose: true
 
-wikipedale_reset_city:
-  pattern: /reset_city
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Manager:resetCity }
+wikipedale_reset_zone_selection:
+  pattern: /reset/zone/selection
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Zone:resetZoneSelection }
   options:
     expose: true
 

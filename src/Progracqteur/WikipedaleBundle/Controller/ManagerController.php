@@ -24,75 +24,18 @@ namespace Progracqteur\WikipedaleBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\NormalizerSerializerService;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 
 /**
  * Controller that manages the user session. This session contains information
- * about the selected city (or not) and the current logged user (or not)
+ * about the selected zone (or not) and the current logged user (or not)
  *
  * @author Champs-Libres COOP
  */
 class ManagerController extends Controller
 {    
-    /**
-     * Select a city and set this information into the session.
-     *
-     * @param string $zoneSlug The slug of the selected zone
-     * @param Request $request The Request
-     * @return Symfony\Component\HttpFoundation\Response The index page
-     * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * The exception is thrown if the variable $citySlug does not refer to a
-     * known city
-     */
-    public function toCityAction($zoneSlug, Request $request)
-    {
-        $zoneSluged = $this->get('progracqteur.wikipedale.slug')->slug($zoneSlug);
-
-        $em = $this->getDoctrine()->getManager();
-        $zones = $em->createQuery("SELECT z
-            from ProgracqteurWikipedaleBundle:Management\Zone z
-            where z.slug = :slug")
-            ->setParameter('slug', $zoneSluged)
-            ->getResult();
-        $zone = $zones[0];
-        
-        if (! $zone) {
-            throw $this->createNotFoundException("La ville demandée '$zone' n'a pas été trouvée");
-        }
-        
-        $session = $this->getRequest()->getSession();
-        $session->set('selectedZoneId', $zone->getId());
-        
-        $url = $request->get('url', null);
-        
-        if (! $url) {
-            $url = $this->generateUrl('wikipedale_homepage');
-        }
-        
-        return $this->redirect($url);
-    }
-
-    /**
-     * Remove the session information about the selected city.
-     *
-     * @return Symfony\Component\HttpFoundation\Response The index page.
-     */
-    public function resetCityAction()
-    {
-        $session = $this->getRequest()->getSession();
-        $session->set('selectedZoneId', null);
-         
-        $url = $this->getRequest()->get('url', null);
-        
-        if (!$url) {
-            $url = $this->generateUrl('wikipedale_homepage');
-        }
-        
-        return $this->redirect($url);
-    }
     /**
      * Returns a json data containing the current user. If the user is not logged, 
      * an empty UnregisteredUser is returned.

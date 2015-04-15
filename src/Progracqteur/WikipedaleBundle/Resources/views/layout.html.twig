@@ -98,7 +98,7 @@
             <div class="grid_12">
                 <div id="horizontal_menu">
                     <div>
-                        <a href="{{path('wikipedale_reset_city')}}">
+                        <a href="{{path('wikipedale_reset_zone_selection')}}">
                             <img src="{{asset('img/menu/accueil.png')}}" />
                             {{ 'layout.home'|trans({}, 'messages') }}
                         </a>
@@ -166,7 +166,7 @@
                             <option>Sélectionner une ville</option>
                         {% endif %}
                             {% for city in mainCities %}
-                            <option value="{{ path('wikipedale_to_city', {'zoneSlug': city.slug})}}">{{city.name}}</option>
+                            <option value="{{ path('wikipedale_zone_zoom_on', {'zoneSlug': city.slug})}}">{{city.name}}</option>
                             {% endfor %}
                         </select>
                     {% endif %}

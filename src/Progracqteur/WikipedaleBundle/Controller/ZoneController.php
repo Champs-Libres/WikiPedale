@@ -93,4 +93,81 @@ class ZoneController extends Controller
         $ret = $normalizer->serialize($rep, 'json');
         return new Response($ret);
     }
+    
+    /**
+     * Set a zone as selected for the user session with 'zoom' as type 
+     * of selection.
+     * 
+     * @param type $zoneSlug The slug of the selected zone
+     * @return Response The index page
+     * @throws NotFoundHttpException when the variable $zoneSlug does not refer
+     * to a known zone
+     */
+    public function selectZoneForZoomAction($zoneSlug)
+    {
+        return $this->selectZoneAction($zoneSlug, 'zoom');
+    }
+    
+    /**
+     * Set a zone as selected for the user session with 'minisite' as type 
+     * of selection.
+     * 
+     * @param type $zoneSlug The slug of the selected zone
+     * @return Response The index page
+     * @throws NotFoundHttpException when the variable $zoneSlug does not refer
+     * to a known zone
+     */
+    public function selectZoneForMinisiteAction($zoneSlug)
+    {
+        return $this->selectZoneAction($zoneSlug, 'minisite');
+    }
+    
+    /**
+     * Set a zone as selected for the user session.
+     * 
+     * Two selection are allowed :
+     * - zoom : zooming on the zone 
+     * - minisite : display only the selected zone
+     * 
+     * @param type $zoneSlug The slug of the selected zone
+     * @param type $displayType The type of the selection (zoom or minisite)
+     * @return Response The index page
+     * @throws NotFoundHttpException when the variable $zoneSlug does not refer
+     * to a known zone
+     */
+    public function selectZoneAction($zoneSlug, $displayType)
+    {
+        $zoneSluged = $this->get('progracqteur.wikipedale.slug')->slug($zoneSlug);
+
+        $em = $this->getDoctrine()->getManager();
+        $zones = $em->createQuery("SELECT z
+            from ProgracqteurWikipedaleBundle:Management\Zone z
+            where z.slug = :slug")
+            ->setParameter('slug', $zoneSluged)
+            ->getResult();
+        
+        if(sizeof($zones) == 0 || ! $zones[0]) {
+            throw $this->createNotFoundException("La ville demandée '$zone' n'a pas été trouvée");
+        }
+        
+        $selectedZone = $zones[0];
+        $session = $this->getRequest()->getSession();
+        $session->set('selectedZoneId', $selectedZone->getId());
+        $session->set('selectedZoneDisplayType', $displayType);
+        
+        return $this->redirect($this->generateUrl('wikipedale_homepage'));
+    }
+    
+    /**
+     * Reset the zone selected.
+     *
+     * @return Response The index page.
+     */
+    public function resetZoneSelectionAction()
+    {
+        $session = $this->getRequest()->getSession();
+        $session->remove('selectedZoneId');
+        $url = $this->generateUrl('wikipedale_homepage');
+        return $this->redirect($url);
+    }
 }
