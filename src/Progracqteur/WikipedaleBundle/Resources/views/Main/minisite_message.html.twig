@@ -1,0 +1,8 @@
+{# Template that display that display the warning message is a subsite is selected #}
+
+{% if selectedZone is defined and selectedZoneDisplayType ==  "minisite" %}
+    ! Attention, vous navigez sur le sous-site dédié à la zone 
+    "{{ selectedZone.name }}".
+    <a href="{{path('wikipedale_reset_zone_selection')}}">Cliquez ici</a>
+    pour accéder au site général.
+{% endif %}

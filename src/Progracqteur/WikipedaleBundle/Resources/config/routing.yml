@@ -233,11 +233,17 @@ wikipedale_group_covers_zone:
     method: GET
   options:
     expose: true
-    
+
 wikipedale_group_moderator_list:
   pattern: /groups/bytype/{type}.{_format}
   defaults: {_controller: ProgracqteurWikipedaleBundle:GroupFrontend:listByType }
   requirements:
     method: GET
+  options:
+    expose: true
+
+wikipedale_zone_minisite:
+  pattern: /{zoneSlug}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Zone:selectZoneForMinisite }
   options:
     expose: true

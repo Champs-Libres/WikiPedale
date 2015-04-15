@@ -159,16 +159,15 @@
 
                     <div>
                     {% if mainCities is defined %}
-                        <select id="menu_city_selection" onchange="location = this.options[this.selectedIndex].value;">
-                        {% if selectedZone is defined %}
-                            <option>{{ selectedZone.name}}</span></option>
-                        {% else %}
-                            <option>Sélectionner une ville</option>
+                        {% if selectedZone is not defined or selectedZoneDisplayType !=  "minisite"  %}
+                            {# Display zoom menu when no selectedZoneDisplay #}
+                            <select id="menu_city_selection" onchange="location = this.options[this.selectedIndex].value;">
+                                <option>{{ 'Zoom on'|trans({}, 'messages') }}</option>
+                                {% for city in mainCities %}
+                                <option value="{{ path('wikipedale_zone_zoom_on', {'zoneSlug': city.slug})}}">{{city.name}}</option>
+                                {% endfor %}
+                            </select>
                         {% endif %}
-                            {% for city in mainCities %}
-                            <option value="{{ path('wikipedale_zone_zoom_on', {'zoneSlug': city.slug})}}">{{city.name}}</option>
-                            {% endfor %}
-                        </select>
                     {% endif %}
                     </div>
                 </div>

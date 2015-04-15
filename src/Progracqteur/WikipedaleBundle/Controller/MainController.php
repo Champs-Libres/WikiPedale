@@ -54,6 +54,7 @@ class MainController extends Controller
         $selectedReportId = $request->get('id', null);
         $selectedReport = null;
         $selectedZone = null;
+        $session = $this->getRequest()->getSession();
 
         $em = $this->getDoctrine()->getManager();
         if ($selectedReportId) {
@@ -65,8 +66,6 @@ class MainController extends Controller
             }
             
             $selectedZone = $selectedReport->getModerator()->getZone();
-            
-            $session = $this->getRequest()->getSession();
             $session->set('selectedZoneId', $selectedZone->getId());
         }
         
@@ -108,8 +107,8 @@ class MainController extends Controller
             ->findAll();
         //@todo cachable query
         
-        if (!$selectedZone && $request->getSession()->get('selectedZoneId') !== null) {
-            $selectedZoneId = $request->getSession()->get('selectedZoneId');
+        if (!$selectedZone && $session->get('selectedZoneId') !== null) {
+            $selectedZoneId = $session->get('selectedZoneId');
             $selectedZone = $em
                 ->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
                 ->find($selectedZoneId);
@@ -134,6 +133,7 @@ class MainController extends Controller
 
         if ($selectedZone) {
             $paramsToView['selectedZone'] = $selectedZone;
+            $paramsToView['selectedZoneDisplayType'] = $session->get('selectedZoneDisplayType');
         }
 
         if ($selectedReportId) {

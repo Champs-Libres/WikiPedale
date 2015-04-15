@@ -134,6 +134,21 @@ p.PointTitle .span_id {
    text-align: justify;
 }
 
+#div__minisite_message {
+   background-color: #76b82a;
+   color: #ffffff;
+   margin-top: 1.2em;
+   padding-bottom: 1.2em;
+   padding-top: 1.2em;
+   padding-left: 1em;
+   padding-right: 1em,
+   text-align: justify;
+}
+
+#div__minisite_message a {
+   color: #ffffff;
+}
+
 /* Formulaire ajout report */
 #add_new_description_div img.verif {
    float: left;
