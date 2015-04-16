@@ -166,8 +166,7 @@ define(
          * Update the data of the app contained in report.js and re-draw the map
          * (regarding to the updated informations)
          */
-         //report.eraseAll();
-         report_map.loadReportsForBBoxView(function() {
+         report_map.loadReportsToDisplay(function() {
             report_display.display_regarding_to_user_role();
          });
       }

@@ -139,7 +139,7 @@ class ReportController extends Controller
      * @return Symfony\Component\HttpFoundation\Response A csv or json file that contains an array of all the reports contained in a polygon
      */
     private function listContainedInPolygonAction($polygon, $_format, Request $request)
-    {
+    {   
         $em = $this->getDoctrine()->getManager();
 
         $categoriesArray = array();
@@ -184,10 +184,14 @@ class ReportController extends Controller
             $p = $p->join('p.category', 'c');
         }
             
-        $p = $p->where(('covers(:polygon, p.geom) = true AND p.accepted = true' . $filterCondition));
+        $p = $p->where(('ST_Covers(:polygon, p.geom) = true AND p.accepted = true' . $filterCondition));
 
         if($categoriesArray) {
             $p = $p->andWhere('c.id IN (:categories)');
+        }
+        
+        if(gettype($polygon) === 'object') {
+            $polygon = 'POLYGON(' . $polygon . ')';
         }
         
         $p = $p->orderBy('p.id')

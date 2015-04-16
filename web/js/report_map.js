@@ -207,7 +207,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user', 'zon
 
       map.on('moveend', function() {
          if (layers.markers.uello_displayed) {
-            loadReportsForBBoxView();
+            loadReportsToDisplay();
          }
       });
 
@@ -259,6 +259,40 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user', 'zon
       });
 
       zone.updateModeratedZonesListForExtent(zones);
+   }
+
+   function loadReportsToDisplay(callbackWhenReportsIsLoaded) {
+      /**
+       * Load the reports that must be displayed.
+       *
+       * If a zone is selected, the loaded reports are the resports from
+       * the zone (only loaded once) otherwise it is the reports from the
+       * bbox
+       */
+      if(zone.isSelectedMinisite()) {
+         if(!(marker_source.hasOwnProperty('uello_loaded') &&
+            marker_source.uello_loaded)) {
+            var jsonUrlData =
+               Routing.generate('wikipedale_report_list_by_city',
+                  {city: zone.getSelected().slug, _format: 'json', addUserInfo: true});
+            $.when(
+               $.getJSON(jsonUrlData, function(data) {
+                  user.update(data.user);
+                  $.each(data.results, function(index, report) {
+                     addReport(report);
+                  });
+               })
+            ).done(function() {
+               evtFctWhenNewReports();
+               marker_source.uello_loaded = true;
+               if(callbackWhenReportsIsLoaded) {
+                  callbackWhenReportsIsLoaded();
+               }
+            });
+         }
+      } else {
+         loadReportsForBBoxView(callbackWhenReportsIsLoaded);
+      }
    }
 
    function loadReportsForBBoxView(callbackWhenReportsIsLoaded) {
@@ -704,7 +738,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user', 'zon
          var layer = layers[layer_name];
 
          if(layer_name === 'markers') {
-            loadReportsForBBoxView();
+            loadReportsToDisplay();
          }
 
          if(typeof layer.uello_position != 'undefined') {
@@ -933,7 +967,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user', 'zon
       hideLayer: hideLayer,
       addMapMoveEndEvent: addMapMoveEndEvent,
       rmMapMoveEndEvent: rmMapMoveEndEvent,
-      loadReportsForBBoxView: loadReportsForBBoxView,
+      loadReportsToDisplay: loadReportsToDisplay,
       startDrawingDetailsOnMap: startDrawingDetailsOnMap,
       endDrawingDetailsOnMap: endDrawingDetailsOnMap,
       eraseDrawingDetailsOnMap: eraseDrawingDetailsOnMap,

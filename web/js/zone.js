@@ -10,6 +10,7 @@
 
 define(['jQuery'], function($) {
    var new_report_zones = [];
+   var selected_zone;
 
     /**
      * Initialize the zone module. If a zone is selected it only load this
@@ -18,9 +19,10 @@ define(['jQuery'], function($) {
      * @param{function} A callback to throw when the zones are loaded. The zones are
      * an array of zones (with only one element when a zone is selected)
      */
-   function init(selected_zone, callback) {
+   function init(selected_zone_p, callback) {
       var url;
-      if(selected_zone && selected_zone.type === 'minisite') {
+      selected_zone = selected_zone_p;
+      if(isSelectedMinisite()) {
          url = Routing.generate('wikipedale_get_zone',
             {_format: 'json', zoneSlug: selected_zone.slug});
       } else {
@@ -33,7 +35,27 @@ define(['jQuery'], function($) {
          }
       });
    }
+
+   /**
+    * Returns the selected zone, or null if no zone is selected.
+    *
+    * The selected zone is an object with the attributes : id, slug, type.
+    * @return The selected zone or null
+   */
+   function getSelected() {
+      return selected_zone;
+   }
    
+   /**
+    * Returns True if the selected zone is a minisite.
+    *
+    * When the selected zone is a ministe the all the action (creating report,
+    * displaying reports, editing report) are only available for this zone
+    */
+   function isSelectedMinisite() {
+      return (selected_zone && selected_zone.type === 'minisite');
+   }
+
    /**
     * Update the moderated zones list that are in the actual extent.
     * @param{array(zones)} The list of zones that are in the extent
@@ -91,5 +113,7 @@ define(['jQuery'], function($) {
       init: init,
       updateModeratedZonesListForExtent: updateModeratedZonesListForExtent,
       highlightSelectedZone: highlightSelectedZone,
+      getSelected: getSelected,
+      isSelectedMinisite: isSelectedMinisite
    };
 });
