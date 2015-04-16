@@ -10,7 +10,7 @@ parameters:
     mailer_user: null
     mailer_password: null
     locale: fr
-    secret: ThisTokenIsNotSoSecretChangeIt
+    secret: TravisEstMonCopain
     date_format: 'd/m/Y à H:i'
     report_types:
         bike:

@@ -15,7 +15,7 @@ parameters:
 
     #symfony
     locale            : fr
-    secret            : ThisTokenIsNotSoSecretChangeIt
+    secret            : LeVeloCestRigolo
     date_format       : d/m/Y à H:i
     
     #uello
