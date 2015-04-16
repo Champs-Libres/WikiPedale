@@ -35,6 +35,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseUserToken;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
+use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
 
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\LightReportArrayNormalizer;
 
@@ -83,8 +84,6 @@ class ReportController extends Controller
     {
         $defaultHiddenTerms = $this->get('service_container')->getParameter('default_hidden_report_terms');
         $defaultHiddenStatus = $this->get('service_container')->getParameter('default_hidden_report_status');
-        //var_dump($defaultHiddenTerms);
-        //var_dump($defaultHiddenStatus);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -139,7 +138,7 @@ class ReportController extends Controller
      *
      * @return Symfony\Component\HttpFoundation\Response A csv or json file that contains an array of all the reports contained in a polygon
      */
-    public function listContainedInPolygonAction($polygon, $_format, Request $request)
+    private function listContainedInPolygonAction($polygon, $_format, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -298,7 +297,6 @@ class ReportController extends Controller
     public function listByCityAction($_format, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
         $citySlug = $request->get('city', null);
         $citySlug = $this->get('progracqteur.wikipedale.slug')->slug($citySlug);
         
@@ -568,7 +566,7 @@ class ReportController extends Controller
             throw $this->createNotFoundException('Report not found');
         }
         
-        if ($report->getCreator() instanceof \Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser
+        if ($report->getCreator() instanceof UnregisteredUser
                 && $report->getCreator()->checkCode($token)) {
             $creator = $report->getCreator();
             
@@ -576,7 +574,6 @@ class ReportController extends Controller
             if ($creator->isChecked()) {
                 $r = new Response('Report already confirmed');
                 $r->setStatusCode(401);
-
                 return $r;
             }
             
@@ -585,13 +582,10 @@ class ReportController extends Controller
             $this->getDoctrine()->getManager()->flush($report);
             
             return $this->render('ProgracqteurWikipedaleBundle:Report:confirmed.html.twig',
-                array(
-                    'report' => $report
-                ));
+                array('report' => $report));
         } else {
             $r = new Response('check code does not match');
             $r->setStatusCode(401);
-
             return $r;
         }
     }
