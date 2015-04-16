@@ -143,6 +143,7 @@ p.PointTitle .span_id {
    padding-left: 1em;
    padding-right: 1em,
    text-align: justify;
+   display: none;
 }
 
 #div__minisite_message a {
