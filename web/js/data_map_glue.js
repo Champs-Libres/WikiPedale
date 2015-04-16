@@ -20,15 +20,16 @@ define(
       var last_description_selected = null;
       var add_new_place_mode = false; // true when the user is in a mode for adding new place
       var selected_city_data = null;
-      var current_map_zoom_lvl;
+      var current_map_zoom_lvl
 
-      function initApp(town_lon, town_lat, map_zoom_lvl, marker_id_to_display) {
+      function initApp(town_lon, town_lat, map_zoom_lvl, marker_id_to_display, selected_zone) {
          /**
          * Init the application and the map.
          * @param {float} town_lon The longitude of the town
          * @param {float} town_lat The latitude of the town
          * @param {int} marker_id_to_display The id of the marker to display (direct access). It is optional
          * (none if no marker to display)
+         * @param {zone object | null} selected_zone The selected zone (an object with id, slug, type attribyte) or null
          */
          var init = true;
          current_map_zoom_lvl = map_zoom_lvl;
@@ -48,7 +49,7 @@ define(
             }
          });
 
-         zone.getAll(function(zones_array) {
+         zone.init(selected_zone, function(zones_array) {
             for (var i = 0; i < zones_array.length; i++) {
                report_map.addZone(zones_array[i]);
             }

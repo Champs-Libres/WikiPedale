@@ -7,8 +7,16 @@ wikipedale_zone_view_covering_point:
       expose: true
       
 wikipedale_all_moderated_zones:
-   pattern: /list.{_format}
+   pattern: /get/all/moderated.{_format}
    defaults: { _controller: "ProgracqteurWikipedaleBundle:Zone:getAll" }
+   requirements:
+      _format: json
+   options:
+      expose: true
+      
+wikipedale_get_zone:
+   pattern: /get/{zoneSlug}.{_format}
+   defaults: { _controller: "ProgracqteurWikipedaleBundle:Zone:get" }
    requirements:
       _format: json
    options:

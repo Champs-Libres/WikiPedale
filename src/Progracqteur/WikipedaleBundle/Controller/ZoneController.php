@@ -68,6 +68,27 @@ class ZoneController extends Controller
         $ret = $normalizer->serialize($rep, 'json');
         return new Response($ret);
     }
+    
+    /**
+     * Return a JSON string that describe a given zone
+     * 
+     * @param strubg $zoneSlug The slug of the asked zone
+     * @return Response The JSON string
+     */
+    public function getAction($zoneSlug)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $zone = $em
+            ->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
+            ->findOneBy(array('slug' => $zoneSlug));
+
+        $normalizer = $this->get('progracqteurWikipedaleSerializer');
+        $rep = new NormalizedResponse($zone);
+        $ret = $normalizer->serialize($rep, 'json');
+        return new Response($ret);
+    }
+    
  
     /**
      * Return a JSON string that describe all the zones covering a given

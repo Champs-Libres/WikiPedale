@@ -41,9 +41,8 @@ require(
       $.ajaxSetup({ cache: false }); // IE save json data in a cache, this line avoids this behavior
       $(document).ready(function(){
          var data_for_init = $('#data_for_init');
-         var map_center_lon, map_center_lat, map_zoom_level, selected_zone_id,
-            selected_zone_slug, selected_zone_type;
-         var selected_report_id = null;
+         var map_center_lon, map_center_lat, map_zoom_level;
+         var selected_zone, selected_report_id = null;
 
          $('a.connexion').colorbox({
             inline:true,
@@ -63,9 +62,9 @@ require(
             map_center_lon = data_for_init.attr('data-map-center-lon');
             map_center_lat = data_for_init.attr('data-map-center-lat');
             selected_report_id = data_for_init.attr('data-selected-report-id');
-            selected_zone_id = data_for_init.attr('data-selected-zone-id');
-            selected_zone_slug = data_for_init.attr('data-selected-zone-slug');
-            selected_zone_type = data_for_init.attr('data-selected-zone-type');
+            selected_zone = { id: data_for_init.attr('data-selected-zone-id'),
+               slug: data_for_init.attr('data-selected-zone-slug'),
+               type: data_for_init.attr('data-selected-zone-type')};
 
             if(selected_report_id) {
                map_zoom_level = 17;
@@ -78,12 +77,7 @@ require(
             map_zoom_level = 8;
          }
 
-         data_map_glue.initApp(map_center_lon, map_center_lat, map_zoom_level, selected_report_id);
-
-         // Minisite warning
-         if(selected_zone_type === 'minisite') {
-            $('#div__minisite_message').show();
-         }
+         data_map_glue.initApp(map_center_lon, map_center_lat, map_zoom_level, selected_report_id, selected_zone);
 
          // Manager Filtering
          category.insertParentCategoryToSelectField('#optionsAffichageFilterCategoriesParent', ['short','medium']);

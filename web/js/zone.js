@@ -9,23 +9,29 @@
 */
 
 define(['jQuery'], function($) {
-   var zones; // the known zones
    var new_report_zones = [];
 
     /**
-     * Get all the zones and send it to a callback function
-     * @param{function} A call back to throw when the zones are loaded
+     * Initialize the zone module. If a zone is selected it only load this
+     * zones, otherwise it loads all the zones.
+     * @param {zone object | null} selected_zone The selected zone (an object with id, slug, type attribyte) or null
+     * @param{function} A callback to throw when the zones are loaded. The zones are
+     * an array of zones (with only one element when a zone is selected)
      */
-   function getAll(callback) {
-      if(!zones) {
-         $.get(Routing.generate('wikipedale_all_moderated_zones', {_format: 'json'}), function( data ) {
-            if(! data.query.error) {
-               callback(data.results);
-            }
-         });
+   function init(selected_zone, callback) {
+      var url;
+      if(selected_zone && selected_zone.type === 'minisite') {
+         url = Routing.generate('wikipedale_get_zone',
+            {_format: 'json', zoneSlug: selected_zone.slug});
       } else {
-         callback(zones);
+         url = Routing.generate('wikipedale_all_moderated_zones',
+            {_format: 'json'});
       }
+      $.get(url, function(data) {
+         if(! data.query.error) {
+            callback(data.results);
+         }
+      });
    }
    
    /**
@@ -82,7 +88,7 @@ define(['jQuery'], function($) {
    }
 
    return {
-      getAll: getAll,
+      init: init,
       updateModeratedZonesListForExtent: updateModeratedZonesListForExtent,
       highlightSelectedZone: highlightSelectedZone,
    };
