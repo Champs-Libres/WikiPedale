@@ -20,16 +20,17 @@ define(
       var last_description_selected = null;
       var add_new_place_mode = false; // true when the user is in a mode for adding new place
       var selected_city_data = null;
-      var current_map_zoom_lvl
+      var selected_zone = null;
+      var current_map_zoom_lvl;
 
-      function initApp(town_lon, town_lat, map_zoom_lvl, marker_id_to_display, selected_zone) {
+      function initApp(town_lon, town_lat, map_zoom_lvl, marker_id_to_display, selected_zone_p) {
          /**
          * Init the application and the map.
          * @param {float} town_lon The longitude of the town
          * @param {float} town_lat The latitude of the town
          * @param {int} marker_id_to_display The id of the marker to display (direct access). It is optional
          * (none if no marker to display)
-         * @param {zone object | null} selected_zone The selected zone (an object with id, slug, type attribyte) or null
+         * @param {zone object | null} selected_zone_p The selected zone (an object with id, slug, type attribyte) or null
          */
          var init = true;
          current_map_zoom_lvl = map_zoom_lvl;
@@ -49,11 +50,16 @@ define(
             }
          });
 
-         zone.init(selected_zone, function(zones_array) {
+         zone.init(selected_zone_p, function(zones_array) {
             for (var i = 0; i < zones_array.length; i++) {
                report_map.addZone(zones_array[i]);
             }
          });
+
+         if(selected_zone_p && selected_zone_p.type === 'minisite') {
+            $('#div__minisite_message').show();
+            selected_zone = selected_zone_p;
+         }
 
          if(current_map_zoom_lvl >= 13) {
             report_map.displayLayer('markers');
@@ -66,9 +72,6 @@ define(
             report_map.hideLayer('markers');
             report_map.hideLayer('zones');
          }
-         hideShowLateralContent();
-
-         report_map.addClickReportEvent(focusOnReport);
 
          report_map.addZoomChangeEvent(function(evt) {
             current_map_zoom_lvl = evt.map.getView().getZoom();
@@ -85,6 +88,8 @@ define(
             }
             hideShowLateralContent();
          });
+         
+         report_map.addClickReportEvent(focusOnReport);
 
          report_map.addMapMoveEndEvent('zone_covering_map_center',function(evt) {
             var center = ol.proj.transform(evt.map.getView().getCenter(),'EPSG:3857', 'EPSG:4326');
@@ -112,7 +117,9 @@ define(
                   } else if (data.results.length === 0) {
                      selected_city_data = null;
                   }
-                  hideShowLateralContent();
+                  if(!selected_zone_p || selected_zone_p.type === 'minisite') {
+                     hideShowLateralContent();
+                  }
                })
             );
          });
@@ -126,7 +133,7 @@ define(
          * - if a point has been selected
          * @return nothing
          */
-         if(current_map_zoom_lvl >= 13) {
+         if(current_map_zoom_lvl >= 13 || (selected_zone && selected_zone.type === 'minisite')) {
             if(! add_new_place_mode && last_description_selected !== null ) {
                $('#div__report_description_display').show();
             }
