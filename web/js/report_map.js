@@ -273,8 +273,8 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user', 'zon
          if(!(marker_source.hasOwnProperty('uello_loaded') &&
             marker_source.uello_loaded)) {
             var jsonUrlData =
-               Routing.generate('wikipedale_report_list_by_city',
-                  {city: zone.getSelected().slug, _format: 'json', addUserInfo: true});
+               Routing.generate('wikipedale_report_list_by_zone',
+                  {zone_slug: zone.getSelected().slug, _format: 'json', addUserInfo: true});
             $.when(
                $.getJSON(jsonUrlData, function(data) {
                   user.update(data.user);

@@ -36,6 +36,7 @@ use Progracqteur\WikipedaleBundle\Entity\Management\User;
 use Progracqteur\WikipedaleBundle\Resources\Security\Authentication\WsseUserToken;
 use Progracqteur\WikipedaleBundle\Entity\Management\NotificationSubscription;
 use Progracqteur\WikipedaleBundle\Entity\Management\UnregisteredUser;
+use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 
 use Progracqteur\WikipedaleBundle\Resources\Normalizer\LightReportArrayNormalizer;
 
@@ -130,15 +131,16 @@ class ReportController extends Controller
 
 
     /**
-     * Return all the reports contained in a Polygon
+     * Return all the reports given option
      *
-     * @param $polygon The polygon
+     * @param Polygon||null $polygon The polygon where the reports must be contained
+     * @param Group Moderator||null $moderators The moderators that the reports must have
      * @param String $_format the format of the output (csv or json)
      * @param Symfony\Component\HttpFoundation\Request $request the request
      *
      * @return Symfony\Component\HttpFoundation\Response A csv or json file that contains an array of all the reports contained in a polygon
      */
-    private function listContainedInPolygonAction($polygon, $_format, Request $request)
+    private function generalListAction($polygon, $moderators, $_format, Request $request)
     {   
         $em = $this->getDoctrine()->getManager();
 
@@ -183,20 +185,35 @@ class ReportController extends Controller
         if($categoriesArray) {
             $p = $p->join('p.category', 'c');
         }
+        
+        $p = $p->where(('p.accepted = true' . $filterCondition));
+       
+        if($polygon) {
+            $p = $p->andWhere(('ST_Covers(:polygon, p.geom) = true'));
+        }
+        
+        if($moderators) {
+            $p = $p->andWhere('p.moderator IN (:moderators)');
+        }
             
-        $p = $p->where(('ST_Covers(:polygon, p.geom) = true AND p.accepted = true' . $filterCondition));
-
         if($categoriesArray) {
             $p = $p->andWhere('c.id IN (:categories)');
         }
         
-        if(gettype($polygon) === 'object') {
-            $polygon = 'POLYGON(' . $polygon . ')';
+        if($polygon) {
+            if(gettype($polygon) === 'object') {
+                $polygon = 'POLYGON(' . $polygon . ')';
+            }
+        
+            $p = $p->orderBy('p.id')
+                ->setParameter('polygon', $polygon);
+        }
+
+        if($moderators) {
+            $moderatorsId = array_map(function($g) { return $g->getId(); }, $moderators);
+            $p = $p->setParameter('moderators', $moderatorsId);
         }
         
-        $p = $p->orderBy('p.id')
-            ->setParameter('polygon', $polygon);
-
         if($categoriesArray) {
             $p = $p->setParameter('categories', $categoriesArray);
         }          
@@ -286,38 +303,39 @@ class ReportController extends Controller
         
         $bbox = BBox::fromCoord($BboxArr[0], $BboxArr[1], $BboxArr[2], $BboxArr[3]);
         $polygon = $bbox->toWKT();
-
-        return $this->listContainedInPolygonAction($polygon, $_format, $request);
+        return $this->generalListAction($polygon, null, $_format, $request);
     }
 
     /**
-     * Return all the reports for a given city
+     * Return all the reports for a given zones (ie. that have its moderator
+     * for this zone)
      *
      * @param String $_format the format of the output (csv or json)
      * @param Symfony\Component\HttpFoundation\Request $request the request that must contain a city param
      *
      * @return Symfony\Component\HttpFoundation\Response A csv or json file that contains an array of all the report of the city
      */
-    public function listByCityAction($_format, Request $request)
+    public function listByZoneAction($_format, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $citySlug = $request->get('city', null);
-        $citySlug = $this->get('progracqteur.wikipedale.slug')->slug($citySlug);
+        $zoneSlug = $this->get('progracqteur.wikipedale.slug')
+            ->slug($request->get('zone_slug', null));
         
-        if ($citySlug === null) {
-            throw new \Exception('Renseigner une ville dans une variable \'city\' ');
+        if (!$zoneSlug) {
+            throw new \Exception('Veuillez renseigner une zone dans l\'url : \'?zone_slug=\' ');
         }
         
-        $city = $em->getRepository('ProgracqteurWikipedaleBundle:Management\\Zone')
-                ->findOneBy(array('slug' => $citySlug));
+        $zone = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
+                ->findOneBy(array('slug' => $zoneSlug));
         
-        if ($city === null) {
-            throw $this->createNotFoundException("Aucune ville correspondant à $citySlug n'a pu être trouvée");
+        if (!$zone) {
+            throw $this->createNotFoundException("Aucune ville correspondant à $zoneSlug n'a pu être trouvée");
         }
+        
+        $moderators = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Group')
+            ->findBy(array('type' => Group::TYPE_MODERATOR, 'zone' => $zone));
 
-        $polygon = $city->getPolygon();
-
-        return $this->listContainedInPolygonAction($polygon, $_format, $request);
+        return $this->generalListAction(null, $moderators, $_format, $request);
     }
     
     /**
@@ -398,9 +416,8 @@ class ReportController extends Controller
                 return $response;
             }
         }
-        
+     
         $serializedJson = $request->get('entity', null);
-        
         if ($serializedJson === null) {
             throw new \Exception("Aucune entitée envoyée");
         }
@@ -425,20 +442,16 @@ class ReportController extends Controller
         }
         
         // Modification du changeset
-        
         if ($report->getChangeset()->isCreation()) { // si création 
            //ajoute l'utilisateur courant au changeset
             if ($this->get('security.context')->getToken()->getUser() instanceof User) { //si utilisateur connecté
                 $report->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
             } else { 
                 $user = $report->getCreator();
-                
                 $report->getChangeset()->setAuthor($user);
             }
-            //add a default moderator
-            $moderatorDesignator = $this->get('progracqteur.wikipedale.'
-                  . 'moderator_designator');
-            $report->setModerator($moderatorDesignator->getModerator($report));
+
+            $this->addDefaultModerator($report, $serializedJson);
         } else { //si modification d'un signalement
             //les vérifications de sécurité ayant eu lieu, il suffit d'ajouter l'utilisateur courant
             $report->getChangeset()->setAuthor($this->get('security.context')->getToken()->getUser());
@@ -546,6 +559,19 @@ class ReportController extends Controller
 
         return $this->redirect(
             $this->generateUrl('wikipedale_report_view', $params));
+    }
+    
+    private function addDefaultModerator($newReport, $serializedJson) {
+        $moderatorDesignator = $this->get('progracqteur.wikipedale.'
+            . 'moderator_designator');
+        $serializedJsonArray = json_decode($serializedJson, TRUE);
+        if(key_exists('minisite_zone_slug', $serializedJsonArray)) {
+            $zoneSlug = $serializedJsonArray['minisite_zone_slug'];
+            $newReport->setModerator(
+                $moderatorDesignator->getModeratorForZone($newReport,$zoneSlug));
+        } else {
+            $newReport->setModerator($moderatorDesignator->getModerator($newReport));
+        }
     }
     
     /**

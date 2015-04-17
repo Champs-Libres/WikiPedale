@@ -107,12 +107,12 @@ define(
                      $('#div__town_presentation .title').text(selected_city_data.name.toUpperCase());
                      $('#div__town_presentation .content').text(selected_city_data.description);
                      $('#csv_export_link_town').attr('href',
-                        Routing.generate('wikipedale_report_list_by_city',
-                           {_format: 'csv'}) + '?city=' +  selected_city_data.slug);
+                        Routing.generate('wikipedale_report_list_by_zone',
+                           {zone_slug: selected_city_data.slug, _format: 'csv'}));
                      $('#csv_export_link_town').text(selected_city_data.name + ' CSV');
                      $('#html_export_link_town').attr('href',
-                        Routing.generate('wikipedale_report_list_by_city',
-                           {_format: 'html'}) + '?city=' +  selected_city_data.slug);
+                        Routing.generate('wikipedale_report_list_by_zone',
+                           {zone_slug: selected_city_data.slug, _format: 'html'}));
                      $('#html_export_link_town').text('Impression de ' + selected_city_data.name);
                   } else if (data.results.length === 0) {
                      selected_city_data = null;

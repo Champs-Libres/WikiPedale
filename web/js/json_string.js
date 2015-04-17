@@ -3,7 +3,7 @@
 /* global define */
 'use strict';
 
-define(['report_map','user'], function(report_map,user) {
+define(['report_map','user','zone'], function(report_map,user,zone) {
    function unregisterUser(label,email,phonenumber){
       /**
       * Returns a json string describing an unregister user.
@@ -175,10 +175,12 @@ define(['report_map','user'], function(report_map,user) {
 
       ret = ret + ',"description":' + JSON.stringify(description) +
          ',"addressParts":{"entity":"address","road":' + JSON.stringify(address) + '}';
-
       ret = ret + ',"drawnGeoJSON":' + JSON.stringify(drawn_geojson);
-
       ret = ret + ',"category":{"entity":"category","id":' + category + '}';
+
+      if(zone.isSelectedMinisite()) {
+         ret = ret + ',"minisite_zone_slug":"' + zone.getSelected().slug + '"';
+      }
       return ret + '}';
    }
 

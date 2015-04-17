@@ -32,6 +32,17 @@ class ModeratorDesignator
             }
         }
     }
+    
+    public function getModeratorForZone(Report $report, $zoneSlug)
+    {
+        $possibleModerators = $this->getPossibleModerators($report);
+        foreach($possibleModerators as $mod) {
+            if($mod->getZone()->getSlug() === $zoneSlug) {
+                return $mod;
+            }
+        }
+        throw new Exception("No moderator found for $zoneSlug zone");
+    }
    
     public function getPossibleModerators(Report $report)
     {

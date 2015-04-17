@@ -60,9 +60,9 @@ wikipedale_light_list:
   options:
     expose: true
 
-wikipedale_report_list_by_city:
-  pattern: /report/list/bycity.{_format}
-  defaults: {_controller: ProgracqteurWikipedaleBundle:Report:listByCity }
+wikipedale_report_list_by_zone:
+  pattern: /report/list/byzone.{_format}
+  defaults: {_controller: ProgracqteurWikipedaleBundle:Report:listByZone }
   requirements:
     _format: json|csv|html
   options:
