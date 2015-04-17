@@ -4,7 +4,7 @@
 'use strict';
 
 define(['report_map','user'], function(report_map,user) {
-   function unregister_user(label,email,phonenumber){
+   function unregisterUser(label,email,phonenumber){
       /**
       * Returns a json string describing an unregister user.
       * @param{string} label The label/pseudo of the user.
@@ -27,9 +27,9 @@ define(['report_map','user'], function(report_map,user) {
       return '{"type":"Point","coordinates":[' + lon + ',' + lat + ']}';
    }
 
-   function change_place(id, changement){
+   function changeReport(id, changement){
       /**
-      * Returns a json string describing a place.
+      * Returns a json string describing a report.
       * @param{int} id The id of the report.
       * @param{string} changement A json string representing the changement to do.
       */
@@ -39,89 +39,89 @@ define(['report_map','user'], function(report_map,user) {
       return ret + '}';
    }
 
-   function edit_moderator_comment(id,new_moderator_comment){
+   function editModeratorComment(id,new_moderator_comment){
       /**
-      * Returns a json for editing the moderator comment of a place.
+      * Returns a json for editing the moderator comment of a report.
       * @param{int} id The id of the report.
       * @param{string} new_moderator_comment The new moderator comment.
       */
-      return change_place(id,'"moderatorComment":' + JSON.stringify(new_moderator_comment));
+      return changeReport(id,'"moderatorComment":' + JSON.stringify(new_moderator_comment));
    }
 
-   function edit_description(id,new_description){
+   function editDescription(id,new_description){
       /**
-      * Returns a json for editing the parameter 'description' of a place.
+      * Returns a json for editing the parameter 'description' of a report.
       * @param{int} id The id of the report.
       * @param{string} new_description The new value of the parameter 'description'.
       */
-      return change_place(id,'"description":' + JSON.stringify(new_description));
+      return changeReport(id,'"description":' + JSON.stringify(new_description));
    }
 
-   function edit_location(id,new_location){
+   function editLocation(id,new_location){
       /**
-      * Returns a json for editing location of a place.
+      * Returns a json for editing location of a report.
       * @param{int} id The id of the report.
       * @param{string} new_location The new location.
       */
-      return change_place(id,'"addressParts":{"entity":"address","road":' + JSON.stringify(new_location) + '}');
+      return changeReport(id,'"addressParts":{"entity":"address","road":' + JSON.stringify(new_location) + '}');
    }
 
-   function edit_category(id, new_category_id){
+   function editCategory(id, new_category_id){
       /**
-      * Returns a json for editing the category (single) of a place.
+      * Returns a json for editing the category (single) of a report.
       * @param{int} id The id of the report.
       * @param{int} new_category_id The new category id.
       */
-      return change_place(id,'"category":{"entity":"category","id":' + new_category_id + '}');
+      return changeReport(id,'"category":{"entity":"category","id":' + new_category_id + '}');
    }
 
-   function edit_status(id,status_type,new_status_value){
+   function editStatus(id,status_type,new_status_value){
       /**
-      * Returns a json for editing the status of a place.
+      * Returns a json for editing the status of a report.
       * @param{int} id The id of the report.
       * @param{string} status_type The type of the status
       * @param{string} new_status_value The new value of the status.
       */
-      return change_place(id,'"statuses":[{"t":"' + status_type + '","v":"' + new_status_value + '"}]');
+      return changeReport(id,'"statuses":[{"t":"' + status_type + '","v":"' + new_status_value + '"}]');
    }
 
-   function edit_manager(id,new_manager_id){
+   function editManager(id,new_manager_id){
       /**
       * Returns a json for editing the manager of a report.
       * @param{int} id The id of the report.
       * @param{int} new_manager_id The id of the new manager.
       */
-      return change_place(id,'"manager": {"entity":"group","type":"MANAGER","id":' +
+      return changeReport(id,'"manager": {"entity":"group","type":"MANAGER","id":' +
          JSON.stringify(new_manager_id)  + '}');
    }
 
-   function edit_moderator(id,new_moderator_id){
+   function editModerator(id,new_moderator_id){
       /**
       * Returns a json for editing the moderator of a report.
       * @param{int} id The id of the report.
       * @param{int} new_moderator_id The id of the new moderator.
       */
-      return change_place(id,'"moderator": {"entity":"group","type":"MODERATOR","id":' +
+      return changeReport(id,'"moderator": {"entity":"group","type":"MODERATOR","id":' +
          JSON.stringify(new_moderator_id)  + '}');
    }
 
-   function edit_place_type(id, new_placetype_id){
+   function editReportType(id, new_placetype_id){
       /**
-      * Returns a json for editing place type of a place.
+      * Returns a json for editing place type of a report.
       * @param{int} id The id of the report.
       * @param{int} new_placetype_id The new id of the place type.
       */
-      return change_place(id,'"placetype":{"id":' +  JSON.stringify(new_placetype_id) + ',"entity":"placetype"}');
+      return changeReport(id,'"placetype":{"id":' +  JSON.stringify(new_placetype_id) + ',"entity":"placetype"}');
    }
 
-   function edit_place_position(id,lon,lat) {
+   function editReportPosition(id,lon,lat) {
       /**
-      * Returns a json for editing the position of a place.
+      * Returns a json for editing the position of a report.
       * @param{int} id The id of the report.
-      * @param{int} lon the new longitude of the place.
-      * @param{int} lat the new latitude of the place.
+      * @param{int} lon the new longitude of the report.
+      * @param{int} lat the new latitude of the report.
       */
-      return change_place(id,'"geom":'+ point(lon,lat));
+      return changeReport(id,'"geom":'+ point(lon,lat));
    }
 
 
@@ -131,26 +131,27 @@ define(['report_map','user'], function(report_map,user) {
       * @param{int} id The id of the report.
       * @param{object} drawn_geojson The geojson of the drawings.
       */
-      return change_place(id, '"drawnGeoJSON":' + JSON.stringify(drawn_geojson));
+      return changeReport(id, '"drawnGeoJSON":' + JSON.stringify(drawn_geojson));
    }
 
-   function delete_place(id){
+   function deleteReport(id){
       /**
       * Returns a json for deleting a report.
       * @param{int} id The id of the report to delete.
       */
-      return change_place(id,'"accepted":false');
+      return changeReport(id,'"accepted":false');
    }
 
-   function edit_place(description, lon, lat, address, id, color, user_label, user_email, user_phonenumber, category, drawn_geojson) {
+   function newReport(description, lon, lat, address, id, color, user_label, user_email, user_phonenumber, category, drawn_geojson) {
       /**
-      * Returns a json string used for adding/editing a new report.
-      * @param {string} description the description of the new place.
-      * @param {string} lon The longitude of the new place.
-      * @param {string} lat The latitude of the new place.
-      * @param {string} address The address of the new place.
-      * @param {string} id The id of the new place, this parameter is optionnal : if it isn't given or null it means tha the place is a new placa.
-      * @param {string} color The color of the place (only for existing place)
+      * Returns a json string used for adding a new report.
+      *
+      * @param {string} description the description of the new report.
+      * @param {string} lon The longitude of the new report.
+      * @param {string} lat The latitude of the new report.
+      * @param {string} address The address of the new report.
+      * @param {string} id The id of the new report, this parameter is optionnal : if it isn't given or null it means tha the report is a new one.
+      * @param {string} color The color of the report (only for existing report)
       * @param {string} user_label The label given by the user : if the user is register and logged this field is not considered
       * @param {string} user_email The email given by the user : if the user is register and logged this field is not considered
       * @param {string} user_phonenumber The phonenumber given by the user : if the user is register and logged this field is not considered
@@ -169,7 +170,7 @@ define(['report_map','user'], function(report_map,user) {
       }
 
       if ( !user.isRegistered() && (typeof user_label !== 'undefined' || typeof user_email !== 'undefined')) {
-         ret = ret + ',"creator":' + unregister_user(user_label, user_email, user_phonenumber);
+         ret = ret + ',"creator":' + unregisterUser(user_label, user_email, user_phonenumber);
       }
 
       ret = ret + ',"description":' + JSON.stringify(description) +
@@ -193,19 +194,17 @@ define(['report_map','user'], function(report_map,user) {
    }
 
    return {
-      unregister_user: unregister_user,
-      change_place: change_place,
-      edit_moderator_comment: edit_moderator_comment,
-      edit_description: edit_description,
-      edit_location: edit_location,
-      edit_category: edit_category,
-      edit_status: edit_status,
-      edit_manager: edit_manager,
-      edit_moderator: edit_moderator,
-      edit_place_type: edit_place_type,
-      delete_place: delete_place,
-      edit_place: edit_place,
-      edit_place_position: edit_place_position,
+      editModeratorComment: editModeratorComment,
+      editDescription: editDescription,
+      editLocation: editLocation,
+      editCategory: editCategory,
+      editStatus: editStatus,
+      editManager: editManager,
+      editModerator: editModerator,
+      editReportType: editReportType,
+      deleteReport: deleteReport,
+      newReport: newReport,
+      editReportPosition: editReportPosition,
       moderatorManagerComment: moderatorManagerComment,
       editReportDrawings: editReportDrawings,
    };

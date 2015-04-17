@@ -7,8 +7,8 @@
 * This module is used when the user want to create a new report (used to catch the 
 creating form and to clear this form)
 */
-define(['jQuery','basic_data_and_functions','report_map','data_map_glue','informer','user','json_string','report','login'],
-      function($, basic_data_and_functions,report_map,data_map_glue,informer,user,json_string,report,login) {
+define(['jQuery','basic_data_and_functions','report_map','data_map_glue','informer','user','json_string','report','login','zone'],
+      function($, basic_data_and_functions,report_map,data_map_glue,informer,user,json_string,report,login,zone) {
    var messages_div = $('#add_new_report_form__message');
 
    var initial_designated_moderator_message = $('#add_new_report_form__get_designated_moderator_message').text();
@@ -38,7 +38,7 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
                $('#add_new_report_form__no_moderator_designated_message').text()
             );
          } else {
-            var entity_string = json_string.edit_place(desc_data.description, desc_data.lon,
+            var entity_string = json_string.newReport(desc_data.description, desc_data.lon,
                desc_data.lat, desc_data.lieu, desc_data.id, desc_data.couleur,
                desc_data.user_label, desc_data.email, desc_data.user_phonenumber,desc_data.category,
                report_map.getDrawnDetails('new_report'));
@@ -124,7 +124,7 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
                $(messages_div).addClass('errorMessage');
             } else {
                $(messages_div).text('Traitement en cours');
-               var entity_string = json_string.edit_place(desc_data.description, desc_data.lon,
+               var entity_string = json_string.newReport(desc_data.description, desc_data.lon,
                   desc_data.lat, desc_data.lieu, desc_data.id, desc_data.couleur,
                   desc_data.user_label, desc_data.email, desc_data.user_phonenumber,desc_data.category,
                   report_map.getDrawnDetails('new_report'));
@@ -177,8 +177,10 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
 
    function checkCoordinatesThen(desc_data, callback) {
       /**
-       * Check if the given lat / lang are valid (beeing in a zone moderated)
-       * and if it is the case execute a callback.
+       * Check if the given lat / lang are valid (beeing in a zone moderated or
+       * in the zone of the minisite (if selected)). If it is the case,
+       * a callback is executed
+       *
        * @param {array} desc_data The data entered in the form
        * @param {function} callback The callback to execute if the entered coordinates are valids
        * @return No return
@@ -186,8 +188,23 @@ define(['jQuery','basic_data_and_functions','report_map','data_map_glue','inform
       $.getJSON(
          Routing.generate('wikipedale_zone_view_covering_point', {lon: desc_data.lon, lat: desc_data.lat, _format: 'json'}),
          function (data) {
+            var error_message = null;
+            var selected_in_zone = false;
             if(data.results.length === 0) {
-               $(messages_div).text('Erreur! Le signalement introduit ne se trouve dans aucune zone gérée par l\'outil!');
+               error_message = 'Erreur! Le signalement introduit ne se trouve dans aucune zone gérée par l\'outil!';
+            } else if(zone.isSelectedMinisite()) {
+               $.each(data.results, function(i,z) {
+                  if(z.slug === zone.getSelected().slug) {
+                     selected_in_zone = true;
+                  }
+               });
+               if(!selected_in_zone) {
+                  error_message = 'Erreur! Le signalement introduit ne se trouve pas dans la zone gérée par le minisite';
+               }
+            }
+
+            if(error_message) {
+               $(messages_div).text(error_message);
                $(messages_div).addClass('errorMessage');
             } else {
                callback();

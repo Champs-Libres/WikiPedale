@@ -98,7 +98,7 @@ define(['jQuery','report_map','report','basic_data_and_functions','json_string',
       } else {
          if (new_lat !== null) {
             var signalement_id = parseInt($('#input_report_description_id').val()),
-               json_request = json_string.edit_place_position(signalement_id,new_lon,new_lat);
+               json_request = json_string.editReportPosition(signalement_id,new_lon,new_lat);
             $.ajax({
                type: 'POST',
                data: {entity: json_request},
@@ -159,21 +159,21 @@ define(['jQuery','report_map','report','basic_data_and_functions','json_string',
       } else {
          // SAVE THE FORM
          if(element_type === 'commentaireCeM') {
-            json_request = json_string.edit_moderator_comment(signalement_id,$(element_id + '_edit').val());
+            json_request = json_string.editModeratorComment(signalement_id,$(element_id + '_edit').val());
          } else if(element_type === 'desc') {
-            json_request = json_string.edit_description(signalement_id,$(element_id + '_edit').val());
+            json_request = json_string.editDescription(signalement_id,$(element_id + '_edit').val());
          } else if (element_type === 'loc') {
-            json_request = json_string.edit_location(signalement_id,$(element_id + '_edit').val());
+            json_request = json_string.editLocation(signalement_id,$(element_id + '_edit').val());
          } else if (element_type === 'cat') {
-            json_request = json_string.edit_category(signalement_id,$(element_id + '_edit').select2('val'));
+            json_request = json_string.editCategory(signalement_id,$(element_id + '_edit').select2('val'));
          } else if (element_type === 'status') {
-            json_request = json_string.edit_status(signalement_id,params.manager_color,$(element_id + '_edit').select2('val'));
+            json_request = json_string.editStatus(signalement_id,params.manager_color,$(element_id + '_edit').select2('val'));
          } else if (element_type === 'gestionnaire') {
-            json_request = json_string.edit_manager(signalement_id,$(element_id + '_edit').select2('val'));
+            json_request = json_string.editManager(signalement_id,$(element_id + '_edit').select2('val'));
          } else if (element_type === 'moderator') {
-            json_request = json_string.edit_moderator(signalement_id,$(element_id + '_edit').select2('val'));
+            json_request = json_string.editModerator(signalement_id,$(element_id + '_edit').select2('val'));
          } else if (element_type === 'type'){
-            json_request = json_string.edit_place_type(signalement_id,$(element_id + '_edit').select2('val'));
+            json_request = json_string.editReportType(signalement_id,$(element_id + '_edit').select2('val'));
          }
       
          $.ajax({

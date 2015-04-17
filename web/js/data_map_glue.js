@@ -175,7 +175,7 @@ define(
          * having its id in the private variable last_description_selected.
          * It is the last displayed description.
          */
-         var json_request = json_string.delete_place(last_description_selected);
+         var json_request = json_string.deleteReport(last_description_selected);
          var url_edit = Routing.generate('wikipedale_report_change', {_format: 'json'});
          $.ajax({
             type: 'POST',
