@@ -1,0 +1,14 @@
+{#
+Template for chosing the town.
+#}
+<h1>
+   <span style="color:#76b82a;">{{ 'accueil.accroche'|trans({}, 'messages') }}</span>
+</h1>
+
+<ul>
+   {% for city in mainCities %}
+      <li><a href="{{ path('wikipedale_zone_zoom_on', {'zoneSlug': city.slug})}}">{{city.name}}</a></li>
+   {% endfor %}
+</ul>
+
+{% include "ProgracqteurWikipedaleBundle:Main:welcome_logo.html.twig" %}
