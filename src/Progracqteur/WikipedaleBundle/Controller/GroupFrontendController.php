@@ -35,7 +35,7 @@ class GroupFrontendController extends Controller
 {
     /**
      * Return, in JSON, the groups for a given zone and for a given type
-     * of groupe (moderator, manager)
+     * of group (moderator, manager)
      * 
      * @param type $slugZone The slug of the zone
      * @param type $type The type of the group
@@ -49,10 +49,10 @@ class GroupFrontendController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $zoneA = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
+        $zone = $em->getRepository('ProgracqteurWikipedaleBundle:Management\Zone')
                 ->findOneBy(array('slug' => $slugZone));
         
-        if ($zoneA === null) {
+        if ($zone === null) {
             throw $this->createNotFoundException(
                 "The zone $slugZone does not match any zone");
         }
