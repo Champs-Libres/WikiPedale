@@ -117,9 +117,7 @@ define(
                   } else if (data.results.length === 0) {
                      selected_city_data = null;
                   }
-                  if(!selected_zone_p || selected_zone_p.type === 'minisite') {
-                     hideShowLateralContent();
-                  }
+                  hideShowLateralContent();
                })
             );
          });
