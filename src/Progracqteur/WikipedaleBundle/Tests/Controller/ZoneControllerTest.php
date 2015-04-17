@@ -31,16 +31,17 @@ use Progracqteur\WikipedaleBundle\Entity\Management\Group;
 class ZoneControllerTest extends WebTestCase
 {    
     /**
-     * Test if the getAll action (/zone/list.json) return a good number of zone.
+     * Test if the getAll action (/zone/get/all/moderated.json) return a good
+     * number of zone.
      * 
      * @param integer $zonesNumber The number of zone that must be returned by
-     * the getAll action (/zone/list.json).
+     * the getAll action (/zone/get/all/moderated.json).
      * @param String $message The message that explain the test expected number
      */
-    private function zoneListCheck($zonesNumber, $message)
+    private function zoneGetAllModeratedCheck($zonesNumber, $message)
     {
         $client = static::createClient();
-        $client->request('GET', '/zone/list.json');
+        $client->request('GET', '/zone/get/all/moderated.json');
         $jsonResponse = $client->getResponse()->getContent();
         
         $arrayResponse = json_decode($jsonResponse, true);
@@ -52,16 +53,16 @@ class ZoneControllerTest extends WebTestCase
     }
     
     /**
-     * Test the reponse of the getAll action (/zone/list.json)
+     * Test the reponse of the getAll action (/zone/get/all/moderated.json)
      * after loading fixtures.
      */
     public function testBasicGetAllAction()
     {
-        $this->zoneListCheck(3, "Mons, Mons-ring and Namur");
+        $this->zoneGetAllModeratedCheck(3, "Mons, Mons-ring and Namur");
     }
     
     /**
-     * Test the reponse of the getAll action (/zone/list.json)
+     * Test the reponse of the getAll action (/zone/get/all/moderated.json)
      * after adding a moderator group to a zone not moderated.
      */
     public function testAfterAddingAModeratorGroupGetAllAction()
@@ -81,11 +82,11 @@ class ZoneControllerTest extends WebTestCase
         
         $em->persist($charleroiModeratorGroup);
         $em->flush();
-        $this->zoneListCheck(4, "Mons, Mons-ring Namur and Charleroi");
+        $this->zoneGetAllModeratedCheck(4, "Mons, Mons-ring Namur and Charleroi");
         
         $em->remove($charleroiModeratorGroup);
         $em->flush();
-        $this->zoneListCheck(3, "Mons, Mons-ring and Namur");
+        $this->zoneGetAllModeratedCheck(3, "Mons, Mons-ring and Namur");
     }
     
     /**
