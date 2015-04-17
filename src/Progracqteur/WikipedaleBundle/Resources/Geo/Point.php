@@ -49,7 +49,7 @@ class Point
     {
         $a = json_decode($geojson);
         //check if the geojson string is correct
-        if ($a == null or !isset($a->type) or !isset($a->coordinates)){
+        if ($a == null || !isset($a->type) || !isset($a->coordinates)){
             throw PointException::badJsonString($geojson);
         }
         

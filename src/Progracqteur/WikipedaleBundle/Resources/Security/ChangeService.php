@@ -169,7 +169,7 @@ class ChangeService {
                      }
                      
                      if ($this->securityContext->isGranted(User::ROLE_DETAILS_LITTLE) 
-                             OR 
+                             ||
                              $this->securityContext->isGranted(User::ROLE_DETAILS_BIG))
                      {
                          continue;
@@ -183,7 +183,7 @@ class ChangeService {
                      }
                      
                      if ($this->securityContext->isGranted(User::ROLE_DETAILS_LITTLE) 
-                             OR 
+                             ||
                              $this->securityContext->isGranted(User::ROLE_DETAILS_BIG))
                      {
                          continue;
@@ -197,7 +197,7 @@ class ChangeService {
                      }
                      
                      if ($this->securityContext->isGranted(User::ROLE_DETAILS_LITTLE) 
-                             OR 
+                             || 
                              $this->securityContext->isGranted(User::ROLE_DETAILS_BIG))
                      {
                          continue;

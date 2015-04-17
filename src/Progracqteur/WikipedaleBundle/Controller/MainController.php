@@ -61,7 +61,7 @@ class MainController extends Controller
             $selectedReport = $em->getRepository('ProgracqteurWikipedaleBundle:Model\Report')
                 ->find($selectedReportId);
             
-            if ($selectedReport === null OR  !$selectedReport->isAccepted()) {
+            if ($selectedReport === null ||  !$selectedReport->isAccepted()) {
                 throw $this->createNotFoundException('errors.404.report.not_found');
             }
             

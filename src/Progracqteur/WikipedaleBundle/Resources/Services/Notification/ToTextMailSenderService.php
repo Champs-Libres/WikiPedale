@@ -9,7 +9,6 @@ use Progracqteur\WikipedaleBundle\Entity\Model\Report;
 use Progracqteur\WikipedaleBundle\Resources\Security\ChangeService;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\RouterInterface;
-use Progracqteur\WikipedaleBundle\Entity\Management\Notification\PendingNotification;
 
 /**
  * A service which transform a Notification to a text
@@ -360,7 +359,7 @@ class ToTextMailSenderService {
          $ownerGroups = $owner->getGroups();
          $ownerGroupsId =  $ownerGroups->map(function ($uG) { return $uG->getId(); });
          $report = $currentNotification->getreportTracking()->getReport();
-         if ($report->getManager() !== NULL and $ownerGroupsId->contains($report->getManager()->getId())) {
+         if ($report->getManager() !== NULL && $ownerGroupsId->contains($report->getManager()->getId())) {
             $t .= $this->t->trans(
                'mail.comment.add_with_apikey', 
                array(

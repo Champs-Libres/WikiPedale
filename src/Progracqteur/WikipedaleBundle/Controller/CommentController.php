@@ -45,6 +45,7 @@ class CommentController extends Controller
     
    /**
     * Returns the comments for a given report
+    * 
     * @param string $_format The format of the output (actually only 'json')
     * @param integer $reportId The id of the report
     * @param integer $limit The max comment returned by the request (if null this value is self::MAX_COMMENTS_BY_REQUEST)
@@ -57,7 +58,7 @@ class CommentController extends Controller
 
       $report = $em->getRepository("ProgracqteurWikipedaleBundle:Model\\Report")->find($reportId);
 
-      if ($report === null OR $report->isAccepted() === false) { //TODO: i18n
+      if ($report === null || $report->isAccepted() === false) { //TODO: i18n
          throw $this->createNotFoundException("Le signalement $reportId n'a pas été trouvée");
       }
 

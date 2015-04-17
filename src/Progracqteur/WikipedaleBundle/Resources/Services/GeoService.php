@@ -97,9 +97,9 @@ class GeoService {
      */
     public function pointGeoJSONArray($array)
     {
-        if ($array == null or !array_key_exists('type', $array)
-            or !array_key_exists('coordinates', $array)
-            or $array['type'] != "Point"){
+        if ($array == null || !array_key_exists('type', $array)
+            || !array_key_exists('coordinates', $array)
+            || $array['type'] != "Point"){
             throw new Exception('Bad GeoJSON for point : ' . $array);
         } else {
             return new Point($array['coordinates']);
