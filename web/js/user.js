@@ -70,7 +70,6 @@ define(['jQuery','params'], function($,params) {
       /**
       * True if the user can modify the moderator of a report
       */
-      console.log(u.roles);
       return (typeof u.roles !== 'undefined') && $.inArray('ROLE_MODERATOR_ALTER', u.roles) !== -1;
    }
 
