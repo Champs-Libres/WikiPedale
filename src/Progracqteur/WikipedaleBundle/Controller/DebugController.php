@@ -37,7 +37,7 @@ use Progracqteur\WikipedaleBundle\Resources\Container\NormalizedResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Ce controller est uniquement prévu pour le débogage de l'application
+ * Ce controller est uniquement prévu pour le débogetgage de l'application
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
@@ -207,7 +207,7 @@ class DebugController extends Controller {
 
     private $z = array(6);
 
-    public function createId() {
+    private function createId() {
   
         $s = '';
         $d = array_rand($this->z);
