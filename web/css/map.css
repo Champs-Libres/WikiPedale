@@ -28,29 +28,6 @@
    padding-right: 5px;
 }
 
-#logos_partenaires {
-   position:absolute;
-   left:5px;
-   bottom:5px;
-   z-index:1000;
-}
-
-#managed_by {
-   display: none;
-}
-
-#logos_partenaires div {
-   margin-right: 5px;
-   float: left;
-   text-align:center;
-   background-color:#FFF;
-   color: #808080;
-}
-
-#logos_partenaires img {
-   height: 50px;
-}
-
 /**** Panel haut-gauche ****/
 #olPanelUL {
    display:block;
@@ -81,4 +58,11 @@ div#OpenLayers.Control.Attribution_7 {
 #div_edit_report__draw {
    margin-top: 20px;
    margin-bottom: 20px;
+}
+
+img.zone_support {
+   height: 50px;
+   padding-left: 2px;
+   padding-right: 2px;
+   vertical-align: middle;
 }
