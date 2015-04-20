@@ -84,8 +84,8 @@ p.PointTitle .span_id {
    text-transform: uppercase;
 }
 
-/* Town presentation */
-#div__town_presentation {
+/* Zone presentation */
+.zone_presentation {
    color: #FFF;
    background-color: #76B82A;
    -webkit-border-radius: 30px 0px 0px 0px;
@@ -95,7 +95,7 @@ p.PointTitle .span_id {
    min-height: 18.5em;
 }
 
-#div__town_presentation .title-container {
+.zone_presentation .title-container {
    height: 60px;
    position: relative;
    background-image: url(../img/town_presentation/left.png);
@@ -103,7 +103,7 @@ p.PointTitle .span_id {
    background-origin: content-box, content-box;
 }
 
-#div__town_presentation .title-container .bg-line {
+.zone_presentation .title-container .bg-line {
    background : url(../img/town_presentation/right.png);
    background-repeat: repeat-x;
    position: absolute;
@@ -113,7 +113,7 @@ p.PointTitle .span_id {
    height: 60px;
 }
 
-#div__town_presentation .title-container .title {
+.zone_presentation .title-container .title {
    padding-right: 0.5em;
    height: 40px;
    text-align: right;
@@ -127,7 +127,7 @@ p.PointTitle .span_id {
    right: 0px
 }
 
-#div__town_presentation .content {
+.zone_presentation .content {
    padding-left: 1.5em;
    padding-right: 1.5em;
    padding-bottom: 0.3em;
@@ -163,7 +163,7 @@ p.PointTitle .span_id {
    padding-right: 3%;
 }
 
-#div__add_new_description, #div__filter_and_export, #div__report_description_display, #div__latest_modifications, #div__town_presentation, #div__town_choice {
+#div__add_new_description, #div__filter_and_export, #div__report_description_display, #div__latest_modifications, #div__zone_presentation, #div__zone_presentation_container, #div__town_choice {
    display: none;
 }
 

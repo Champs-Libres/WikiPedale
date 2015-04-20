@@ -11,11 +11,11 @@
 define(
    [
       'jQuery', 'report_map', 'report', 'report_display', 'user', 'informer', 'json_string',
-      'markers_filtering', 'ol', 'recent_activities', 'zone'
+      'markers_filtering', 'ol', 'recent_activities', 'zone', 'zone_presentation'
    ],
    function(
       $, report_map, report, report_display, user, informer, json_string,
-      markers_filtering, ol, recent_activities, zone
+      markers_filtering, ol, recent_activities, zone, zone_presentation
    ) {
       var last_description_selected = null;
       var add_new_place_mode = false; // true when the user is in a mode for adding new place
@@ -54,7 +54,14 @@ define(
             for (var i = 0; i < zones_array.length; i++) {
                report_map.addZone(zones_array[i]);
             }
+
+            report_map.getZonesInExtent(function(zones_in_extent) {
+               zone.updateZonesInExtent(zones_in_extent);
+               //hideShowLateralContent();
+            });
          });
+
+         zone_presentation.init();
 
          if(selected_zone_p && selected_zone_p.type === 'minisite') {
             $('#div__minisite_message').show();
@@ -92,25 +99,8 @@ define(
          report_map.addClickReportEvent(focusOnReport);
 
          report_map.addMapMoveEndEvent('zone_covering_map_center',function() {
-            report_map.getZonesInExtent(function(zones) {
-               if(zones.length > 0  && ((!selected_city_data) || selected_city_data.slug != zones[0].slug)) {
-                  selected_city_data = zones[0];
-                  recent_activities.filling(selected_city_data.slug,5);
-                  $('#lastest_modifications_rss_link').attr('href',
-                     Routing.generate('wikipedale_history_report_by_city', {_format: 'atom', citySlugP: selected_city_data.slug}));
-                  $('#div__town_presentation .title').text(selected_city_data.name.toUpperCase());
-                  $('#div__town_presentation .content').html(selected_city_data.description);
-                  $('#csv_export_link_town').attr('href',
-                     Routing.generate('wikipedale_report_list_by_zone',
-                        {zone_slug: selected_city_data.slug, _format: 'csv'}));
-                  $('#csv_export_link_town').text(selected_city_data.name + ' CSV');
-                  $('#html_export_link_town').attr('href',
-                     Routing.generate('wikipedale_report_list_by_zone',
-                        {zone_slug: selected_city_data.slug, _format: 'html'}));
-                  $('#html_export_link_town').text('Impression de ' + selected_city_data.name);
-               } else if (zones.length === 0) {
-                  selected_city_data = null;
-               }
+            report_map.getZonesInExtent(function(zones_in_extent) {
+               zone.updateZonesInExtent(zones_in_extent);
                hideShowLateralContent();
             });
          });
@@ -131,20 +121,19 @@ define(
 
             $('#div__add_new_description').show();
             $('#div__filter_and_export').show();
+            $('#div__zone_presentation_container').show();
             $('#div__town_choice').hide();
             if(selected_city_data) {
                $('#div__latest_modifications').show();
-               $('#div__town_presentation').show();
             } else {
                $('#div__latest_modifications').hide();
-               $('#div__town_presentation').hide();
             }
          } else {
             $('#div__add_new_description').hide();
             $('#div__filter_and_export').hide();
             $('#div__report_description_display').hide();
             $('#div__latest_modifications').hide();
-            $('#div__town_presentation').hide();
+            $('#div__zone_presentation_container').hide();
             $('#div__town_choice').show();
          }
       }

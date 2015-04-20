@@ -25,7 +25,7 @@ define(['jQuery','report_map','user','report','photo','params','report_edit','co
       $('#div__add_new_description').show();
       $('#div__filter_and_export').show();
       $('#div__latest_modifications').show();
-      $('#div__town_presentation').show();
+      $('#div__zone_presentation').show();
       $('#div_last_private_comment_container').show();
       $('#span_plus_de_commenaitres_link').show();
       $('#div_list_private_comment_container').hide();
@@ -47,7 +47,7 @@ define(['jQuery','report_map','user','report','photo','params','report_edit','co
       $('#div__add_new_description').hide();
       $('#div__filter_and_export').hide();
       $('#div__latest_modifications').hide();
-      $('#div__town_presentation').hide();
+      $('#div__zone_presentation').hide();
       $('#div_last_private_comment_container').hide();
       $('#span_plus_de_commenaitres_link').hide();
       $('#div_list_private_comment_container').show();

@@ -7,18 +7,19 @@
 * Dealing with the zones :
 * - storage in JS
 */
-
 define(['jQuery'], function($) {
    var new_report_zones = [];
    var selected_zone;
+   var update_zones_in_extent_cb = [];
+   var zones = {}; // the know zones
 
-    /**
-     * Initialize the zone module. If a zone is selected it only load this
-     * zones, otherwise it loads all the zones.
-     * @param {zone object | null} selected_zone The selected zone (an object with id, slug, type attribyte) or null
-     * @param{function} A callback to throw when the zones are loaded. The zones are
-     * an array of zones (with only one element when a zone is selected)
-     */
+   /**
+    * Initialize the zone module. If a zone is selected it only load this
+    * zones, otherwise it loads all the zones.
+    * @param {zone object | null} selected_zone The selected zone (an object with id, slug, type attribyte) or null
+    * @param{function} A callback to throw when the zones are loaded. The zones are
+    * an array of zones (with only one element when a zone is selected)
+    */
    function init(selected_zone_p, callback) {
       var url;
       selected_zone = selected_zone_p;
@@ -31,9 +32,44 @@ define(['jQuery'], function($) {
       }
       $.get(url, function(data) {
          if(! data.query.error) {
+            $.each(data.results, function(i,z) {
+               zones[z.slug] = z;
+            });
             callback(data.results);
          }
       });
+   }
+
+      /**
+    * To signal that the zones in the map extent have changed.
+    *
+    * @param{array of zones} zones_in_extent The zones in the extent
+    */
+   function updateZonesInExtent(zones_in_extent) {
+      $.each(zones, function(slug, z) {
+         z.in_extent = false;
+         console.log(z);
+      });
+
+      $.each(zones_in_extent, function(i, z) {
+         zones[z.slug].in_extent = true;
+      });
+
+      $.each(update_zones_in_extent_cb, function(i, cb) {
+         cb(zones);
+      });
+   }
+
+   /**
+    * Adding a new callback to trigger when the zones in the map extent
+    * have changed
+    *
+    * @param{function : array of zones -> void} callback The callback. It is
+    * a function that taking as argument the array of all the known zones. A
+    * zone in the extent has its propertiy 'in_extent' at true.
+    */
+   function addUpdateZonesInExtentCallback(callback) {
+      update_zones_in_extent_cb.push(callback);
    }
 
    /**
@@ -112,6 +148,8 @@ define(['jQuery'], function($) {
 
    return {
       init: init,
+      updateZonesInExtent: updateZonesInExtent,
+      addUpdateZonesInExtentCallback: addUpdateZonesInExtentCallback,
       updateNewReportModeratedZonesList: updateNewReportModeratedZonesList,
       highlightSelectedZone: highlightSelectedZone,
       getSelected: getSelected,
