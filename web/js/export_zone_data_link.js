@@ -53,7 +53,7 @@ define(['jQuery', 'zone'], function($, zone) {
       $('#export_zone_data_link_span').append(
          '<a href="'+url(zone.ezdl_link_constraint_csv)+'" target="_blank">' + zone.name + ' CSV</a> ');
       $('#export_zone_data_link_span').append(
-         '<a href="'+url(zone.ezdl_link_constraint_csv)+'" target="_blank">Impression de ' + zone.name + '</a> ');
+         '<a href="'+url(zone.ezdl_link_constraint_impress)+'" target="_blank">Impression de ' + zone.name + '</a> ');
    }
 
    return {
