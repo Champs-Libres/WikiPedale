@@ -1,6 +1,6 @@
 /* jslint vars: true */
 /*jslint indent: 3 */
-/* global define */
+/* global define, Routing */
 'use strict';
 
 /**
@@ -32,7 +32,7 @@ define(['jQuery'], function($) {
             });
 
             if(callback) {
-              callback();
+               callback();
             }
          }
       });
