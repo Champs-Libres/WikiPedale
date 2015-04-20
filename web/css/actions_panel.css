@@ -74,8 +74,8 @@ p.PointTitle .span_id {
    solid #2D2D2D;
 }
 
-/* #actions_panel - Dernière modifs */
-#div_title_dernieres_modifs, #div_export_data {
+/* recent activities */
+#div__recent_activities_container .title,  #div__recent_activities_container .zone-title {
    margin: 1em 0.5em 0 0.5em;
    padding : 0.2em 0.5em 0.2em 35px;
    border: 1px solid transparent;
@@ -163,7 +163,7 @@ p.PointTitle .span_id {
    padding-right: 3%;
 }
 
-#div__add_new_description, #div__filter_and_export, #div__report_description_display, #div__latest_modifications, #div__zone_presentation, #div__zone_presentation_container, #div__town_choice {
+#div__add_new_description, #div__filter_and_export, #div__report_description_display, #div__latest_modifications, #div__zone_presentation, #div__zone_presentation_container, #div__town_choice, #div__recent_activities_template, #div__recent_activities_container {
    display: none;
 }
 

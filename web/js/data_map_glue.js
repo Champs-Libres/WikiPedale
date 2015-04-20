@@ -19,7 +19,6 @@ define(
    ) {
       var last_description_selected = null;
       var add_new_place_mode = false; // true when the user is in a mode for adding new place
-      var selected_city_data = null;
       var selected_zone = null;
       var current_map_zoom_lvl;
 
@@ -62,6 +61,7 @@ define(
          });
 
          zone_presentation.init();
+         recent_activities.init();
 
          if(selected_zone_p && selected_zone_p.type === 'minisite') {
             $('#div__minisite_message').show();
@@ -123,17 +123,15 @@ define(
             $('#div__filter_and_export').show();
             $('#div__zone_presentation_container').show();
             $('#div__town_choice').hide();
-            if(selected_city_data) {
-               $('#div__latest_modifications').show();
-            } else {
-               $('#div__latest_modifications').hide();
-            }
+            $('#div__latest_modifications').show();
+            $('#div__recent_activities_container').show();
          } else {
             $('#div__add_new_description').hide();
             $('#div__filter_and_export').hide();
             $('#div__report_description_display').hide();
             $('#div__latest_modifications').hide();
             $('#div__zone_presentation_container').hide();
+            $('#div__recent_activities_container').hide();
             $('#div__town_choice').show();
          }
       }

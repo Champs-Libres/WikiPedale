@@ -33,7 +33,7 @@
            <name>{{track.author.label}}</name>
        </author>
        {% endif %}
-       <georss:point>{{ track.report.geom.lat }} {{track.report.geom.lon}}</georss:point>
+       <georss:point>{{ track.report.geom.latitude }} {{track.report.geom.longitude}}</georss:point>
        <content type="html">{{ toTextService.toText(track)}}</content>
      </entry>
     {% endfor %}
