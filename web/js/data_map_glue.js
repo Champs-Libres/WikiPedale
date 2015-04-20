@@ -11,11 +11,11 @@
 define(
    [
       'jQuery', 'report_map', 'report', 'report_display', 'user', 'informer', 'json_string',
-      'markers_filtering', 'ol', 'recent_activities', 'zone', 'zone_presentation'
+      'markers_filtering', 'ol', 'recent_activities', 'zone', 'zone_presentation', 'export_zone_data_link'
    ],
    function(
       $, report_map, report, report_display, user, informer, json_string,
-      markers_filtering, ol, recent_activities, zone, zone_presentation
+      markers_filtering, ol, recent_activities, zone, zone_presentation, export_zone_data_link
    ) {
       var last_description_selected = null;
       var add_new_place_mode = false; // true when the user is in a mode for adding new place
@@ -62,6 +62,7 @@ define(
 
          zone_presentation.init();
          recent_activities.init();
+         export_zone_data_link.init();
 
          if(selected_zone_p && selected_zone_p.type === 'minisite') {
             $('#div__minisite_message').show();

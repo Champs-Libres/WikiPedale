@@ -3,7 +3,7 @@
     <div class="report-map" id="map_{{ report.id }}"></div>
     
     <script type="text/javascript">
-            reportPrintable.launchMap('map_{{ report.id }}', {{ report.geom.lon }}, {{ report.geom.lat }}, {{ report.statuses[0].value }});
+            reportPrintable.launchMap('map_{{ report.id }}', {{ report.geom.longitude }}, {{ report.geom.latitude }}, {{ report.statuses[0].value }});
     </script>
     
     <div class="infos">

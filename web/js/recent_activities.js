@@ -27,7 +27,6 @@ define(['jQuery', 'zone'], function($, zone) {
     * must have its element 'in_extent' at true.
     */
    function displayRecentActivitesCB(zones) {
-      console.log(zones);
       $.each(zones, function(slug,z) {
          if(!('ra_div' in z)) {
             createRecentActivitesFor(z, function() {
@@ -71,7 +70,7 @@ define(['jQuery', 'zone'], function($, zone) {
                   zone.ra_div.append('<br>');
                });
             } else {
-               zone.ra_div.append('Pas de modifications.');  
+               zone.ra_div.append('Pas de modifications.');
             }
             if(callback) {
                callback();
