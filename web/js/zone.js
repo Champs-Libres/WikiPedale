@@ -57,10 +57,11 @@ define(['jQuery'], function($) {
    }
 
    /**
-    * Update the moderated zones list that are in the actual extent.
+    * Update the moderated zones list that is displayed in 
+    * the div #div_add_new_description__moderated_zones_list
     * @param{array(zones)} The list of zones that are in the extent
     */
-   function updateModeratedZonesListForExtent(zones) {
+   function updateNewReportModeratedZonesList(zones) {
       var div_zones_list_id = '#div_add_new_description__moderated_zones_list';
 
       $(div_zones_list_id).html('');
@@ -111,7 +112,7 @@ define(['jQuery'], function($) {
 
    return {
       init: init,
-      updateModeratedZonesListForExtent: updateModeratedZonesListForExtent,
+      updateNewReportModeratedZonesList: updateNewReportModeratedZonesList,
       highlightSelectedZone: highlightSelectedZone,
       getSelected: getSelected,
       isSelectedMinisite: isSelectedMinisite

@@ -250,7 +250,12 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user', 'zon
       });
    }
 
-   function updateZonesInExtent() {
+   /**
+    * Get the zones that fit in the map extent and execute a callback the zones
+    * 
+    * @param {function : {array of zones} -> void} Callback
+    */
+   function getZonesInExtent(callback) {
       var extent = map.getView().calculateExtent(map.getSize());
       var zones = [];
 
@@ -258,9 +263,9 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user', 'zon
          zones.push(feature.zone);
       });
 
-      zone.updateModeratedZonesListForExtent(zones);
+      callback(zones);
    }
-
+   
    function loadReportsToDisplay(callbackWhenReportsIsLoaded) {
       /**
        * Load the reports that must be displayed.
@@ -978,6 +983,6 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user', 'zon
       displayDrawnGeojsonMarker: displayDrawnGeojsonMarker,
       eraseDrawnGeojsonMarker: eraseDrawnGeojsonMarker,
       addZone: addZone,
-      updateZonesInExtent: updateZonesInExtent,
+      getZonesInExtent: getZonesInExtent,
    };
 });

@@ -91,33 +91,28 @@ define(
          
          report_map.addClickReportEvent(focusOnReport);
 
-         report_map.addMapMoveEndEvent('zone_covering_map_center',function(evt) {
-            var center = ol.proj.transform(evt.map.getView().getCenter(),'EPSG:3857', 'EPSG:4326');
-            var jsonUrlData = Routing.generate('wikipedale_zone_view_covering_point', {_format: 'json', lon: center[0], lat: center[1]});
-
-            $.when(
-               $.getJSON(jsonUrlData, function(data) {
-                  if(data.results.length > 0  && ((!selected_city_data) || selected_city_data.slug != data.results[0].slug)) {
-                     selected_city_data = data.results[0];
-                     recent_activities.filling(selected_city_data.slug,5);
-                     $('#lastest_modifications_rss_link').attr('href',
-                        Routing.generate('wikipedale_history_report_by_city', {_format: 'atom', citySlugP: selected_city_data.slug}));
-                     $('#div__town_presentation .title').text(selected_city_data.name.toUpperCase());
-                     $('#div__town_presentation .content').html(selected_city_data.description);
-                     $('#csv_export_link_town').attr('href',
-                        Routing.generate('wikipedale_report_list_by_zone',
-                           {zone_slug: selected_city_data.slug, _format: 'csv'}));
-                     $('#csv_export_link_town').text(selected_city_data.name + ' CSV');
-                     $('#html_export_link_town').attr('href',
-                        Routing.generate('wikipedale_report_list_by_zone',
-                           {zone_slug: selected_city_data.slug, _format: 'html'}));
-                     $('#html_export_link_town').text('Impression de ' + selected_city_data.name);
-                  } else if (data.results.length === 0) {
-                     selected_city_data = null;
-                  }
-                  hideShowLateralContent();
-               })
-            );
+         report_map.addMapMoveEndEvent('zone_covering_map_center',function() {
+            report_map.getZonesInExtent(function(zones) {
+               if(zones.length > 0  && ((!selected_city_data) || selected_city_data.slug != zones[0].slug)) {
+                  selected_city_data = zones[0];
+                  recent_activities.filling(selected_city_data.slug,5);
+                  $('#lastest_modifications_rss_link').attr('href',
+                     Routing.generate('wikipedale_history_report_by_city', {_format: 'atom', citySlugP: selected_city_data.slug}));
+                  $('#div__town_presentation .title').text(selected_city_data.name.toUpperCase());
+                  $('#div__town_presentation .content').html(selected_city_data.description);
+                  $('#csv_export_link_town').attr('href',
+                     Routing.generate('wikipedale_report_list_by_zone',
+                        {zone_slug: selected_city_data.slug, _format: 'csv'}));
+                  $('#csv_export_link_town').text(selected_city_data.name + ' CSV');
+                  $('#html_export_link_town').attr('href',
+                     Routing.generate('wikipedale_report_list_by_zone',
+                        {zone_slug: selected_city_data.slug, _format: 'html'}));
+                  $('#html_export_link_town').text('Impression de ' + selected_city_data.name);
+               } else if (zones.length === 0) {
+                  selected_city_data = null;
+               }
+               hideShowLateralContent();
+            });
          });
       }
 
@@ -201,8 +196,15 @@ define(
 
             // Zones
             report_map.displayLayer('zones');
-            report_map.updateZonesInExtent();
-            report_map.addMapMoveEndEvent('add_new_place_zone_list',report_map.updateZonesInExtent);
+            report_map.getZonesInExtent(function(zones) {
+               zone.updateNewReportModeratedZonesList(zones);
+            });
+            report_map.addMapMoveEndEvent('add_new_place_zone_list',
+               function() {
+                  report_map.getZonesInExtent(function(zones) {
+                     zone.updateNewReportModeratedZonesList(zones);
+                  });
+               });
 
             report_map.showDrawnFeaturesOverlay();
 
