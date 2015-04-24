@@ -134,6 +134,10 @@ p.PointTitle .span_id {
    text-align: justify;
 }
 
+.zone_presentation a {
+   color: #fff;
+}
+
 #div__minisite_message {
    background-color: #76b82a;
    color: #ffffff;
