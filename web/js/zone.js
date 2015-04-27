@@ -48,7 +48,6 @@ define(['jQuery'], function($) {
    function updateZonesInExtent(zones_in_extent) {
       $.each(zones, function(slug, z) {
          z.in_extent = false;
-         console.log(z);
       });
 
       $.each(zones_in_extent, function(i, z) {
