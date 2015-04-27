@@ -106,6 +106,7 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user', 'zon
        * @return nothing
        */
       var voies_lentes_layer, voies_lentes_visible;
+      var r1000bornes = {};
       var lightReportGeoJSONUrl =  Routing.generate('wikipedale_light_list', {_format: 'json'});
       evtFctWhenNewReports = evtFctWhenNewReportsInit;
 
@@ -115,6 +116,53 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user', 'zon
             params: {'LAYERS': '0', 'TILED': true},
             projection: 'EPSG:3857'
          }))
+      });
+
+      r1000bornes.points_noeuds_layer = new ol.layer.Vector({
+         maxResolution: 175,
+         source: new ol.source.GeoJSON({
+            url: 'data/1000bornes_points_noeuds.geojson',
+            projection: 'EPSG:3857'
+         }),
+         style: function(feature) {
+            return [new ol.style.Style({
+               image: new ol.style.Circle({
+                  radius: 10,
+                  stroke: new ol.style.Stroke({
+                     color: '#89013a',
+                     with: 2
+                  }),
+                  fill: new ol.style.Fill({
+                     color: '#fff'
+                  })
+               }),
+               text: new ol.style.Text({
+                  text: (feature.get('id')).toString(),
+                  fill: new ol.style.Fill({
+                     color: '#89013a'
+                  })
+               })
+            })];
+         }
+      });
+
+      r1000bornes.reseau_layer = new ol.layer.Vector({
+         source: new ol.source.GeoJSON({
+            url: 'data/1000bornes_reseau.geojson',
+            projection: 'EPSG:3857'
+         }),
+         style: new ol.style.Style({
+            fill: new ol.style.Fill({
+               color: 'rgba(1, 137, 80, 0.5)'
+            })
+         })
+      });
+
+      layers.r1000bornes = new ol.layer.Group({
+         layers: [
+            r1000bornes.reseau_layer,
+            r1000bornes.points_noeuds_layer
+         ]
       });
 
       marker_source = new ol.source.Vector({
@@ -144,7 +192,8 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user', 'zon
             new ol.layer.Tile({
                source: new ol.source.OSM({})
             }),
-            voies_lentes_layer
+            voies_lentes_layer,
+            layers.r1000bornes
          ],
          view: new ol.View({
             center: ol.proj.transform([parseFloat(map_center_lon), parseFloat(map_center_lat)], 'EPSG:4326', 'EPSG:3857'),
@@ -152,9 +201,14 @@ define(['jQuery','basic_data_and_functions','report','ol','params', 'user', 'zon
          })
       });
 
+      layers.r1000bornes.uello_displayed = true;
+
       // Adding layer for 'voie lentes'
       voies_lentes_visible = new ol.dom.Input(document.getElementById('voies_lentes_visible'));
       voies_lentes_visible.bindTo('checked', voies_lentes_layer, 'visible');
+
+      r1000bornes.visible = new ol.dom.Input(document.getElementById('r1000bornes_visible'));
+      r1000bornes.visible.bindTo('checked', layers.r1000bornes , 'visible');
 
       // Adding layer for 'report cluster'
       cluster_source = new ol.source.Cluster({
