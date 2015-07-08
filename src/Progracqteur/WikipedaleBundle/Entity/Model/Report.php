@@ -493,6 +493,25 @@ class Report implements ChangeableInterface, NotifyPropertyChanged
       return $this->proxyStatuses;
    }
 
+
+   /**
+    * return the status for a given type
+    *
+    * @param String $type the type of the resquested status
+    * @param mixed $notFoundValue A value to return if the status is not founded
+    * @return integer | mixed
+    */
+   public function getStatusByType($type, $notFoundValue)
+   {
+      foreach ($this->getStatuses() as $status) {
+         if($status->getType() == $type) {
+            return intval($status->getValue());
+         }
+      }
+
+      return $notFoundValue;
+   }
+
    /**
    * Add a new status to the class, and retrieve old status 
    * with same type.
