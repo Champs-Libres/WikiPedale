@@ -31,6 +31,7 @@ use Doctrine\ORM\Query\ResultSetMapping;
  * needed.
  *
  * @author Julien Fastré <julien arobase fastre point info>
+ * @author Marc Ducobu <marc @ champs-libres dot coop>
  */
 class GeoService {
     
@@ -87,11 +88,11 @@ class GeoService {
     {
         $rsm = new ResultSetMapping;
         $rsm->addScalarResult('covered', 'covered', 'boolean');
+        $pointString = 'POINT('.$point.')';
+        $polygonString = 'POLYGON('.$polygon.')';
         
-        $r = $this->em->createNativeQuery('SELECT ST_COVERS(:polygon, ST_GeographyFromText(:point)) as covered;', $rsm)
-                ->setParameter('polygon', $polygon)
-                ->setParameter('point', $point->toWKT())
-                ->getSingleScalarResult();
+        $r = $this->em->createNativeQuery('SELECT ST_COVERS(\''.$polygonString.'\', \''.$pointString.'\') as covered;', $rsm)
+            ->getSingleScalarResult();
         
         return $r;
     }
