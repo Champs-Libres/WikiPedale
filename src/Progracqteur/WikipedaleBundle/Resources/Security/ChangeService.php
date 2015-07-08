@@ -124,31 +124,21 @@ class ChangeService {
         {
             if ($object instanceof Report) {
                 // si l'utilisateur est authentifié, il ne peut créer un objet pour un autre
-                if ( $author->isRegistered())
-                {
-                    if ( $object->getCreator()->equals($author))
-                    {
-                        //ok
-                    } else 
-                    {
+                if ( $author->isRegistered()) {
+                    if (! $object->getCreator()->equals($author)) {
                         throw ChangeException::mayNotCreateEntityForAnotherUser(10);
                     }
                 } else { //si l'utilisateur n'est pas enregistré, alors il ne peut 
                     //pas créer d'objet pour un utilisateur enregistré
-                    if ( $object->getCreator()->isRegistered() === true )
-                    {
+                    if ( $object->getCreator()->isRegistered() === true ) {
                         throw ChangeException::mayNotCreateEntityForAnotherUser(100);
-                    } else {
-                        //ok
                     }
                 }
-            } 
+            }
         }
         
-        foreach ($object->getChangeset() as $change)
-        {
-            switch ($change->getType())
-            {
+        foreach ($object->getChangeset() as $change) {
+            switch ($change->getType()) {
                 //pour les objets Report
                 //case self::REPORT_ADD_COMMENT : 
                 case self::REPORT_DRAWINGS:
@@ -168,104 +158,88 @@ class ChangeService {
                 case self::REPORT_COMMENT_MODERATOR_MANAGER_ADD:
                     continue; //checked by the controller CommentController
                     break;
-                 case self::REPORT_ACCEPTED:
-                     if ($object->getChangeset()->isCreation()) {
-                         //must be accepted except if the user is not registered
-                         continue;
-                     }
-                     if ($this->securityContext->isGranted(User::ROLE_PUBLISHED))
-                     {
-                         continue;
-                     } else {
-                         throw ChangeException::param('accepted');
-                     }
-                 case self::REPORT_ADDRESS : 
-                     //allowed on creation
-                     if ($object->getChangeset()->isCreation()) {
-                         continue;
-                     }
+                case self::REPORT_ACCEPTED:
+                    if ($object->getChangeset()->isCreation()) {
+                        //must be accepted except if the user is not registered
+                        continue;
+                    }
                      
-                     if ($this->securityContext->isGranted(User::ROLE_DETAILS_LITTLE) 
-                             ||
-                             $this->securityContext->isGranted(User::ROLE_DETAILS_BIG))
-                     {
-                         continue;
-                     } else {
-                         throw ChangeException::param('address');
-                     }
-                 case self::REPORT_DESCRIPTION :
-                     //allowed on creation
-                     if ($object->getChangeset()->isCreation()) {
-                         continue;
-                     }
+                    if ($this->securityContext->isGranted(User::ROLE_PUBLISHED)) {
+                        continue;
+                    } else {
+                        throw ChangeException::param('accepted');
+                    }
+                case self::REPORT_ADDRESS : 
+                    //allowed on creation
+                    if ($object->getChangeset()->isCreation()) {
+                        continue;
+                    }
                      
-                     if ($this->securityContext->isGranted(User::ROLE_DETAILS_LITTLE) 
-                             ||
-                             $this->securityContext->isGranted(User::ROLE_DETAILS_BIG))
-                     {
-                         continue;
-                     } else {
-                         throw ChangeException::param('description');
-                     }
-                 case self::REPORT_GEOM:
-                     //allowed on creation
-                     if ($object->getChangeset()->isCreation()) {
-                         continue;
-                     }
+                    if ($this->securityContext->isGranted(User::ROLE_DETAILS_LITTLE) 
+                        || $this->securityContext->isGranted(User::ROLE_DETAILS_BIG)) {
+                        continue;
+                    } else {
+                        throw ChangeException::param('address');
+                    }
+                case self::REPORT_DESCRIPTION :
+                    //allowed on creation
+                    if ($object->getChangeset()->isCreation()) {
+                        continue;
+                    }
                      
-                     if ($this->securityContext->isGranted(User::ROLE_DETAILS_LITTLE) 
-                             || 
-                             $this->securityContext->isGranted(User::ROLE_DETAILS_BIG))
-                     {
-                         continue;
-                     } else {
-                         throw ChangeException::param('geom');
-                     }
-                 case self::REPORT_STATUS:
+                    if ($this->securityContext->isGranted(User::ROLE_DETAILS_LITTLE) 
+                        || $this->securityContext->isGranted(User::ROLE_DETAILS_BIG)) {
+                        continue;
+                    } else {
+                        throw ChangeException::param('description');
+                    }
+                case self::REPORT_GEOM:
+                    //allowed on creation
+                    if ($object->getChangeset()->isCreation()) {
+                        continue;
+                    }
                      
+                    if ($this->securityContext->isGranted(User::ROLE_DETAILS_LITTLE) 
+                        || $this->securityContext->isGranted(User::ROLE_DETAILS_BIG)) {
+                        continue;
+                    } else {
+                        throw ChangeException::param('geom');
+                    }
+                case self::REPORT_STATUS:                     
+                    if (!($object instanceof Report)) {
+                        throw new \Exception('Unexpected object : expecting Report, receiving '
+                            .get_class($object));
+                    }
                      
-                     if (!($object instanceof Report))
-                     {
-                         throw new \Exception('Unexpected object : expecting Report, receiving '
-                                 .get_class($object));
-                     }
+                    $groups = $this->securityContext->getToken()->getUser()->getGroups();
+                    $hasRight = false;
+                    $d = '';
                      
-                     $groups = $this->securityContext->getToken()->getUser()->getGroups();
-                     
-                     $hasRight = false;
-                     
-                     $d = '';
-                     
-                     foreach ($groups as $group)
-                     {
-                         
-                         $d.= $group->getName()."\n";
-                         if ($this->reachableRoles->hasRole(User::ROLE_NOTATION, $group) 
-                                 && 
-                                 $group->getNotation()->getId() === $change->getNewValue()->getType())
-                         {
-                             $d.= 'match role and ID';
-                             if ($this->geoService->covers(
-                                     $group->getZone()->getPolygon(), 
-                                     $object->getGeom())
-                                     )
-                             {
-                                 $hasRight = true; 
-                                 break;
-                             } else {
+                    foreach ($groups as $group) {
+                        $d.= $group->getName()."\n";
+                        if ($this->reachableRoles->hasRole(User::ROLE_NOTATION, $group) 
+                            && $group->getNotation()->getId() === $change->getNewValue()->getType()) {
+                            $d.= 'match role and ID';
+                            if (
+                                $this->geoService->covers(
+                                    $group->getZone()->getPolygon(), 
+                                    $object->getGeom())
+                            ) {
+                                $hasRight = true; 
+                                break;
+                            } else {
                                  $d .= 'geographic request fail';
-                             }
-                         } else {
-                             $d.= 'does not match role and id';
-                         }
-                     }
+                            }
+                        } else {
+                            $d.= 'does not match role and id';
+                        }
+                    }
                      
-                     if ($hasRight === true)
-                     {
-                         continue;
-                     } else {
-                         throw ChangeException::param('status');
-                     }
+                    if ($hasRight) {
+                        continue;
+                    } else {
+                        throw ChangeException::param('status');
+                    }
                      
                      /*
                      $dql = "select g from ProgracqteurWikipedaleBundle:Management\Group g 
@@ -311,74 +285,69 @@ class ChangeService {
                      {
                          throw ChangeException::param('Status '.$change->getnewValue()->getType().' no rights ');
                      }*/
-                     break;
-                 case self::REPORT_ADD_PHOTO:
-                     //l'ajout de photo est réglé dans le controleur PhotoController
-                     continue;
-                     break;
-                 case self::REPORT_REMOVE_PHOTO:
-                     //la modification des photos est réglé dans le controleur PhotoController
-                     continue;
-                     break;
-                 case self::REPORT_CATEGORY :
-                     //allowed for everybody on creation, only for group 
-                     //"ROLE_CATEGORY" later
-                     if ($object->getChangeset()->isCreation()) {
-                         continue;
-                     }
+                    break;
+                case self::REPORT_ADD_PHOTO:
+                    //l'ajout de photo est réglé dans le controleur PhotoController
+                    continue;
+                    break;
+                case self::REPORT_REMOVE_PHOTO:
+                    //la modification des photos est réglé dans le controleur PhotoController
+                    continue;
+                    break;
+                case self::REPORT_CATEGORY :
+                    //allowed for everybody on creation, only for group 
+                    //"ROLE_CATEGORY" later
+                    if ($object->getChangeset()->isCreation()) {
+                        continue;
+                    }
                      
-                     if ($this->securityContext->isGranted(User::ROLE_CATEGORY)) {
-                         //TODO: wheen we will need it, check if the user may add the category
-                         //with specific term using report_type
-                         continue;
-                     } else {
-                         throw ChangeException::param('add category ');
-                     }
-                     break;
-                 case self::REPORT_ADD_CATEGORY: // DEPRECIATE
-                     //allowed for everybody on creation, only for group 
-                     //"ROLE_CATEGORY" later
-                     if ($object->getChangeset()->isCreation())
-                     {
-                         continue;
-                     }
+                    if ($this->securityContext->isGranted(User::ROLE_CATEGORY)) {
+                        //TODO: wheen we will need it, check if the user may add the category
+                        //with specific term using report_type
+                        continue;
+                    } else {
+                        throw ChangeException::param('add category ');
+                    }
+                    break;
+                case self::REPORT_ADD_CATEGORY: // DEPRECIATE
+                    //allowed for everybody on creation, only for group 
+                    //"ROLE_CATEGORY" later
+                    if ($object->getChangeset()->isCreation()) {
+                        continue;
+                    }
                      
-                     if ($this->securityContext->isGranted(User::ROLE_CATEGORY))
-                     {
-                         //TODO: wheen we will need it, check if the user may add the category
-                         //with specific term using report_type
-                         continue;
-                     } else {
-                         throw ChangeException::param('add category ');
-                     }
-                     break;
-                 case self::REPORT_REMOVE_CATEGORY: // DEPRECIATE
-                     //allowed only for ROLE_CATEGORY
-                     if ($this->securityContext->isGranted(User::ROLE_CATEGORY))
-                     {
-                         continue;
-                     } else {
-                         throw ChangeException::param('remove category');
-                     }
-                     break;
-                 case self::REPORT_MANAGER_ADD:
-                 case self::REPORT_MANAGER_ALTER:
-                 case self::REPORT_MANAGER_REMOVE:
-                     if ($this->securityContext->isGranted(User::ROLE_MANAGER_ALTER))
-                     {
-                         continue;
-                     } else {
-                         throw ChangeException::param('manager');
-                     }
-                     break;
-                 case self::REPORT_REPORTTYPE_ALTER:
-                     if ($this->securityContext->isGranted(User::ROLE_REPORTTYPE_ALTER))
-                     {
-                         continue;
-                     } else {
-                         throw ChangeException::param('report_type');
-                     }
-                     break;
+                    if ($this->securityContext->isGranted(User::ROLE_CATEGORY)) {
+                        //TODO: wheen we will need it, check if the user may add the category
+                        //with specific term using report_type
+                        continue;
+                    } else {
+                        throw ChangeException::param('add category ');
+                    }
+                    break;
+                case self::REPORT_REMOVE_CATEGORY: // DEPRECIATE
+                    //allowed only for ROLE_CATEGORY
+                    if ($this->securityContext->isGranted(User::ROLE_CATEGORY)) {
+                        continue;
+                    } else {
+                        throw ChangeException::param('remove category');
+                    }
+                    break;
+                case self::REPORT_MANAGER_ADD:
+                case self::REPORT_MANAGER_ALTER:
+                case self::REPORT_MANAGER_REMOVE:
+                    if ($this->securityContext->isGranted(User::ROLE_MANAGER_ALTER)) {
+                        continue;
+                    } else {
+                        throw ChangeException::param('manager');
+                    }
+                    break;
+                case self::REPORT_REPORTTYPE_ALTER:
+                    if ($this->securityContext->isGranted(User::ROLE_REPORTTYPE_ALTER)) {
+                        continue;
+                    } else {
+                        throw ChangeException::param('report_type');
+                    }
+                    break;
                 case self::REPORT_MODERATOR_COMMENT_ALTER:
                     if ($this->securityContext
                             ->isGranted(User::ROLE_MODERATOR_COMMENT_ALTER))
@@ -410,26 +379,20 @@ class ChangeService {
                     }
                     break;
                 case self::REPORT_MODERATOR_ALTER:
-                   if ($object->getChangeset()->isCreation()) {
-                      continue;
-                   } else {
-                      if ($this->securityContext
+                    if ($object->getChangeset()->isCreation()) {
+                        continue;
+                    } else {
+                        if ($this->securityContext
                             ->isGranted(User::ROLE_MODERATOR_ALTER)) {
-                         continue;
-                      } else {
-                         throw ChangeException::param('moderator');
-                      }
-                   }
-                 default:
-                     throw ChangeException::param('inconnu - '.$change->getType());
-            
+                            continue;
+                        } else {
+                            throw ChangeException::param('moderator');
+                        }
+                    }
+                default:
+                    throw ChangeException::param('inconnu - '.$change->getType());
             }
-            
         }
-        
         return true;
     }
-    
-    
 }
-
